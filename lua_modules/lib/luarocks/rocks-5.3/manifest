@@ -1,0 +1,37 @@
+commands = {}
+dependencies = {
+   lodash = {
+      ["0.02-0"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   }
+}
+modules = {
+   lodash = {
+      "lodash/0.02-0"
+   }
+}
+repository = {
+   lodash = {
+      ["0.02-0"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               lodash = "lodash.lua"
+            }
+         }
+      }
+   }
+}

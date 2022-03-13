@@ -1,0 +1,6 @@
+rock_manifest = {
+   ["lodash-0.02-0.rockspec"] = "942a406e6844b13e3b189701ce04a2bd",
+   lua = {
+      ["lodash.lua"] = "08c38b7da984e1a123e86101f46ceecd"
+   }
+}

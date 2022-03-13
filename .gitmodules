@@ -1,0 +1,3 @@
+[submodule "awesome-sharedtags"]
+	path = awesome-sharedtags
+	url = https://github.com/SaintRyoh/awesome-sharedtags.git
