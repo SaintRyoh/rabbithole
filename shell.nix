@@ -10,6 +10,7 @@ in
       pkgs.lua5_2
       pkgs.lua52Packages.luarocks
       pkgs.entr
+      pkgs.gh
     ];
 
      shellHook = ''
