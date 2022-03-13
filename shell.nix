@@ -5,12 +5,13 @@ let
 in
   pkgs.mkShell rec {
 
-    # might also need awesome and Xephyr
     buildInputs = [
       pkgs.lua5_2
       pkgs.lua52Packages.luarocks
       pkgs.entr
       pkgs.gh
+      pkgs.xorg.xorgserver
+      pkgs.awesome
     ];
 
      shellHook = ''
