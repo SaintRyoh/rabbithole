@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # awmtt: awesomewm testing tool
 # https://github.com/mikar/awmtt
+# Modified by St. Ryoh (https://github.com/SaintRyoh)
 
 #{{{ Usage
 usage() {
