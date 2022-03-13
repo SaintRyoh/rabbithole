@@ -96,7 +96,9 @@ start() {
 
 #     watch files for changes and send sighup to awesome instance
     if [[ $WATCH -eq 1 ]]; then
-      find $BASE_DIRECTORY -type f -name "*.lua" | entr -pn kill -HUP $WM_PID 2> /dev/null &
+      while sleep 0.1; do
+        find $BASE_DIRECTORY -type f -name "*.lua" | entr -pn kill -HUP $WM_PID 2> /dev/null
+      done &
       echo "watching"
     fi
 

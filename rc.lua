@@ -56,7 +56,7 @@ local sharedtags = require("awesome-sharedtags")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "zenburn/theme.lua")
+beautiful.init("themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
@@ -93,7 +93,7 @@ awful.layout.layouts = {
 
 -- {{{ Tags
 local tags = sharedtags({
-    { name = "main4", layout = awful.layout.layouts[2] },
+    { name = "main1", layout = awful.layout.layouts[2] },
     { name = "www", layout = awful.layout.layouts[10] },
     { name = "game", layout = awful.layout.layouts[1] },
     { name = "misc", layout = awful.layout.layouts[2] },
