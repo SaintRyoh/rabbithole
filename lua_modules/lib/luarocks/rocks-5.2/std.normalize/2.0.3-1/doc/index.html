@@ -1,0 +1,1540 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>std.normalize 2.0.3 Reference</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>std.normalize 2.0.3</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Tables">Tables</a></li>
+<li><a href="#Metamethods">Metamethods </a></li>
+<li><a href="#Types">Types </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>std.normalize</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>std.normalize</code></h1>
+<p>Normalize API differences between supported Lua implementations.</p>
+<p> Respecting the values set in the <code>std._debug</code> settings module, inject
+ deterministic identically behaving cross-implementation low-level
+ functions into the callers environment.</p>
+
+<p> Writing Lua libraries that target several Lua implementations can be a
+ frustrating exercise in working around lots of small differences in APIs
+ and semantics they share (or rename, or omit).   <em>normalize</em> provides the
+ means to simply access deterministic implementations of those APIs that
+ have the the same semantics across all supported host Lua
+ implementations.   Each function is as thin and fast an implementation as
+ is possible within that host Lua environment, evaluating to the Lua C
+ implementation with no overhead where host semantics allow.</p>
+
+<p> The core of this module is to transparently set the environment up with
+ a single API (as opposed to requiring caching functions from a module
+ table into module locals):</p>
+
+
+<pre>
+<span class="keyword">local</span> _ENV = <span class="global">require</span> <span class="string">'std.normalize'</span> {
+   <span class="string">'package'</span>,
+   <span class="string">'std.prototype'</span>,
+   strict = <span class="string">'std.strict'</span>,
+}
+</pre>
+
+<p> It is not yet complete, and in contrast to the kepler project
+ lua-compat libraries, neither does it attempt to provide you with as
+ nearly compatible an API as is possible relative to some specific Lua
+ implementation - rather it provides a variation of the "lowest common
+ denominator" that can be implemented relatively efficiently in the
+ supported Lua implementations, all in pure Lua.</p>
+
+<p> At the moment, only the functionality used by stdlib is implemented.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#argerror">argerror (name, i[, extramsg[, level=1]])</a></td>
+	<td class="summary">Raise a bad argument error.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getfenv">getfenv (fn)</a></td>
+	<td class="summary">Get a function or functor environment.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getmetamethod">getmetamethod (x, n)</a></td>
+	<td class="summary">Return named metamethod, if callable, otherwise <code>nil</code>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ipairs">ipairs (t)</a></td>
+	<td class="summary">Iterate over elements of a sequence, until the first <code>nil</code> value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#len">len (x)</a></td>
+	<td class="summary">Deterministic, functional version of core Lua <code>#</code> operator.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#load">load (ld, source)</a></td>
+	<td class="summary">Load a string or a function, just like Lua 5.2+.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#pack">pack (...)</a></td>
+	<td class="summary">Return a list of given arguments, with field <code>n</code> set to the length.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#pairs">pairs (t)</a></td>
+	<td class="summary">Like Lua <code>pairs</code> iterator, but respect <code>__pairs</code> even in Lua 5.1.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#rawlen">rawlen (x)</a></td>
+	<td class="summary">Length of a string or table object without using any metamethod.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setfenv">setfenv (fn, env)</a></td>
+	<td class="summary">Set a function or functor environment.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#str">str (x)</a></td>
+	<td class="summary">Return a compact stringified representation of argument.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#unpack">unpack (t[, i=1[, j=len(t)]])</a></td>
+	<td class="summary">Either <code>table.unpack</code> in newer-, or <code>unpack</code> in older Lua implementations.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpcall">xpcall (f, errh, ...)</a></td>
+	<td class="summary">Support arguments to a protected function call, even on Lua 5.1.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#math.tointeger">math.tointeger (x)</a></td>
+	<td class="summary">Convert to an integer and return if possible, otherwise <code>nil</code>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#math.type">math.type (x)</a></td>
+	<td class="summary">Return 'integer', 'float' or <code>nil</code> according to argument type.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#os.exit">os.exit (status)</a></td>
+	<td class="summary">Exit the program.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#package.searchpath">package.searchpath (name, path[, sep='.'[, rep=`package.dirsep`]])</a></td>
+	<td class="summary">Searches for a named file in a given path.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#string.render">string.render (x, vfns[, roots])</a></td>
+	<td class="summary">Low-level recursive data to string rendering.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#table.keys">table.keys (t)</a></td>
+	<td class="summary">Return an unordered list of all keys in a table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#table.merge">table.merge (t[, u={}])</a></td>
+	<td class="summary">Destructively merge keys and values from one table into another.</td>
+	</tr>
+</table>
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#package">package</a></td>
+	<td class="summary">Package module constants for <code>package.config</code> substrings.</td>
+	</tr>
+</table>
+<h2><a href="#Metamethods">Metamethods </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#__call">__call (env[, level=1])</a></td>
+	<td class="summary">Normalize caller's lexical environment.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#__index">__index (name)</a></td>
+	<td class="summary">Lazy loading of normalize modules.</td>
+	</tr>
+</table>
+<h2><a href="#Types">Types </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#RenderFns">RenderFns</a></td>
+	<td class="summary">Table of functions for string.render.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RenderElem">RenderElem (x)</a></td>
+	<td class="summary">Type of function for uniquely stringifying rendered element.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RenderTerm">RenderTerm (x)</a></td>
+	<td class="summary">Type of predicate function for terminal elements.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RenderSort">RenderSort (keys)</a></td>
+	<td class="summary">Type of function for sorting keys of a recursively rendered element.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RenderOpen">RenderOpen (x)</a></td>
+	<td class="summary">Type of function to get string for before first element.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RenderClose">RenderClose (x)</a></td>
+	<td class="summary">Type of function te get string for after last element.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RenderPair">RenderPair (x, kp, vp, k, v, kstr, vstr, seqp)</a></td>
+	<td class="summary">Type of function to render a key value pair.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RenderSep">RenderSep (x, kp, vp, kn, vn, seqp)</a></td>
+	<td class="summary">Type of function to render a separator between pairs.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "argerror"></a>
+    <strong>argerror (name, i[, extramsg[, level=1]])</strong>
+    </dt>
+    <dd>
+    Raise a bad argument error.
+ Equivalent to luaL_argerror in the Lua C API. This function does not
+ return.   The <code>level</code> argument behaves just like the core <code>error</code>
+ function.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         function to callout in error message
+        </li>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">int</span></span>
+         argument number
+        </li>
+        <li><span class="parameter">extramsg</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+
+<p> additional text to append to message inside</p>
+<pre><code>parentheses
+</code></pre>
+
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">level</span>
+            <span class="types"><span class="type">int</span></span>
+         call stack level to blame for the error
+         (<em>default</em> 1)
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> <span class="keyword">function</span> slurp(file)
+   <span class="keyword">local</span> h, err = input_handle(file)
+   <span class="keyword">if</span> h == <span class="keyword">nil</span> <span class="keyword">then</span>
+       argerror(<span class="string">'std.io.slurp'</span>, <span class="number">1</span>, err, <span class="number">2</span>)
+   <span class="keyword">end</span>
+   ...</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "getfenv"></a>
+    <strong>getfenv (fn)</strong>
+    </dt>
+    <dd>
+    Get a function or functor environment. </p>
+
+<p> This version of getfenv works on all supported Lua versions, and
+ knows how to unwrap functors (table's with a function valued
+ <code>__call</code> metamethod).
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">fn</span>
+            <span class="types"><span class="type">function</span> or <span class="type">int</span></span>
+
+<p> stack level, C or Lua function or functor</p>
+<pre><code>to act on
+</code></pre>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        the execution environment of <em>fn</em>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">callers_environment = getfenv(<span class="number">1</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "getmetamethod"></a>
+    <strong>getmetamethod (x, n)</strong>
+    </dt>
+    <dd>
+    Return named metamethod, if callable, otherwise <code>nil</code>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         item to act on
+        </li>
+        <li><span class="parameter">n</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         name of metamethod to look up
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">function</span> or <span class="type">nil</span></span>
+
+<p>metamethod function, or <code>nil</code> if no</p>
+<pre><code>metamethod
+</code></pre>
+
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">normalize = getmetamethod(<span class="global">require</span> <span class="string">'std.normalize'</span>, <span class="string">'__call'</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "ipairs"></a>
+    <strong>ipairs (t)</strong>
+    </dt>
+    <dd>
+    Iterate over elements of a sequence, until the first <code>nil</code> value. </p>
+
+<p> Returns successive key-value pairs with integer keys starting at 1,
+ up to the index returned by the <code>__len</code> metamethod if any, or else
+ up to last non-<code>nil</code> value.</p>
+
+<p> Unlike Lua 5.1, any <code>__index</code> metamethod is respected.</p>
+
+<p> Unlike Lua 5.2+, any <code>__ipairs</code> metamethod is <strong>ignored</strong>!
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         table to iterate on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">function</span></span>
+        iterator function</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        <em>t</em> the table being iterated over</li>
+        <li>
+           <span class="types"><span class="type">int</span></span>
+        the previous iteration index</li>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">t, u = {}, {}
+<span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="global">ipairs</span> {<span class="number">1</span>, <span class="number">2</span>, <span class="keyword">nil</span>, <span class="number">4</span>} <span class="keyword">do</span> t[i] = v <span class="keyword">end</span>
+<span class="global">assert</span>(len(t) == <span class="number">2</span>)
+
+<span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="global">ipairs</span>(pack(<span class="number">1</span>, <span class="number">2</span>, <span class="keyword">nil</span>, <span class="number">4</span>)) <span class="keyword">do</span> u[i] = v <span class="keyword">end</span>
+<span class="global">assert</span>(len(u) == <span class="number">4</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "len"></a>
+    <strong>len (x)</strong>
+    </dt>
+    <dd>
+    Deterministic, functional version of core Lua <code>#</code> operator. </p>
+
+<p> Respects <code>__len</code> metamethod (like Lua 5.2+), or else if there is
+   a <code>__tostring</code> metamethod return the length of the string it
+ returns.   Otherwise, always return one less than the lowest
+ integer index with a <code>nil</code> value in <em>x</em>, where the <code>#</code> operator
+ implementation might return the size of the array part of a table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         item to act on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        the length of <em>x</em>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">x = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="keyword">nil</span>, <span class="number">5</span>}
+<span class="comment">--&gt; 5 3
+</span><span class="global">print</span>(#x, len(x))</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "load"></a>
+    <strong>load (ld, source)</strong>
+    </dt>
+    <dd>
+    Load a string or a function, just like Lua 5.2+.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ld</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a> or <span class="type">function</span></span>
+         chunk to load
+        </li>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         name of the source of <em>ld</em>
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">function</span></span>
+        a Lua function to execute <em>ld</em> in global scope.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">assert</span>(<span class="global">load</span> <span class="string">'print "woo"'</span>)()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "pack"></a>
+    <strong>pack (...)</strong>
+    </dt>
+    <dd>
+    Return a list of given arguments, with field <code>n</code> set to the length. </p>
+
+<p> The returned table also has a <code>__len</code> metamethod that returns <code>n</code>, so
+ <code>ipairs</code> and <code>unpack</code> behave sanely when there are <code>nil</code> valued elements.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+         tuple to act on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+
+<p>packed list of <em>...</em> values, with field <code>n</code> set to</p>
+<pre><code>number of tuple elements (including any explicit `nil` elements)
+</code></pre>
+
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="index.html#unpack">unpack</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="comment">--&gt; 5
+</span>len(pack(<span class="keyword">nil</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="keyword">nil</span>, <span class="keyword">nil</span>))</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "pairs"></a>
+    <strong>pairs (t)</strong>
+    </dt>
+    <dd>
+    Like Lua <code>pairs</code> iterator, but respect <code>__pairs</code> even in Lua 5.1.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         table to act on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">function</span></span>
+        iterator function</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        <em>t</em>, the table being iterated over</li>
+        <li>
+        the previous iteration key</li>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">pairs</span> {<span class="string">'a'</span>, b=<span class="string">'c'</span>, foo=<span class="number">42</span>} <span class="keyword">do</span> process(k, v) <span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "rawlen"></a>
+    <strong>rawlen (x)</strong>
+    </dt>
+    <dd>
+    Length of a string or table object without using any metamethod.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a> or <a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         object to act on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        raw length of <em>x</em>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="comment">--&gt; 0
+</span><span class="global">rawlen</span>(<span class="global">setmetatable</span>({}, {__len=<span class="keyword">function</span>() <span class="keyword">return</span> <span class="number">42</span>}))</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "setfenv"></a>
+    <strong>setfenv (fn, env)</strong>
+    </dt>
+    <dd>
+    Set a function or functor environment. </p>
+
+<p> This version of setfenv works on all supported Lua versions, and
+ knows how to unwrap functors.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">fn</span>
+            <span class="types"><span class="type">function</span> or <span class="type">int</span></span>
+
+<p> stack level, C or Lua function or functor</p>
+<pre><code>to act on
+</code></pre>
+
+        </li>
+        <li><span class="parameter">env</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         new execution environment for <em>fn</em>
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">function</span></span>
+        function acted upon
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">function</span> clearenv(fn) <span class="keyword">return</span> setfenv(fn, {}) <span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "str"></a>
+    <strong>str (x)</strong>
+    </dt>
+    <dd>
+    Return a compact stringified representation of argument.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         item to act on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        compact string representing <em>x</em>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="comment">-- {baz,5,foo=bar}
+</span><span class="global">print</span>(str{foo=<span class="string">'bar'</span>,<span class="string">'baz'</span>, <span class="number">5</span>})</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "unpack"></a>
+    <strong>unpack (t[, i=1[, j=len(t)]])</strong>
+    </dt>
+    <dd>
+    Either <code>table.unpack</code> in newer-, or <code>unpack</code> in older Lua implementations.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         table to act on
+        </li>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">int</span></span>
+         first index to unpack
+         (<em>default</em> 1)
+        </li>
+        <li><span class="parameter">j</span>
+            <span class="types"><span class="type">int</span></span>
+         last index to unpack
+         (<em>default</em> len(t))
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        ... values of numeric indices of <em>t</em>
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="index.html#pack">pack</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> a, b, c = unpack(pack(<span class="keyword">nil</span>, <span class="number">2</span>, <span class="keyword">nil</span>))
+<span class="global">assert</span>(a == <span class="keyword">nil</span> <span class="keyword">and</span> b == <span class="number">2</span> <span class="keyword">and</span> c == <span class="keyword">nil</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "xpcall"></a>
+    <strong>xpcall (f, errh, ...)</strong>
+    </dt>
+    <dd>
+    Support arguments to a protected function call, even on Lua 5.1.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">f</span>
+            <span class="types"><span class="type">function</span></span>
+         protect this function call
+        </li>
+        <li><span class="parameter">errh</span>
+            <span class="types"><span class="type">function</span></span>
+
+<p> error object handler callback if <em>f</em> raises</p>
+<pre><code>an error
+</code></pre>
+
+        </li>
+        <li><span class="parameter">...</span>
+         arguments to pass to <em>f</em>
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        ... all return values from <em>f</em> follow
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">boolean</span></span>
+        <code>false</code> when <code>f(...)</code> raised an error</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        error message</li>
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+        <code>true</code> when <code>f(...)</code> succeeded
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="comment">-- Use errh to get a backtrack after curses exits abnormally
+</span><span class="global">xpcall</span>(main, errh, arg, opt)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "math.tointeger"></a>
+    <strong>math.tointeger (x)</strong>
+    </dt>
+    <dd>
+    Convert to an integer and return if possible, otherwise <code>nil</code>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         object to act on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">integer</span></span>
+        <em>x</em> converted to an integer if possible
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+        <code>nil</code> otherwise
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "math.type"></a>
+    <strong>math.type (x)</strong>
+    </dt>
+    <dd>
+    Return 'integer', 'float' or <code>nil</code> according to argument type. </p>
+
+<p> To ensure the same behaviour on all host Lua implementations,
+ this function returns 'float' for integer-equivalent floating
+ values, even on Lua 5.3.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         object to act on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        'integer', if <em>x</em> is a whole number
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        'float', for other numbers
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+        <code>nil</code> otherwise
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "os.exit"></a>
+    <strong>os.exit (status)</strong>
+    </dt>
+    <dd>
+    Exit the program.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">status</span>
+            <span class="types"><span class="type">bool</span> or <span class="type">number[opt=true]</span></span>
+         report back to parent process
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">exit(len(records.processed) &gt; <span class="number">0</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "package.searchpath"></a>
+    <strong>package.searchpath (name, path[, sep='.'[, rep=`package.dirsep`]])</strong>
+    </dt>
+    <dd>
+    Searches for a named file in a given path. </p>
+
+<p> For each <code>package.pathsep</code> delimited template in the given path,
+ search for an readable file made by first substituting for <em>sep</em>
+ with <code>package.dirsep</code>, and then replacing any
+ <code>package.pathmark</code> with the result.   The first such file, if any
+ is returned.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         name of search file
+        </li>
+        <li><span class="parameter">path</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         <code>package.pathsep</code> delimited list of full path templates
+        </li>
+        <li><span class="parameter">sep</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         <em>name</em> component separator
+         (<em>default</em> '.')
+        </li>
+        <li><span class="parameter">rep</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         <em>sep</em> replacement in template
+         (<em>default</em> `package.dirsep`)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+
+<p>first template substitution that names a file</p>
+<pre><code>that can be opened in read mode
+</code></pre>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+        <code>nil</code></li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        error message listing all failed paths</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "string.render"></a>
+    <strong>string.render (x, vfns[, roots])</strong>
+    </dt>
+    <dd>
+    Low-level recursive data to string rendering.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         data to be renedered
+        </li>
+        <li><span class="parameter">vfns</span>
+            <span class="types"><a class="type" href="index.html#RenderFns">RenderFns</a></span>
+         table of virtual functions to control rendering
+        </li>
+        <li><span class="parameter">roots</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         used internally for cycle detection
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        a text recursive rendering of <em>x</em> using <em>vfns</em>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">function</span> printarray(x)
+   <span class="keyword">return</span> render(x, arrayvfns)
+<span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "table.keys"></a>
+    <strong>table.keys (t)</strong>
+    </dt>
+    <dd>
+    Return an unordered list of all keys in a table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         table to operate on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        an unorderd list of keys in <em>t</em>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="comment">--&gt; {'key2', 1, 42, 2, 'key1'}
+</span>keys{<span class="string">'a'</span>, <span class="string">'b'</span>, key1=<span class="number">1</span>, key2=<span class="number">2</span>, [<span class="number">42</span>]=<span class="number">3</span>}</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "table.merge"></a>
+    <strong>table.merge (t[, u={}])</strong>
+    </dt>
+    <dd>
+    Destructively merge keys and values from one table into another.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         take fields from this table
+        </li>
+        <li><span class="parameter">u</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         and copy them into here, unless they are set already
+         (<em>default</em> {})
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        <em>u</em>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="comment">--&gt; {'a', 'b', d='d'}
+</span>merge({<span class="string">'a'</span>, <span class="string">'b'</span>}, {<span class="string">'c'</span>, d=<span class="string">'d'</span>})</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "package"></a>
+    <strong>package</strong>
+    </dt>
+    <dd>
+    Package module constants for <code>package.config</code> substrings.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">dirsep</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         directory separator in path elements
+        </li>
+        <li><span class="parameter">execdir</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         replaced by the executable's directory in a path
+        </li>
+        <li><span class="parameter">igmark</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+
+<p> ignore everything before this when building</p>
+<pre><code>`luaopen_` function name
+</code></pre>
+
+        </li>
+        <li><span class="parameter">pathmark</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         mark substitution points in a path template
+        </li>
+        <li><span class="parameter">pathsep</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         element separator in a path template
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Metamethods"></a>Metamethods </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "__call"></a>
+    <strong>__call (env[, level=1])</strong>
+    </dt>
+    <dd>
+
+<p>Normalize caller's lexical environment. </p>
+
+<p> Using 'std.strict' when available and selected, otherwise a (Lua 5.1
+ compatible) function to set the given environment.</p>
+
+<p> With an empty table argument, the core (not-table) normalize
+ functions are loaded into the callers environment.   For consistent
+ behaviour between supported host Lua implementations, the result
+ must always be assigned back to <code>_ENV</code>.   Additional core modules
+ must be named to be loaded at all (i.e. no 'debug' table unless it
+ is explicitly listed in the argument table).</p>
+
+<p> Additionally, external modules are loaded using <code>require</code>, with <code>.</code>
+ separators in the module name translated to nested tables in the
+ module environment. For example 'std.prototype' in the usage below
+ will add to the environment table the equivalent of:</p>
+
+<pre><code>   local prototype = require 'std.prototype'
+</code></pre>
+
+<p> Alternatively, you can assign a loaded module symbol to a specific
+ environment table symbol with <code>key=value</code> syntax.   For example the
+ the 'math.tointeger' from the usage below is equivalent to:</p>
+
+<pre><code>   local int = require 'std.normalize.math'.tointeger
+</code></pre>
+
+<p> Compare this to loading the non-normalized implementation from the
+ host Lua with a table entry such as:</p>
+
+<pre><code>   int = require 'math'.tointeger,
+</code></pre>
+
+<p> Finally, explicit string assignment to ALLCAPS keys are not loaded
+ from modules at all, but behave as a constant string assignment:</p>
+
+<pre><code>   INT = 'math.tointeger',
+</code></pre>
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">env</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         environment table
+        </li>
+        <li><span class="parameter">level</span>
+            <span class="types"><span class="type">int</span></span>
+
+<p> stack level for <code>setfenv</code>, 1 means set</p>
+<pre><code>caller's environment
+</code></pre>
+
+         (<em>default</em> 1)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+
+<p><em>env</em> with this module's functions merge id.   Assign</p>
+<pre><code>back to `_ENV`
+</code></pre>
+
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> _ENV = <span class="global">require</span> <span class="string">'std.normalize'</span> {
+   <span class="string">'string'</span>,
+   <span class="string">'std.prototype'</span>,
+   int = <span class="string">'math.tointeger'</span>,
+}</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "__index"></a>
+    <strong>__index (name)</strong>
+    </dt>
+    <dd>
+    Lazy loading of normalize modules.
+ Don't load everything on initial startup, wait until first attempt
+ to access a submodule, and then load it on demand.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         submodule name
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+
+<p>the submodule that was loaded to satisfy the missing</p>
+<pre><code>`name`, otherwise `nil` if nothing was found
+</code></pre>
+
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> version = <span class="global">require</span> <span class="string">'std.normalize'</span>.version</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Types"></a>Types </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "RenderFns"></a>
+    <strong>RenderFns</strong>
+    </dt>
+    <dd>
+    Table of functions for string.render.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">elem</span>
+            <span class="types"><a class="type" href="index.html#RenderElem">RenderElem</a></span>
+         return unique string representation of an element
+        </li>
+        <li><span class="parameter">term</span>
+            <span class="types"><a class="type" href="index.html#RenderTerm">RenderTerm</a></span>
+
+<p> return true for elements that should not be</p>
+<pre><code>recursed
+</code></pre>
+
+        </li>
+        <li><span class="parameter">sort</span>
+            <span class="types"><a class="type" href="index.html#RenderSort">RenderSort</a></span>
+         return list of keys in order to be rendered
+        </li>
+        <li><span class="parameter">open</span>
+            <span class="types"><a class="type" href="index.html#RenderOpen">RenderOpen</a></span>
+         return a string for before first element of a table
+        </li>
+        <li><span class="parameter">close</span>
+            <span class="types"><a class="type" href="index.html#RenderClose">RenderClose</a></span>
+         return a string for after last element of a table
+        </li>
+        <li><span class="parameter">pair</span>
+            <span class="types"><a class="type" href="index.html#RenderPair">RenderPair</a></span>
+
+<p> return a string rendering of a key value pair</p>
+<pre><code>element
+</code></pre>
+
+        </li>
+        <li><span class="parameter">sep</span>
+            <span class="types"><a class="type" href="index.html#RenderSep">RenderSep</a></span>
+         return a string to render between elements
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="index.html#string.render">string.render</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">arrayvfns = {
+  elem = <span class="global">tostring</span>,
+  term = <span class="keyword">function</span>(x)
+     <span class="keyword">return</span> <span class="global">type</span>(x) ~= <span class="string">'table'</span> <span class="keyword">or</span> getmetamethod(x, <span class="string">'__tostring'</span>)
+  <span class="keyword">end</span>,
+  sort = <span class="keyword">function</span>(keys)
+     <span class="keyword">local</span> r = {}
+     <span class="keyword">for</span> i = <span class="number">1</span>, #keys <span class="keyword">do</span>
+        <span class="keyword">if</span> <span class="global">type</span>(keys[i]) == <span class="string">'number'</span> <span class="keyword">then</span> r[#r + <span class="number">1</span>] = keys[i] <span class="keyword">end</span>
+     <span class="keyword">end</span>
+     <span class="keyword">return</span> r
+  <span class="keyword">end</span>,
+  open = <span class="keyword">function</span>(_) <span class="keyword">return</span> <span class="string">'['</span> <span class="keyword">end</span>,
+  close = <span class="keyword">function</span>(_) <span class="keyword">return</span> <span class="string">']'</span> <span class="keyword">end</span>,
+  pair = <span class="keyword">function</span>(x, kp, vp, k, v, kstr, vstr, seqp)
+     <span class="keyword">return</span> seqp <span class="keyword">and</span> vstr <span class="keyword">or</span> <span class="string">''</span>
+  <span class="keyword">end</span>,
+  sep = <span class="keyword">function</span>(x, kp, vp, kn, vn, seqp)
+     <span class="keyword">return</span> seqp <span class="keyword">and</span> kp ~= <span class="keyword">nil</span> <span class="keyword">and</span> kn ~= <span class="keyword">nil</span> <span class="keyword">and</span> <span class="string">', '</span> <span class="keyword">or</span> <span class="string">''</span>
+  <span class="keyword">end</span>,
+)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "RenderElem"></a>
+    <strong>RenderElem (x)</strong>
+    </dt>
+    <dd>
+    Type of function for uniquely stringifying rendered element.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         element to operate on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        stringified <em>x</em>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RenderTerm"></a>
+    <strong>RenderTerm (x)</strong>
+    </dt>
+    <dd>
+    Type of predicate function for terminal elements.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         element to operate on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+<p>true for terminal elements that should be rendered</p>
+<pre><code>immediately
+</code></pre>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RenderSort"></a>
+    <strong>RenderSort (keys)</strong>
+    </dt>
+    <dd>
+    Type of function for sorting keys of a recursively rendered element.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">keys</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+
+<p> list of table keys, it's okay to mutate and return</p>
+<pre><code>this parameter
+</code></pre>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        sorted list of keys for pairs to be rendered
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RenderOpen"></a>
+    <strong>RenderOpen (x)</strong>
+    </dt>
+    <dd>
+    Type of function to get string for before first element.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         element to operate on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        string to render before first element
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RenderClose"></a>
+    <strong>RenderClose (x)</strong>
+    </dt>
+    <dd>
+    Type of function te get string for after last element.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         element to operate on
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        string to render after last element
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RenderPair"></a>
+    <strong>RenderPair (x, kp, vp, k, v, kstr, vstr, seqp)</strong>
+    </dt>
+    <dd>
+    Type of function to render a key value pair.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         complete table elmeent being operated on
+        </li>
+        <li><span class="parameter">kp</span>
+         unstringified previous pair key
+        </li>
+        <li><span class="parameter">vp</span>
+         unstringified previous pair value
+        </li>
+        <li><span class="parameter">k</span>
+         unstringified pair key to render
+        </li>
+        <li><span class="parameter">v</span>
+         unstringified pair value to render
+        </li>
+        <li><span class="parameter">kstr</span>
+         already stringified pair key to render
+        </li>
+        <li><span class="parameter">vstr</span>
+         already stringified pair value to render
+        </li>
+        <li><span class="parameter">seqp</span>
+
+<p> true if all keys so far have been a contiguous range of</p>
+<pre><code>integers
+</code></pre>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        stringified rendering of pair <em>kstr</em> and <em>vstr</em>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RenderSep"></a>
+    <strong>RenderSep (x, kp, vp, kn, vn, seqp)</strong>
+    </dt>
+    <dd>
+    Type of function to render a separator between pairs.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         complet table element being operated on
+        </li>
+        <li><span class="parameter">kp</span>
+         unstringified previous pair key
+        </li>
+        <li><span class="parameter">vp</span>
+         unstringified previous pair value
+        </li>
+        <li><span class="parameter">kn</span>
+         unstringified next pair key
+        </li>
+        <li><span class="parameter">vn</span>
+         unstringified next pair value
+        </li>
+        <li><span class="parameter">seqp</span>
+
+<p> true if all keys so far have been a contiguous range of</p>
+<pre><code>integers
+</code></pre>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+
+<p>stringified rendering of separator between previous and</p>
+<pre><code>next pairs
+</code></pre>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-04-15 17:22:39 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

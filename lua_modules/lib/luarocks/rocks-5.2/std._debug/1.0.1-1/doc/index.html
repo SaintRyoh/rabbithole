@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>std._debug 1.0.1 Reference</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>std._debug 1.0.1</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Metamethods">Metamethods </a></li>
+<li><a href="#Types">Types </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>std._debug</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>std._debug</code></h1>
+<p>Manage debug mode, and associated substate hints.</p>
+<p> Set or change all the debug substate hints by calling the returned
+ module functable with no argument to reset to defaults; with <code>true</code>
+ to set all substate hints into development mode, or <code>false</code> for
+ production mode.</p>
+
+
+<pre>
+<span class="keyword">local</span> _debug = <span class="global">require</span> <span class="string">'std._debug'</span>(<span class="keyword">false</span>)
+</pre>
+
+<p> Query substate hints by indexing the returned module functable keys:</p>
+
+
+<pre>
+<span class="keyword">local</span> isstrict = _debug.strict
+</pre>
+
+<p> Beware that even though you can change std._debug state at any time,
+ stdlib libraries in particular (but probably other clients too) are
+ configured at load time according to the state at the time they are
+ required - e.g. changing _debug.strict after require 'std' does not
+ affect the strict environment already created for the 'std' module
+ when it was previously loaded.</p>
+
+
+<h2><a href="#Metamethods">Metamethods </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#__call">__call ([enable])</a></td>
+	<td class="summary">Change the all builtin debug hints.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#__index">__index (name)</a></td>
+	<td class="summary">Lazy loading of std._debug modules.</td>
+	</tr>
+</table>
+<h2><a href="#Types">Types </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Substates">Substates</a></td>
+	<td class="summary">Builtin debug substate hints.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Metamethods"></a>Metamethods </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "__call"></a>
+    <strong>__call ([enable])</strong>
+    </dt>
+    <dd>
+    Change the all builtin debug hints.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">enable</span>
+            <span class="types"><span class="type">bool</span></span>
+         or disable all debugging substate hints
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="index.html#Substates">Substates</a></span>
+        substates
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="comment">-- Enable all debugging substates
+</span><span class="keyword">local</span> _debug = <span class="global">require</span> <span class="string">'std._debug'</span>(<span class="keyword">true</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "__index"></a>
+    <strong>__index (name)</strong>
+    </dt>
+    <dd>
+    Lazy loading of std._debug modules.
+ Don't load everything on initial startup, wait until first attempt
+ to access a submodule, and then load it on demand.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         submodule name
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+
+<p>the submodule that was loaded to satisfy the missing</p>
+<pre><code>`name`, otherwise `nil` if nothing was found
+</code></pre>
+
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> version = <span class="global">require</span> <span class="string">'std._debug'</span>.version</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Types"></a>Types </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Substates"></a>
+    <strong>Substates</strong>
+    </dt>
+    <dd>
+    Builtin debug substate hints. </p>
+
+<p> Use <code>__call</code> metamethod to set all substate hints at once.
+ Note that none of the debugging features required to implement these
+ hints are encoded here, this module is merely a central location to
+ record systemwide hint; other modules you load subsequently may or may
+ not choose to behave according to their content.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">argcheck</span>
+            <span class="types"><span class="type">bool</span></span>
+         <code>true</code> if runtime argument checking is desired
+         (<em>default</em> true)
+        </li>
+        <li><span class="parameter">deprecate</span>
+            <span class="types"><span class="type">bool</span></span>
+         <code>nil</code> if deprecated api warnings are desired;
+   <code>false</code> if deprecated apis without warnings are desired; <code>true</code> if
+   removal of deprecated apis is preferred
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">level</span>
+            <span class="types"><span class="type">int</span></span>
+         debugging level
+         (<em>default</em> 1)
+        </li>
+        <li><span class="parameter">strict</span>
+            <span class="types"><span class="type">bool</span></span>
+         <code>true</code> if strict enforcement of variable declaration
+   before use is desired
+         (<em>default</em> true)
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">require</span> <span class="string">'std._debug'</span>.argcheck = <span class="keyword">false</span></pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2018-09-22 16:00:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

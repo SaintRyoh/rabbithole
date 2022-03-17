@@ -1,0 +1,171 @@
+commands = {}
+dependencies = {
+   ["std._debug"] = {
+      ["1.0.1-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<",
+                  version = {
+                     5, 5, string = "5.5"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   ["std.functional"] = {
+      ["1.0-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<",
+                  version = {
+                     5, 5, string = "5.5"
+                  }
+               }
+            },
+            name = "lua"
+         },
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     2, 0, 3, string = "2.0.3"
+                  }
+               }
+            },
+            name = "std.normalize"
+         }
+      }
+   },
+   ["std.normalize"] = {
+      ["2.0.3-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<",
+                  version = {
+                     5, 5, string = "5.5"
+                  }
+               }
+            },
+            name = "lua"
+         },
+         {
+            constraints = {},
+            name = "std._debug"
+         }
+      }
+   }
+}
+modules = {
+   ["std._debug.init"] = {
+      "std._debug/1.0.1-1"
+   },
+   ["std._debug.version"] = {
+      "std._debug/1.0.1-1"
+   },
+   ["std.functional._base"] = {
+      "std.functional/1.0-1"
+   },
+   ["std.functional.init"] = {
+      "std.functional/1.0-1"
+   },
+   ["std.functional.operator"] = {
+      "std.functional/1.0-1"
+   },
+   ["std.functional.tuple"] = {
+      "std.functional/1.0-1"
+   },
+   ["std.functional.version"] = {
+      "std.functional/1.0-1"
+   },
+   ["std.normalize._base"] = {
+      "std.normalize/2.0.3-1"
+   },
+   ["std.normalize._strict"] = {
+      "std.normalize/2.0.3-1"
+   },
+   ["std.normalize._typecheck"] = {
+      "std.normalize/2.0.3-1"
+   },
+   ["std.normalize.init"] = {
+      "std.normalize/2.0.3-1"
+   },
+   ["std.normalize.version"] = {
+      "std.normalize/2.0.3-1"
+   }
+}
+repository = {
+   ["std._debug"] = {
+      ["1.0.1-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               ["std._debug.init"] = "std/_debug/init.lua",
+               ["std._debug.version"] = "std/_debug/version.lua"
+            }
+         }
+      }
+   },
+   ["std.functional"] = {
+      ["1.0-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {
+               ["std._debug"] = "1.0.1-1",
+               ["std.normalize"] = "2.0.3-1"
+            },
+            modules = {
+               ["std.functional._base"] = "std/functional/_base.lua",
+               ["std.functional.init"] = "std/functional/init.lua",
+               ["std.functional.operator"] = "std/functional/operator.lua",
+               ["std.functional.tuple"] = "std/functional/tuple.lua",
+               ["std.functional.version"] = "std/functional/version.lua"
+            }
+         }
+      }
+   },
+   ["std.normalize"] = {
+      ["2.0.3-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {
+               ["std._debug"] = "1.0.1-1"
+            },
+            modules = {
+               ["std.normalize._base"] = "std/normalize/_base.lua",
+               ["std.normalize._strict"] = "std/normalize/_strict.lua",
+               ["std.normalize._typecheck"] = "std/normalize/_typecheck.lua",
+               ["std.normalize.init"] = "std/normalize/init.lua",
+               ["std.normalize.version"] = "std/normalize/version.lua"
+            }
+         }
+      }
+   }
+}
