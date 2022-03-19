@@ -12,63 +12,36 @@ package.cpath = 'lua_modules/lib/lua/' .. version .. '/?.so;' .. package.cpath
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
+
 -- Widget and layout library
 local wibox = require("wibox")
+
 -- Theme handling library
 local beautiful = require("beautiful")
--- Notification library
-local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+RC = {} -- global namespace, on top before require any modules
+RC.vars = require("main.user-variables")
+
+
 -- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
-if awesome.startup_errors then
-    naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Oops, there were errors during startup!",
-                     text = awesome.startup_errors })
-end
-
--- Handle runtime errors after startup
-do
-    local in_error = false
-    awesome.connect_signal("debug::error", function (err)
-        -- Make sure we don't go into an endless error loop
-        if in_error then return end
-        in_error = true
-
-        naughty.notify({ preset = naughty.config.presets.critical,
-                         title = "Oops, an error happened!",
-                         text = tostring(err) })
-        in_error = false
-    end)
-end
--- }}}
-
--- {{{ Local extensions
-local sharedtags = require("awesome-sharedtags")
-
+require("main.error-handling")
 -- }}}
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init("themes/zenburn/theme.lua")
+--beautiful.wallpaper = RC.vars.wallpaper
 
--- This is used later as the default terminal and editor to run.
-terminal = "xterm"
-editor = os.getenv("EDITOR") or "nano"
-editor_cmd = terminal .. " -e " .. editor
+-- }}}
 
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+modkey = RC.vars.modkey
+editor_cmd = RC.vars.terminal .. " -e " .. RC.vars.editor
+
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -89,25 +62,42 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
 }
+
+-- {{{ Local extensions
+local sharedtags = require("awesome-sharedtags")
+local workspaceManager = require("awesome-workspace-manager")
+ __ = require("lodash")
 -- }}}
 
+
+
 -- {{{ Tags
-local tags = sharedtags({
-    { name = "main1", layout = awful.layout.layouts[2] },
-    { name = "www", layout = awful.layout.layouts[10] },
-    { name = "game", layout = awful.layout.layouts[1] },
-    { name = "misc", layout = awful.layout.layouts[2] },
-    { name = "chat", screen = 2, layout = awful.layout.layouts[2] },
-    { layout = awful.layout.layouts[2] },
-    { screen = 2, layout = awful.layout.layouts[2] }
+
+ tags1 = sharedtags({
+    { name = "tag in workspace1", layout = awful.layout.layouts[2] },
+    { name = "movies", layout = awful.layout.layouts[10] },
 })
+
+tags2 = sharedtags({
+    { name = "tag in workspace2", layout = awful.layout.layouts[2] },
+    { name = "music", layout = awful.layout.layouts[10] },
+})
+
+--__.forEach(tags1, function(o)  o.activated = false end)
+--__.forEach(tags2, function(o)  o.activated = false end)
+
+wm = workspaceManager:new()
+
+wm:createWorkspace('workspace_1', tags1)
+wm:createWorkspace('workspace_2', tags2)
+--wm:switchTo(1)
 -- }}}
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
-   { "manual", terminal .. " -e man awesome" },
+   { "manual", RC.vars.terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", function() awesome.quit() end },
@@ -406,6 +396,7 @@ for i = 1, 9 do
         awful.key({ modkey }, "#" .. i + 9,
                   function ()
                         local screen = awful.screen.focused()
+                        local tags = wm:getAllTagsFromActiveWorkspaces()
                         local tag = tags[i]
                         if tag then
                            sharedtags.viewonly(tag, screen)
@@ -416,6 +407,7 @@ for i = 1, 9 do
         awful.key({ modkey, "Control" }, "#" .. i + 9,
                   function ()
                       local screen = awful.screen.focused()
+                      local tags = wm:getAllTagsFromActiveWorkspaces()
                       local tag = tags[i]
                       if tag then
                          sharedtags.viewtoggle(tag, screen)
@@ -426,6 +418,8 @@ for i = 1, 9 do
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus then
+                          local tags = wm:getAllTagsFromActiveWorkspaces()
+                          local tags = wm:getAllTagsFromActiveWorkspaces()
                           local tag = tags[i]
                           if tag then
                               client.focus:move_to_tag(tag)
@@ -437,6 +431,7 @@ for i = 1, 9 do
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus then
+                          local tags = wm:getAllTagsFromActiveWorkspaces()
                           local tag = tags[i]
                           if tag then
                               client.focus:toggle_tag(tag)
