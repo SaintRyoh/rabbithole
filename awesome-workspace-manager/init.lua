@@ -1,4 +1,5 @@
---- A workspace is a table of shared tags. This module manages the "activated" field of a tag
+--- This should allow tags to stay organized when dynamically adding/removing screens
+--- The basic idea is that tags aren't workspaces, they are just tags, and workspaces are collections of tags.
 -- @module workspaceManager
 -- @author Matt Mann
 -- @copyright 2022 Matt Mann
@@ -7,24 +8,27 @@
 local lodash = require("lodash")
 
 
-local workspace = {
-    name = '',
-    tags = {}
-}
+local workspace = { }
+workspace.__index = workspace
 
 function workspace:new(name, tags)
-    o = {}
-    setmetatable(o, self)
-    self.__index = self
+    self = {}
+    setmetatable(self, workspace)
 
     self.name = name or 'no name'
     self.tags = tags or {}
 
-    return o
+    self.last_activated_tags = {}
+
+    return self
 end
 
 function workspace:addTag(tag)
     lodash.push(self.tags, tag)
+end
+
+function workspace:addTags(tags)
+    self.tags = lodash.flatten(lodash.push(self.tags, tags))
 end
 
 function workspace:removeTag(_tag)
@@ -36,7 +40,7 @@ function workspace:removeAllTagsInWorkspace()
 end
 
 function workspace:numberOfTags()
-    return lodash.size(self.tags)
+    return #self.tags
 end
 
 function workspace:getAllTags()
@@ -44,32 +48,47 @@ function workspace:getAllTags()
 end
 
 function workspace:setStatus(status)
-    lodash.forEach(self.tags, function(tag) tag.activated = status  end)
+    -- If we're about to deactivate a workspace backup the selected tags
+    if status == false then
+        -- For some reason lodash.filter() didn't work
+        lodash.forEach(self.tags, function(tag)
+            if tag.selected == true then
+                table.insert(self.last_activated_tags, tag)
+            end
+        end)
+        lodash.forEach(self.tags, function(tag) tag.activated = status  end)
+    else
+        lodash.forEach(self.tags, function(tag) tag.activated = status  end)
+        lodash.forEach(self.last_activated_tags, function(tag) tag.selected=true  end)
+        self.last_activated_tags = {}
+    end
 end
 
 function workspace:getStatus()
     return lodash.first(self.tags).activated
 end
 
+function workspace:toggleStatus()
+    self:setStatus(not self:getStatus())
+end
+
 
 -- needs to be singleton
-local workspaceManager = {
-    workspaces = {},
-}
+local workspaceManager = {}
+workspaceManager.__index = workspaceManager
 
 function workspaceManager:new()
-    o = {}
-    setmetatable(o, self)
-    self.__index = self
+    self = {}
+    setmetatable(self, workspaceManager)
 
     self.workspaces = {}
 
-    return o
+    return self
 end
 
 function workspaceManager:createWorkspace(name, tags)
-    lodash.push(self.workspaces, workspace:new(name or 'workspace_' .. lodash.size(self.workspaces), tags or {}))
-    return lodash.size(self.workspaces)
+    table.insert(self.workspaces, workspace:new(name, tags) )
+    return #self.workspaces
 end
 
 function workspaceManager:deleteWorkspace(workspace_id)
@@ -95,6 +114,10 @@ function workspaceManager:getAllTagsBeingManaged()
             return workspace:getAllTags()
         end
     ))
+end
+
+function workspaceManager:getAllTagsFromActiveWorkspaces()
+    return lodash.filter(self:getAllTagsBeingManaged(), function(tag) return tag.activated end)
 end
 
 function workspaceManager:setStatusForAllWorkspaces(status)
