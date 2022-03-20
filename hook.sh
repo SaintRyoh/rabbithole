@@ -29,9 +29,9 @@ find-awesome-dbus-addresses() {
 }
 
 send() {
-  if [[ -z $LAST_AWESOME_ADDRESS ]]; then
+#  if [[ -z $LAST_AWESOME_ADDRESS ]]; then
     LAST_AWESOME_ADDRESS=$(find-awesome-dbus-addresses | sort -t'.' -k 1.1nbr -k 2.1nbr | head -n 1 | tr -d '\n')
-  fi
+#  fi
   if [[ -n $1 ]]; then
     STDIN=$1
   else
