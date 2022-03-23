@@ -4,6 +4,7 @@ local awful = require("awful")
 
 local _M = {}
 
+-- For when mouse is over the desktop
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function _M.get()

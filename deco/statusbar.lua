@@ -15,6 +15,12 @@ local deco = {
 local taglist_buttons  = deco.taglist()
 local tasklist_buttons = deco.tasklist()
 
+local ft = require("std.functional")
+local __ = require("lodash")
+local sharedtags = require("awesome-sharedtags")
+
+local workspaces = RC.workspaces
+
 local _M = {}
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -26,6 +32,49 @@ mytextclock = wibox.widget.textclock()
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
+
+    -- Assign tags to the newly connected screen here,
+    -- if desired:
+    local all_tags
+    local unselected_tags
+    local func_get_unselected_tags = ft.compose(
+
+            function(all_active_workspaces)
+                return __.flatten(__.map(all_active_workspaces,
+            function(workspace)
+                        return workspace:getAllTags()
+                    end
+                ))
+            end,
+
+            function(_all_tags)
+                all_tags = _all_tags
+                return __.filter(_all_tags,
+        function(tag)
+                        return tag.activated
+                    end)
+            end,
+
+            function(all_active_tags)
+                return __.filter(all_active_tags,
+        function(tag)
+                        return not tag.selected
+                    end
+                )
+            end
+    ) workspaces:getAllActiveWorkspaces()
+
+    unselected_tags = func_get_unselected_tags()
+
+    local tag = __.first(unselected_tags)
+
+    if not tag then
+        tag = sharedtags.add(#all_tags+1, { layout = awful.layout.layouts[2] })
+        local last_workspace = __.last(workspaces:getAllActiveWorkspaces()) or __.first(workspaces:getAllWorkspaces())
+        last_workspace:addTag(tag)
+    end
+
+    sharedtags.viewonly(tag, s)
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -55,10 +104,10 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibar = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
-    s.mywibox:setup {
+    s.mywibar:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,

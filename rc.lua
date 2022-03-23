@@ -45,7 +45,7 @@ editor_cmd = RC.vars.terminal .. " -e " .. RC.vars.editor
 -- Custom Local Library
 local main = {
     layouts = require("main.layouts"),
-    tags    = require("main.tags"),
+    workspaces    = require("main.workspaces"),
     menu    = require("main.menu"),
     rules   = require("main.rules"),
 }
@@ -70,7 +70,7 @@ RC.layouts = main.layouts()
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 -- a variable needed in rules, tasklist, and globalkeys
-RC.tags = main.tags()
+RC.workspaces = main.workspaces()
 -- }}}
 
 -- {{{ Menu

@@ -6,6 +6,7 @@
 -- @license MIT
 
 local lodash = require("lodash")
+local gears = require("gears")
 
 
 local workspace = { }
@@ -15,7 +16,7 @@ function workspace:new(name, tags)
     self = {}
     setmetatable(self, workspace)
 
-    self.name = name or 'no name'
+    self.name = name or 'un-named workspace'
     self.tags = tags or {}
 
     self.last_activated_tags = {}
@@ -28,7 +29,7 @@ function workspace:addTag(tag)
 end
 
 function workspace:addTags(tags)
-    self.tags = lodash.flatten(lodash.push(self.tags, tags))
+    self.tags = gears.table.join(self.tags, tags)
 end
 
 function workspace:removeTag(_tag)
@@ -65,7 +66,7 @@ function workspace:setStatus(status)
 end
 
 function workspace:getStatus()
-    return lodash.first(self.tags).activated
+    return lodash.get(lodash.first(self.tags), 'activated', false)
 end
 
 function workspace:toggleStatus()
@@ -104,20 +105,13 @@ function workspaceManager:getAllWorkspaces()
     return self.workspaces
 end
 
+function workspaceManager:getAllActiveWorkspaces()
+    return lodash.filter(self:getAllWorkspaces(),
+            function(workspace) return workspace:getStatus()  end)
+end
+
 function workspaceManager:getWorkspace(workspace_id)
     return self.workspaces[workspace_id]
-end
-
-function workspaceManager:getAllTagsBeingManaged()
-    return lodash.flatten(lodash.map(self.workspaces,
-        function(workspace)
-            return workspace:getAllTags()
-        end
-    ))
-end
-
-function workspaceManager:getAllTagsFromActiveWorkspaces()
-    return lodash.filter(self:getAllTagsBeingManaged(), function(tag) return tag.activated end)
 end
 
 function workspaceManager:setStatusForAllWorkspaces(status)

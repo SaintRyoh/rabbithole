@@ -9,6 +9,7 @@ local menubar = require("menubar")
 -- Resource Configuration
 local modkey = RC.vars.modkey
 local terminal = RC.vars.terminal
+local workspaces = RC.workspaces
 
 local _M = {}
 
