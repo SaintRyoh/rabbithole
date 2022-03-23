@@ -2,10 +2,12 @@
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
 
-
+local gears = require("gears")
+local config_dir = gears.filesystem.get_configuration_dir()
 -- https://leafo.net/guides/customizing-the-luarocks-tree.html
 local version = _VERSION:match("%d+%.%d+")
 package.path = './?.lua;./?/init.lua;lua_modules/share/lua/' .. version .. '/?.lua;lua_modules/share/lua/' .. version .. '/?/init.lua;' .. package.path
+package.path = config_dir .. '?.lua;' .. config_dir ..'?/init.lua;' .. config_dir .. 'lua_modules/share/lua/' .. version .. '/?.lua;' .. config_dir .. 'lua_modules/share/lua/' .. version .. '/?/init.lua;' .. package.path
 package.cpath = 'lua_modules/lib/lua/' .. version .. '/?.so;' .. package.cpath
 
 -- Standard awesome library
@@ -35,7 +37,12 @@ require("main.error-handling")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init("themes/zenburn/theme.lua")
+local theme_dir = "themes/zenburn/theme.lua"
+if gears.filesystem.file_readable(theme_dir) then
+    beautiful.init(theme_dir)
+else
+    beautiful.init(gears.filesystem.get_configuration_dir() .. theme_dir)
+end
 --beautiful.wallpaper = RC.vars.wallpaper
 -- }}}
 
