@@ -35,7 +35,6 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Assign tags to the newly connected screen here,
     -- if desired:
-    local all_tags
     local unselected_tags
     local func_get_unselected_tags = ft.compose(
 
@@ -69,7 +68,7 @@ awful.screen.connect_for_each_screen(function(s)
     local tag = __.first(unselected_tags)
 
     if not tag then
-        tag = sharedtags.add(#all_tags+1, { layout = awful.layout.layouts[2] })
+        tag = sharedtags.add(s.index, { layout = awful.layout.layouts[2] })
         local last_workspace = __.last(workspaces:getAllActiveWorkspaces()) or __.first(workspaces:getAllWorkspaces())
         last_workspace:addTag(tag)
     end
