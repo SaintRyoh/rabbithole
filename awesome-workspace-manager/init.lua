@@ -66,7 +66,10 @@ function workspace:setStatus(status)
 end
 
 function workspace:getStatus()
-    return lodash.get(lodash.first(self.tags), 'activated', false)
+    if #self.tags > 0 then
+        return self.tags[1].activated
+    end
+    return false
 end
 
 function workspace:toggleStatus()
