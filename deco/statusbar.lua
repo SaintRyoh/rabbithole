@@ -37,24 +37,22 @@ awful.screen.disconnect_for_each_screen(function(s)
 end)
 
 function switch_to_workspace(workspace_id)
-    wm:switchTo(workspace_id)
-
-    setup_tags()
+    workspaces:switchTo(workspace_id)
 
     naughty.notify({
         title="Switch to workspace",
-        text=string.format("workspace id: %d ", workspace_id_2),
+        text=string.format("workspace id: %d ", workspace_id),
         timeout=0
     })
 end
 
 function add_workspace()
-    workspace_id_2 = workspaces:createWorkspace()
-    workspaces:switchTo(workspace_id_2)
+    local workspace_id = workspaces:createWorkspace()
+    workspaces:switchTo(workspace_id)
 
     naughty.notify({
         title="add workspace",
-        text=string.format("workspace id: %d ", workspace_id_2),
+        text=string.format("workspace id: %d ", workspace_id),
         timeout=0
     })
 
@@ -93,8 +91,8 @@ function setup_tags_on_screen(s)
 
     -- if not, then make one
     if not tag then
-        tag = sharedtags.add(s.index, { layout = awful.layout.layouts[2] })
         local last_workspace = __.last(workspaces:getAllActiveWorkspaces()) or __.first(workspaces:getAllWorkspaces())
+        tag = sharedtags.add(last_workspace.id .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
         last_workspace:addTag(tag)
         last_workspace:setStatus(true)
         naughty.notify({

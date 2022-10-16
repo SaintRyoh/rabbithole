@@ -7,20 +7,22 @@
 
 local lodash = require("lodash")
 local gears = require("gears")
+local math = require("math")
 
 
 local workspace = { }
 workspace.__index = workspace
 
-function workspace:new(name, tags)
+function workspace:new(name, tags, id)
     self = {}
     setmetatable(self, workspace, active)
 
     self.name = name or 'un-named workspace'
     self.tags = tags or {}
     self.active = active or false
+    self.id = id or math.random(100000)
 
-    self.last_activated_tags = {}
+    self.last_selected_tags = {}
 
     return self
 end
@@ -55,14 +57,14 @@ function workspace:setStatus(status)
         -- For some reason lodash.filter() didn't work
         lodash.forEach(self.tags, function(tag)
             if tag.selected == true then
-                table.insert(self.last_activated_tags, tag)
+                table.insert(self.last_selected_tags, tag)
             end
         end)
         lodash.forEach(self.tags, function(tag) tag.activated = status  end)
     else
         lodash.forEach(self.tags, function(tag) tag.activated = status  end)
-        lodash.forEach(self.last_activated_tags, function(tag) tag.selected=true  end)
-        self.last_activated_tags = {}
+        lodash.forEach(self.last_selected_tags, function(tag) tag.selected=true  end)
+        self.last_selected_tags = {}
     end
 end
 
@@ -89,7 +91,7 @@ function workspaceManager:new()
 end
 
 function workspaceManager:createWorkspace(name, tags)
-    table.insert(self.workspaces, workspace:new(name, tags) )
+    table.insert(self.workspaces, workspace:new(name, tags, #self.workspaces + 1) )
     return #self.workspaces
 end
 

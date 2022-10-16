@@ -39,3 +39,28 @@ send() {
   fi
   ./awesome-client-wrapped --dest $LAST_AWESOME_ADDRESS "$STDIN"
 }
+
+alert() {
+    send << __EOF__
+    naughty = require("naughty")
+    naughty.notify({
+	title="CLI Notification",
+	text=$@
+    })
+__EOF__
+}
+
+
+total_number_of_tags() {
+    send << EOF
+
+    local all_workspaces = wm:getAllWorkspaces()
+    local all_tags = __.flatten(__.map(all_workspaces, function(workspace) return workspace:getAllTags() end))
+
+    naughty = require("naughty")
+    naughty.notify({
+    title="CLI Notification",
+    text="" .. #all_tags})
+EOF
+}
+
