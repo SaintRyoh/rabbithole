@@ -11,6 +11,12 @@ local beautiful = require("beautiful")
 -- Custom Local Library: Common Functional Decoration
 require("deco.titlebar")
 
+local __ = require("lodash")
+local sharedtags = require("awesome-sharedtags")
+
+local workspaces = RC.workspaces
+local naughty = require("naughty")
+
 -- reading
 -- https://awesomewm.org/apidoc/classes/signals.html
 
@@ -37,5 +43,24 @@ client.connect_signal("mouse::enter", function(c)
 end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+screen.connect_signal("added", function(s)
+    naughty.notify({
+        title="SIGNAL ADDED",
+        text="screen index: " .. s.index,
+        timeout=0
+    })
+end)
+
+awesome.connect_signal("startup", function(a)
+    naughty.notify({
+        title="FIRST STARTUP",
+        text=string.format("screen count: %d ", screen.count()),
+        timeout=0
+    })
+
+
+end)
 -- }}}

@@ -14,10 +14,11 @@ workspace.__index = workspace
 
 function workspace:new(name, tags)
     self = {}
-    setmetatable(self, workspace)
+    setmetatable(self, workspace, active)
 
     self.name = name or 'un-named workspace'
     self.tags = tags or {}
+    self.active = active or false
 
     self.last_activated_tags = {}
 
@@ -66,10 +67,7 @@ function workspace:setStatus(status)
 end
 
 function workspace:getStatus()
-    if #self.tags > 0 then
-        return self.tags[1].activated
-    end
-    return false
+    return lodash.every(self.tags, function (tag) return tag.activated end)
 end
 
 function workspace:toggleStatus()

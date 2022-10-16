@@ -15,65 +15,107 @@ local deco = {
 local taglist_buttons  = deco.taglist()
 local tasklist_buttons = deco.tasklist()
 
-local ft = require("std.functional")
 local __ = require("lodash")
 local sharedtags = require("awesome-sharedtags")
 
 local workspaces = RC.workspaces
-
-local _M = {}
-
+local naughty = require("naughty")
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
-awful.screen.connect_for_each_screen(function(s)
-    -- Wallpaper
-    set_wallpaper(s)
+awful.screen.disconnect_for_each_screen(function(s)
+    naughty.notify({
+        title="Disconnect For Each Screen",
+        text=string.format("screen count: %d ", screen.count()),
+        timeout=0
+    })
 
-    -- Assign tags to the newly connected screen here,
-    -- if desired:
-    local unselected_tags
-    local func_get_unselected_tags = ft.compose(
+--     local tags = s.tags
+end)
 
-            function(all_active_workspaces)
-                return __.flatten(__.map(all_active_workspaces,
-            function(workspace)
-                        return workspace:getAllTags()
-                    end
-                ))
-            end,
+function switch_to_workspace(workspace_id)
+    wm:switchTo(workspace_id)
 
-            function(_all_tags)
-                all_tags = _all_tags
-                return __.filter(_all_tags,
-        function(tag)
-                        return tag.activated
-                    end)
-            end,
+    setup_tags()
 
-            function(all_active_tags)
-                return __.filter(all_active_tags,
-        function(tag)
-                        return not tag.selected
-                    end
-                )
-            end
-    ) workspaces:getAllActiveWorkspaces()
+    naughty.notify({
+        title="Switch to workspace",
+        text=string.format("workspace id: %d ", workspace_id_2),
+        timeout=0
+    })
+end
 
-    unselected_tags = func_get_unselected_tags()
+function add_workspace()
+    workspace_id_2 = workspaces:createWorkspace()
+    workspaces:switchTo(workspace_id_2)
 
+    naughty.notify({
+        title="add workspace",
+        text=string.format("workspace id: %d ", workspace_id_2),
+        timeout=0
+    })
+
+    setup_tags()
+end
+
+function setup_tags()
+    for s in screen do
+        setup_tags_on_screen(s)
+    end
+end
+
+
+function setup_tags_on_screen(s)
+
+    local all_active_workspaces = workspaces:getAllActiveWorkspaces()
+    local all_tags = __.flatten(__.map(all_active_workspaces, function(workspace) return workspace:getAllTags() end))
+    local unselected_tags = __.filter(all_tags, function(tag) return not tag.selected end)
+
+    naughty.notify({
+        title="setup tags",
+        text=string.format([[ clients: %d, root tags: %d, Screen Index: %d; All workspaces count: %d, all active workspaces: %d; tags: %s;
+     unselected: %d]],
+            #client.get(), #root.tags(), s.index, #workspaces:getAllWorkspaces(), #all_active_workspaces, #all_tags, #unselected_tags ),
+        timeout=0
+    })
     local tag = __.first(unselected_tags)
 
+    if tag then
+        naughty.notify({
+        title="setup tags",
+        text="recycling tag:" .. tag.name,
+        timeout=0
+        })
+    end
+
+    -- if not, then make one
     if not tag then
         tag = sharedtags.add(s.index, { layout = awful.layout.layouts[2] })
         local last_workspace = __.last(workspaces:getAllActiveWorkspaces()) or __.first(workspaces:getAllWorkspaces())
         last_workspace:addTag(tag)
+        last_workspace:setStatus(true)
+        naughty.notify({
+        title="setup tags",
+        text="making new tag:" .. tag.name .. " for screen:" .. s.index,
+        timeout=0
+        })
     end
 
     sharedtags.viewonly(tag, s)
+
+end
+
+awful.screen.connect_for_each_screen(function(s)
+    -- Wallpaper
+    set_wallpaper(s)
+    --     end
+
+    -- tag setup
+    setup_tags_on_screen(s)
+
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
