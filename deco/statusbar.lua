@@ -43,7 +43,11 @@ function add_workspace()
     workspaces:switchTo(workspace_id)
     workspace_menu:add({
         "workspace: " .. workspace_id,
-        function() workspaces:switchTo(workspace_id) end
+        {
+            { "switch", function()  workspaces:switchTo(workspace_id) end},
+            { "rename", function()  end},
+            { "remove", function()  end}
+        }
     }, #workspace_menu.items)
 
     naughty.notify({
@@ -155,7 +159,11 @@ awful.screen.connect_for_each_screen(function(s)
                 function(workspace, index)
                     return {
                         "workspace: " .. index,
-                        function() workspaces:switchTo(index) end
+                        {
+                            { "switch", function()  workspaces:switchTo(index) end},
+                            { "rename", function()  end},
+                            { "remove", function()  end}
+                        }
                     }
                 end))
     })
@@ -167,7 +175,7 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.fixed.horizontal,
         {
             widget = wibox.widget.textbox,
-            text = "workspace: X",
+            text = "   workspace: X   ",
             buttons = gears.table.join(
                     awful.button({ }, 1,
                             function ()
@@ -188,9 +196,9 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             RC.launcher,
+            dropdownmenu,
             s.mytaglist,
             s.mypromptbox,
-            dropdownmenu
 
 --             dropdownmenu
 
