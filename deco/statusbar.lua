@@ -44,7 +44,7 @@ function add_workspace()
     workspace_menu:add({
         "workspace: " .. workspace_id,
         function() workspaces:switchTo(workspace_id) end
-    })
+    }, #workspace_menu.items)
 
     naughty.notify({
         title="add workspace",
@@ -151,21 +151,23 @@ awful.screen.connect_for_each_screen(function(s)
 
     workspace_menu =
     awful.menu({
-        items = __.map(workspaces:getAllWorkspaces(),
+        items = gears.table.join(__.map(workspaces:getAllWorkspaces(),
                 function(workspace, index)
                     return {
                         "workspace: " .. index,
                         function() workspaces:switchTo(index) end
                     }
-                end)
+                end))
     })
+
+    workspace_menu:add({ "add workspace", function () add_workspace() end})
 
 
     local dropdownmenu = {
         layout = wibox.layout.fixed.horizontal,
         {
             widget = wibox.widget.textbox,
-            text = "test",
+            text = "workspace: X",
             buttons = gears.table.join(
                     awful.button({ }, 1,
                             function ()
