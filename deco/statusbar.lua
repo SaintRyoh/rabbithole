@@ -26,15 +26,7 @@ local naughty = require("naughty")
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
-awful.screen.disconnect_for_each_screen(function(s)
-    naughty.notify({
-        title="Disconnect For Each Screen",
-        text=string.format("screen count: %d ", screen.count()),
-        timeout=0
-    })
-
---     local tags = s.tags
-end)
+local workspace_menu = nil
 
 function switch_to_workspace(workspace_id)
     workspaces:switchTo(workspace_id)
@@ -49,6 +41,10 @@ end
 function add_workspace()
     local workspace_id = workspaces:createWorkspace()
     workspaces:switchTo(workspace_id)
+    workspace_menu:add({
+        "workspace: " .. workspace_id,
+        function() workspaces:switchTo(workspace_id) end
+    })
 
     naughty.notify({
         title="add workspace",
@@ -106,6 +102,8 @@ function setup_tags_on_screen(s)
 
 end
 
+
+
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -145,6 +143,43 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     s.mywibar = awful.wibar({ position = "top", screen = s })
 
+
+
+
+    ---------------- selector -------------------------
+
+
+    workspace_menu =
+    awful.menu({
+        items = __.map(workspaces:getAllWorkspaces(),
+                function(workspace, index)
+                    return {
+                        "workspace: " .. index,
+                        function() workspaces:switchTo(index) end
+                    }
+                end)
+    })
+
+
+    local dropdownmenu = {
+        layout = wibox.layout.fixed.horizontal,
+        {
+            widget = wibox.widget.textbox,
+            text = "test",
+            buttons = gears.table.join(
+                    awful.button({ }, 1,
+                            function ()
+                                workspace_menu:toggle()
+                            end)
+            )
+        }
+    }
+
+
+    ---------------- end -------------------------
+
+
+
     -- Add widgets to the wibox
     s.mywibar:setup {
         layout = wibox.layout.align.horizontal,
@@ -153,6 +188,10 @@ awful.screen.connect_for_each_screen(function(s)
             RC.launcher,
             s.mytaglist,
             s.mypromptbox,
+            dropdownmenu
+
+--             dropdownmenu
+
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
