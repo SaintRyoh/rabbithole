@@ -7,7 +7,6 @@
 
 local lodash = require("lodash")
 local gears = require("gears")
-local math = require("math")
 
 
 local workspace = { }
@@ -17,7 +16,7 @@ function workspace:new(name, tags)
     self = {}
     setmetatable(self, workspace)
 
-    self.name = name or 'un-named workspace'
+    self.name = name or nil
     self.tags = tags or {}
 
     self.last_selected_tags = {}

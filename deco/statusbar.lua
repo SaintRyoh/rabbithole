@@ -28,15 +28,33 @@ mytextclock = wibox.widget.textclock()
 
 local workspace_menu = nil
 
+function rename_workspace(workspace)
+    awful.prompt.run {
+        prompt       = "Rename workspace: ",
+        textbox      = awful.screen.focused().mypromptbox.widget,
+        exe_callback = function(new_name)
+            if not new_name or #new_name == 0 then return end
+            if not workspace then return end
+            workspace.name = new_name
+            workspace_menu = generate_menu()
+            naughty.notify({
+                title="rename workspace",
+                text="workspace renamed to: " .. workspace.name,
+                timeout=0
+            })
+        end
+    }
+end
+
 function generate_menu()
     local menu = awful.menu({
         items = gears.table.join(__.map(workspaces:getAllWorkspaces(),
                 function(workspace, index)
                     return {
-                        "workspace: " .. index,
+                        workspace.name or "workspace: " .. index,
                         {
                             { "switch", function()  workspaces:switchTo(index) end},
-                            { "rename", function()  end},
+                            { "rename", function() rename_workspace(workspace) end},
                             { "remove", function()  remove_workspace(index) end}
                         }
                     }
