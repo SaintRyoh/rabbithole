@@ -94,8 +94,9 @@ function workspaceManager:new()
 end
 
 function workspaceManager:createWorkspace(name, tags)
-    table.insert(self.workspaces, workspace:new(name, tags) )
-    return #self.workspaces
+    local new_workspace = workspace:new(name, tags)
+    lodash.push(self.workspaces, new_workspace)
+    return new_workspace
 end
 
 function workspaceManager:deleteWorkspace(workspace)
@@ -116,8 +117,8 @@ function workspaceManager:getAllActiveWorkspaces()
             function(workspace) return workspace:getStatus()  end)
 end
 
-function workspaceManager:getWorkspace(workspace_id)
-    return self.workspaces[workspace_id]
+function workspaceManager:getWorkspaceByIndex(index)
+    return self.workspaces[index]
 end
 
 function workspaceManager:findIndexByWorkspace(workspace)
@@ -132,9 +133,9 @@ function (workspace)
     )
 end
 
-function workspaceManager:switchTo(workspace_id)
+function workspaceManager:switchTo(workspace)
     self:setStatusForAllWorkspaces(false)
-    self.workspaces[workspace_id]:setStatus(true)
+    workspace:setStatus(true)
 end
 
 return workspaceManager

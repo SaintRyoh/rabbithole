@@ -53,7 +53,7 @@ function generate_menu()
                     return {
                         workspace.name or "workspace: " .. index,
                         {
-                            { "switch", function()  workspaces:switchTo(index) end},
+                            { "switch", function()  switch_to_workspace(workspace) end},
                             { "rename", function() rename_workspace(workspace) end},
                             { "remove", function()  remove_workspace(workspace) end}
                         }
@@ -62,6 +62,10 @@ function generate_menu()
     })
     menu:add({ "add workspace", function () add_workspace() end})
     return menu
+end
+
+function switch_to_workspace(workspace)
+    workspaces:switchTo(workspace)
 end
 
 function remove_workspace(workspace)
@@ -92,13 +96,12 @@ function remove_workspace(workspace)
 end
 
 function add_workspace()
-    local workspace_id = workspaces:createWorkspace()
-    workspaces:switchTo(workspace_id)
+    local workspace = workspaces:createWorkspace()
+    workspaces:switchTo(workspace)
     workspace_menu = generate_menu()
 
     naughty.notify({
-        title="add workspace",
-        text=string.format("workspace id: %d ", workspace_id),
+        title="added workspace",
         timeout=0
     })
     --
