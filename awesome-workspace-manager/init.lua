@@ -18,6 +18,8 @@ function workspace:new(name, tags)
 
     self.name = name or nil
     self.tags = tags or {}
+    math.randomseed(os.time())
+    self.id = math.random(1000000)
 
     self.last_selected_tags = {}
 
@@ -73,6 +75,10 @@ function workspace:toggleStatus()
     self:setStatus(not self:getStatus())
 end
 
+function workspace:equals(otherWorkspace)
+    return self.id == otherWorkspace.id
+end
+
 
 -- needs to be singleton
 local workspaceManager = {}
@@ -92,9 +98,9 @@ function workspaceManager:createWorkspace(name, tags)
     return #self.workspaces
 end
 
-function workspaceManager:deleteWorkspace(workspace_id)
-    self.workspaces[workspace_id]:removeAllTagsInWorkspace()
-    table.remove(self.workspaces, workspace_id)
+function workspaceManager:deleteWorkspace(workspace)
+    workspace:removeAllTagsInWorkspace()
+    lodash.remove(self.workspaces, function(_workspace) return _workspace:equals(workspace)  end)
 end
 
 function workspaceManager:deleteAllWorkspaces()
@@ -112,6 +118,10 @@ end
 
 function workspaceManager:getWorkspace(workspace_id)
     return self.workspaces[workspace_id]
+end
+
+function workspaceManager:findIndexByWorkspace(workspace)
+    return lodash.findIndex(self.workspaces, function(_workspace) return _workspace:equals(workspace)  end)
 end
 
 function workspaceManager:setStatusForAllWorkspaces(status)

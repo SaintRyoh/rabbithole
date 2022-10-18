@@ -55,7 +55,7 @@ function generate_menu()
                         {
                             { "switch", function()  workspaces:switchTo(index) end},
                             { "rename", function() rename_workspace(workspace) end},
-                            { "remove", function()  remove_workspace(index) end}
+                            { "remove", function()  remove_workspace(workspace) end}
                         }
                     }
                 end))
@@ -64,21 +64,29 @@ function generate_menu()
     return menu
 end
 
-function remove_workspace(workspace_id)
+function remove_workspace(workspace)
+    -- if the workspace if active don't delete it
+    if workspace:getStatus() then
+        naughty.notify({
+            title="switch to another workspace before removing it",
+            text=string.format("workspace id: %d ", workspace_id),
+            timeout=0
+        })
+        return
+    end
     -- First Delete all the tags and their clients in the workspace
-    __.forEach(workspaces:getWorkspace(workspace_id):getAllTags(),
+    __.forEach(workspace:getAllTags(),
             function(tag)
                 __.forEach(tag:clients(), function(client) client:kill() end)
                 tag:delete()
             end)
     -- Then Delete workspace
-    workspaces:deleteWorkspace(workspace_id)
+    workspaces:deleteWorkspace(workspace)
     -- regenerate menu
     workspace_menu = generate_menu()
 
     naughty.notify({
-        title="remove workspace",
-        text=string.format("workspace id: %d ", workspace_id),
+        title="removed workspace",
         timeout=0
     })
 end
