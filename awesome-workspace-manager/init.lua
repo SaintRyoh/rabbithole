@@ -13,14 +13,12 @@ local math = require("math")
 local workspace = { }
 workspace.__index = workspace
 
-function workspace:new(name, tags, id)
+function workspace:new(name, tags)
     self = {}
-    setmetatable(self, workspace, active)
+    setmetatable(self, workspace)
 
     self.name = name or 'un-named workspace'
     self.tags = tags or {}
-    self.active = active or false
-    self.id = id or math.random(100000)
 
     self.last_selected_tags = {}
 
@@ -91,7 +89,7 @@ function workspaceManager:new()
 end
 
 function workspaceManager:createWorkspace(name, tags)
-    table.insert(self.workspaces, workspace:new(name, tags, #self.workspaces + 1) )
+    table.insert(self.workspaces, workspace:new(name, tags) )
     return #self.workspaces
 end
 

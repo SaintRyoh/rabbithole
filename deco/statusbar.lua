@@ -28,11 +28,38 @@ mytextclock = wibox.widget.textclock()
 
 local workspace_menu = nil
 
-function switch_to_workspace(workspace_id)
-    workspaces:switchTo(workspace_id)
+function generate_menu()
+    local menu = awful.menu({
+        items = gears.table.join(__.map(workspaces:getAllWorkspaces(),
+                function(workspace, index)
+                    return {
+                        "workspace: " .. index,
+                        {
+                            { "switch", function()  workspaces:switchTo(index) end},
+                            { "rename", function()  end},
+                            { "remove", function()  remove_workspace(index) end}
+                        }
+                    }
+                end))
+    })
+    menu:add({ "add workspace", function () add_workspace() end})
+    return menu
+end
+
+function remove_workspace(workspace_id)
+    -- First Delete all the tags and their clients in the workspace
+    __.forEach(workspaces:getWorkspace(workspace_id):getAllTags(),
+            function(tag)
+                __.forEach(tag:clients(), function(client) client:kill() end)
+                tag:delete()
+            end)
+    -- Then Delete workspace
+    workspaces:deleteWorkspace(workspace_id)
+    -- regenerate menu
+    workspace_menu = generate_menu()
 
     naughty.notify({
-        title="Switch to workspace",
+        title="remove workspace",
         text=string.format("workspace id: %d ", workspace_id),
         timeout=0
     })
@@ -41,21 +68,14 @@ end
 function add_workspace()
     local workspace_id = workspaces:createWorkspace()
     workspaces:switchTo(workspace_id)
-    workspace_menu:add({
-        "workspace: " .. workspace_id,
-        {
-            { "switch", function()  workspaces:switchTo(workspace_id) end},
-            { "rename", function()  end},
-            { "remove", function()  end}
-        }
-    }, #workspace_menu.items)
+    workspace_menu = generate_menu()
 
     naughty.notify({
         title="add workspace",
         text=string.format("workspace id: %d ", workspace_id),
         timeout=0
     })
-
+    --
     setup_tags()
 end
 
@@ -91,8 +111,8 @@ function setup_tags_on_screen(s)
 
     -- if not, then make one
     if not tag then
-        local last_workspace = __.last(workspaces:getAllActiveWorkspaces()) or __.first(workspaces:getAllWorkspaces())
-        tag = sharedtags.add(last_workspace.id .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
+        local last_workspace = __.last(all_active_workspaces) or __.first(workspaces:getAllWorkspaces())
+        tag = sharedtags.add(#workspaces:getAllWorkspaces() .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
         last_workspace:addTag(tag)
         last_workspace:setStatus(true)
         naughty.notify({
@@ -153,22 +173,8 @@ awful.screen.connect_for_each_screen(function(s)
     ---------------- selector -------------------------
 
 
-    workspace_menu =
-    awful.menu({
-        items = gears.table.join(__.map(workspaces:getAllWorkspaces(),
-                function(workspace, index)
-                    return {
-                        "workspace: " .. index,
-                        {
-                            { "switch", function()  workspaces:switchTo(index) end},
-                            { "rename", function()  end},
-                            { "remove", function()  end}
-                        }
-                    }
-                end))
-    })
+    workspace_menu = generate_menu()
 
-    workspace_menu:add({ "add workspace", function () add_workspace() end})
 
 
     local dropdownmenu = {
@@ -198,10 +204,7 @@ awful.screen.connect_for_each_screen(function(s)
             RC.launcher,
             dropdownmenu,
             s.mytaglist,
-            s.mypromptbox,
-
---             dropdownmenu
-
+            s.mypromptbox
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
