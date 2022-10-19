@@ -22,11 +22,23 @@ local workspaces = RC.workspaces
 local naughty = require("naughty")
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
--- {{{ Wibar
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
+-- {{{ workspace dropdownmenu
 local workspace_menu = nil
+
+local dropdownmenu = {
+    layout = wibox.layout.fixed.horizontal,
+    {
+        widget = wibox.widget.textbox,
+        text = "   workspace: X   ",
+        buttons = gears.table.join(
+                awful.button({ }, 1,
+                        function ()
+                            workspace_menu:toggle()
+                        end)
+        )
+    }
+}
 
 function rename_workspace(workspace)
     awful.prompt.run {
@@ -114,7 +126,6 @@ function setup_tags()
     end
 end
 
-
 function setup_tags_on_screen(s)
 
     local all_active_workspaces = workspaces:getAllActiveWorkspaces()
@@ -154,8 +165,67 @@ function setup_tags_on_screen(s)
     sharedtags.viewonly(tag, s)
 
 end
+-- }}}
 
+-- {{{ Dynamic tagging
 
+-- Add a new tag
+function add_tag_to_workspace(workspace, layout)
+    awful.prompt.run {
+        prompt       = "New tag name: ",
+        textbox      = awful.screen.focused().mypromptbox.widget,
+        exe_callback = function(name)
+            if not name or #name == 0 then return end
+            local tag = sharedtags.add(name, { layout = layout or awful.layout.layouts[2] })
+            workspace:addTag(tag)
+            sharedtags.viewonly(tag, s)
+        end
+    }
+end
+
+-- Rename current tag
+function rename_current_tag()
+    awful.prompt.run {
+        prompt       = "Rename tag: ",
+        textbox      = awful.screen.focused().mypromptbox.widget,
+        exe_callback = function(new_name)
+            if not new_name or #new_name == 0 then return end
+            local t = awful.screen.focused().selected_tag
+            if t then
+                t.name = new_name
+            end
+        end
+    }
+end
+
+---- Move current tag
+---- pos in {-1, 1} <-> {previous, next} tag position
+--- causes error if a tag doesn't have clients. idk why
+function move_tag(pos)
+    local tag = awful.screen.focused().selected_tag
+    if tonumber(pos) <= -1 then
+        tag.index = tag.index - 1
+        --awful.tag.move(tag.index - 1, tag)
+    else
+        tag.index = tag.index + 1
+        --awful.tag.move(tag.index + 1, tag)
+    end
+end
+
+-- Delete current tag
+-- Any rule set on the tag shall be broken
+function delete_tag_from_workspace(workspace)
+    local t = awful.screen.focused().selected_tag
+    if not t then return end
+    workspace:removeTag(t)
+    t:delete()
+end
+
+-- }}}
+
+-- {{{ Wibar
+-- Create a textclock widget
+mytextclock = wibox.widget.textclock()
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
@@ -198,31 +268,7 @@ awful.screen.connect_for_each_screen(function(s)
 
 
 
-
-    ---------------- selector -------------------------
-
-
     workspace_menu = generate_menu()
-
-
-
-    local dropdownmenu = {
-        layout = wibox.layout.fixed.horizontal,
-        {
-            widget = wibox.widget.textbox,
-            text = "   workspace: X   ",
-            buttons = gears.table.join(
-                    awful.button({ }, 1,
-                            function ()
-                                workspace_menu:toggle()
-                            end)
-            )
-        }
-    }
-
-
-    ---------------- end -------------------------
-
 
 
     -- Add widgets to the wibox

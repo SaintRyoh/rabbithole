@@ -5,6 +5,7 @@ local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Menubar library
 local menubar = require("menubar")
+local __ = require("lodash")
 
 -- Resource Configuration
 local modkey = RC.vars.modkey
@@ -22,6 +23,19 @@ function _M.get()
     local globalkeys = gears.table.join(
             awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
                     {description="show help", group="awesome"}),
+
+    --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+    -- Dynamic tagging
+            awful.key({ modkey, "Shift" }, "n", function ()  add_tag_to_workspace(__.last(RC.workspaces:getAllActiveWorkspaces())) end,
+                    {description = "add new tag", group = "tag"}),
+            awful.key({ modkey, "Shift" }, "r", function () rename_current_tag() end,
+                    {description = "rename tag", group = "tag"}),
+            awful.key({ modkey, "Shift" }, "Left", function () move_tag(-1) end,
+                    {description = "move tag to the left", group = "tag"}),
+            awful.key({ modkey, "Shift" }, "Right", function () move_tag(1) end,
+                    {description = "move tag to the right", group = "tag"}),
+            awful.key({ modkey, "Shift" }, "d", function () delete_tag_from_workspace(__.last(RC.workspaces:getAllActiveWorkspaces())) end,
+                    {description = "delete tag", group = "tag"}),
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Tag browsing

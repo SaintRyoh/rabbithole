@@ -1,6 +1,3 @@
--- Standard awesome library
-local awful = require("awful")
-local sharedtags = require("awesome-sharedtags")
 local workspaceManager = require("awesome-workspace-manager")
 
 local naughty = require("naughty")
@@ -15,9 +12,9 @@ function _M.get ()
         text=string.format("screen count: %d ", screen.count()),
         timeout=0
     })
-    wm = workspaceManager:new()
-    workspace_id_1 = wm:createWorkspace()
-    wm:switchTo(workspace_id_1)
+    local wm = workspaceManager:new()
+    local workspace = wm:createWorkspace()
+    wm:switchTo(workspace)
 
 
     return wm
