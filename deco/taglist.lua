@@ -1,6 +1,8 @@
 -- {{{ Required libraries
 local gears = require("gears")
 local awful = require("awful")
+local sharedtags = require("awesome-sharedtags")
+local __ = require("lodash")
 -- }}}
 
 local _M = {}
@@ -10,13 +12,24 @@ local _M = {}
 function _M.get()
     -- Create a wibox for each screen and add it
     local taglist_buttons = gears.table.join(
-            awful.button({ }, 1, function(t) t:view_only() end),
+            awful.button({ }, 1, function(t) -- clicked tag
+                local tag1 = t -- 1.3
+                local screen1 = tag1.screen -- bottom center
+
+                local screen2 = awful.screen.focused() -- left screen
+                local tag2 = __.first(screen2.selected_tags) -- 1.1
+
+                sharedtags.viewonly(tag1, screen2)
+                sharedtags.viewonly(tag2, screen1)
+            end),
             awful.button({ modkey }, 1, function(t)
                 if client.focus then
                     client.focus:move_to_tag(t)
                 end
             end),
-            awful.button({ }, 3, awful.tag.viewtoggle),
+            awful.button({ }, 3, function(t)
+                sharedtags.viewtoggle(t,awful.screen.focused())
+            end ),
             awful.button({ modkey }, 3, function(t)
                 if client.focus then
                     client.focus:toggle_tag(t)
