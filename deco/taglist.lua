@@ -19,24 +19,29 @@ function _M.get()
                 local screen2 = awful.screen.focused() -- left screen
                 local tag2 = __.first(screen2.selected_tags) -- 1.1
 
-                sharedtags.viewonly(tag1, screen2)
-                sharedtags.viewonly(tag2, screen1)
-            end),
-            awful.button({ modkey }, 1, function(t)
-                if client.focus then
-                    client.focus:move_to_tag(t)
+                if screen1 == screen2 then
+                    sharedtags.viewonly(tag1, screen1)
+                else
+                    sharedtags.viewonly(tag1, screen2)
+                    sharedtags.viewonly(tag2, screen1)
                 end
+
             end),
+            --awful.button({ modkey }, 1, function(t)
+            --    if client.focus then
+            --        client.focus:move_to_tag(t)
+            --    end
+            --end),
             awful.button({ }, 3, function(t)
-                sharedtags.viewtoggle(t,awful.screen.focused())
-            end ),
-            awful.button({ modkey }, 3, function(t)
-                if client.focus then
-                    client.focus:toggle_tag(t)
-                end
-            end),
-            awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-            awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
+                sharedtags.viewtoggle(t, t.screen)
+            end )
+            --awful.button({ modkey }, 3, function(t)
+            --    if client.focus then
+            --        client.focus:toggle_tag(t)
+            --    end
+            --end),
+            --awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
+            --awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
     )
 
     return taglist_buttons
