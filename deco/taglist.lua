@@ -19,8 +19,10 @@ function _M.get()
                 local screen2 = awful.screen.focused() -- left screen
                 local tag2 = __.first(screen2.selected_tags) -- 1.1
 
-                if screen1 == screen2 then
+                if screen1 == screen2  then
                     sharedtags.viewonly(tag1, screen1)
+                elseif not t.selected then
+                    sharedtags.viewonly(tag1, screen2)
                 else
                     sharedtags.viewonly(tag1, screen2)
                     sharedtags.viewonly(tag2, screen1)
