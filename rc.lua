@@ -5,7 +5,7 @@ pcall(require, "luarocks.loader")
 local gears = require("gears")
 local config_dir = gears.filesystem.get_configuration_dir()
 -- https://leafo.net/guides/customizing-the-luarocks-tree.html
-local version = _VERSION:match("%d+%.%d+")
+local version = '5.2' --_VERSION:match("%d+%.%d+")
 package.path = './?.lua;./?/init.lua;lua_modules/share/lua/' .. version .. '/?.lua;lua_modules/share/lua/' .. version .. '/?/init.lua;' .. package.path
 package.path = config_dir .. '?.lua;' .. config_dir ..'?/init.lua;' .. config_dir .. 'lua_modules/share/lua/' .. version .. '/?.lua;' .. config_dir .. 'lua_modules/share/lua/' .. version .. '/?/init.lua;' .. package.path
 package.cpath = 'lua_modules/lib/lua/' .. version .. '/?.so;' .. package.cpath

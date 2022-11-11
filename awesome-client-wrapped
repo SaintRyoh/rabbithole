@@ -1,4 +1,4 @@
-#!/nix/store/bm7jr70d9ghn5cczb3q0w90apsm05p54-bash-5.1-p8/bin/bash
+#/usr/bin/env bash
 
 # Use bash's pipefail option to get errors during failure in a command
 # pipeline.  This is useful to get notified about an error from dbus-send

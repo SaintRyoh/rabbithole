@@ -51,6 +51,55 @@ local dropdownmenu = {
     }
 }
 
+capi.screen.connect_signal("removed", function(s)
+    local all_active_workspaces = workspaces:getAllActiveWorkspaces()
+    workspaces:setStatusForAllWorkspaces(true)
+
+    -- First give other code a chance to move the tag to another screen
+    for _, t in pairs(s.tags) do
+        t:emit_signal("request::screen")
+    end
+    -- Everything that's left: Tell everyone that these tags go away (other code
+    -- could e.g. save clients)
+    for _, t in pairs(s.tags) do
+        t:emit_signal("removal-pending")
+    end
+    -- Give other code yet another change to save clients
+    for _, c in pairs(capi.client.get(s)) do
+        c:emit_signal("request::tag", nil, { reason = "screen-removed" })
+    end
+    -- Then force all clients left to go somewhere random
+    local fallback = nil
+    for other_screen in capi.screen do
+        if #other_screen.tags > 0 then
+            fallback = other_screen.tags[1]
+            break
+        end
+    end
+    for _, t in pairs(s.tags) do
+        t:delete(fallback, true)
+    end
+    -- If any tag survived until now, forcefully get rid of it
+    for _, t in pairs(s.tags) do
+        t.activated = false
+
+        if t.data.awful_tag_properties then
+            t.data.awful_tag_properties.screen = nil
+        end
+    end
+    workspaces:setStatusForAllWorkspaces(false)
+    __.forEach(all_active_workspaces, function(workspace) workspace:setStatus(true) end)
+end)
+
+
+function manual_move()
+    workspaces:setStatusForAllWorkspaces(true)
+    -- for _, t in ipairs(root.tags()) do 
+    --     sharedtags.salvage(t)
+    -- end
+    -- workspaces:switchTo(__.first(workspaces:getAllWorkspaces()))
+end
+
 function rename_workspace(workspace)
     awful.prompt.run {
         prompt       = "Rename workspace: ",
@@ -237,6 +286,10 @@ end
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
+
+awful.screen.disconnect_for_each_screen(function(s) 
+    workspaces:setStatusForAllWorkspaces(true)
+end)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
