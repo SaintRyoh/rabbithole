@@ -13,7 +13,7 @@ require("deco.titlebar")
 
 local __ = require("lodash")
 
-local workspaces = RC.workspaces
+local workspaceManagerService = RC.workspaceManagerService
 
 capi = {
     screen = screen,
@@ -51,8 +51,8 @@ capi.client.connect_signal("focus", function(c) c.border_color = beautiful.borde
 capi.client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 capi.screen.connect_signal("removed", function(s)
-    local all_active_workspaces = workspaces:getAllActiveWorkspaces()
-    workspaces:setStatusForAllWorkspaces(true)
+    local all_active_workspaces = workspaceManagerService:getAllActiveWorkspaces()
+    workspaceManagerService:setStatusForAllWorkspaces(true)
 
     -- First give other code a chance to move the tag to another screen
     for _, t in pairs(s.tags) do
@@ -87,7 +87,7 @@ capi.screen.connect_signal("removed", function(s)
         end
     end
 
-    workspaces:setStatusForAllWorkspaces(false)
+    workspaceManagerService:setStatusForAllWorkspaces(false)
     __.forEach(all_active_workspaces, function(workspace) workspace:setStatus(true) end)
 end)
 

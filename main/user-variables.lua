@@ -6,8 +6,8 @@ local home = os.getenv("HOME")
 
 local _M = {
     -- This is used later as the default terminal and editor to run.
-    terminal = "alacritty",
-    editor = os.getenv("EDITOR") or "vim",
+    terminal = os.getenv("TERM") or "qterminal",
+    editor = os.getenv("EDITOR") or "nvim",
 
     -- Default modkey.
     -- Usually, Mod4 is the key with a logo between Control and Alt.

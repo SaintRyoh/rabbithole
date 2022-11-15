@@ -55,7 +55,7 @@ end
 
 function WorkspaceManagerService:setupTags()
     for s in capi.screen do
-        self:setup_tags_on_screen(s)
+        self:setupTagsOnScreen(s)
     end
 end
 
@@ -137,15 +137,26 @@ function WorkspaceManagerService:addWorkspace()
     local workspace = self.workspaceManagerModel:createWorkspace()
     self.workspaceManagerModel:switchTo(workspace)
 
-    self:setup_tags()
+    self:setupTags()
 end
 
 function WorkspaceManagerService:switchTo(workspace)
     self.workspaceManagerModel:switchTo(workspace) 
+    if workspace:numberOfTags() < capi.screen:count() then 
+        self:setupTags()
+    end
 end
 
 function WorkspaceManagerService:getAllWorkspaces()
     return self.workspaceManagerModel:getAllWorkspaces()
+end
+
+function WorkspaceManagerService:getAllActiveWorkspaces()
+    return self.workspaceManagerModel:getAllActiveWorkspaces()
+end
+
+function WorkspaceManagerService:setStatusForAllWorkspaces(status)
+    self.workspaceManagerModel:setStatusForAllWorkspaces(status)
 end
 
 
