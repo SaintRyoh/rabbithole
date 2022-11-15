@@ -25,13 +25,13 @@ function _M.get(tagService)
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Dynamic tagging
-            awful.key({ modkey, "Shift" }, "n", function ()  tagService:add_tag_to_workspace() end,
+            awful.key({ modkey, "Shift" }, "n", function ()  tagService:addTagToWorkspace() end,
                     {description = "add new tag", group = "tag"}),
-            awful.key({ modkey, "Shift" }, "r", function () tagService:rename_current_tag() end,
+            awful.key({ modkey, "Shift" }, "r", function () tagService:renameCurrentTag() end,
                     {description = "rename tag", group = "tag"}),
-            awful.key({ modkey, "Shift" }, "Left", function () tagService:move_tag(-1) end,
+            awful.key({ modkey, "Shift" }, "Left", function () tagService:moveTag(-1) end,
                     {description = "move tag to the left", group = "tag"}),
-            awful.key({ modkey, "Shift" }, "Right", function () tagService:move_tag(1) end,
+            awful.key({ modkey, "Shift" }, "Right", function () tagService:moveTag(1) end,
                     {description = "move tag to the right", group = "tag"}),
             awful.key({ modkey, "Shift" }, "d", function () tagService.deleteTagFromWorkspace() end,
                     {description = "delete tag", group = "tag"}),

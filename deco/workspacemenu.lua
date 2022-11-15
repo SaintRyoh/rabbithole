@@ -42,19 +42,19 @@ function WorkspaceMenuController:generate_menu()
 end
 
 function WorkspaceMenuController:get_all_workspaces()
-    return self.tagService:get_all_workspaces()
+    return self.tagService:getAllWorkspaces()
 end
 
 function WorkspaceMenuController:switch_to(workspace)
-    self.tagService:switch_to(workspace)
+    self.tagService:switchTo(workspace)
 end
 
 function WorkspaceMenuController:add_workspace()
-    self.tagService:add_workspace()
+    self.tagService:addWorkspace()
     self:updateMenu()
 end
 
-function WorkspaceMenuController:remove_workspace(workspace)
+function WorkspaceMenuController:removeWorkspace(workspace)
     -- if the workspace if active don't delete it
     if workspace:getStatus() then
         naughty.notify({
@@ -64,7 +64,7 @@ function WorkspaceMenuController:remove_workspace(workspace)
         return
     end
 
-    self.tagService:remove_workspace(workspace)
+    self.tagService:removeWorkspace(workspace)
 
     -- regenerate menu
     self:updateMenu()

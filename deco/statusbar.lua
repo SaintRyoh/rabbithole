@@ -42,7 +42,7 @@ awful.screen.connect_for_each_screen(function(s)
     --     end
 
     -- tag setup
-    tagService:setup_tags_on_screen(s)
+    tagService:setupTagsOnScreen(s)
 
 
     -- Create a promptbox for each screen

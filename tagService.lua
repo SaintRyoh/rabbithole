@@ -24,7 +24,7 @@ function TagService:new()
 end
 
 
-function TagService:setup_tags_on_screen(s)
+function TagService:setupTagsOnScreen(s)
 
     local all_active_workspaces = self.workspaceManagerModel:getAllActiveWorkspaces()
     local all_tags = __.flatten(__.map(all_active_workspaces, function(workspace) return workspace:getAllTags() end))
@@ -53,7 +53,7 @@ function TagService:setup_tags_on_screen(s)
 
 end
 
-function TagService:setup_tags()
+function TagService:setupTags()
     for s in capi.screen do
         self:setup_tags_on_screen(s)
     end
@@ -63,7 +63,7 @@ end
 
 
 -- Add a new tag
-function TagService:add_tag_to_workspace(workspace)
+function TagService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
     awful.prompt.run {
         prompt       = "New tag name: ",
@@ -77,12 +77,12 @@ function TagService:add_tag_to_workspace(workspace)
     }
 end
 
-function TagService:create_tag(name, layout)
+function TagService:createTag(name, layout)
     return sharedtags.add(name, { awful.layout.layouts[2] })
 end
 
 -- Rename current tag
-function TagService:rename_current_tag()
+function TagService:renameCurrentTag()
     awful.prompt.run {
         prompt       = "Rename tag: ",
         textbox      = awful.screen.focused().mypromptbox.widget,
@@ -99,7 +99,7 @@ end
 ---- Move current tag
 ---- pos in {-1, 1} <-> {previous, next} tag position
 --- causes error if a tag doesn't have clients. idk why
-function TagService:move_tag(pos)
+function TagService:moveTag(pos)
     local tag = awful.screen.focused().selected_tag
     if tonumber(pos) <= -1 then
         tag.index = tag.index - 1
@@ -122,7 +122,7 @@ end
 
 -- }}}
 
-function TagService:remove_workspace(workspace)
+function TagService:removeWorkspace(workspace)
     -- First Delete all the tags and their clients in the workspace
     __.forEach(workspace:getAllTags(),
             function(tag)
@@ -133,18 +133,18 @@ function TagService:remove_workspace(workspace)
     self.workspaceManagerModel:deleteWorkspace(workspace)
 end
 
-function TagService:add_workspace()
+function TagService:addWorkspace()
     local workspace = self.workspaceManagerModel:createWorkspace()
     self.workspaceManagerModel:switchTo(workspace)
 
     self:setup_tags()
 end
 
-function TagService:switch_to(workspace)
+function TagService:switchTo(workspace)
     self.workspaceManagerModel:switchTo(workspace) 
 end
 
-function TagService:get_all_workspaces()
+function TagService:getAllWorkspaces()
     return self.workspaceManagerModel:getAllWorkspaces()
 end
 
