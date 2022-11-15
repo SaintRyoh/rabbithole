@@ -3,7 +3,7 @@ local naughty = require("naughty")
 local awful     = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
-local workspaceManager = require("workspaceManager")
+local workspaceManager = require("awesome-workspace-manager.workspaceManager")
 
 local capi = {
     screen = screen
