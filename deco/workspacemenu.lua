@@ -13,11 +13,11 @@ local _M = {}
 local WorkspaceMenuController = { }
 WorkspaceMenuController.__index = WorkspaceMenuController
 
-function WorkspaceMenuController:new(tagService)
+function WorkspaceMenuController:new(workspaceManagerService)
     self = {}
     setmetatable(self, WorkspaceMenuController)
 
-    self.tagService = tagService
+    self.workspaceManagerService = workspaceManagerService
     self.workspace_menu = self:generate_menu()
 
     return self
@@ -42,15 +42,15 @@ function WorkspaceMenuController:generate_menu()
 end
 
 function WorkspaceMenuController:get_all_workspaces()
-    return self.tagService:getAllWorkspaces()
+    return self.workspaceManagerService:getAllWorkspaces()
 end
 
 function WorkspaceMenuController:switch_to(workspace)
-    self.tagService:switchTo(workspace)
+    self.workspaceManagerService:switchTo(workspace)
 end
 
 function WorkspaceMenuController:add_workspace()
-    self.tagService:addWorkspace()
+    self.workspaceManagerService:addWorkspace()
     self:updateMenu()
 end
 
@@ -64,7 +64,7 @@ function WorkspaceMenuController:removeWorkspace(workspace)
         return
     end
 
-    self.tagService:removeWorkspace(workspace)
+    self.workspaceManagerService:removeWorkspace(workspace)
 
     -- regenerate menu
     self:updateMenu()
@@ -92,8 +92,8 @@ function WorkspaceMenuController:rename_workspace(workspace)
     }
 end
 
-function _M.get(tagService)
-    local wmc = WorkspaceMenuController:new(tagService)
+function _M.get(workspaceManagerService)
+    local wmc = WorkspaceMenuController:new(workspaceManagerService)
 
     -- {{{ workspace dropdownmenu
     local workspace_menu_view = {
@@ -116,4 +116,4 @@ end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-return setmetatable({}, { __call = function(_, tagService) return _M.get(tagService) end })
+return setmetatable({}, { __call = function(_, workspaceManagerService) return _M.get(workspaceManagerService) end })

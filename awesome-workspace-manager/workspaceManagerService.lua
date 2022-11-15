@@ -3,18 +3,18 @@ local naughty = require("naughty")
 local awful     = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
-local workspaceManager = require("awesome-workspace-manager")
+local workspaceManager = require("workspaceManager")
 
 local capi = {
     screen = screen
 }
 
-local TagService = { }
-TagService.__index = TagService
+local WorkspaceManagerService = { }
+WorkspaceManagerService.__index = WorkspaceManagerService
 
-function TagService:new()
+function WorkspaceManagerService:new()
     self = {}
-    setmetatable(self, TagService)
+    setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel  = workspaceManager:new()
     local workspace = self.workspaceManagerModel:createWorkspace()
@@ -24,7 +24,7 @@ function TagService:new()
 end
 
 
-function TagService:setupTagsOnScreen(s)
+function WorkspaceManagerService:setupTagsOnScreen(s)
 
     local all_active_workspaces = self.workspaceManagerModel:getAllActiveWorkspaces()
     local all_tags = __.flatten(__.map(all_active_workspaces, function(workspace) return workspace:getAllTags() end))
@@ -53,7 +53,7 @@ function TagService:setupTagsOnScreen(s)
 
 end
 
-function TagService:setupTags()
+function WorkspaceManagerService:setupTags()
     for s in capi.screen do
         self:setup_tags_on_screen(s)
     end
@@ -63,7 +63,7 @@ end
 
 
 -- Add a new tag
-function TagService:addTagToWorkspace(workspace)
+function WorkspaceManagerService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
     awful.prompt.run {
         prompt       = "New tag name: ",
@@ -77,12 +77,12 @@ function TagService:addTagToWorkspace(workspace)
     }
 end
 
-function TagService:createTag(name, layout)
+function WorkspaceManagerService:createTag(name, layout)
     return sharedtags.add(name, { awful.layout.layouts[2] })
 end
 
 -- Rename current tag
-function TagService:renameCurrentTag()
+function WorkspaceManagerService:renameCurrentTag()
     awful.prompt.run {
         prompt       = "Rename tag: ",
         textbox      = awful.screen.focused().mypromptbox.widget,
@@ -99,7 +99,7 @@ end
 ---- Move current tag
 ---- pos in {-1, 1} <-> {previous, next} tag position
 --- causes error if a tag doesn't have clients. idk why
-function TagService:moveTag(pos)
+function WorkspaceManagerService:moveTag(pos)
     local tag = awful.screen.focused().selected_tag
     if tonumber(pos) <= -1 then
         tag.index = tag.index - 1
@@ -112,7 +112,7 @@ end
 
 -- Delete current tag
 -- Any rule set on the tag shall be broken
-function TagService:deleteTagFromWorkspace(workspace)
+function WorkspaceManagerService:deleteTagFromWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
     local t = awful.screen.focused().selected_tag
     if not t then return end
@@ -122,7 +122,7 @@ end
 
 -- }}}
 
-function TagService:removeWorkspace(workspace)
+function WorkspaceManagerService:removeWorkspace(workspace)
     -- First Delete all the tags and their clients in the workspace
     __.forEach(workspace:getAllTags(),
             function(tag)
@@ -133,18 +133,18 @@ function TagService:removeWorkspace(workspace)
     self.workspaceManagerModel:deleteWorkspace(workspace)
 end
 
-function TagService:addWorkspace()
+function WorkspaceManagerService:addWorkspace()
     local workspace = self.workspaceManagerModel:createWorkspace()
     self.workspaceManagerModel:switchTo(workspace)
 
     self:setup_tags()
 end
 
-function TagService:switchTo(workspace)
+function WorkspaceManagerService:switchTo(workspace)
     self.workspaceManagerModel:switchTo(workspace) 
 end
 
-function TagService:getAllWorkspaces()
+function WorkspaceManagerService:getAllWorkspaces()
     return self.workspaceManagerModel:getAllWorkspaces()
 end
 
@@ -154,7 +154,7 @@ local _M = {}
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function _M.get()
-    return TagService:new()
+    return WorkspaceManagerService:new()
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --

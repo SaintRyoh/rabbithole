@@ -16,7 +16,7 @@ local surface = require("gears.surface")
 local gcolor = require("gears.color")
 local gstring = require("gears.string")
 
-local tagService = RC.tagService
+local workspaceManagerService = RC.workspaceManagerService
 
 -- Custom Local Library: Common Functional Decoration
 local deco = {
@@ -28,7 +28,7 @@ local deco = {
 
 local taglist_buttons  = deco.taglist()
 local tasklist_buttons = deco.tasklist()
-local workspaceMenu = deco.workspaceMenu(tagService)
+local workspaceMenu = deco.workspaceMenu(workspaceManagerService)
 
 local __ = require("lodash")
 
@@ -42,7 +42,7 @@ awful.screen.connect_for_each_screen(function(s)
     --     end
 
     -- tag setup
-    tagService:setupTagsOnScreen(s)
+    workspaceManagerService:setupTagsOnScreen(s)
 
 
     -- Create a promptbox for each screen

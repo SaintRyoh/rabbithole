@@ -66,10 +66,10 @@ local binding = {
 }
 
 local services = {
-    tagService = require("tagService")
+    workspaceManagerService = require("awesome-workspace-manager")
 }
 
-RC.tagService = services.tagService()
+RC.workspaceManagerService = services.workspaceManagerService()
 
 -- {{{ Layouts
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -106,7 +106,7 @@ menubar.utils.terminal = RC.vars.terminal
 -- }}}
 
 -- {{{ Mouse and Key bindings
-RC.globalkeys = binding.globalkeys(RC.tagService)
+RC.globalkeys = binding.globalkeys(RC.workspaceManagerService)
 RC.globalkeys = binding.bindtotags(RC.globalkeys)
 
 -- Set root

@@ -18,22 +18,22 @@ local _M = {}
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-function _M.get(tagService)
+function _M.get(workspaceManagerService)
     local globalkeys = gears.table.join(
             awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
                     {description="show help", group="awesome"}),
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Dynamic tagging
-            awful.key({ modkey, "Shift" }, "n", function ()  tagService:addTagToWorkspace() end,
+            awful.key({ modkey, "Shift" }, "n", function ()  workspaceManagerService:addTagToWorkspace() end,
                     {description = "add new tag", group = "tag"}),
-            awful.key({ modkey, "Shift" }, "r", function () tagService:renameCurrentTag() end,
+            awful.key({ modkey, "Shift" }, "r", function () workspaceManagerService:renameCurrentTag() end,
                     {description = "rename tag", group = "tag"}),
-            awful.key({ modkey, "Shift" }, "Left", function () tagService:moveTag(-1) end,
+            awful.key({ modkey, "Shift" }, "Left", function () workspaceManagerService:moveTag(-1) end,
                     {description = "move tag to the left", group = "tag"}),
-            awful.key({ modkey, "Shift" }, "Right", function () tagService:moveTag(1) end,
+            awful.key({ modkey, "Shift" }, "Right", function () workspaceManagerService:moveTag(1) end,
                     {description = "move tag to the right", group = "tag"}),
-            awful.key({ modkey, "Shift" }, "d", function () tagService.deleteTagFromWorkspace() end,
+            awful.key({ modkey, "Shift" }, "d", function () workspaceManagerService.deleteTagFromWorkspace() end,
                     {description = "delete tag", group = "tag"}),
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -172,4 +172,4 @@ end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-return setmetatable({}, { __call = function(_, tagService) return _M.get(tagService) end })
+return setmetatable({}, { __call = function(_, workspaceManagerService) return _M.get(workspaceManagerService) end })
