@@ -12,10 +12,14 @@ local beautiful = require("beautiful")
 require("deco.titlebar")
 
 local __ = require("lodash")
-local sharedtags = require("awesome-sharedtags")
 
 local workspaces = RC.workspaces
-local naughty = require("naughty")
+
+capi = {
+    screen = screen,
+    client = client,
+    awesome = awesome
+}
 
 -- reading
 -- https://awesomewm.org/apidoc/classes/signals.html
@@ -24,12 +28,12 @@ local naughty = require("naughty")
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
-client.connect_signal("manage", function (c)
+capi.client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
     -- if not awesome.startup then awful.client.setslave(c) end
 
-    if awesome.startup
+    if capi.awesome.startup
             and not c.size_hints.user_position
             and not c.size_hints.program_position then
         -- Prevent clients from being unreachable after screen count changes.
@@ -38,29 +42,53 @@ client.connect_signal("manage", function (c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
+capi.client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+capi.client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+capi.client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
-screen.connect_signal("added", function(s)
-    naughty.notify({
-        title="SIGNAL ADDED",
-        text="screen index: " .. s.index,
-        timeout=0
-    })
+capi.screen.connect_signal("removed", function(s)
+    local all_active_workspaces = workspaces:getAllActiveWorkspaces()
+    workspaces:setStatusForAllWorkspaces(true)
+
+    -- First give other code a chance to move the tag to another screen
+    for _, t in pairs(s.tags) do
+        t:emit_signal("request::screen")
+    end
+    -- Everything that's left: Tell everyone that these tags go away (other code
+    -- could e.g. save clients)
+    for _, t in pairs(s.tags) do
+        t:emit_signal("removal-pending")
+    end
+    -- Give other code yet another change to save clients
+    for _, c in pairs(capi.client.get(s)) do
+        c:emit_signal("request::tag", nil, { reason = "screen-removed" })
+    end
+    -- Then force all clients left to go somewhere random
+    local fallback = nil
+    for other_screen in capi.screen do
+        if #other_screen.tags > 0 then
+            fallback = other_screen.tags[1]
+            break
+        end
+    end
+    for _, t in pairs(s.tags) do
+        t:delete(fallback, true)
+    end
+    -- If any tag survived until now, forcefully get rid of it
+    for _, t in pairs(s.tags) do
+        t.activated = false
+
+        if t.data.awful_tag_properties then
+            t.data.awful_tag_properties.screen = nil
+        end
+    end
+
+    workspaces:setStatusForAllWorkspaces(false)
+    __.forEach(all_active_workspaces, function(workspace) workspace:setStatus(true) end)
 end)
 
-awesome.connect_signal("startup", function(a)
-    naughty.notify({
-        title="FIRST STARTUP",
-        text=string.format("screen count: %d ", screen.count()),
-        timeout=0
-    })
-
-
-end)
 -- }}}

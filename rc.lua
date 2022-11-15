@@ -52,7 +52,6 @@ editor_cmd = RC.vars.terminal .. " -e " .. RC.vars.editor
 -- Custom Local Library
 local main = {
     layouts = require("main.layouts"),
-    workspaces    = require("main.workspaces"),
     menu    = require("main.menu"),
     rules   = require("main.rules"),
 }
@@ -66,6 +65,12 @@ local binding = {
     clientkeys    = require("binding.clientkeys")
 }
 
+local services = {
+    tagService = require("tagService")
+}
+
+RC.tagService = services.tagService()
+
 -- {{{ Layouts
 -- Table of layouts to cover with awful.layout.inc, order matters.
 -- a variable needed in main.tags, and statusbar
@@ -77,7 +82,6 @@ RC.layouts = main.layouts()
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 -- a variable needed in rules, tasklist, and globalkeys
-RC.workspaces = main.workspaces()
 -- }}}
 
 -- {{{ Menu
@@ -102,7 +106,7 @@ menubar.utils.terminal = RC.vars.terminal
 -- }}}
 
 -- {{{ Mouse and Key bindings
-RC.globalkeys = binding.globalkeys()
+RC.globalkeys = binding.globalkeys(RC.tagService)
 RC.globalkeys = binding.bindtotags(RC.globalkeys)
 
 -- Set root
