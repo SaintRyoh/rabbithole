@@ -123,7 +123,7 @@ function _M.get(workspaceManagerService)
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Prompt
-            awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+            awful.key({ modkey },            "r",     function () os.execute("lxqt-runner") end,
                     {description = "run prompt", group = "launcher"}),
 
             awful.key({ modkey }, "x",
