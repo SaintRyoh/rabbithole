@@ -32,7 +32,7 @@ function WorkspaceMenuController:generate_menu()
                         {
                             { "switch", function() self:switch_to(workspace) end},
                             { "rename", function() self:rename_workspace(workspace) end},
-                            { "remove", function()  self:remove_workspace(workspace) end}
+                            { "remove", function()  self:removeWorkspace(workspace) end}
                         }
                     }
                 end))
