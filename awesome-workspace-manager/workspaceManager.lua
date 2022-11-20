@@ -47,6 +47,11 @@ function workspaceManager:getAllActiveWorkspaces()
             function(workspace) return workspace:getStatus()  end)
 end
 
+function workspaceManager:getAllUnactiveWorkspaces()
+    return lodash.filter(self:getAllWorkspaces(),
+            function(workspace) return not workspace:getStatus()  end)
+end
+
 function workspaceManager:getWorkspaceByIndex(index)
     return self.workspaces[index]
 end

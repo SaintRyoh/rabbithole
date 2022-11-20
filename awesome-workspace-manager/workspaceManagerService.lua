@@ -6,7 +6,9 @@ local __ = require("lodash")
 local workspaceManager = require("awesome-workspace-manager.workspaceManager")
 
 local capi = {
-    screen = screen
+    screen = screen,
+    client = client,
+    awesome = awesome
 }
 
 local WorkspaceManagerService = { }
@@ -19,6 +21,18 @@ function WorkspaceManagerService:new()
     self.workspaceManagerModel  = workspaceManager:new()
     local workspace = self.workspaceManagerModel:createWorkspace()
     self.workspaceManagerModel:switchTo(workspace)
+
+    self.pauseState = {
+        activeWorkspaces = nil
+    }
+
+    self.unpauseServiceHelper = function ()
+        self:unpauseService()
+    end
+
+    capi.screen.connect_signal("removed", function (s)
+        self:screenDisconnectUpdate(s)
+    end)
 
     return self
 end
@@ -142,9 +156,9 @@ end
 
 function WorkspaceManagerService:switchTo(workspace)
     self.workspaceManagerModel:switchTo(workspace) 
-    if workspace:numberOfTags() < capi.screen:count() then 
+    -- if workspace:numberOfTags() < capi.screen:count() then 
         self:setupTags()
-    end
+    -- end
 end
 
 function WorkspaceManagerService:getAllWorkspaces()
@@ -155,10 +169,71 @@ function WorkspaceManagerService:getAllActiveWorkspaces()
     return self.workspaceManagerModel:getAllActiveWorkspaces()
 end
 
+function WorkspaceManagerService:getAllUnactiveWorkspaces()
+    return self.workspaceManagerModel:getAllUnactiveWorkspaces()
+end
+
 function WorkspaceManagerService:setStatusForAllWorkspaces(status)
     self.workspaceManagerModel:setStatusForAllWorkspaces(status)
 end
 
+function WorkspaceManagerService:pauseService()
+    self.pauseState.activeWorkspaces = self:getAllActiveWorkspaces()
+
+    self:setStatusForAllWorkspaces(true)
+end
+
+function WorkspaceManagerService:unpauseService()
+    if not __.get(self.pauseState, {"activeWorkspaces"}) then
+        return
+    end
+    self:setStatusForAllWorkspaces(false)
+    __.forEach(self.pauseState.activeWorkspaces, function(workspace) workspace:setStatus(true) end)
+    self.pauseState.activeWorkspaces = nil
+    capi.awesome.disconnect_signal("refresh", self.unpauseServiceHelper)
+end
+
+function WorkspaceManagerService:screenDisconnectUpdate(s)
+
+    self:pauseService()
+
+    -- First give other code a chance to move the tag to another screen
+    for _, t in pairs(s.tags) do
+        t:emit_signal("request::screen")
+    end
+    -- Everything that's left: Tell everyone that these tags go away (other code
+    -- could e.g. save clients)
+    for _, t in pairs(s.tags) do
+        t:emit_signal("removal-pending")
+    end
+    -- Give other code yet another change to save clients
+    for _, c in pairs(capi.client.get(s)) do
+        c:emit_signal("request::tag", nil, { reason = "screen-removed" })
+    end
+    -- Then force all clients left to go somewhere random
+    local fallback = nil
+    for other_screen in capi.screen do
+        if #other_screen.tags > 0 then
+            fallback = other_screen.tags[1]
+            break
+        end
+    end
+    for _, t in pairs(s.tags) do
+        t:delete(fallback, true)
+    end
+    -- If any tag survived until now, forcefully get rid of it
+    for _, t in pairs(s.tags) do
+        t.activated = false
+
+        if t.data.awful_tag_properties then
+            t.data.awful_tag_properties.screen = nil
+        end
+    end
+
+    -- let all the other events play out the unpause service
+    capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
+
+end
 
 local _M = {}
 
