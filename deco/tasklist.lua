@@ -1,6 +1,8 @@
 -- {{{ Required libraries
 local gears = require("gears")
 local awful = require("awful")
+local tasklistmenu = require("deco.tasklistmenu")
+local workspaceManagerService = RC.workspaceManagerService
 -- }}}
 
 local _M = {}
@@ -8,6 +10,8 @@ local _M = {}
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function _M.get()
+    local tasklistmenu = tasklistmenu(workspaceManagerService)
+
     local tasklist_buttons = gears.table.join(
             awful.button({ }, 1, function (c)
                 if c == client.focus then
@@ -20,8 +24,9 @@ function _M.get()
                     )
                 end
             end),
-            awful.button({ }, 3, function()
-                awful.menu.client_list({ theme = { width = 250 } })
+            awful.button({ }, 3, function(c)
+                tasklistmenu:updateMenu(c)
+                tasklistmenu.tasklist_menu:toggle()
             end),
             awful.button({ }, 4, function ()
                 awful.client.focus.byidx(1)
