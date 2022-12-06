@@ -166,6 +166,17 @@ function WorkspaceManagerService:switchTo(workspace)
     end
 end
 
+function WorkspaceManagerService:moveTagToWorkspace(tag, workspace)
+    self:getWorkspaceByTag(tag):removeTag(tag)
+    workspace:addTag(tag)
+end
+
+function WorkspaceManagerService:getWorkspaceByTag(tag)
+    return __.first(__.filter(self:getAllWorkspaces(), function (workspace)
+        return __.includes(workspace:getAllTags(), tag)
+    end))
+end
+
 function WorkspaceManagerService:getAllWorkspaces()
     return self.workspaceManagerModel:getAllWorkspaces()
 end

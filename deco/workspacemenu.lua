@@ -3,6 +3,7 @@ local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 local __ = require("lodash")
+local naughty = require("naughty")
 -- }}}
 
 local _M = {}
