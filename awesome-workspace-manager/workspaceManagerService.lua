@@ -47,13 +47,13 @@ function WorkspaceManagerService:setupTagsOnScreen(s)
 
     local tag = __.first(unselected_tags)
 
-    if tag then
-        naughty.notify({
-        title="setup tags",
-        text="recycling tag:" .. tag.name,
-        timeout=0
-        })
-    end
+    -- if tag then
+    --     naughty.notify({
+    --     title="setup tags",
+    --     text="recycling tag:" .. tag.name,
+    --     timeout=0
+    --     })
+    -- end
 
     -- if not, then make one
     if not tag then
@@ -127,7 +127,7 @@ end
 -- Delete current tag
 -- Any rule set on the tag shall be broken
 function WorkspaceManagerService:deleteTagFromWorkspace(workspace)
-    local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
+    local workspace = workspace or __.last(self:getAllActiveWorkspaces())
     local t = awful.screen.focused().selected_tag
     if not t then return end
     workspace:removeTag(t)

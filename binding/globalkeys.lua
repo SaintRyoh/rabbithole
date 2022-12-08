@@ -33,7 +33,7 @@ function _M.get(workspaceManagerService)
                     {description = "move tag to the left", group = "tag"}),
             awful.key({ modkey, "Shift" }, "Right", function () workspaceManagerService:moveTag(1) end,
                     {description = "move tag to the right", group = "tag"}),
-            awful.key({ modkey, "Shift" }, "d", function () workspaceManagerService.deleteTagFromWorkspace() end,
+            awful.key({ modkey, "Shift" }, "d", function () workspaceManagerService:deleteTagFromWorkspace() end,
                     {description = "delete tag", group = "tag"}),
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
