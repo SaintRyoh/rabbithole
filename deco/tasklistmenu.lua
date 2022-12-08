@@ -35,6 +35,11 @@ function TasklistMenuController:generate_menu(c)
             }
         end)
     })
+    menu:add({"move to global tag", 
+        __.map(self.workspaceManagerService:getGlobalWorkspace():getAllTags(), function(tag)
+            return { tag.name, function () c:move_to_tag(tag) end }
+        end)
+    })
 
     return menu
 end
