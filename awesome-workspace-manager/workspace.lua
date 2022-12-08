@@ -34,6 +34,12 @@ function workspace:removeAllTagsInWorkspace()
     self.tags = {}
 end
 
+function workspace:unselectedAllTags()
+    __.forEach(self.tags, function (tag)
+        tag.selected = false
+    end)
+end
+
 function workspace:numberOfTags()
     return #self.tags
 end

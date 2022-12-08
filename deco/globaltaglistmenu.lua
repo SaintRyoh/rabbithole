@@ -10,12 +10,12 @@ local _M = {}
 
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-local TaglistMenuController = { }
-TaglistMenuController.__index = TaglistMenuController
+local GlobalTaglistMenuController = { }
+GlobalTaglistMenuController.__index = GlobalTaglistMenuController
 
-function TaglistMenuController:new(workspaceManagerService)
+function GlobalTaglistMenuController:new(workspaceManagerService)
     self = {}
-    setmetatable(self, TaglistMenuController)
+    setmetatable(self, GlobalTaglistMenuController)
 
     self.workspaceManagerService = workspaceManagerService
     self.taglist_menu = self:generate_menu()
@@ -23,34 +23,28 @@ function TaglistMenuController:new(workspaceManagerService)
     return self
 end
 
-function TaglistMenuController:generate_menu(t)
+function GlobalTaglistMenuController:generate_menu(t)
     local menu = awful.menu({ })
-    menu:add({"move to workspace", 
+    menu:add({"Send to workspace", 
         __.map(self:get_all_workspaces(), function(workspace, index)
             return {
                 workspace.name or ("workspace: " .. index),
                 function ()
-                    self.workspaceManagerService:moveTagToWorkspace(t, workspace)
+                    self.workspaceManagerService:moveGlobalTagToWorkspace(t, workspace)
                 end
             }
         end)
-    })
-    menu:add({
-        "Send to Global Workspace",
-        function ()
-            self.workspaceManagerService:moveTagToGlobalWorkspace(t)
-        end
     })
 
     return menu
 end
 
-function TaglistMenuController:get_all_workspaces()
+function GlobalTaglistMenuController:get_all_workspaces()
     return self.workspaceManagerService:getAllWorkspaces()
 end
 
 
-function TaglistMenuController:updateMenu(t)
+function GlobalTaglistMenuController:updateMenu(t)
     self.taglist_menu:hide()
     self.taglist_menu = self:generate_menu(t)
 end
@@ -58,7 +52,7 @@ end
 
 
 function _M.get(workspaceManagerService)
-    local wmc = TaglistMenuController:new(workspaceManagerService)
+    local wmc = GlobalTaglistMenuController:new(workspaceManagerService)
 
     return wmc
 

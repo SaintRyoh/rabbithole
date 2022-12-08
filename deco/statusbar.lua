@@ -26,7 +26,8 @@ local deco = {
     workspaceMenu = require("deco.workspacemenu")
 }
 
-local taglist_buttons  = deco.taglist()
+local taglist_buttons  = deco.taglist(require("deco.taglistmenu"))
+local globaltaglist_buttons = deco.taglist(require("deco.globaltaglistmenu"))
 local tasklist_buttons = deco.tasklist()
 local workspaceMenu = deco.workspaceMenu(workspaceManagerService)
 
@@ -57,6 +58,15 @@ awful.screen.connect_for_each_screen(function(s)
             awful.button({ }, 4, function () awful.layout.inc( 1) end),
             awful.button({ }, 5, function () awful.layout.inc(-1) end)
     ))
+
+    s.my_global_workspace_taglist = awful.widget.taglist {
+        screen = s,
+        filter  = awful.widget.taglist.filter.all,
+        source  = function ()
+            return workspaceManagerService:getAllGlobalTags()
+        end,
+        buttons = globaltaglist_buttons
+    }
 
 
      s.mytaglist = awful.widget.taglist {
@@ -130,7 +140,7 @@ awful.screen.connect_for_each_screen(function(s)
          --    end,
          --},
          buttons = taglist_buttons,
-         source = function() return root.tags() end,
+         source = function() return workspaceManagerService:getAllActiveTags() end,
          update_function = function(w, buttons, label, data, objects, args)
              local taglist_label = function(t, args)
                  if not args then args = {} end
@@ -323,6 +333,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             RC.launcher,
             workspaceMenu,
+            s.my_global_workspace_taglist,
             s.mytaglist,
             s.mypromptbox
         },

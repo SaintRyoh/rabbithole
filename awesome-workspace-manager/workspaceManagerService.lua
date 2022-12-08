@@ -169,6 +169,39 @@ end
 function WorkspaceManagerService:moveTagToWorkspace(tag, workspace)
     self:getWorkspaceByTag(tag):removeTag(tag)
     workspace:addTag(tag)
+    -- simple way to update the tag list
+    self:refresh()
+end
+
+function WorkspaceManagerService:getAllTags()
+    return __.flatten(__.map(self:getAllWorkspaces(), function (workspace)
+        return workspace:getAllTags()
+    end))
+end
+
+function WorkspaceManagerService:getAllActiveTags()
+    return __.flatten(__.map(self:getAllActiveWorkspaces(), function (workspace)
+        return workspace:getAllTags()
+    end))
+end
+
+function WorkspaceManagerService:moveGlobalTagToWorkspace(tag, workspace)
+    self:getGlobalWorkspace():removeTag(tag)
+    workspace:addTag(tag)
+    -- simple way to update the tag list
+    self:refresh()
+end
+
+function WorkspaceManagerService:moveTagToGlobalWorkspace(tag)
+    self:getWorkspaceByTag(tag):removeTag(tag)
+    self:getGlobalWorkspace():addTag(tag)
+    -- simple way to update the tag list
+    self:refresh()
+end
+
+function WorkspaceManagerService:refresh()
+    self:switchTo(__.first(self:getAllActiveWorkspaces()))
+
 end
 
 function WorkspaceManagerService:getWorkspaceByTag(tag)
@@ -187,6 +220,19 @@ end
 
 function WorkspaceManagerService:getAllUnactiveWorkspaces()
     return self.workspaceManagerModel:getAllUnactiveWorkspaces()
+end
+
+function WorkspaceManagerService:getGlobalWorkspace()
+    return self.workspaceManagerModel.global_workspace
+end
+
+function WorkspaceManagerService:tagIsGlobal(tag)
+
+    return __.includes(self:getAllGlobalTags(), tag)
+end
+
+function WorkspaceManagerService:getAllGlobalTags()
+    return self:getGlobalWorkspace():getAllTags()
 end
 
 function WorkspaceManagerService:setStatusForAllWorkspaces(status)

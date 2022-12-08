@@ -20,6 +20,8 @@ function workspaceManager:new()
 
     self.workspaces = {}
 
+    self.global_workspace = workspace:new('Global')
+
     return self
 end
 
@@ -70,6 +72,7 @@ end
 
 function workspaceManager:switchTo(workspace)
     self:setStatusForAllWorkspaces(false)
+    self.global_workspace:unselectedAllTags()
     workspace:setStatus(true)
 end
 

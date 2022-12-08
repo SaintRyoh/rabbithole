@@ -3,7 +3,6 @@ local gears = require("gears")
 local awful = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
-local taglistmenu = require("deco.taglistmenu")
 local workspaceManagerService = RC.workspaceManagerService
 -- }}}
 
@@ -11,8 +10,8 @@ local _M = {}
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-function _M.get()
-    local taglistmenu = taglistmenu(workspaceManagerService)
+function _M.get(_taglistmenu)
+    local taglistmenu = _taglistmenu(workspaceManagerService)
     -- Create a wibox for each screen and add it
     local taglist_buttons = gears.table.join(
             awful.button({ }, 1, function(t) -- clicked tag
@@ -56,4 +55,4 @@ end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-return setmetatable({}, { __call = function(_, ...) return _M.get(...) end })
+return setmetatable({}, { __call = function(_, taglistmenu) return _M.get(taglistmenu) end })
