@@ -1,0 +1,10 @@
+rock_manifest = {
+   lua = {
+      ["serpent.lua"] = "79849225fd441640cd4925dcb0bfa29d"
+   },
+   ["serpent-0.30-2.rockspec"] = "3f7060d841b3ba842339b7f42c28d134",
+   t = {
+      ["bench.lua"] = "984bad04943bf4863e11d8230ecebf57",
+      ["test.lua"] = "0ecfa987771309c4b27a6c4a9872db9c"
+   }
+}
