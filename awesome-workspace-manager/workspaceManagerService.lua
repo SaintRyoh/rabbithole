@@ -6,6 +6,7 @@ local __ = require("lodash")
 local workspaceManager = require("awesome-workspace-manager.workspaceManager")
 local serpent = require("serpent")
 local gears = require("gears")
+local exe = require("awesome-executable-service")
 
 local capi = {
     screen = screen,
@@ -28,8 +29,7 @@ function WorkspaceManagerService:new()
         file:close()
         self:loadSession()
     else
-        local workspace = self.workspaceManagerModel:createWorkspace()
-        self.workspaceManagerModel:switchTo(workspace)
+        self:newSession()
     end
     self.pauseState = {
         activeWorkspaces = nil
@@ -45,6 +45,13 @@ function WorkspaceManagerService:new()
 
 
     return self
+end
+
+function WorkspaceManagerService:newSession()
+    self.workspaceManagerModel:deleteAllWorkspaces()
+    local workspace = self.workspaceManagerModel:createWorkspace()
+    self.workspaceManagerModel:switchTo(workspace)
+    self:saveSession()
 end
 
 function WorkspaceManagerService:saveSession()
@@ -84,11 +91,11 @@ function WorkspaceManagerService:loadSession()
         return
     end
     -- notify how many workspaces were loaded
-    naughty.notify({
-        title="Loaded session",
-        text="Loaded " .. #loadedModel.workspaces .. " workspaces",
-        timeout=5
-    })
+    -- naughty.notify({
+    --     title="Loaded session",
+    --     text="Loaded " .. #loadedModel.workspaces .. " workspaces",
+    --     timeout=5
+    -- })
     -- serpent dump notify
     naughty.notify({
         title="Loaded session",
@@ -96,17 +103,58 @@ function WorkspaceManagerService:loadSession()
         timeout=0
     })
     __.forEach(loadedModel.workspaces, function(workspace_model)
-        local workspace = self.workspaceManagerModel:createWorkspace(workspace_model.name)
-        __.forEach(workspace_model.tags, function(tag)
-            tag = self:createTag(tag.name, tag.layout)
-            tag.selected = tag.selected or false
-            tag.activated = tag.activated or false
-            tag.hidden = tag.hidden or false
-            tag.index = tag.index or 1
-            workspace:addTag(tag)
-        end)
+        self:restoreWorkspace(workspace_model)
     end)
-    self:switchTo(__.first(self.workspaceManagerModel:getAllWorkspaces()))
+    self.workspaceManagerModel:switchTo(__.first(self.workspaceManagerModel:getAllWorkspaces()))
+end
+
+function WorkspaceManagerService:restoreWorkspace(workspace_model)
+    local workspace = self.workspaceManagerModel:createWorkspace(workspace_model.name)
+    self:restoreTagsForWorkspace(workspace, workspace_model)
+end
+
+function WorkspaceManagerService:restoreTagsForWorkspace(workspace, workspace_model)
+    __.forEach(workspace_model.tags, function(tag)
+        tag = self:createTag(tag.name, tag.layout)
+        tag.selected = tag.selected or false
+        tag.activated = tag.activated or false
+        tag.hidden = tag.hidden or false
+        tag.index = tag.index or 1
+        workspace:addTag(tag)
+    end)
+end
+
+-- check if client is already running, if so, then move it to the new tag
+-- otherwise, spawn it
+function WorkspaceManagerService:restoreClientsForTag(tag, workspace_model)
+    __.forEach(workspace_model.clients, function(client)
+        local c = __.find(capi.client.get(), function(c) return c.class == client.class end)
+        if c then
+            c:move_to_tag(tag)
+        else
+            -- try spawning with client.class (with invalid characters removed), if that fails, then try with client.exe 
+            -- if it fails, then notify the user
+            -- if it launches successfully, move it to the tag
+
+            local class = client.class:gsub("[^%w]", "")
+            local success, err = exe:spawn(class, {tag = tag})
+            if not success then
+                success, err = exe:spawn(client.exe, {tag = tag})
+                if not success then
+                    naughty.notify({
+                        title="Error restoring client",
+                        text=err,
+                        timeout=0
+                    })
+                end
+            end
+
+            if success then
+                c:move_to_tag(tag)
+            end
+        end
+    end)
+    
 end
 
 function WorkspaceManagerService:setupTagsOnScreen(s)

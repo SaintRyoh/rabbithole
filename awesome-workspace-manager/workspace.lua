@@ -1,5 +1,6 @@
 local lodash = require("lodash")
 local gears = require("gears")
+local exe = require("awesome-executable-service")
 
 local workspace = { }
 workspace.__index = workspace
@@ -85,7 +86,9 @@ function workspace:__serialize()
             activated = tag.activated,
             -- clients = self.tag:clients()
             clients = lodash.map(tag:clients(), function(client) return {
-                name = client.name 
+                name = string.lower(client.name),
+                class = string.lower(client.class),
+                exe = exe.getExecutableNameByPid(client.pid)
             } 
         end)
         } 
