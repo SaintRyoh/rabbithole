@@ -77,4 +77,25 @@ function workspace:equals(otherWorkspace)
     return self.id == otherWorkspace.id
 end
 
+function workspace:__serialize()
+    local tags = lodash.map(self.tags, function(tag) return {
+            name = tag.name,
+            selected = tag.selected,
+            layout = tag.layout,
+            activated = tag.activated,
+            -- clients = self.tag:clients()
+            clients = lodash.map(tag:clients(), function(client) return {
+                name = client.name 
+            } 
+        end)
+        } 
+    end)
+    return {
+        name = self.name,
+        tags = tags,
+        id = self.id,
+        last_selected_tags = self.last_selected_tags
+    }
+end
+
 return workspace

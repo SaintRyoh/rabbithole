@@ -4,6 +4,8 @@ local awful     = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
 local workspaceManager = require("awesome-workspace-manager.workspaceManager")
+local serpent = require("serpent")
+local gears = require("gears")
 
 local capi = {
     screen = screen,
@@ -34,9 +36,24 @@ function WorkspaceManagerService:new()
         self:screenDisconnectUpdate(s)
     end)
 
+    self.path = gears.filesystem.get_configuration_dir() .. "/awesome-workspace-manager/session.lua"
+
     return self
 end
 
+function WorkspaceManagerService:saveSession()
+    local file,err = io.open(self.path, "w")
+    if not file then
+        naughty.notify({
+        title="Error saving session",
+        text=err,
+        timeout=0
+        })
+       return
+    end
+    file:write(serpent.block(self.workspaceManagerModel,{comment = false}))
+    file:close()
+end
 
 function WorkspaceManagerService:setupTagsOnScreen(s)
 

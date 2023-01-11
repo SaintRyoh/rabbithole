@@ -76,4 +76,12 @@ function workspaceManager:switchTo(workspace)
     workspace:setStatus(true)
 end
 
+-- create a __serialize method to allow for serialization
+function workspaceManager:__serialize()
+    return {
+        workspaces = self.workspaces,
+        global_workspace = self.global_workspace
+    }
+end
+
 return workspaceManager
