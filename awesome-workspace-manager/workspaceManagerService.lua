@@ -20,10 +20,17 @@ function WorkspaceManagerService:new()
     self = {}
     setmetatable(self, WorkspaceManagerService)
 
-    self.workspaceManagerModel  = workspaceManager:new()
-    local workspace = self.workspaceManagerModel:createWorkspace()
-    self.workspaceManagerModel:switchTo(workspace)
-
+    self.workspaceManagerModel = workspaceManager:new()
+    self.path = gears.filesystem.get_configuration_dir() .. "/awesome-workspace-manager/session.lua"
+    -- check if session file exists
+    local file = io.open(self.path, "r")
+    if file then
+        file:close()
+        self:loadSession()
+    else
+        local workspace = self.workspaceManagerModel:createWorkspace()
+        self.workspaceManagerModel:switchTo(workspace)
+    end
     self.pauseState = {
         activeWorkspaces = nil
     }
@@ -36,7 +43,6 @@ function WorkspaceManagerService:new()
         self:screenDisconnectUpdate(s)
     end)
 
-    self.path = gears.filesystem.get_configuration_dir() .. "/awesome-workspace-manager/session.lua"
 
     return self
 end
@@ -45,14 +51,62 @@ function WorkspaceManagerService:saveSession()
     local file,err = io.open(self.path, "w")
     if not file then
         naughty.notify({
-        title="Error saving session",
-        text=err,
-        timeout=0
+            title="Error saving session",
+            text=err,
+            timeout=0
         })
        return
     end
-    file:write(serpent.block(self.workspaceManagerModel,{comment = false}))
+    file:write(serpent.dump(self.workspaceManagerModel))
     file:close()
+end
+
+-- method to load session
+function WorkspaceManagerService:loadSession()
+    local file,err = io.open(self.path , "r")
+    if not file then
+        naughty.notify({
+            title="Error loading session",
+            text=err,
+            timeout=0
+        })
+       return
+    end
+    local session = file:read("*all")
+    local _, loadedModel = serpent.load(session, {safe = false})
+    file:close()
+    if not _ then
+        naughty.notify({
+            title="Error loading session",
+            text="Error parsing session file",
+            timeout=5
+        })
+        return
+    end
+    -- notify how many workspaces were loaded
+    naughty.notify({
+        title="Loaded session",
+        text="Loaded " .. #loadedModel.workspaces .. " workspaces",
+        timeout=5
+    })
+    -- serpent dump notify
+    naughty.notify({
+        title="Loaded session",
+        text=serpent.block(loadedModel),
+        timeout=0
+    })
+    __.forEach(loadedModel.workspaces, function(workspace_model)
+        local workspace = self.workspaceManagerModel:createWorkspace(workspace_model.name)
+        __.forEach(workspace_model.tags, function(tag)
+            tag = self:createTag(tag.name, tag.layout)
+            tag.selected = tag.selected or false
+            tag.activated = tag.activated or false
+            tag.hidden = tag.hidden or false
+            tag.index = tag.index or 1
+            workspace:addTag(tag)
+        end)
+    end)
+    self:switchTo(__.first(self.workspaceManagerModel:getAllWorkspaces()))
 end
 
 function WorkspaceManagerService:setupTagsOnScreen(s)
@@ -75,7 +129,7 @@ function WorkspaceManagerService:setupTagsOnScreen(s)
     -- if not, then make one
     if not tag then
         local last_workspace = __.last(all_active_workspaces) or __.first(self.workspaceManagerModel:getAllWorkspaces())
-        tag = sharedtags.add(#self.workspaceManagerModel:getAllWorkspaces() .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
+        tag = self:createTag(#self.workspaceManagerModel:getAllWorkspaces() .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
         last_workspace:addTag(tag)
         last_workspace:setStatus(true)
     end
@@ -101,7 +155,7 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
         textbox      = awful.screen.focused().mypromptbox.widget,
         exe_callback = function(name)
             if not name or #name == 0 then return end
-            local tag = sharedtags.add(name, { awful.layout.layouts[2] })
+            local tag = self:createTag(name, { awful.layout.layouts[2] })
             workspace:addTag(tag)
             sharedtags.viewonly(tag, awful.screen.focused())
         end
@@ -164,8 +218,8 @@ function WorkspaceManagerService:removeWorkspace(workspace)
     self.workspaceManagerModel:deleteWorkspace(workspace)
 end
 
-function WorkspaceManagerService:addWorkspace()
-    local workspace = self.workspaceManagerModel:createWorkspace()
+function WorkspaceManagerService:addWorkspace(name)
+    local workspace = self.workspaceManagerModel:createWorkspace(name)
     self.workspaceManagerModel:switchTo(workspace)
 
     self:setupTags()
