@@ -63,4 +63,16 @@ function ExecutableService.getProcessStatus(pid)
     return result
 end
 
+function ExecutableService.isProcessRunningByName(name)
+    local handle = io.popen("pgrep -x " .. name)
+    local result = handle:read("*a")
+    handle:close()
+    if result == "" then
+        return false
+    else
+        return true
+    end
+end
+
+
 return ExecutableService

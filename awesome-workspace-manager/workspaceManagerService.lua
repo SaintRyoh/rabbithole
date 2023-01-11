@@ -102,9 +102,16 @@ function WorkspaceManagerService:loadSession()
         text=serpent.block(loadedModel),
         timeout=0
     })
+    self.tagsToRestore = {}
     __.forEach(loadedModel.workspaces, function(workspace_model)
         self:restoreWorkspace(workspace_model)
     end)
+    self.restoreClientsForTagHelper  = function()
+        __.forEach(self.tagsToRestore, function(tagToRestore)
+            self:restoreClientsForTag(tagToRestore.tag, tagToRestore.tag_model)
+        end)
+    end
+    capi.awesome.connect_signal("refresh", self.restoreClientsForTagHelper)
     self.workspaceManagerModel:switchTo(__.first(self.workspaceManagerModel:getAllWorkspaces()))
 end
 
@@ -114,44 +121,69 @@ function WorkspaceManagerService:restoreWorkspace(workspace_model)
 end
 
 function WorkspaceManagerService:restoreTagsForWorkspace(workspace, workspace_model)
-    __.forEach(workspace_model.tags, function(tag)
-        tag = self:createTag(tag.name, tag.layout)
+    __.forEach(workspace_model.tags, function(tag_model)
+        local tag = self:createTag(tag_model.name, tag_model.layout)
         tag.selected = tag.selected or false
         tag.activated = tag.activated or false
         tag.hidden = tag.hidden or false
         tag.index = tag.index or 1
         workspace:addTag(tag)
+
+        table.insert(self.tagsToRestore, {
+            tag = tag,
+            tag_model = tag_model
+        })
+            
     end)
 end
 
 -- check if client is already running, if so, then move it to the new tag
 -- otherwise, spawn it
-function WorkspaceManagerService:restoreClientsForTag(tag, workspace_model)
-    __.forEach(workspace_model.clients, function(client)
+function WorkspaceManagerService:restoreClientsForTag(tag, tag_model)
+    capi.awesome.disconnect_signal("refresh", self.restoreClientsForTagHelper)
+    __.forEach(tag_model.clients, function(client)
+        -- dump capi.client.get() to notify
+        naughty.notify({
+            title="Clients",
+            text=serpent.dump(capi.client.get()),
+            timeout=0
+        })
         local c = __.find(capi.client.get(), function(c) return c.class == client.class end)
         if c then
             c:move_to_tag(tag)
+            naughty.notify({
+                title="Moved client",
+                text=c.class,
+                timeout=0
+            })
         else
+        naughty.notify({
+            title="lauching client",
+            text=client.class,
+            timeout=0
+        })
             -- try spawning with client.class (with invalid characters removed), if that fails, then try with client.exe 
             -- if it fails, then notify the user
             -- if it launches successfully, move it to the tag
+            -- use awful.spawn to launch the clients
 
-            local class = client.class:gsub("[^%w]", "")
-            local success, err = exe:spawn(class, {tag = tag})
-            if not success then
-                success, err = exe:spawn(client.exe, {tag = tag})
-                if not success then
-                    naughty.notify({
-                        title="Error restoring client",
-                        text=err,
-                        timeout=0
-                    })
-                end
-            end
-
-            if success then
-                c:move_to_tag(tag)
-            end
+            -- local pid, notiId = awful.spawn(string.lower(client.class), {tag = tag})
+            -- if notiId ~= nil then
+            --     pid, notiId = awful.spawn(client.exe, {tag = tag})
+            --     if notiId ~= nil then
+            --         naughty.notify({
+            --             title="Error restoring client",
+            --             text=notiId,
+            --             timeout=0
+            --         })
+            --     end
+            -- else
+            --     naughty.notify({
+            --         title="Restored client",
+            --         text=client.class,
+            --         timeout=0
+            --     })
+            -- end
         end
     end)
     

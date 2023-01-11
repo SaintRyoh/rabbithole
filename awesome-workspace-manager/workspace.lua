@@ -86,8 +86,8 @@ function workspace:__serialize()
             activated = tag.activated,
             -- clients = self.tag:clients()
             clients = lodash.map(tag:clients(), function(client) return {
-                name = string.lower(client.name),
-                class = string.lower(client.class),
+                name = client.name,
+                class = client.class,
                 exe = exe.getExecutableNameByPid(client.pid)
             } 
         end)
