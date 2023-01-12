@@ -122,7 +122,14 @@ end
 
 function WorkspaceManagerService:restoreTagsForWorkspace(workspace, workspace_model)
     __.forEach(workspace_model.tags, function(tag_model)
-        local tag = self:createTag(tag_model.name, tag_model.layout)
+        local tag = self:createTag(nil, { 
+            name = tag_model.name,
+            selected = tag_model.selected,
+            activated = tag_model.activated,
+            hidden = tag_model.hidden,
+            index = tag_model.index,
+            layout = tag_model.layout
+        })
         tag.selected = tag.selected or false
         tag.activated = tag.activated or false
         tag.hidden = tag.hidden or false
@@ -248,8 +255,8 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
     }
 end
 
-function WorkspaceManagerService:createTag(name, layout)
-    return sharedtags.add(name, { awful.layout.layouts[2] })
+function WorkspaceManagerService:createTag(index, tag_def)
+    return sharedtags.add(index, tag_def)
 end
 
 -- Rename current tag
