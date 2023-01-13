@@ -42,6 +42,15 @@ function WorkspaceManagerService:new()
         self:screenDisconnectUpdate(s)
     end)
 
+    -- make a timer to periodically save the session
+    self.saveSessionTimer = gears.timer({
+        timeout = 60,
+        autostart = true,
+        callback = function()
+            self:saveSession()
+        end
+    })
+
 
     return self
 end
@@ -96,13 +105,6 @@ function WorkspaceManagerService:loadSession()
     end))
 
     gears.table.join(tagCoroutines, self:restoreWorkspace(loadedModel.global_workspace, true))
-
-    -- dump global workspace
-    naughty.notify({
-        title="global workspace",
-        text=serpent.block(tagCoroutines),
-        timeout=0
-    })
 
     self.restoreClientsForTagHelper  = function()
         capi.awesome.disconnect_signal("refresh", self.restoreClientsForTagHelper)
