@@ -51,6 +51,9 @@ function WorkspaceManagerService:new()
         end
     })
 
+    self.saveSessionTimer:start()
+
+
 
     return self
 end
