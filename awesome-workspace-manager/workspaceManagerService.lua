@@ -6,7 +6,6 @@ local __ = require("lodash")
 local workspaceManager = require("awesome-workspace-manager.workspaceManager")
 local serpent = require("serpent")
 local gears = require("gears")
-local exe = require("awesome-executable-service")
 
 local capi = {
     screen = screen,
@@ -80,8 +79,8 @@ function WorkspaceManagerService:loadSession()
        return
     end
     local session = file:read("*all")
-    local _, loadedModel = serpent.load(session, {safe = false})
     file:close()
+    local _, loadedModel = serpent.load(session, {safe = false})
     if not _ then
         naughty.notify({
             title="Error loading session",
@@ -90,116 +89,104 @@ function WorkspaceManagerService:loadSession()
         })
         return
     end
-    -- notify how many workspaces were loaded
-    -- naughty.notify({
-    --     title="Loaded session",
-    --     text="Loaded " .. #loadedModel.workspaces .. " workspaces",
-    --     timeout=5
-    -- })
-    -- serpent dump notify
-    -- naughty.notify({
-    --     title="Loaded session",
-    --     text=serpent.block(loadedModel),
-    --     timeout=0
-    -- })
-    self.tagsToRestore = {}
-    __.forEach(loadedModel.workspaces, function(workspace_model)
-        self:restoreWorkspace(workspace_model)
-    end)
+
+
+    local tagCoroutines = __.flatten(__.map(loadedModel.workspaces, function(workspace_model)
+        return self:restoreWorkspace(workspace_model)
+    end))
+
+    gears.table.join(tagCoroutines, self:restoreWorkspace(loadedModel.global_workspace, true))
+
+    -- dump global workspace
+    naughty.notify({
+        title="global workspace",
+        text=serpent.block(tagCoroutines),
+        timeout=0
+    })
+
     self.restoreClientsForTagHelper  = function()
-        __.forEach(self.tagsToRestore, function(tagToRestore)
-            self:restoreClientsForTag(tagToRestore.tag, tagToRestore.tag_model)
+        capi.awesome.disconnect_signal("refresh", self.restoreClientsForTagHelper)
+        __.forEach(tagCoroutines, function(tagc)
+            if tagc then
+                coroutine.resume(tagc)
+            end
         end)
     end
+
     capi.awesome.connect_signal("refresh", self.restoreClientsForTagHelper)
+
     self.workspaceManagerModel:switchTo(__.first(self.workspaceManagerModel:getAllWorkspaces()))
 end
 
-function WorkspaceManagerService:restoreWorkspace(workspace_model)
-    local workspace = self.workspaceManagerModel:createWorkspace(workspace_model.name)
-    self:restoreTagsForWorkspace(workspace, workspace_model)
-end
 
-function WorkspaceManagerService:restoreTagsForWorkspace(workspace, workspace_model)
-    __.forEach(workspace_model.tags, function(tag_model)
-        local tag = self:createTag(nil, { 
-            name = tag_model.name,
-            selected = tag_model.selected,
-            activated = tag_model.activated,
-            hidden = tag_model.hidden,
-            index = tag_model.index,
-            layout = tag_model.layout
+-- create workspace by definition
+-- @param definition table of workspace definition
+--     definition = {
+--         name = "workspace name",
+--         tags = {
+--             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
+--             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
+--             ...
+--         }
+--     }
+-- @usage WorkspaceManagerService:restoreWorkspace(definition)
+function WorkspaceManagerService:restoreWorkspace(definition, global)
+    global = global or false
+    local workspace = nil
+    if global then
+        workspace = self:getGlobalWorkspace()
+    else
+        workspace = self.workspaceManagerModel:createWorkspace(definition.name)
+    end
+    return __.map(definition.tags, function(tag_definition)
+        local tag = self:createTag(nil, {
+            name = tag_definition.name,
+            selected = tag_definition.selected,
+            activated = tag_definition.activated,
+            hidden = tag_definition.hidden,
+            index = tag_definition.index,
+            layout = tag_definition.layout
         })
-        tag.selected = tag.selected or false
-        tag.activated = tag.activated or false
-        tag.hidden = tag.hidden or false
-        tag.index = tag.index or 1
         workspace:addTag(tag)
-
-        table.insert(self.tagsToRestore, {
-            tag = tag,
-            tag_model = tag_model
-        })
-            
+        return coroutine.create(function()
+            self:restoreClientsForTag(tag, tag_definition.clients)
+        end)
     end)
 end
 
--- check if client is already running, if so, then move it to the new tag
--- otherwise, spawn it
-function WorkspaceManagerService:restoreClientsForTag(tag, tag_model)
-    capi.awesome.disconnect_signal("refresh", self.restoreClientsForTagHelper)
-    __.forEach(tag_model.clients, function(client)
-        -- dump capi.client.get() to notify
-        -- naughty.notify({
-        --     title="Clients",
-        --     text=serpent.dump(capi.client.get()),
-        --     timeout=0
-        -- })
+--- 
+-- Check if client is already running, if so, then move it to the new tag, otherwise, spawn it
+-- using data from clients table
+-- @param instantiated awesomewm [made by awful.tag.add()] tag target tag for the clients
+-- @param clients table of clients that needs to be restored
+--     clients = {
+--          {class="classname", exe="executable"}
+--          {class="classname", exe="executable"}
+--          ...
+--     }
+-- @usage WorkspaceManagerService:restoreClientsForTag(tag, clients)
+function WorkspaceManagerService:restoreClientsForTag(tag, clients)
+    __.forEach(clients, function(client)
         local c = __.find(capi.client.get(), function(c) return c.class == client.class end)
         if c then
             c:move_to_tag(tag)
-            -- naughty.notify({
-            --     title="Moved client",
-            --     text=c.class,
-            --     timeout=0
-            -- })
         else
-        -- naughty.notify({
-        --     title="lauching client",
-        --     text=client.class,
-        --     timeout=0
-        -- })
-            -- try spawning with client.class (with invalid characters removed), if that fails, then try with client.exe 
+            -- try spawning with client.class, if that fails, then try with client.exe 
             -- if it fails, then notify the user
-            -- if it launches successfully, move it to the tag
-            -- use awful.spawn to launch the clients
 
-            local pid, notiId = awful.spawn(string.lower(client.class), {tag = tag})
+            local _, notiId = awful.spawn(string.lower(client.class), {tag = tag})
             if notiId == nil then
-                pid, notiId = awful.spawn(client.exe, {tag = tag})
+                _, notiId = awful.spawn(client.exe, {tag = tag})
                 if notiId == nil then
                     naughty.notify({
                         title="Error restoring client",
                         text=notiId,
                         timeout=0
                     })
-                -- else
-                --     naughty.notify({
-                --         title="Restored client with exe",
-                --         text=client.class,
-                --         timeout=0
-                --     })
                 end
-            -- else
-            --     naughty.notify({
-            --         title="Restored client with class",
-            --         text=client.class,
-            --         timeout=0
-            --     })
             end
         end
     end)
-    
 end
 
 function WorkspaceManagerService:setupTagsOnScreen(s)
