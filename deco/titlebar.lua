@@ -7,19 +7,27 @@ local awful = require("awful")
 -- Widget and layout library
 local wibox = require("wibox")
 
+local workspaceManagerService = RC.workspaceManagerService
+local tasklistmenu = require("deco.tasklistmenu")
+
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
+    local tasklistmenu = tasklistmenu(workspaceManagerService)
     -- buttons for the titlebar
     local buttons = gears.table.join(
             awful.button({ }, 1, function()
                 c:emit_signal("request::activate", "titlebar", {raise = true})
                 awful.mouse.client.move(c)
             end),
-            awful.button({ }, 3, function()
+            awful.button({ "Shift" }, 3, function()
                 c:emit_signal("request::activate", "titlebar", {raise = true})
                 awful.mouse.client.resize(c)
+            end),
+            awful.button({ }, 3, function()
+                tasklistmenu:updateMenu(c)
+                tasklistmenu.tasklist_menu:toggle()
             end)
     )
 
