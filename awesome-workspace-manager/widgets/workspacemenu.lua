@@ -4,6 +4,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local __ = require("lodash")
 local naughty = require("naughty")
+local serpent = require("serpent")
 -- }}}
 
 local _M = {}
@@ -36,7 +37,8 @@ function WorkspaceMenuController:generate_menu()
                             { "remove", function()  self:removeWorkspace(workspace) end}
                         }
                     }
-                end))
+                end)),
+
     })
     menu:add({ "add workspace", function () self:add_workspace() end})
     return menu
@@ -96,22 +98,56 @@ end
 function _M.get(workspaceManagerService)
     local wmc = WorkspaceMenuController:new(workspaceManagerService)
 
-    -- {{{ workspace dropdownmenu
-    local workspace_menu_view = {
-        layout = wibox.layout.fixed.horizontal,
-        {
-            widget = wibox.widget.textbox,
-            text = "   workspace: X   ",
-            buttons = gears.table.join(
-                    awful.button({ }, 1,
-                            function ()
-                                wmc.workspace_menu:toggle()
-                            end)
-            )
-        }
-    }
+    -- delcare workspace dropdownmenu imperatively
+    wmc.workspace_menu_view = wibox.widget.textbox()
+    wmc.workspace_menu_view:set_text("   workspace: X   ")
+    wmc.workspace_menu_view:buttons(gears.table.join(
+            awful.button({ }, 1,
+                    function (object)
+                        -- dump object
+                        -- naughty.notify({
+                        --     title="object",
+                        --     text=serpent.block(object),
+                        --     timeout=0
+                        -- })
 
-    return workspace_menu_view
+                        wmc.workspace_menu:toggle({
+                            coords = {
+                                x = object.x,
+                                y = object.y + object.height
+                            }
+                        })
+                    end)
+    ))
+
+    -- dump workspace dropdownmenu
+    naughty.notify({
+        title="workspace dropdownmenu",
+        text=serpent.line(wmc.workspace_menu_view),
+        timeout=0
+    })
+
+    -- {{{ workspace dropdownmenu
+    -- local workspace_menu_view = {
+    --     layout = wibox.layout.fixed.horizontal,
+    --     {
+    --         widget = wibox.widget.textbox,
+    --         text = "   workspace: X   ",
+    --         buttons = gears.table.join(
+    --                 awful.button({ }, 1,
+    --                         function ()
+    --                             wmc.workspace_menu:toggle({
+    --                                 coords = {
+    --                                     x = mouse.coords().x,
+    --                                     y = mouse.coords().y + 20
+    --                                 }
+    --                             })
+    --                         end)
+    --         )
+    --     }
+    -- }
+
+    return wmc.workspace_menu_view
 
 end
 
