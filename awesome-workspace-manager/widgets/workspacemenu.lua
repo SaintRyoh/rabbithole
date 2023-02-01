@@ -21,6 +21,7 @@ function WorkspaceMenuController:new(workspaceManagerService)
 
     self.workspaceManagerService = workspaceManagerService
     self.workspace_menu = self:generate_menu()
+    self.workspace_view = self:get_view()
 
     return self
 end
@@ -28,9 +29,9 @@ end
 function WorkspaceMenuController:generate_menu()
     local menu = awful.menu({
         items = gears.table.join(__.map(self:get_all_workspaces(),
-                function(workspace, index)
+                function(workspace)
                     return {
-                        workspace.name or ("workspace: " .. index),
+                        workspace:getName(),
                         {
                             { "switch", function() self:switch_to(workspace) end},
                             { "rename", function() self:rename_workspace(workspace) end},
@@ -44,17 +45,42 @@ function WorkspaceMenuController:generate_menu()
     return menu
 end
 
+-- create dropdown menu and return it
+function WorkspaceMenuController:get_view()
+    self.workspace_view = wibox.widget.textbox()
+    self:set_text(self.workspaceManagerService:getActiveWorkspace():getName() or "X")
+    self.workspace_view:buttons(gears.table.join(
+            awful.button({ }, 1,
+                    function (textbox)
+                        self.workspace_menu:toggle({
+                            coords = {
+                                x = textbox.x,
+                                y = textbox.y + textbox.height
+                            }
+                        })
+                    end)
+    ))
+    return self.workspace_view
+end
+
+-- set the text of the widget
+function WorkspaceMenuController:set_text(text)
+    self.workspace_view:set_text(" Workspace: " .. text .. " ")
+end
+
 function WorkspaceMenuController:get_all_workspaces()
     return self.workspaceManagerService:getAllWorkspaces()
 end
 
 function WorkspaceMenuController:switch_to(workspace)
     self.workspaceManagerService:switchTo(workspace)
+    self:set_text(workspace:getName())
 end
 
 function WorkspaceMenuController:add_workspace()
-    self.workspaceManagerService:addWorkspace()
+    local workspace  = self.workspaceManagerService:addWorkspace()
     self:updateMenu()
+    self:set_text(workspace:getName())
 end
 
 function WorkspaceMenuController:removeWorkspace(workspace)
@@ -91,6 +117,7 @@ function WorkspaceMenuController:rename_workspace(workspace)
             if not workspace then return end
             workspace.name = new_name
             self:updateMenu()
+            self:set_text(workspace:getName())
         end
     }
 end
@@ -98,56 +125,7 @@ end
 function _M.get(workspaceManagerService)
     local wmc = WorkspaceMenuController:new(workspaceManagerService)
 
-    -- delcare workspace dropdownmenu imperatively
-    wmc.workspace_menu_view = wibox.widget.textbox()
-    wmc.workspace_menu_view:set_text("   workspace: X   ")
-    wmc.workspace_menu_view:buttons(gears.table.join(
-            awful.button({ }, 1,
-                    function (object)
-                        -- dump object
-                        -- naughty.notify({
-                        --     title="object",
-                        --     text=serpent.block(object),
-                        --     timeout=0
-                        -- })
-
-                        wmc.workspace_menu:toggle({
-                            coords = {
-                                x = object.x,
-                                y = object.y + object.height
-                            }
-                        })
-                    end)
-    ))
-
-    -- dump workspace dropdownmenu
-    naughty.notify({
-        title="workspace dropdownmenu",
-        text=serpent.line(wmc.workspace_menu_view),
-        timeout=0
-    })
-
-    -- {{{ workspace dropdownmenu
-    -- local workspace_menu_view = {
-    --     layout = wibox.layout.fixed.horizontal,
-    --     {
-    --         widget = wibox.widget.textbox,
-    --         text = "   workspace: X   ",
-    --         buttons = gears.table.join(
-    --                 awful.button({ }, 1,
-    --                         function ()
-    --                             wmc.workspace_menu:toggle({
-    --                                 coords = {
-    --                                     x = mouse.coords().x,
-    --                                     y = mouse.coords().y + 20
-    --                                 }
-    --                             })
-    --                         end)
-    --         )
-    --     }
-    -- }
-
-    return wmc.workspace_menu_view
+    return wmc.workspace_view
 
 end
 

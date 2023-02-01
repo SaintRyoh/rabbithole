@@ -152,6 +152,7 @@ function WorkspaceManagerService:addWorkspace()
     self.workspaceManagerModel:switchTo(workspace)
 
     self:setupTags()
+    return workspace
 end
 
 function WorkspaceManagerService:switchTo(workspace)
@@ -216,6 +217,10 @@ end
 
 function WorkspaceManagerService:getAllActiveWorkspaces()
     return self.workspaceManagerModel:getAllActiveWorkspaces()
+end
+
+function WorkspaceManagerService:getActiveWorkspace()
+    return __.first(self:getAllActiveWorkspaces())
 end
 
 function WorkspaceManagerService:getAllUnactiveWorkspaces()

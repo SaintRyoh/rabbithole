@@ -29,7 +29,6 @@ local deco = {
 local taglist_buttons  = deco.taglist(require("deco.taglistmenu"))
 local globaltaglist_buttons = deco.taglist(require("deco.globaltaglistmenu"))
 local tasklist_buttons = deco.tasklist()
-local workspaceMenu = deco.workspaceMenu(workspaceManagerService)
 
 local __ = require("lodash")
 
@@ -43,6 +42,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- tag setup
     workspaceManagerService:setupTagsOnScreen(s)
+    local workspaceMenu = deco.workspaceMenu(workspaceManagerService)
 
 
 -- {{{ Wibar
