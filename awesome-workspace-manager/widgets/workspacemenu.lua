@@ -4,6 +4,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local __ = require("lodash")
 local naughty = require("naughty")
+local beautiful = require("beautiful")
 local serpent = require("serpent")
 -- }}}
 
