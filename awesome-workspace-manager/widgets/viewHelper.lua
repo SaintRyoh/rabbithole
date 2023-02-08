@@ -4,6 +4,9 @@ local __ = require("lodash")
 
 local ViewHelper = { }
 
+-- Usage example
+-- self.bindings = ViewHelper.build_bindings_from_widget(widget)
+
 -- recursive function to build a flat array of bindings
 -- { bind = widget, bind2 = widget2, ...}
 function ViewHelper.build_bindings_from_widget(widget)
