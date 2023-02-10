@@ -15,7 +15,7 @@ function WorkspaceMenuController:new(workspaceManagerService)
     setmetatable(self, WorkspaceMenuController)
 
     self.model = workspaceManagerService
-    self.view = view(self:generate_menu(), nil)
+    self.view = view(self:generate_menu())
     self:set_text(self.model:getActiveWorkspace():getName())
 
     return self

@@ -3,6 +3,7 @@ local wibox = require("wibox")
 local gears = require("gears")
 local awful = require("awful")
 local naughty = require("naughty")
+local viewHelper = require("awesome-workspace-manager.widgets.viewHelper")
 
 local _M = {}
 
@@ -10,15 +11,13 @@ local _M = {}
 local WorkspaceMenuView = { }
 WorkspaceMenuView.__index = WorkspaceMenuView
  -- 752179
-function WorkspaceMenuView:new(menu, initial_text)
+function WorkspaceMenuView:new(menu)
     self = {}
     setmetatable(self, WorkspaceMenuView)
 
     self.theme = beautiful.get()
 
-    self.bindings = {}
-
-    self.view_widget = self:build(initial_text)
+    self:build()
 
     self:set_menu(menu)
 
@@ -26,55 +25,22 @@ function WorkspaceMenuView:new(menu, initial_text)
 end
 
 -- build view
-function WorkspaceMenuView:build(initial_text)
-    self.bindings.textbox = wibox.widget {
-        text = initial_text,
-        align = "center",
-        valign = "center",
-        widget = wibox.widget.textbox
-    }
+-- * load template
+-- * connect signals
+function WorkspaceMenuView:build()
 
+    -- Load Template 
+    self:load_template("awesome-workspace-manager/widgets/workspacemenu/template.lua")
 
-    local open_close_indicator = wibox.widget {
-        image = self.theme.menu_submenu_icon,
-        resize = true,
-        widget = wibox.widget.imagebox
-    }
-
-
-    local margin = wibox.widget {
-        widget = wibox.container.margin,
-        margins = 3,
-        open_close_indicator
-    }
-
-    self.bindings.rotator = wibox.widget {
-        widget = wibox.container.rotate,
-        direction = "north",
-        margin
-    }
-
-    self.bindings.container = wibox.widget {
-        widget = wibox.container.background,
-        bg = self.theme.bg_normal,
-        {
-            widget = wibox.container.margin,
-            margins = 3,
-            {
-                layout = wibox.layout.fixed.horizontal,
-                self.bindings.textbox,
-                self.bindings.rotator
-            }
-        },
-    }
-    self.bindings.container:connect_signal("mouse::enter", function() 
-        self.bindings.container.bg = self.theme.bg_focus
+    -- connect signals
+    self.bindings.root:connect_signal("mouse::enter", function() 
+        self.bindings.root.bg = self.theme.bg_focus
     end)
-    self.bindings.container:connect_signal("mouse::leave", function() 
-        self.bindings.container.bg = self.theme.bg_normal 
+    self.bindings.root:connect_signal("mouse::leave", function() 
+        self.bindings.root.bg = self.theme.bg_normal 
     end)
 
-    self.bindings.container:buttons(gears.table.join(
+    self.bindings.root:buttons(gears.table.join(
         awful.button({ }, 1, function(event) 
             if self.bindings.menu.wibox.visible == true then
                 self.bindings.menu:hide()
@@ -85,13 +51,17 @@ function WorkspaceMenuView:build(initial_text)
     ))
 
 
-     return self.bindings.container
+end
+
+-- load template
+function WorkspaceMenuView:load_template(template_path)
+    self.bindings = gears.table.join(self.bindings, viewHelper.load_template(template_path))
 end
 
 -- open menu
 function WorkspaceMenuView:open(event)
     self.bindings.rotator.direction = "west"
-    self.bindings.container.bg = self.theme.bg_focus
+    self.bindings.root.bg = self.theme.bg_focus
     self.bindings.menu:show({
         coords = {
             x = event.x,
@@ -100,20 +70,20 @@ function WorkspaceMenuView:open(event)
     })
 end
 
+-- get view_widget
+function WorkspaceMenuView:get_view_widget()
+    return self.bindings.root
+end
+
 -- close menu
 function WorkspaceMenuView:close()
     self.bindings.rotator.direction = "north"
-    self.bindings.container.bg = self.theme.bg_normal
+    self.bindings.root.bg = self.theme.bg_normal
 end
 
 -- set text
 function WorkspaceMenuView:set_text(text)
     self.bindings.textbox.text = text
-end
-
--- get view_widget
-function WorkspaceMenuView:get_view_widget()
-    return self.view_widget
 end
 
 -- toggle menu
@@ -126,11 +96,8 @@ function WorkspaceMenuView:set_menu(menu)
         self.bindings.menu:hide()
     end
     self.bindings.menu = menu
-    self.bindings.menu.original_hide = self.bindings.menu.hide
-    self.bindings.menu.hide = function ()
-        self.bindings.menu:original_hide()
-        self:close()
-    end
+    -- decorate menu hide method
+    self.bindings.menu.hide = viewHelper.decorate_method(self.bindings.menu.hide, function() self:close() end)
 end
 
 
