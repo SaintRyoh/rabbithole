@@ -1,5 +1,9 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local awful = require("awful")
+local naughty = require("naughty")
+local gears = require("gears")
+local __ = require("lodash")
 
 local Template = { }
 
@@ -14,6 +18,24 @@ Template.root = wibox.widget {
 
         ["mouse::leave"] = function(widget, bindings)
             widget.bg = beautiful.bg_normal
+        end
+    },
+    t_buttons = {
+        function(widget, bindings)
+            return awful.button({ }, 1, function(event) 
+                if bindings.menu.wibox.visible == true then
+                    bindings.menu:hide()
+                else
+                    bindings.rotator.direction = "west"
+                    bindings.root.bg = beautiful.bg_focus
+                    bindings.menu:show({
+                        coords = {
+                            x = event.x,
+                            y = event.y 
+                        }
+                    })
+                end
+            end)
         end
     },
     {
@@ -46,5 +68,6 @@ Template.root = wibox.widget {
         }
     },
 }
+
 
 return Template

@@ -17,38 +17,18 @@ function WorkspaceMenuView:new(menu)
 
     self.theme = beautiful.get()
 
-    self:build()
-
+    if self.bindings == nil then
+        self.bindings = {}
+    end
+    self:load_template("awesome-workspace-manager/widgets/workspacemenu/template.lua")
     self:set_menu(menu)
 
     return self
 end
 
--- build view
--- * load template
--- * connect signals
-function WorkspaceMenuView:build()
-
-    -- Load Template 
-    self:load_template("awesome-workspace-manager/widgets/workspacemenu/template.lua")
-
-    -- Connect buttons
-    self.bindings.root:buttons(gears.table.join(
-        awful.button({ }, 1, function(event) 
-            if self.bindings.menu.wibox.visible == true then
-                self.bindings.menu:hide()
-            else
-                self:open(event)
-            end
-        end)
-    ))
-
-
-end
-
 -- load template
 function WorkspaceMenuView:load_template(template_path)
-    self.bindings = gears.table.join(self.bindings, viewHelper.load_template(template_path))
+    self.bindings = gears.table.join(self.bindings, viewHelper.load_template(template_path, self.bindings))
 end
 
 -- open menu
@@ -88,9 +68,20 @@ function WorkspaceMenuView:set_menu(menu)
     if self.bindings.menu ~= nil then
         self.bindings.menu:hide()
     end
-    self.bindings.menu = menu
+
+    self.bindings = viewHelper.set_binding_value(
+        self.bindings.root, 
+        self.bindings, "menu", menu)
+
+
+    -- self.bindings.menu = menu
     -- decorate menu hide method
     self.bindings.menu.hide = viewHelper.decorate_method(self.bindings.menu.hide, function() self:close() end)
+    
+    -- because we change the menu hide method, we need to rebind the buttons
+    -- if self.bindings.root ~= nil then
+    --     viewHelper.connect_buttons(self.bindings.root, self.bindings)
+    -- end
 end
 
 

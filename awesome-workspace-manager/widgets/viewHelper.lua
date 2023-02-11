@@ -44,6 +44,32 @@ function ViewHelper.connect_signals(widget, bindings)
     end
 end
 
+-- recursively connect buttons to a widget
+-- inputs:
+-- * widget: the widget to connect the buttons to
+function ViewHelper.connect_buttons(widget, bindings)
+    if widget.t_buttons ~= nil then
+
+        -- build a table of buttons
+        local buttons = {}
+        for _, button in pairs(widget.t_buttons) do
+            if type(button) == "function" then
+                table.insert(buttons, button(widget, bindings))
+            else
+                table.insert(buttons, button)
+            end
+        end
+
+        -- connect the buttons
+        if #buttons > 0 then
+            widget:buttons(gears.table.join(table.unpack(buttons)))
+        end
+    end
+    for _, child in pairs(widget:get_children()) do
+        ViewHelper.connect_buttons(child)
+    end
+end
+
 -- Sometimes you want to decorate a method with some code before and after the method
 -- for example you might want to change the background color of a widget before and after
 -- a method is called.
@@ -114,7 +140,7 @@ end
 -- }
 --
 -- return Template
-function ViewHelper.load_template(template_path)
+function ViewHelper.load_template(template_path, _bindings)
     -- get config dir
     local config_dir = gears.filesystem.get_configuration_dir()
 
@@ -123,12 +149,25 @@ function ViewHelper.load_template(template_path)
 
     -- build bindings
     local bindings = ViewHelper.build_bindings_from_widget(template.root)
+    bindings = gears.table.join(bindings, _bindings)
 
     -- connect signals
     ViewHelper.connect_signals(template.root, bindings)
 
+    -- connect buttons
+    ViewHelper.connect_buttons(template.root, bindings)
+
     return bindings
 
+end
+
+-- set value for a bindings
+-- we need to reconnect the signals and buttons after setting the value
+function ViewHelper.set_binding_value(root, bindings, key, value)
+    bindings[key] = value
+    ViewHelper.connect_signals(root, bindings)
+    ViewHelper.connect_buttons(root, bindings)
+    return bindings
 end
 
 return ViewHelper
