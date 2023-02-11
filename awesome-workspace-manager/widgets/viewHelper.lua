@@ -31,6 +31,7 @@ end
 -- recursively connect signals to a widget
 -- inputs:
 -- * widget: the widget to connect the signals to
+-- do I need to disconnect these signals? or do they get garbage collected?
 function ViewHelper.connect_signals(widget, bindings)
     if widget.signals ~= nil then
         for signal, callback in pairs(widget.signals) do
