@@ -32,14 +32,7 @@ function WorkspaceMenuView:build()
     -- Load Template 
     self:load_template("awesome-workspace-manager/widgets/workspacemenu/template.lua")
 
-    -- connect signals
-    self.bindings.root:connect_signal("mouse::enter", function() 
-        self.bindings.root.bg = self.theme.bg_focus
-    end)
-    self.bindings.root:connect_signal("mouse::leave", function() 
-        self.bindings.root.bg = self.theme.bg_normal 
-    end)
-
+    -- Connect buttons
     self.bindings.root:buttons(gears.table.join(
         awful.button({ }, 1, function(event) 
             if self.bindings.menu.wibox.visible == true then
@@ -101,8 +94,8 @@ function WorkspaceMenuView:set_menu(menu)
 end
 
 
-function _M.get(menu, initial_text)
-    return WorkspaceMenuView:new(menu, initial_text)
+function _M.get(menu)
+    return WorkspaceMenuView:new(menu)
 end
 
-return setmetatable({}, { __call = function(_, menu, initial_text) return _M.get(menu, initial_text) end })
+return setmetatable({}, { __call = function(_, menu) return _M.get(menu) end })

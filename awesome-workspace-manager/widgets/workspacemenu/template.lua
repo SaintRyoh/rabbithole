@@ -7,6 +7,15 @@ Template.root = wibox.widget {
     widget = wibox.container.background,
     bg = beautiful.bg_normal,
     bind = "root",
+    signals = {
+        ["mouse::enter"] = function(widget, bindings)
+            widget.bg = beautiful.bg_focus
+        end,
+
+        ["mouse::leave"] = function(widget, bindings)
+            widget.bg = beautiful.bg_normal
+        end
+    },
     {
         widget = wibox.container.margin,
         margins = 3,

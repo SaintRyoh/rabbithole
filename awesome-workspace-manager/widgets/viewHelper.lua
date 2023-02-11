@@ -3,6 +3,7 @@ local __ = require("lodash")
 local serpent = require("serpent")
 local naughty = require("naughty")
 
+-- might rename this to "Tubular"
 
 local ViewHelper = { }
 
@@ -24,6 +25,22 @@ function ViewHelper.check_widget_for_bind(widget)
         return { [widget.bind] = widget }
     else
         return {}
+    end
+end
+
+-- recursively connect signals to a widget
+-- inputs:
+-- * widget: the widget to connect the signals to
+function ViewHelper.connect_signals(widget, bindings)
+    if widget.signals ~= nil then
+        for signal, callback in pairs(widget.signals) do
+            widget:connect_signal(signal, function (...)
+                callback(widget, bindings, ...)
+            end)
+        end
+    end
+    for _, child in pairs(widget:get_children()) do
+        ViewHelper.connect_signals(child)
     end
 end
 
@@ -99,9 +116,18 @@ end
 -- return Template
 function ViewHelper.load_template(template_path)
     -- get config dir
-    return ViewHelper.build_bindings_from_widget(
-        loadfile(gears.filesystem.get_configuration_dir() .. template_path)().root
-    )
+    local config_dir = gears.filesystem.get_configuration_dir()
+
+    -- load the template file
+    local template = loadfile(config_dir .. template_path)()
+
+    -- build bindings
+    local bindings = ViewHelper.build_bindings_from_widget(template.root)
+
+    -- connect signals
+    ViewHelper.connect_signals(template.root, bindings)
+
+    return bindings
 
 end
 
