@@ -77,4 +77,16 @@ function workspace:equals(otherWorkspace)
     return self.id == otherWorkspace.id
 end
 
+function workspace:getName()
+    if self.name then
+        return self.name
+    elseif #self.tags > 0 then
+        -- split the tag name on the first dot using gsub
+        -- return the first part of the split
+        return string.gsub(lodash.first(self.tags).name, "%..*", "")
+    else 
+        return "Unnamed"
+    end
+end
+
 return workspace

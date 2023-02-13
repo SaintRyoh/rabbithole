@@ -23,19 +23,17 @@ local deco = {
     wallpaper = require("deco.wallpaper"),
     taglist   = require("deco.taglist"),
     tasklist  = require("deco.tasklist"),
-    workspaceMenu = require("deco.workspacemenu")
+    workspaceMenu = require("awesome-workspace-manager.components.workspacemenu.controller")
 }
 
 local taglist_buttons  = deco.taglist(require("deco.taglistmenu"))
 local globaltaglist_buttons = deco.taglist(require("deco.globaltaglistmenu"))
 local tasklist_buttons = deco.tasklist()
-local workspaceMenu = deco.workspaceMenu(workspaceManagerService)
 
 local __ = require("lodash")
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
--- {{{ Wibar
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
@@ -44,8 +42,10 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- tag setup
     workspaceManagerService:setupTagsOnScreen(s)
+    local workspaceMenu = deco.workspaceMenu(workspaceManagerService)
 
 
+-- {{{ Wibar
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
 
@@ -332,7 +332,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             RC.launcher,
-            workspaceMenu,
+            deco.workspaceMenu(workspaceManagerService):get_view_widget(),
             s.my_global_workspace_taglist,
             s.mytaglist,
             s.mypromptbox
@@ -346,5 +346,5 @@ awful.screen.connect_for_each_screen(function(s)
             s.mylayoutbox,
         },
     }
-end)
 -- }}}
+end)
