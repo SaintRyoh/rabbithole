@@ -1,8 +1,9 @@
 local __ = require("lodash")
-local view = require("awesome-workspace-manager.widgets.workspacemenu.view")
 local awful = require("awful")
 local gears = require("gears")
 local naughty = require("naughty")
+local viewHelper = require("awesome-workspace-manager.widgets.viewHelper")
+local beautiful = require("beautiful")
 
 local _M = {}
 
@@ -15,7 +16,11 @@ function WorkspaceMenuController:new(workspaceManagerService)
     setmetatable(self, WorkspaceMenuController)
 
     self.model = workspaceManagerService
-    self.view = view(self:generate_menu())
+    self.bindings = viewHelper.load_template("awesome-workspace-manager/widgets/workspacemenu/template.lua")
+    self.view = {
+        bindings = self.bindings
+    }
+    self:set_menu(self:generate_menu())
     self:set_text(self.model:getActiveWorkspace():getName())
 
     return self
@@ -41,12 +46,12 @@ end
 
 -- get view 
 function WorkspaceMenuController:get_view_widget()
-    return self.view:get_view_widget()
+    return self.view.bindings.root
 end
 
 -- set the text of the widget
 function WorkspaceMenuController:set_text(text)
-    self.view:set_text("Workspace: " .. text)
+    self.view.bindings.textbox.text = "Workspace: " .. text
 end
 
 -- get all workspaces
@@ -65,8 +70,22 @@ function WorkspaceMenuController:switch_to(workspace)
 end
 
 function WorkspaceMenuController:updateMenu()
-    self.view:set_menu(self:generate_menu())
+    self:set_menu(self:generate_menu())
     self:set_text(self.model:getActiveWorkspace():getName())
+end
+
+-- set menu
+function WorkspaceMenuController:set_menu(menu)
+    if self.view.bindings.menu ~= nil then
+        self.view.bindings.menu:hide()
+    end
+
+    self.view.bindings.menu = menu
+
+    self.view.bindings.menu.hide = viewHelper.decorate_method(self.view.bindings.menu.hide, function() 
+        self.view.bindings.rotator.direction = "north"
+        self.view.bindings.root.bg = beautiful.bg_normal
+    end)
 end
 
 -- rename workspace
