@@ -109,6 +109,33 @@ end
 --     widget = wibox.container.background,
 --     bg = beautiful.bg_normal,
 --     bind = "root",
+--     signals = {
+--         ["mouse::enter"] = function(widget, bindings)
+--             widget.bg = beautiful.bg_focus
+--         end,
+
+--         ["mouse::leave"] = function(widget, bindings)
+--             widget.bg = beautiful.bg_normal
+--         end
+--     },
+--     t_buttons = {
+--         function(widget, bindings)
+--             return awful.button({ }, 1, function(event) 
+--                 if bindings.menu.wibox.visible == true then
+--                     bindings.menu:hide()
+--                 else
+--                     bindings.rotator.direction = "west"
+--                     bindings.root.bg = beautiful.bg_focus
+--                     bindings.menu:show({
+--                         coords = {
+--                             x = event.x,
+--                             y = event.y 
+--                         }
+--                     })
+--                 end
+--             end)
+--         end
+--     },
 --     {
 --         widget = wibox.container.margin,
 --         margins = 3,
@@ -139,8 +166,6 @@ end
 --         }
 --     },
 -- }
---
--- return Template
 function ViewHelper.load_template(template_path, _bindings)
     -- get config dir
     local config_dir = gears.filesystem.get_configuration_dir()

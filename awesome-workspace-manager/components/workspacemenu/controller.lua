@@ -2,7 +2,7 @@ local __ = require("lodash")
 local awful = require("awful")
 local gears = require("gears")
 local naughty = require("naughty")
-local viewHelper = require("awesome-workspace-manager.widgets.viewHelper")
+local viewHelper = require("awesome-workspace-manager.components.viewHelper")
 local beautiful = require("beautiful")
 
 local _M = {}
@@ -16,7 +16,7 @@ function WorkspaceMenuController:new(workspaceManagerService)
     setmetatable(self, WorkspaceMenuController)
 
     self.model = workspaceManagerService
-    self.bindings = viewHelper.load_template("awesome-workspace-manager/widgets/workspacemenu/template.lua")
+    self.bindings = viewHelper.load_template("awesome-workspace-manager/components/workspacemenu/template.lua")
     self.view = {
         bindings = self.bindings
     }
@@ -107,7 +107,7 @@ function WorkspaceMenuController:remove_workspace(workspace)
     if workspace:getStatus() then
         naughty.notify({
             title="switch to another workspace before removing it",
-            timeout=0
+            timeout=5
         })
         return
     end
@@ -119,7 +119,7 @@ function WorkspaceMenuController:remove_workspace(workspace)
 
     naughty.notify({
         title="removed workspace",
-        timeout=0
+        timeout=5
     })
 end
 

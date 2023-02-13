@@ -23,7 +23,7 @@ local deco = {
     wallpaper = require("deco.wallpaper"),
     taglist   = require("deco.taglist"),
     tasklist  = require("deco.tasklist"),
-    workspaceMenu = require("awesome-workspace-manager.widgets.workspacemenu.controller")
+    workspaceMenu = require("awesome-workspace-manager.components.workspacemenu.controller")
 }
 
 local taglist_buttons  = deco.taglist(require("deco.taglistmenu"))
