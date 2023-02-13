@@ -26,7 +26,7 @@ end
 
 -- load template
 function WorkspaceMenuView:load_template(template_path)
-    self.bindings = gears.table.join(self.bindings, viewHelper.load_template(template_path, self.bindings))
+    self.bindings = viewHelper.load_template(template_path, self.bindings)
 end
 
 
@@ -47,9 +47,7 @@ function WorkspaceMenuView:set_menu(menu)
         self.bindings.menu:hide()
     end
 
-    self.bindings = viewHelper.set_binding_value(
-        self.bindings.root, 
-        self.bindings, "menu", menu)
+    self.bindings.menu = menu
 
     self.bindings.menu.hide = viewHelper.decorate_method(self.bindings.menu.hide, function() 
         self.bindings.rotator.direction = "north"

@@ -158,6 +158,15 @@ function ViewHelper.load_template(template_path, _bindings)
     -- connect buttons
     ViewHelper.connect_buttons(template.root, bindings)
 
+    -- local bindings_proxy = setmetatable({}, {
+    --     __newindex = function(t, k, v)
+    --         bindings[k] = v
+    --     end,
+    --     __index = function(t, k)
+    --         return bindings[k]
+    --     end
+    -- })
+
     return bindings
 
 end
