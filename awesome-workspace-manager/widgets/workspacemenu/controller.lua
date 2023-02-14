@@ -2,7 +2,7 @@ local __ = require("lodash")
 local awful = require("awful")
 local gears = require("gears")
 local naughty = require("naughty")
-local viewHelper = require("awesome-workspace-manager.components.viewHelper")
+local viewHelper = require("awesome-workspace-manager.widgets.viewHelper")
 local beautiful = require("beautiful")
 
 local _M = {}
@@ -16,7 +16,7 @@ function WorkspaceMenuController:new(workspaceManagerService)
     setmetatable(self, WorkspaceMenuController)
 
     self.model = workspaceManagerService
-    self.bindings = viewHelper.load_template("awesome-workspace-manager/components/workspacemenu/template.lua")
+    self.bindings = viewHelper.load_template("awesome-workspace-manager/widgets/workspacemenu/template.lua")
     self.view = {
         bindings = self.bindings
     }
@@ -130,7 +130,7 @@ end
 
 
 function _M.get(workspaceManagerService)
-    return WorkspaceMenuController:new(workspaceManagerService)
+    return WorkspaceMenuController:new(workspaceManagerService):get_view_widget()
 end
 
 return setmetatable({}, { __call = function(_, workspaceManagerService) return _M.get(workspaceManagerService) end })
