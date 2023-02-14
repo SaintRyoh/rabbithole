@@ -16,7 +16,7 @@ function WorkspaceMenuController:new(workspaceManagerService)
     setmetatable(self, WorkspaceMenuController)
 
     self.model = workspaceManagerService
-    self.bindings = viewHelper.load_template("awesome-workspace-manager/widgets/workspacemenu/template.lua")
+    self.bindings = viewHelper.load_template("awesome-workspace-manager/widgets/workspace-menu/template.lua")
     self.view = {
         bindings = self.bindings
     }
