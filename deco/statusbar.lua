@@ -25,7 +25,8 @@ local deco = {
     tasklist  = require("deco.tasklist"),
 }
 
-local workspaceMenu = require("awesome-workspace-manager.widgets.workspace-menu.controller")
+local workspaceMenu = require("awesome-workspace-manager.widgets.workspace-menu")
+local taglist = require("awesome-workspace-manager.widgets.taglist")
 
 local taglist_buttons  = deco.taglist(require("deco.taglistmenu"))
 local globaltaglist_buttons = deco.taglist(require("deco.globaltaglistmenu"))
@@ -333,6 +334,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             RC.launcher,
             workspaceMenu(workspaceManagerService),
+            taglist(workspaceManagerService),
             s.my_global_workspace_taglist,
             s.mytaglist,
             s.mypromptbox

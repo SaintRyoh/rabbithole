@@ -130,7 +130,7 @@ end
 
 
 function _M.get(workspaceManagerService)
-    return WorkspaceMenuController:new(workspaceManagerService):get_view_widget()
+    return WorkspaceMenuController:new(workspaceManagerService)
 end
 
 return setmetatable({}, { __call = function(_, workspaceManagerService) return _M.get(workspaceManagerService) end })
