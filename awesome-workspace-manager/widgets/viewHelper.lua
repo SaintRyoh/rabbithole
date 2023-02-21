@@ -171,7 +171,7 @@ function ViewHelper.load_template(template_path, _bindings)
     local config_dir = gears.filesystem.get_configuration_dir()
 
     -- load the template file
-    local template = loadfile(config_dir .. template_path)()
+    local template = loadfile(config_dir .. template_path)(_bindings)(_bindings)
 
     -- build bindings
     local bindings = ViewHelper.build_bindings_from_widget(template.root)
