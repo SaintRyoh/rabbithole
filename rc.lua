@@ -37,11 +37,11 @@ require("main.error-handling")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-local theme_dir = "themes/zenburn/theme.lua"
-if gears.filesystem.file_readable(theme_dir) then
-    beautiful.init(theme_dir)
-else
+local theme_dir = "themes/rabbithole/theme.lua"
+if gears.filesystem.file_readable(gears.filesystem.get_configuration_dir() .. theme_dir) then
     beautiful.init(gears.filesystem.get_configuration_dir() .. theme_dir)
+else
+    beautiful.init("themes/zenburn/theme.lua")
 end
 --beautiful.wallpaper = RC.vars.wallpaper
 -- }}}
