@@ -166,16 +166,14 @@ end
 --         }
 --     },
 -- }
-function ViewHelper.load_template(template_path, _bindings)
-    -- get config dir
-    local config_dir = gears.filesystem.get_configuration_dir()
+function ViewHelper.load_template(template, controller)
 
     -- load the template file
-    local template = loadfile(config_dir .. template_path)(_bindings)(_bindings)
+    local template = template(controller)
 
     -- build bindings
     local bindings = ViewHelper.build_bindings_from_widget(template.root)
-    bindings = gears.table.join(bindings, _bindings)
+    bindings = gears.table.join(bindings, controller)
 
     -- connect signals
     ViewHelper.connect_signals(template.root, bindings)

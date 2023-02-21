@@ -7,7 +7,7 @@ local __ = require("lodash")
 
 local _M = {}
 
-function _M.get(bindings)
+function _M.get(controller)
     local Template = { }
     
     Template.root = wibox.widget {
@@ -78,4 +78,4 @@ end
 
 
 
-return setmetatable({}, { __call = function(_, bindings) return _M.get(bindings) end })
+return setmetatable({}, { __call = function(_, controller) return _M.get(controller) end })
