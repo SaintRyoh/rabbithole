@@ -8,38 +8,60 @@ local __ = require("lodash")
 local _M = {}
 
 function _M.get(controller)
-    local Template = { }
-    
-    Template.root = wibox.widget {
-        widget = wibox.container.background,
-        bg = beautiful.bg_normal,
-        bind = "root",
-        signals = {
-            ["mouse::enter"] = function(widget, bindings)
-                widget.bg = beautiful.bg_focus
-            end,
-
-            ["mouse::leave"] = function(widget, bindings)
-                widget.bg = beautiful.bg_normal
-            end
-        },
-        {
-            widget = wibox.container.margin,
-            margins = 3,
+        return {
             {
-                layout = wibox.layout.fixed.horizontal,
                 {
-                    text = "initial text",
-                    align = "center",
-                    valign = "center",
-                    widget = wibox.widget.textbox,
-                    bind = "textbox"
+                    {
+                        {
+                            {
+                                id     = 'index_role',
+                                widget = wibox.widget.textbox,
+                            },
+                            margins = 4,
+                            widget  = wibox.container.margin,
+                        },
+                        bg     = '#dddddd',
+                        shape  = gears.shape.circle,
+                        widget = wibox.container.background,
+                    },
+                    {
+                        {
+                            id     = 'icon_role',
+                            widget = wibox.widget.imagebox,
+                        },
+                        margins = 2,
+                        widget  = wibox.container.margin,
+                    },
+                    {
+                        id     = 'text_role',
+                        widget = wibox.widget.textbox,
+                    },
+                    layout = wibox.layout.fixed.horizontal,
                 },
-            }
-        },
-    }
-
-    return Template
+                left  = 18,
+                right = 18,
+                widget = wibox.container.margin
+            },
+            id     = 'background_role',
+            widget = wibox.container.background,
+            -- Add support for hover colors and an index label
+            create_callback = function(self, c3, index, objects) --luacheck: no unused args
+                self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
+                self:connect_signal('mouse::enter', function()
+                    if self.bg ~= '#ff0000' then
+                        self.backup     = self.bg
+                        self.has_backup = true
+                    end
+                    self.bg = '#ff0000'
+                end)
+                self:connect_signal('mouse::leave', function()
+                    if self.has_backup then self.bg = self.backup end
+                end)
+            end,
+            update_callback = function(self, c3, index, objects) --luacheck: no unused args
+                self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
+            end,
+        }
 
 end
 
