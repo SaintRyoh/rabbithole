@@ -15,18 +15,20 @@ function TaglistController:new(workspaceManagerService, s)
     self = {}
     setmetatable(self, TaglistController)
 
-    self.model = workspaceManagerService
-    self.bindings = gears.table.join({
-        workspaceManagerService = self.model,
-        screen = s,
-    })
-    self.bindings = viewHelper.load_template("awesome-workspace-manager/widgets/taglist/template.lua", self.bindings)
-    self.view = {
-        bindings = self.bindings
-    }
+    -- resources
+    self.workspaceManagerService = workspaceManagerService
+    self.screen = s
+    
+    -- bindings
+    self.bindings = viewHelper.load_template(require("awesome-workspace-manager.widgets.taglist.template"), self)
+
     return self
 end
 
+-- get view 
+function TaglistController:get_view_widget()
+    return self.bindings.root
+end
 
 function _M.get(workspaceManagerService, s)
     return TaglistController:new(workspaceManagerService, s)

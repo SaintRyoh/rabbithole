@@ -334,9 +334,9 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             RC.launcher,
             workspaceMenu(workspaceManagerService),
-            -- taglist(workspaceManagerService, s),
-            s.my_global_workspace_taglist,
-            s.mytaglist,
+            taglist(workspaceManagerService, s),
+            -- s.my_global_workspace_taglist,
+            -- s.mytaglist,
             s.mypromptbox
         },
         s.mytasklist, -- Middle widget
