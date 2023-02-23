@@ -8,7 +8,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 
 local workspaceManagerService = RC.workspaceManagerService
-local tasklistmenu = require("deco.tasklistmenu")
+local tasklistmenu = require("awesome-workspace-manager.widgets.tasklist.tasklistmenu")
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
