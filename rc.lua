@@ -65,11 +65,8 @@ local binding = {
     clientkeys    = require("binding.clientkeys")
 }
 
-local services = {
-    workspaceManagerService = require("awesome-workspace-manager")
-}
 
-RC.workspaceManagerService = services.workspaceManagerService()
+RC.workspaceManagerService = require("awesome-workspace-manager")()
 
 -- {{{ Layouts
 -- Table of layouts to cover with awful.layout.inc, order matters.
