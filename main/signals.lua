@@ -9,7 +9,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 -- Custom Local Library: Common Functional Decoration
-require("awesome-workspace-manager.widgets.titlebar.titlebar")
+require("deco.titlebar")
 
 local __ = require("lodash")
 

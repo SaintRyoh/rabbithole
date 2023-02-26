@@ -16,7 +16,7 @@ local deco = {
 local workspaceMenu = require("awesome-workspace-manager.widgets.workspace-menu")
 local taglist = require("awesome-workspace-manager.widgets.taglist")
 
-local tasklist_buttons = require("awesome-workspace-manager.widgets.tasklist.tasklist_buttons")()
+local tasklist_buttons = require("deco.tasklist_buttons")()
 
 local __ = require("lodash")
 
