@@ -11,14 +11,12 @@ local workspaceManagerService = RC.workspaceManagerService
 -- Custom Local Library: Common Functional Decoration
 local deco = {
     wallpaper = require("deco.wallpaper"),
-    taglist   = require("deco.taglist"),
-    tasklist  = require("deco.tasklist"),
 }
 
 local workspaceMenu = require("awesome-workspace-manager.widgets.workspace-menu")
 local taglist = require("awesome-workspace-manager.widgets.taglist")
 
-local tasklist_buttons = deco.tasklist()
+local tasklist_buttons = require("deco.tasklist_buttons")()
 
 local __ = require("lodash")
 

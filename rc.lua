@@ -61,15 +61,11 @@ local binding = {
     globalbuttons = require("binding.globalbuttons"),
     clientbuttons = require("binding.clientbuttons"),
     globalkeys    = require("binding.globalkeys"),
-    bindtotags    = require("binding.bindtotags"),
     clientkeys    = require("binding.clientkeys")
 }
 
-local services = {
-    workspaceManagerService = require("awesome-workspace-manager")
-}
 
-RC.workspaceManagerService = services.workspaceManagerService()
+RC.workspaceManagerService = require("awesome-workspace-manager")()
 
 -- {{{ Layouts
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -107,7 +103,6 @@ menubar.utils.terminal = RC.vars.terminal
 
 -- {{{ Mouse and Key bindings
 RC.globalkeys = binding.globalkeys(RC.workspaceManagerService)
-RC.globalkeys = binding.bindtotags(RC.globalkeys)
 
 -- Set root
 root.buttons(binding.globalbuttons())

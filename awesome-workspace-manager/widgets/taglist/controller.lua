@@ -14,15 +14,10 @@ local gstring = require("gears.string")
 local common = require("awful.widget.common")
 
 -- Custom Local Library: Common Functional Decoration
-local deco = {
-    wallpaper = require("deco.wallpaper"),
-    taglist   = require("deco.taglist"),
-    tasklist  = require("deco.tasklist"),
-}
+local taglist   = require("awesome-workspace-manager.widgets.taglist.taglist_buttons")
 
-
-local taglist_buttons  = deco.taglist(require("deco.taglistmenu"))
-local globaltaglist_buttons = deco.taglist(require("deco.globaltaglistmenu"))
+local taglist_buttons  = taglist(require("awesome-workspace-manager.widgets.taglist.taglistmenu"))
+local globaltaglist_buttons = taglist(require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu"))
 local _M = {}
 
 -- workspace menu controller
