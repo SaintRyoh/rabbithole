@@ -115,7 +115,7 @@ root.keys(RC.globalkeys)
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Statusbar: Wibar
-require("awesome-workspace-manager.widgets.statusbar.statusbar")
+require("deco.statusbar")
 -- }}}
 
 -- {{{ Rules
