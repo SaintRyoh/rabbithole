@@ -49,6 +49,8 @@ end
 modkey = RC.vars.modkey
 editor_cmd = RC.vars.terminal .. " -e " .. RC.vars.editor
 
+RC.workspaceManagerService = require("awesome-workspace-manager")()
+
 -- Custom Local Library
 local main = {
     layouts = require("main.layouts"),
@@ -65,7 +67,6 @@ local binding = {
 }
 
 
-RC.workspaceManagerService = require("awesome-workspace-manager")()
 
 -- {{{ Layouts
 -- Table of layouts to cover with awful.layout.inc, order matters.
