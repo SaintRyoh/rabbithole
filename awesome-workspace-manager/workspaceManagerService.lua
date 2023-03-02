@@ -109,16 +109,16 @@ function WorkspaceManagerService:loadSession()
 
     gears.table.join(tagCoroutines, self:restoreWorkspace(loadedModel.global_workspace, true))
 
-    self.restoreClientsForTagHelper  = function()
-        capi.awesome.disconnect_signal("refresh", self.restoreClientsForTagHelper)
-        __.forEach(tagCoroutines, function(tagc)
-            if tagc then
-                coroutine.resume(tagc)
-            end
-        end)
-    end
+    -- self.restoreClientsForTagHelper  = function()
+    --     capi.awesome.disconnect_signal("refresh", self.restoreClientsForTagHelper)
+    --     __.forEach(tagCoroutines, function(tagc)
+    --         if tagc then
+    --             coroutine.resume(tagc)
+    --         end
+    --     end)
+    -- end
 
-    capi.awesome.connect_signal("refresh", self.restoreClientsForTagHelper)
+    -- capi.awesome.connect_signal("refresh", self.restoreClientsForTagHelper)
 
     self.workspaceManagerModel:switchTo(__.first(self.workspaceManagerModel:getAllWorkspaces()))
 end
