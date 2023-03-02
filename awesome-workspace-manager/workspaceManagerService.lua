@@ -46,7 +46,7 @@ function WorkspaceManagerService:new()
 
     -- make a timer to periodically save the session
     self.saveSessionTimer = gears.timer({
-        timeout = 10,
+        timeout = 20,
         autostart = true,
         callback = function()
             self:saveSession()
@@ -208,6 +208,14 @@ function WorkspaceManagerService:setupTagsOnScreen(s)
 
 
     local tag = __.first(unselected_tags)
+
+    -- if not check global workspace
+    if not tag then
+        local global_workspace = self:getGlobalWorkspace()
+        local global_tags = global_workspace:getAllTags()
+        local unselected_global_tags = __.filter(global_tags, function(tag) return not tag.selected end)
+        tag = __.first(unselected_global_tags)
+    end
 
     -- if tag then
     --     naughty.notify({
