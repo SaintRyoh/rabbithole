@@ -29,7 +29,9 @@ awful.screen.connect_for_each_screen(function(s)
     --     end
 
     -- tag setup
-    workspaceManagerService:setupTagsOnScreen(s)
+    if workspaceManagerService.session_restored ~= true then
+        workspaceManagerService:setupTagsOnScreen(s)
+    end
 
 
 -- {{{ Wibar

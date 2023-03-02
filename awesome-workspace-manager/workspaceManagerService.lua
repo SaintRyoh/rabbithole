@@ -24,9 +24,11 @@ function WorkspaceManagerService:new()
     self.path = gears.filesystem.get_configuration_dir() .. "/awesome-workspace-manager/session.lua"
     -- check if session file exists
     local file = io.open(self.path, "r")
+    self.session_restored = false
     if file then
         file:close()
         self:loadSession()
+        self.session_restored = true
     else
         self:newSession()
     end
@@ -44,7 +46,7 @@ function WorkspaceManagerService:new()
 
     -- make a timer to periodically save the session
     self.saveSessionTimer = gears.timer({
-        timeout = 60,
+        timeout = 10,
         autostart = true,
         callback = function()
             self:saveSession()
@@ -108,18 +110,10 @@ function WorkspaceManagerService:loadSession()
 
     gears.table.join(tagCoroutines, self:restoreWorkspace(loadedModel.global_workspace, true))
 
-    -- self.restoreClientsForTagHelper  = function()
-    --     capi.awesome.disconnect_signal("refresh", self.restoreClientsForTagHelper)
-    --     __.forEach(tagCoroutines, function(tagc)
-    --         if tagc then
-    --             coroutine.resume(tagc)
-    --         end
-    --     end)
-    -- end
-
-    -- capi.awesome.connect_signal("refresh", self.restoreClientsForTagHelper)
-
-    self.workspaceManagerModel:switchTo(__.first(self.workspaceManagerModel:getAllWorkspaces()))
+    -- switch to first tag if none are active
+    if #self:getAllActiveWorkspaces() == 0 then
+        self.workspaceManagerModel:switchTo(__.first(self:getAllWorkspaces()))
+    end
 end
 
 
@@ -147,19 +141,27 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
             return layout.name == name
         end)
     end
+    local function tagsAreEqual(tag1, tag2)
+        return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and tag1.hidden == tag2.hidden
+    end
     return __.map(definition.tags, function(tag_definition)
         local tag = self:createTag(nil, {
             name = tag_definition.name,
-            selected = tag_definition.selected,
-            activated = tag_definition.activated,
+            -- selected = tag_definition.selected,
+            -- activated = tag_definition.activated,
             hidden = tag_definition.hidden,
             index = tag_definition.index,
             layout = getLayoutByName(tag_definition.layout.name)
         })
+        tag.selected = tag_definition.selected
+        tag.activated = tag_definition.activated
+
+        -- if tag in tag_definition.last_selected_tags, then add it to the workspace's last_selected_tags
+        if __.find(definition.last_selected_tags, function(t) return tagsAreEqual(t, tag_definition) end) then
+            workspace:addLastSelectedTag(tag)
+        end
+
         workspace:addTag(tag)
-        return coroutine.create(function()
-            self:restoreClientsForTag(tag, tag_definition.clients)
-        end)
     end)
 end
 
