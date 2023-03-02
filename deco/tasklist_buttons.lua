@@ -1,7 +1,7 @@
 -- {{{ Required libraries
 local gears = require("gears")
 local awful = require("awful")
-local tasklistmenu = require("deco.tasklistmenu")
+local tasklistmenu = require("awesome-workspace-manager.widgets.tasklistmenu")
 local workspaceManagerService = RC.workspaceManagerService
 -- }}}
 

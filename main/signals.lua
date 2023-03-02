@@ -13,7 +13,6 @@ require("deco.titlebar")
 
 local __ = require("lodash")
 
-local workspaceManagerService = RC.workspaceManagerService
 
 capi = {
     screen = screen,

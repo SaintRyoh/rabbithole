@@ -11,6 +11,8 @@ local __ = require("lodash")
 local modkey = RC.vars.modkey
 local terminal = RC.vars.terminal
 
+local workspaceManagerService = RC.workspaceManagerService
+
 local _M = {}
 
 -- reading
@@ -18,7 +20,7 @@ local _M = {}
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-function _M.get(workspaceManagerService)
+function _M.get(...)
     local globalkeys = gears.table.join(
             awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
                     {description="show help", group="awesome"}),
@@ -172,4 +174,4 @@ end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-return setmetatable({}, { __call = function(_, workspaceManagerService) return _M.get(workspaceManagerService) end })
+return setmetatable({}, { __call = function(_, ...) return _M.get(...) end })

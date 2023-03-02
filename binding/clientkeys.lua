@@ -9,7 +9,7 @@ local modkey = RC.vars.modkey
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-function _M.get()
+function _M.get(...)
     local clientkeys = gears.table.join(
             awful.key({ modkey,           }, "f",
                     function (c)
