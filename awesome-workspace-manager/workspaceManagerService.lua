@@ -51,7 +51,6 @@ function WorkspaceManagerService:new()
         end
     })
 
-    self.saveSessionTimer:start()
 
 
 
@@ -143,6 +142,11 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
     else
         workspace = self.workspaceManagerModel:createWorkspace(definition.name)
     end
+    local function getLayoutByName(name)
+        return __.find(awful.layout.layouts, function(layout)
+            return layout.name == name
+        end)
+    end
     return __.map(definition.tags, function(tag_definition)
         local tag = self:createTag(nil, {
             name = tag_definition.name,
@@ -150,7 +154,7 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
             activated = tag_definition.activated,
             hidden = tag_definition.hidden,
             index = tag_definition.index,
-            layout = tag_definition.layout
+            layout = getLayoutByName(tag_definition.layout.name)
         })
         workspace:addTag(tag)
         return coroutine.create(function()

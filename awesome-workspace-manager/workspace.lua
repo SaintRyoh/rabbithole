@@ -1,6 +1,7 @@
 local lodash = require("lodash")
 local gears = require("gears")
 local exe = require("awesome-executable-service")
+local awful = require("awful")
 
 local workspace = { }
 workspace.__index = workspace
@@ -82,19 +83,21 @@ function workspace:__serialize()
     local tags = lodash.map(self.tags, function(tag) return {
             name = tag.name,
             selected = tag.selected,
-            layout = tag.layout,
-            activated = tag.activated,
+            layout = {
+                name = tag.layout.name
+            },
+            activated = tag.activated
             -- clients = self.tag:clients()
-            clients = lodash.map(tag:clients(), function(client) return {
-                name = client.name,
-                class = client.class,
-                exe = exe.getExecutableNameByPid(client.pid)
-            } 
-        end)
+            -- clients = lodash.map(tag:clients(), function(client) return {
+            --     name = client.name,
+            --     class = client.class,
+            --     exe = exe.getExecutableNameByPid(client.pid)
+            -- } 
+            -- end)
         } 
     end)
     return {
-        name = self.name,
+        name = self:getName(),
         tags = tags,
         id = self.id,
         last_selected_tags = self.last_selected_tags
