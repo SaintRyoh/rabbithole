@@ -15,6 +15,8 @@ function workspace:new(name, tags)
 
     self.last_selected_tags = {}
 
+    self.global_selected_backup = {}
+
     return self
 end
 
@@ -34,7 +36,7 @@ function workspace:removeAllTagsInWorkspace()
     self.tags = {}
 end
 
-function workspace:unselectedAllTags()
+function workspace:unselectAllTags()
     __.forEach(self.tags, function (tag)
         tag.selected = false
     end)
@@ -64,6 +66,22 @@ function workspace:setStatus(status)
         self.last_selected_tags = {}
     end
 end
+
+-- get selected tags
+function workspace:getSelectedTags()
+    return lodash.filter(self.tags, function(tag) return tag.selected end)
+end
+
+--set global backup
+function workspace:setGlobalBackup(global_tags)
+    self.global_selected_backup = global_tags
+end
+
+-- re-select all the tags that were selected before the workspace was activated
+function workspace:restoreGlobalBackup()
+    lodash.forEach(self.global_selected_backup, function(tag) tag.selected = true end)
+end
+
 
 function workspace:getStatus()
     return lodash.every(self.tags, function (tag) return tag.activated end)

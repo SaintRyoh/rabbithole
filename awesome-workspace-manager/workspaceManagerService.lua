@@ -327,7 +327,7 @@ end
 
 function WorkspaceManagerService:switchTo(workspace)
     self.workspaceManagerModel:switchTo(workspace) 
-    if workspace:numberOfTags() < capi.screen:count() then 
+    if workspace:numberOfTags() + self:getGlobalWorkspace():numberOfTags() < capi.screen:count() then 
         self:setupTags()
     end
     for s in capi.screen do
