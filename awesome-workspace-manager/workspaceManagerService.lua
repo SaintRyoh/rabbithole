@@ -26,6 +26,8 @@ function WorkspaceManagerService:new()
         activeWorkspaces = nil
     }
 
+    self.subscribers = {}
+
     self.unpauseServiceHelper = function ()
         self:unpauseService()
     end
@@ -37,6 +39,21 @@ function WorkspaceManagerService:new()
     return self
 end
 
+function WorkspaceManagerService:subscribeController(widget)
+    __.push(self.subscribers, widget)
+end
+
+function WorkspaceManagerService:unsubscribeController(widget)
+    __.remove(self.subscribers, widget)
+end
+
+function WorkspaceManagerService:updateSubscribers()
+    __.forEach(self.subscribers, function (widget)
+        if widget.update then
+            widget:update()
+        end
+    end)
+end
 
 function WorkspaceManagerService:setupTagsOnScreen(s)
 
@@ -145,6 +162,7 @@ function WorkspaceManagerService:removeWorkspace(workspace)
             end)
     -- Then Delete workspace
     self.workspaceManagerModel:deleteWorkspace(workspace)
+    self:updateSubscribers()
 end
 
 function WorkspaceManagerService:addWorkspace()
@@ -152,6 +170,7 @@ function WorkspaceManagerService:addWorkspace()
     self.workspaceManagerModel:switchTo(workspace)
 
     self:setupTags()
+    self:updateSubscribers()
     return workspace
 end
 
@@ -165,6 +184,7 @@ function WorkspaceManagerService:switchTo(workspace)
             self:setupTagsOnScreen(s)
         end
     end
+    self:updateSubscribers()
 end
 
 function WorkspaceManagerService:moveTagToWorkspace(tag, workspace)
