@@ -23,7 +23,14 @@ function WorkspaceMenuController:new(workspaceManagerService)
     self:set_menu(self:generate_menu())
     self:set_text(self.model:getActiveWorkspace():getName())
 
+    workspaceManagerService:subscribeController(self)
+
     return self
+end
+
+-- update the menu
+function WorkspaceMenuController:update()
+    self:updateMenu()
 end
 
 function WorkspaceMenuController:generate_menu()
@@ -97,7 +104,7 @@ function WorkspaceMenuController:rename_workspace(workspace)
             if not new_name or #new_name == 0 then return end
             if not workspace then return end
             workspace.name = new_name
-            self:updateMenu()
+            self.model:updateSubscribers()
         end
     }
 end

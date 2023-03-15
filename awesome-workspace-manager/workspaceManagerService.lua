@@ -36,6 +36,8 @@ function WorkspaceManagerService:new()
         activeWorkspaces = nil
     }
 
+    self.subscribers = {}
+
     self.unpauseServiceHelper = function ()
         self:unpauseService()
     end
@@ -64,6 +66,9 @@ function WorkspaceManagerService:newSession()
     local workspace = self.workspaceManagerModel:createWorkspace()
     self.workspaceManagerModel:switchTo(workspace)
     self:saveSession()
+end
+function WorkspaceManagerService:subscribeController(widget)
+    __.push(self.subscribers, widget)
 end
 
 function WorkspaceManagerService:saveSession()
@@ -200,6 +205,18 @@ function WorkspaceManagerService:restoreClientsForTag(tag, clients)
     end)
 end
 
+function WorkspaceManagerService:unsubscribeController(widget)
+    __.remove(self.subscribers, widget)
+end
+
+function WorkspaceManagerService:updateSubscribers()
+    __.forEach(self.subscribers, function (widget)
+        if widget.update then
+            widget:update()
+        end
+    end)
+end
+
 function WorkspaceManagerService:setupTagsOnScreen(s)
 
     local all_active_workspaces = self.workspaceManagerModel:getAllActiveWorkspaces()
@@ -257,6 +274,7 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
             local tag = self:createTag(name, { awful.layout.layouts[2] })
             workspace:addTag(tag)
             sharedtags.viewonly(tag, awful.screen.focused())
+            self:refresh()
         end
     }
 end
@@ -275,6 +293,7 @@ function WorkspaceManagerService:renameCurrentTag()
             local t = awful.screen.focused().selected_tag
             if t then
                 t.name = new_name
+                self:refresh()
             end
         end
     }
@@ -302,6 +321,7 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace)
     if not t then return end
     workspace:removeTag(t)
     t:delete()
+    self:refresh()
 end
 
 -- }}}
@@ -315,6 +335,7 @@ function WorkspaceManagerService:removeWorkspace(workspace)
             end)
     -- Then Delete workspace
     self.workspaceManagerModel:deleteWorkspace(workspace)
+    self:updateSubscribers()
 end
 
 function WorkspaceManagerService:addWorkspace(name)
@@ -322,6 +343,7 @@ function WorkspaceManagerService:addWorkspace(name)
     self.workspaceManagerModel:switchTo(workspace)
 
     self:setupTags()
+    self:updateSubscribers()
     return workspace
 end
 
@@ -335,6 +357,7 @@ function WorkspaceManagerService:switchTo(workspace)
             self:setupTagsOnScreen(s)
         end
     end
+    self:updateSubscribers()
 end
 
 function WorkspaceManagerService:moveTagToWorkspace(tag, workspace)
