@@ -104,6 +104,7 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
             local tag = sharedtags.add(name, { awful.layout.layouts[2] })
             workspace:addTag(tag)
             sharedtags.viewonly(tag, awful.screen.focused())
+            self:refresh()
         end
     }
 end
@@ -122,6 +123,7 @@ function WorkspaceManagerService:renameCurrentTag()
             local t = awful.screen.focused().selected_tag
             if t then
                 t.name = new_name
+                self:refresh()
             end
         end
     }
@@ -149,6 +151,7 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace)
     if not t then return end
     workspace:removeTag(t)
     t:delete()
+    self:refresh()
 end
 
 -- }}}
