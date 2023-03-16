@@ -147,6 +147,16 @@ end
 -- Any rule set on the tag shall be broken
 function WorkspaceManagerService:deleteTagFromWorkspace(workspace)
     local workspace = workspace or __.last(self:getAllActiveWorkspaces())
+    -- if number of tags from global and local workspace is equal to number of screen then don't delete
+    local total_tags = #self:getGlobalWorkspace():getAllTags() + #workspace:getAllTags()
+    if total_tags <= #capi.screen then
+        naughty.notify({
+            title="Delete Tag",
+            text="Can't delete tag. At least one tag is required per screen",
+            timeout=3
+        })
+        return
+    end
     local t = awful.screen.focused().selected_tag
     if not t then return end
     
