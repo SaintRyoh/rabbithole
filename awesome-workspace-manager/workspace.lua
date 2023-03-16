@@ -36,6 +36,11 @@ function workspace:removeAllTagsInWorkspace()
     self.tags = {}
 end
 
+-- has tag
+function workspace:hasTag(tag)
+    return lodash.find(self.tags, function(_tag) return _tag == tag end) ~= nil
+end
+
 function workspace:unselectAllTags()
     __.forEach(self.tags, function (tag)
         tag.selected = false
