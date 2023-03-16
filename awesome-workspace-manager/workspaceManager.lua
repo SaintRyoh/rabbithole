@@ -72,7 +72,7 @@ end
 
 function workspaceManager:switchTo(workspace)
     self:setStatusForAllWorkspaces(false)
-    self.global_workspace:unselectedAllTags()
+    self.global_workspace:unselectAllTags()
     workspace:setStatus(true)
 end
 

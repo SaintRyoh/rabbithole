@@ -149,9 +149,20 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace)
     local workspace = workspace or __.last(self:getAllActiveWorkspaces())
     local t = awful.screen.focused().selected_tag
     if not t then return end
-    workspace:removeTag(t)
-    t:delete()
-    self:refresh()
+    
+    local deleted = false
+    if workspace:hasTag(t) then
+        workspace:removeTag(t)
+        deleted = true
+    elseif self:getGlobalWorkspace():hasTag(t) then
+        self:getGlobalWorkspace():removeTag(t)
+        deleted = true
+    end
+
+    if deleted then
+        t:delete()
+        self:refresh()
+    end
 end
 
 -- }}}
