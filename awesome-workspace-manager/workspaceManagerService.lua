@@ -204,6 +204,7 @@ end
 function WorkspaceManagerService:moveTagToWorkspace(tag, workspace)
     self:getWorkspaceByTag(tag):removeTag(tag)
     workspace:addTag(tag)
+    tag.selected = false
     -- simple way to update the tag list
     self:refresh()
 end
@@ -224,6 +225,7 @@ function WorkspaceManagerService:moveGlobalTagToWorkspace(tag, workspace)
     self:getGlobalWorkspace():removeTag(tag)
     workspace:addTag(tag)
     -- simple way to update the tag list
+    tag.selected = false
     self:refresh()
 end
 
