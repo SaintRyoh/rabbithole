@@ -217,7 +217,7 @@ function WorkspaceManagerService:updateSubscribers()
     end)
 end
 
-function WorkspaceManagerService:setupTagsOnScreen(s)
+function WorkspaceManagerService:setupTags()
 
     local all_active_workspaces = self.workspaceManagerModel:getAllActiveWorkspaces()
     local all_tags = __.flatten(__.map(all_active_workspaces, function(workspace) return workspace:getAllTags() end))
@@ -245,20 +245,15 @@ function WorkspaceManagerService:setupTagsOnScreen(s)
     -- if not, then make one
     if not tag then
         local last_workspace = __.last(all_active_workspaces) or __.first(self.workspaceManagerModel:getAllWorkspaces())
-        tag = self:createTag(#self.workspaceManagerModel:getAllWorkspaces() .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
+        tag = sharedtags.add((last_workspace:getName() or #self.workspaceManagerModel:getAllWorkspaces()) .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
         last_workspace:addTag(tag)
         last_workspace:setStatus(true)
     end
 
-    sharedtags.viewonly(tag, s)
+    -- sharedtags.viewonly(tag, s)
 
 end
 
-function WorkspaceManagerService:setupTags()
-    for s in capi.screen do
-        self:setupTagsOnScreen(s)
-    end
-end
 
 -- {{{ Dynamic tagging
 
@@ -317,6 +312,16 @@ end
 -- Any rule set on the tag shall be broken
 function WorkspaceManagerService:deleteTagFromWorkspace(workspace)
     local workspace = workspace or __.last(self:getAllActiveWorkspaces())
+    -- if number of tags from global and local workspace is equal to number of screen then don't delete
+    local total_tags = #self:getGlobalWorkspace():getAllTags() + #workspace:getAllTags()
+    if total_tags <= #capi.screen then
+        naughty.notify({
+            title="Delete Tag",
+            text="Can't delete tag. At least one tag is required per screen",
+            timeout=3
+        })
+        return
+    end
     local t = awful.screen.focused().selected_tag
     if not t then return end
     
@@ -358,22 +363,31 @@ function WorkspaceManagerService:addWorkspace(name)
     return workspace
 end
 
+-- asigns tags to screens
+function WorkspaceManagerService:assignWorkspaceTagsToScreens()
+    for s in capi.screen do
+        if #s.selected_tags == 0 then
+            local first_unselected_tag = self:getFirstUnselectedTag()
+            if first_unselected_tag then
+                sharedtags.viewonly(first_unselected_tag, s)
+            end
+        end
+    end
+end
+
 function WorkspaceManagerService:switchTo(workspace)
     self.workspaceManagerModel:switchTo(workspace) 
     if workspace:numberOfTags() + self:getGlobalWorkspace():numberOfTags() < capi.screen:count() then 
         self:setupTags()
     end
-    for s in capi.screen do
-        if #s.selected_tags == 0 then
-            self:setupTagsOnScreen(s)
-        end
-    end
+    self:assignWorkspaceTagsToScreens()
     self:updateSubscribers()
 end
 
 function WorkspaceManagerService:moveTagToWorkspace(tag, workspace)
     self:getWorkspaceByTag(tag):removeTag(tag)
     workspace:addTag(tag)
+    tag.selected = false
     -- simple way to update the tag list
     self:refresh()
 end
@@ -390,10 +404,16 @@ function WorkspaceManagerService:getAllActiveTags()
     end))
 end
 
+-- get first unselcted tag from all active workspaces
+function WorkspaceManagerService:getFirstUnselectedTag()
+    return __.first(__.filter(self:getAllActiveTags(), function(tag) return not tag.selected end))
+end
+
 function WorkspaceManagerService:moveGlobalTagToWorkspace(tag, workspace)
     self:getGlobalWorkspace():removeTag(tag)
     workspace:addTag(tag)
     -- simple way to update the tag list
+    tag.selected = false
     self:refresh()
 end
 
