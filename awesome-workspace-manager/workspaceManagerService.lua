@@ -58,7 +58,7 @@ function WorkspaceManagerService:new()
 
     -- make a timer to periodically save the session
     self.saveSessionTimer = gears.timer({
-        timeout = 20,
+        timeout = 5,
         autostart = true,
         callback = function()
             self:saveSession()
@@ -138,12 +138,8 @@ function WorkspaceManagerService:loadSession()
         coroutine.resume(tc)
     end)
 
-    capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
+    -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
-    -- switch to first tag if none are active
-    if #self:getAllActiveWorkspaces() == 0 then
-        self.workspaceManagerModel:switchTo(__.first(self:getAllWorkspaces()))
-    end
 end
 
 
@@ -214,11 +210,12 @@ end
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
     __.forEach(clients, function(client)
         local c = __.find(capi.client.get(), function(c) 
-            return c.class == client.class and c.name == client.name 
+            return c.class == client.class and c.name == client.name and c.pid == client.pid
         end)
 
-        if c then
+        if c and c.moved_to_tag == nil then
             c:move_to_tag(tag)
+            c.moved_to_tag = true
         end
     end)
 end

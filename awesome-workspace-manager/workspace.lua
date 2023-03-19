@@ -105,7 +105,8 @@ function workspace:__serialize()
         return lodash.map(clients, function(client)
             return {
                 name = client.name,
-                class = client.class
+                class = client.class,
+                pid = client.pid
             }
         end)
     end
