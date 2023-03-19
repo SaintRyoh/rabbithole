@@ -28,9 +28,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
     --     end
 
-    -- tag setup
-    workspaceManagerService:setupTagsOnScreen(s)
-
+    workspaceManagerService:refresh()
 
 -- {{{ Wibar
     -- Create a promptbox for each screen

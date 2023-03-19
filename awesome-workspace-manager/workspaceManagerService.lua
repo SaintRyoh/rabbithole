@@ -20,7 +20,7 @@ function WorkspaceManagerService:new()
 
     self.workspaceManagerModel  = workspaceManager:new()
     local workspace = self.workspaceManagerModel:createWorkspace()
-    self.workspaceManagerModel:switchTo(workspace)
+    self:switchTo(workspace)
 
     self.pauseState = {
         activeWorkspaces = nil
@@ -55,7 +55,7 @@ function WorkspaceManagerService:updateSubscribers()
     end)
 end
 
-function WorkspaceManagerService:setupTagsOnScreen(s)
+function WorkspaceManagerService:setupTags()
 
     local all_active_workspaces = self.workspaceManagerModel:getAllActiveWorkspaces()
     local all_tags = __.flatten(__.map(all_active_workspaces, function(workspace) return workspace:getAllTags() end))
@@ -75,20 +75,15 @@ function WorkspaceManagerService:setupTagsOnScreen(s)
     -- if not, then make one
     if not tag then
         local last_workspace = __.last(all_active_workspaces) or __.first(self.workspaceManagerModel:getAllWorkspaces())
-        tag = sharedtags.add(#self.workspaceManagerModel:getAllWorkspaces() .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
+        tag = sharedtags.add((last_workspace:getName() or #self.workspaceManagerModel:getAllWorkspaces()) .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
         last_workspace:addTag(tag)
         last_workspace:setStatus(true)
     end
 
-    sharedtags.viewonly(tag, s)
+    -- sharedtags.viewonly(tag, s)
 
 end
 
-function WorkspaceManagerService:setupTags()
-    for s in capi.screen do
-        self:setupTagsOnScreen(s)
-    end
-end
 
 -- {{{ Dynamic tagging
 
@@ -198,16 +193,24 @@ function WorkspaceManagerService:addWorkspace()
     return workspace
 end
 
+-- asigns tags to screens
+function WorkspaceManagerService:assignWorkspaceTagsToScreens()
+    for s in capi.screen do
+        if #s.selected_tags == 0 then
+            local first_unselected_tag = self:getFirstUnselectedTag()
+            if first_unselected_tag then
+                sharedtags.viewonly(first_unselected_tag, s)
+            end
+        end
+    end
+end
+
 function WorkspaceManagerService:switchTo(workspace)
     self.workspaceManagerModel:switchTo(workspace) 
     if workspace:numberOfTags() < capi.screen:count() then 
         self:setupTags()
     end
-    for s in capi.screen do
-        if #s.selected_tags == 0 then
-            self:setupTagsOnScreen(s)
-        end
-    end
+    self:assignWorkspaceTagsToScreens()
     self:updateSubscribers()
 end
 
@@ -229,6 +232,11 @@ function WorkspaceManagerService:getAllActiveTags()
     return __.flatten(__.map(self:getAllActiveWorkspaces(), function (workspace)
         return workspace:getAllTags()
     end))
+end
+
+-- get first unselcted tag from all active workspaces
+function WorkspaceManagerService:getFirstUnselectedTag()
+    return __.first(__.filter(self:getAllActiveTags(), function(tag) return not tag.selected end))
 end
 
 function WorkspaceManagerService:moveGlobalTagToWorkspace(tag, workspace)
