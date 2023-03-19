@@ -21,6 +21,22 @@ function WorkspaceManagerService:new()
     setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel = workspaceManager:new()
+
+    -- pause stuff
+    self.pauseState = {
+        activeWorkspaces = nil
+    }
+
+    self.unpauseServiceHelper = function ()
+        self:unpauseService()
+    end
+
+    capi.screen.connect_signal("removed", function (s)
+        self:screenDisconnectUpdate(s)
+    end)
+
+
+    -- load sesison
     self.path = gears.filesystem.get_configuration_dir() .. "/awesome-workspace-manager/session.lua"
 
     local status, err = pcall(function ()
@@ -40,20 +56,6 @@ function WorkspaceManagerService:new()
         self.session_restored = true
     end
 
-    self.pauseState = {
-        activeWorkspaces = nil
-    }
-
-    self.subscribers = {}
-
-    self.unpauseServiceHelper = function ()
-        self:unpauseService()
-    end
-
-    capi.screen.connect_signal("removed", function (s)
-        self:screenDisconnectUpdate(s)
-    end)
-
     -- make a timer to periodically save the session
     self.saveSessionTimer = gears.timer({
         timeout = 20,
@@ -62,6 +64,9 @@ function WorkspaceManagerService:new()
             self:saveSession()
         end
     })
+
+    -- observer
+    self.subscribers = {}
 
     return self
 end
@@ -126,6 +131,15 @@ function WorkspaceManagerService:loadSession()
 
     gears.table.join(tagCoroutines, self:restoreWorkspace(loadedModel.global_workspace, true))
 
+    self:pauseService()
+
+    -- wait for all tags to be created
+    __.forEach(tagCoroutines, function(tc)
+        coroutine.resume(tc)
+    end)
+
+    capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
+
     -- switch to first tag if none are active
     if #self:getAllActiveWorkspaces() == 0 then
         self.workspaceManagerModel:switchTo(__.first(self:getAllWorkspaces()))
@@ -146,25 +160,27 @@ end
 -- @usage WorkspaceManagerService:restoreWorkspace(definition)
 function WorkspaceManagerService:restoreWorkspace(definition, global)
     global = global or false
+
     local workspace = nil
     if global then
         workspace = self:getGlobalWorkspace()
     else
         workspace = self.workspaceManagerModel:createWorkspace(definition.name)
     end
+
     local function getLayoutByName(name)
         return __.find(awful.layout.layouts, function(layout)
             return layout.name == name
         end)
     end
+
     local function tagsAreEqual(tag1, tag2)
         return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and tag1.hidden == tag2.hidden
     end
+
     return __.map(definition.tags, function(tag_definition)
         local tag = self:createTag(nil, {
             name = tag_definition.name,
-            -- selected = tag_definition.selected,
-            -- activated = tag_definition.activated,
             hidden = tag_definition.hidden,
             index = tag_definition.index,
             layout = getLayoutByName(tag_definition.layout.name)
@@ -178,6 +194,9 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
         end
 
         workspace:addTag(tag)
+        return coroutine.create(function()
+            self:restoreClientsForTag(tag, tag_definition.clients)
+        end)
     end)
 end
 
@@ -194,24 +213,12 @@ end
 -- @usage WorkspaceManagerService:restoreClientsForTag(tag, clients)
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
     __.forEach(clients, function(client)
-        local c = __.find(capi.client.get(), function(c) return c.class == client.class end)
+        local c = __.find(capi.client.get(), function(c) 
+            return c.class == client.class and c.name == client.name 
+        end)
+
         if c then
             c:move_to_tag(tag)
-        else
-            -- try spawning with client.class, if that fails, then try with client.exe 
-            -- if it fails, then notify the user
-
-            local _, notiId = awful.spawn(string.lower(client.class), {tag = tag})
-            if notiId == nil then
-                _, notiId = awful.spawn(client.exe, {tag = tag})
-                if notiId == nil then
-                    naughty.notify({
-                        title="Error restoring client",
-                        text=notiId,
-                        timeout=0
-                    })
-                end
-            end
         end
     end)
 end

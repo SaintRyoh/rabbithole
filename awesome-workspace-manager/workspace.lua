@@ -101,6 +101,14 @@ function workspace:equals(otherWorkspace)
 end
 
 function workspace:__serialize()
+    local function serializeClients(clients)
+        return lodash.map(clients, function(client)
+            return {
+                name = client.name,
+                class = client.class
+            }
+        end)
+    end
     local function serializeTags(tags)
         return lodash.map(tags, function(tag) return {
             name = tag.name,
@@ -109,7 +117,8 @@ function workspace:__serialize()
                 name = tag.layout.name
             },
             activated = tag.activated,
-            hidden = tag.hidden
+            hidden = tag.hidden,
+            clients = serializeClients(tag:clients())
         } 
         end)
     end
