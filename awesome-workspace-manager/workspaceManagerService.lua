@@ -81,9 +81,6 @@ function WorkspaceManagerService:newSession()
     self:switchTo(workspace)
     self:saveSession()
 end
-function WorkspaceManagerService:subscribeController(widget)
-    __.push(self.subscribers, widget)
-end
 
 function WorkspaceManagerService:saveSession()
     local file,err = io.open(self.path, "w")
@@ -217,6 +214,10 @@ function WorkspaceManagerService:restoreClientsForTag(tag, clients)
             end
         end
     end)
+end
+
+function WorkspaceManagerService:subscribeController(widget)
+    __.push(self.subscribers, widget)
 end
 
 function WorkspaceManagerService:unsubscribeController(widget)
