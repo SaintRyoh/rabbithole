@@ -64,7 +64,7 @@ end
 function WorkspaceManagerService:newSession()
     self.workspaceManagerModel:deleteAllWorkspaces()
     local workspace = self.workspaceManagerModel:createWorkspace()
-    self.workspaceManagerModel:switchTo(workspace)
+    self:switchTo(workspace)
     self:saveSession()
 end
 function WorkspaceManagerService:subscribeController(widget)
@@ -244,7 +244,7 @@ function WorkspaceManagerService:setupTags()
 
     -- if not, then make one
     if not tag then
-        local last_workspace = __.last(all_active_workspaces) or __.first(self.workspaceManagerModel:getAllWorkspaces())
+        local last_workspace = self:getActiveWorkspace()
         tag = sharedtags.add((last_workspace:getName() or #self.workspaceManagerModel:getAllWorkspaces()) .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
         last_workspace:addTag(tag)
         last_workspace:setStatus(true)
@@ -355,11 +355,8 @@ function WorkspaceManagerService:removeWorkspace(workspace)
 end
 
 function WorkspaceManagerService:addWorkspace(name)
-    local workspace = self.workspaceManagerModel:createWorkspace(name)
-    self.workspaceManagerModel:switchTo(workspace)
-
-    self:setupTags()
-    self:updateSubscribers()
+    local workspace = self.workspaceManagerModel:createWorkspace(name or tostring(#self.workspaceManagerModel:getAllWorkspaces()+1) )
+    self:switchTo(workspace)
     return workspace
 end
 
@@ -444,7 +441,7 @@ function WorkspaceManagerService:getAllActiveWorkspaces()
 end
 
 function WorkspaceManagerService:getActiveWorkspace()
-    return __.first(self:getAllActiveWorkspaces())
+    return __.first(self:getAllActiveWorkspaces() or __.first(self:getAllWorkspaces()))
 end
 
 function WorkspaceManagerService:getAllUnactiveWorkspaces()
