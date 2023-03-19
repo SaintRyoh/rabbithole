@@ -22,16 +22,24 @@ function WorkspaceManagerService:new()
 
     self.workspaceManagerModel = workspaceManager:new()
     self.path = gears.filesystem.get_configuration_dir() .. "/awesome-workspace-manager/session.lua"
-    -- check if session file exists
-    local file = io.open(self.path, "r")
-    self.session_restored = false
-    if file then
-        file:close()
-        self:loadSession()
-        self.session_restored = true
-    else
+
+    local status, err = pcall(function ()
+        self:loadSession() 
+    end)
+
+    if not status then
+        naughty.notify({
+            title="Error loading session",
+            text=err,
+            timeout=0
+        })
+        self:backupSessionFile(self.path)
         self:newSession()
+        self.session_restored = false
+    else
+        self.session_restored = true
     end
+
     self.pauseState = {
         activeWorkspaces = nil
     }
@@ -55,10 +63,16 @@ function WorkspaceManagerService:new()
         end
     })
 
-
-
-
     return self
+end
+
+-- rename session.lua to session.lua.bak
+function WorkspaceManagerService:backupSessionFile(file_path)
+    local file = io.open(file_path, "r")
+    if file then
+        file:close()
+        os.rename(file_path, file_path .. ".bak")
+    end
 end
 
 function WorkspaceManagerService:newSession()
@@ -94,7 +108,7 @@ function WorkspaceManagerService:loadSession()
             text=err,
             timeout=0
         })
-       return
+        error(err)
     end
     local session = file:read("*all")
     file:close()
@@ -105,7 +119,7 @@ function WorkspaceManagerService:loadSession()
             text="Error parsing session file",
             timeout=5
         })
-        return
+        error("Error parsing session file")
     end
 
 
