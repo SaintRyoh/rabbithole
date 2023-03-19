@@ -198,7 +198,9 @@ function WorkspaceManagerService:assignWorkspaceTagsToScreens()
     for s in capi.screen do
         if #s.selected_tags == 0 then
             local first_unselected_tag = self:getFirstUnselectedTag()
-            sharedtags.viewonly(first_unselected_tag, s)
+            if first_unselected_tag then
+                sharedtags.viewonly(first_unselected_tag, s)
+            end
         end
     end
 end
