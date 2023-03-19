@@ -90,7 +90,7 @@ function workspace:getName()
         -- return the first part of the split
         return string.gsub(lodash.first(self.tags).name, "%..*", "")
     else 
-        return "Unnamed"
+        return nil
     end
 end
 
