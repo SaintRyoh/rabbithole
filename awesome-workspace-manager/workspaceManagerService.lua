@@ -74,9 +74,8 @@ end
 
 -- rename session.lua to session.lua.bak
 function WorkspaceManagerService:backupSessionFile(file_path)
-    local file = io.open(file_path, "r")
-    if file then
-        file:close()
+    if gears.filesystem.file_readable(file_path) then
+        os.remove(file_path .. ".bak")
         os.rename(file_path, file_path .. ".bak")
     end
 end
