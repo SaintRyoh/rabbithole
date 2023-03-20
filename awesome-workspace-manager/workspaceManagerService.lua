@@ -6,6 +6,7 @@ local __ = require("lodash")
 local workspaceManager = require("awesome-workspace-manager.workspaceManager")
 local serpent = require("serpent")
 local gears = require("gears")
+local serpent = require("serpent")
 
 local capi = {
     screen = screen,
@@ -88,7 +89,7 @@ function WorkspaceManagerService:newSession()
 end
 
 function WorkspaceManagerService:saveSession()
-    local file,err = io.open(self.path, "w")
+    local file,err = io.open(self.path, "w+")
     if not file then
         naughty.notify({
             title="Error saving session",
@@ -103,7 +104,7 @@ end
 
 -- method to load session
 function WorkspaceManagerService:loadSession()
-    local file,err = io.open(self.path , "r")
+    local file,err = io.open(self.path , "r+")
     if not file then
         naughty.notify({
             title="Error loading session",
@@ -129,15 +130,24 @@ function WorkspaceManagerService:loadSession()
         return self:restoreWorkspace(workspace_model)
     end))
 
-    gears.table.join(tagCoroutines, self:restoreWorkspace(loadedModel.global_workspace, true))
+    __.push(tagCoroutines, __.first( __.flatten( self:restoreWorkspace(loadedModel.global_workspace, true) ) ))
 
-    self:pauseService()
+            naughty.notify({
+                title="Restoring tag",
+                text=serpent.dump(tagCoroutines),
+                timeout=0
+            })
 
-    -- wait for all tags to be created
-    __.forEach(tagCoroutines, function(tc)
-        coroutine.resume(tc)
-    end)
-
+    local function restoreClientHelper()
+        self:pauseService()
+        __.forEach(tagCoroutines, function(tc)
+            coroutine.resume(tc)
+        end)
+        capi.awesome.disconnect_signal("refresh", restoreClientHelper)
+        self:unpauseService()
+    end
+        
+    capi.awesome.connect_signal("refresh", restoreClientHelper)
     -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
 end
@@ -191,6 +201,7 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
 
         workspace:addTag(tag)
         return coroutine.create(function()
+            -- dump tag
             self:restoreClientsForTag(tag, tag_definition.clients)
         end)
     end)
@@ -208,14 +219,25 @@ end
 --     }
 -- @usage WorkspaceManagerService:restoreClientsForTag(tag, clients)
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
+    --notify tag name
+    naughty.notify({
+        title="Restoring clients",
+        text="Restoring clients for tag " .. tag.name,
+        timeout=0
+    })
     __.forEach(clients, function(client)
         local c = __.find(capi.client.get(), function(c) 
-            return c.class == client.class and c.name == client.name and c.pid == client.pid
+            return c.pid == client.pid
         end)
 
         if c and c.moved_to_tag == nil then
             c:move_to_tag(tag)
             c.moved_to_tag = true
+            naughty.notify({
+                title="Restoring client",
+                text="Restoring client " .. c.name .. "to tag " .. tag.name,
+                timeout=0
+            })
         end
     end)
 end
