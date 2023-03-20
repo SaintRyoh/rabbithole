@@ -132,11 +132,6 @@ function WorkspaceManagerService:loadSession()
 
     __.push(tagCoroutines, __.first( __.flatten( self:restoreWorkspace(loadedModel.global_workspace, true) ) ))
 
-            naughty.notify({
-                title="Restoring tag",
-                text=serpent.dump(tagCoroutines),
-                timeout=0
-            })
 
     local function restoreClientHelper()
         self:pauseService()
@@ -219,12 +214,6 @@ end
 --     }
 -- @usage WorkspaceManagerService:restoreClientsForTag(tag, clients)
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
-    --notify tag name
-    naughty.notify({
-        title="Restoring clients",
-        text="Restoring clients for tag " .. tag.name,
-        timeout=0
-    })
     __.forEach(clients, function(client)
         local c = __.find(capi.client.get(), function(c) 
             return c.pid == client.pid
@@ -233,11 +222,6 @@ function WorkspaceManagerService:restoreClientsForTag(tag, clients)
         if c and c.moved_to_tag == nil then
             c:move_to_tag(tag)
             c.moved_to_tag = true
-            naughty.notify({
-                title="Restoring client",
-                text="Restoring client " .. c.name .. "to tag " .. tag.name,
-                timeout=0
-            })
         end
     end)
 end
