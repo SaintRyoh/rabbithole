@@ -29,7 +29,7 @@ awful.screen.connect_for_each_screen(function(s)
     --     end
 
     -- if workspaceManagerService.session_restored ~= true then
-    workspaceManagerService:refresh()
+    workspaceManagerService:assignWorkspaceTagsToScreens()
     --     workspaceManagerService.session_restored = true
     -- end
 

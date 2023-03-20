@@ -119,7 +119,8 @@ function workspace:__serialize()
             },
             activated = tag.activated,
             hidden = tag.hidden,
-            clients = serializeClients(tag:clients())
+            clients = serializeClients(tag:clients()),
+            sharedtagindex = tag.sharedtagindex
         } 
         end)
     end

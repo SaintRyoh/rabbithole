@@ -178,8 +178,8 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
         return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and tag1.hidden == tag2.hidden
     end
 
-    return __.map(definition.tags, function(tag_definition)
-        local tag = self:createTag(nil, {
+    return __.map(definition.tags, function(tag_definition, index)
+        local tag = self:createTag(index, {
             name = tag_definition.name,
             hidden = tag_definition.hidden,
             index = tag_definition.index,
@@ -242,40 +242,10 @@ function WorkspaceManagerService:updateSubscribers()
 end
 
 function WorkspaceManagerService:setupTags()
-
-    local all_active_workspaces = self.workspaceManagerModel:getAllActiveWorkspaces()
-    local all_tags = __.flatten(__.map(all_active_workspaces, function(workspace) return workspace:getAllTags() end))
-    local unselected_tags = __.filter(all_tags, function(tag) return not tag.selected end)
-
-
-    local tag = __.first(unselected_tags)
-
-    -- if not check global workspace
-    if not tag then
-        local global_workspace = self:getGlobalWorkspace()
-        local global_tags = global_workspace:getAllTags()
-        local unselected_global_tags = __.filter(global_tags, function(tag) return not tag.selected end)
-        tag = __.first(unselected_global_tags)
-    end
-
-    -- if tag then
-    --     naughty.notify({
-    --     title="setup tags",
-    --     text="recycling tag:" .. tag.name,
-    --     timeout=0
-    --     })
-    -- end
-
-    -- if not, then make one
-    if not tag then
-        local last_workspace = self:getActiveWorkspace()
-        tag = sharedtags.add((last_workspace:getName() or #self.workspaceManagerModel:getAllWorkspaces()) .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
-        last_workspace:addTag(tag)
-        last_workspace:setStatus(true)
-    end
-
-    -- sharedtags.viewonly(tag, s)
-
+    local last_workspace = self:getActiveWorkspace()
+    local tag = sharedtags.add((last_workspace:getName() or #self.workspaceManagerModel:getAllWorkspaces()) .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
+    last_workspace:addTag(tag)
+    last_workspace:setStatus(true)
 end
 
 
@@ -290,7 +260,8 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
         textbox      = awful.screen.focused().mypromptbox.widget,
         exe_callback = function(name)
             if not name or #name == 0 then return end
-            local tag = self:createTag(name, { awful.layout.layouts[2] })
+            local index = #self:getAllTags() + #self:getGlobalWorkspace():getAllTags() + 1
+            local tag = self:createTag(index, { name = name, layout = awful.layout.layouts[2] })
             workspace:addTag(tag)
             sharedtags.viewonly(tag, awful.screen.focused())
             self:refresh()
@@ -390,7 +361,16 @@ function WorkspaceManagerService:assignWorkspaceTagsToScreens()
         if #s.selected_tags == 0 then
             local first_unselected_tag = self:getFirstUnselectedTag()
             if first_unselected_tag then
+                -- dump tag
+                naughty.notify({
+                    title="assignWorkspaceTagsToScreens",
+                    text=serpent.dump(first_unselected_tag.name),
+                    timeout=0
+                })
                 sharedtags.viewonly(first_unselected_tag, s)
+            else
+                -- create new tag
+                self:setupTags()
             end
         end
     end
@@ -398,9 +378,6 @@ end
 
 function WorkspaceManagerService:switchTo(workspace)
     self.workspaceManagerModel:switchTo(workspace) 
-    if workspace:numberOfTags() + self:getGlobalWorkspace():numberOfTags() < capi.screen:count() then 
-        self:setupTags()
-    end
     self:assignWorkspaceTagsToScreens()
     self:updateSubscribers()
 end
@@ -427,7 +404,7 @@ end
 
 -- get first unselcted tag from all active workspaces
 function WorkspaceManagerService:getFirstUnselectedTag()
-    return __.first(__.filter(self:getAllActiveTags(), function(tag) return not tag.selected end))
+    return __.first(__.filter(gears.table.join(self:getAllActiveTags(), self:getGlobalWorkspace():getAllTags()), function(tag) return not tag.selected end))
 end
 
 function WorkspaceManagerService:moveGlobalTagToWorkspace(tag, workspace)
