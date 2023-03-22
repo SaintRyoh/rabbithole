@@ -71,9 +71,21 @@ function (workspace)
 end
 
 function workspaceManager:switchTo(workspace)
+    -- backup the global workspace's selected tags
+    local active_workspace = lodash.first( self:getAllActiveWorkspaces() )
+    active_workspace:setGlobalBackup(self.global_workspace:getSelectedTags())
     self:setStatusForAllWorkspaces(false)
     self.global_workspace:unselectAllTags()
     workspace:setStatus(true)
+    workspace:restoreGlobalBackup()
+end
+
+-- create a __serialize method to allow for serialization
+function workspaceManager:__serialize()
+    return {
+        workspaces = self.workspaces,
+        global_workspace = self.global_workspace
+    }
 end
 
 return workspaceManager

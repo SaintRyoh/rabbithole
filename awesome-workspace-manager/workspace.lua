@@ -15,6 +15,8 @@ function workspace:new(name, tags)
 
     self.last_selected_tags = {}
 
+    self.global_selected_backup = {}
+
     return self
 end
 
@@ -70,6 +72,22 @@ function workspace:setStatus(status)
     end
 end
 
+-- get selected tags
+function workspace:getSelectedTags()
+    return lodash.filter(self.tags, function(tag) return tag.selected end)
+end
+
+--set global backup
+function workspace:setGlobalBackup(global_tags)
+    self.global_selected_backup = global_tags
+end
+
+-- re-select all the tags that were selected before the workspace was activated
+function workspace:restoreGlobalBackup()
+    lodash.forEach(self.global_selected_backup, function(tag) tag.selected = true end)
+end
+
+
 function workspace:getStatus()
     return lodash.every(self.tags, function (tag) return tag.activated end)
 end
@@ -82,6 +100,38 @@ function workspace:equals(otherWorkspace)
     return self.id == otherWorkspace.id
 end
 
+function workspace:__serialize()
+    local function serializeClients(clients)
+        return lodash.map(clients, function(client)
+            return {
+                name = client.name,
+                class = client.class,
+                pid = client.pid
+            }
+        end)
+    end
+    local function serializeTags(tags)
+        return lodash.map(tags, function(tag) return {
+            name = tag.name,
+            selected = tag.selected,
+            layout = {
+                name = tag.layout.name
+            },
+            activated = tag.activated,
+            hidden = tag.hidden,
+            clients = serializeClients(tag:clients()),
+            sharedtagindex = tag.sharedtagindex
+        } 
+        end)
+    end
+    return {
+        name = self:getName(),
+        tags = serializeTags(self.tags),
+        id = self.id,
+        last_selected_tags = serializeTags(self.last_selected_tags)
+    }
+end
+
 function workspace:getName()
     if self.name then
         return self.name
@@ -92,6 +142,11 @@ function workspace:getName()
     else 
         return nil
     end
+end
+
+-- function for adding a tag to last selected tags
+function workspace:addLastSelectedTag(tag)
+    lodash.push(self.last_selected_tags, tag)
 end
 
 return workspace

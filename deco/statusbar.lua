@@ -28,7 +28,10 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
     --     end
 
-    workspaceManagerService:refresh()
+    -- if workspaceManagerService.session_restored ~= true then
+    workspaceManagerService:assignWorkspaceTagsToScreens()
+    --     workspaceManagerService.session_restored = true
+    -- end
 
 -- {{{ Wibar
     -- Create a promptbox for each screen
