@@ -38,7 +38,7 @@ function WorkspaceManagerService:new()
 
 
     -- load sesison
-    self.path = gears.filesystem.get_configuration_dir() .. "/awesome-workspace-manager/session.lua"
+    self.path = gears.filesystem.get_configuration_dir() .. "/awesome-workspace-manager/session.dat"
 
     local status, err = pcall(function ()
         self:loadSession() 
