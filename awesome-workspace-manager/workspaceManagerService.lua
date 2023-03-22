@@ -185,7 +185,7 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
             index = tag_definition.index,
             layout = getLayoutByName(tag_definition.layout.name)
         })
-        tag.selected = tag_definition.selected
+        tag.selected = false
         tag.activated = tag_definition.activated
 
         -- if tag in tag_definition.last_selected_tags, then add it to the workspace's last_selected_tags
