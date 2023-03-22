@@ -362,11 +362,11 @@ function WorkspaceManagerService:assignWorkspaceTagsToScreens()
             local first_unselected_tag = self:getFirstUnselectedTag()
             if first_unselected_tag then
                 -- dump tag
-                naughty.notify({
-                    title="assignWorkspaceTagsToScreens",
-                    text=serpent.dump(first_unselected_tag.name),
-                    timeout=0
-                })
+                -- naughty.notify({
+                --     title="assignWorkspaceTagsToScreens",
+                --     text=serpent.dump(first_unselected_tag.name),
+                --     timeout=0
+                -- })
                 sharedtags.viewonly(first_unselected_tag, s)
             else
                 -- create new tag
