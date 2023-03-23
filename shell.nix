@@ -1,23 +1,29 @@
-{ pkgs ? import <nixpkgs> {} }:
-
 let
+  overlay = self: super: {
+    awesome = super.awesome.override {
+      gtk3Support = true;
+    };
+  };
+
+  customPkgs = import <nixpkgs> {
+    overlays = [ overlay ];
+  };
 
 in
-  pkgs.mkShell rec {
-
+  customPkgs.mkShell rec {
     buildInputs = [
-      pkgs.lua5_2
-      pkgs.lua52Packages.luarocks
-      pkgs.entr
-      pkgs.gh
-      pkgs.xorg.xorgserver
-      pkgs.awesome
+      customPkgs.lua5_2
+      customPkgs.lua52Packages.luarocks
+      customPkgs.entr
+      customPkgs.gh
+      customPkgs.xorg.xorgserver
+      customPkgs.awesome
     ];
 
-     shellHook = ''
-       BASE_DIRECTORY=$(pwd)
-       if [[ -f ./hook.sh ]]; then
-           source ./hook.sh
-       fi
-     '';
-}
+    shellHook = ''
+      BASE_DIRECTORY=$(pwd)
+      if [[ -f ./hook.sh ]]; then
+          source ./hook.sh
+      fi
+    '';
+  }
