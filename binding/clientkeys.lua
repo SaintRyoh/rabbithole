@@ -17,7 +17,8 @@ function _M.get(...)
                         c:raise()
                     end,
                     {description = "toggle fullscreen", group = "client"}),
-            awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+            -- Ryoh, DELETE ME AFTER YOU READ Changed to mod4 + q to mimic Mac OS
+            awful.key({ modkey,           }, "q",      function (c) c:kill()                         end,
                     {description = "close", group = "client"}),
             awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
                     {description = "toggle floating", group = "client"}),
