@@ -422,6 +422,31 @@ function WorkspaceManagerService:moveTagToGlobalWorkspace(tag)
     self:refresh()
 end
 
+-- New function to swap tags by index. This can be used by both a keybinding and drag and rop with a
+function WorkspaceManagerService:swapTagsByIndex(currentIndex, newIndex)
+    local all_tags = self:getAllTags()
+    local current_tag = all_tags[currentIndex]
+    local new_tag = all_tags[newIndex]
+
+    if current_tag and new_tag then
+        -- Swap tags in the internal data structure
+        all_tags[currentIndex], all_tags[newIndex] = new_tag, current_tag
+
+        -- Swap tags in the workspaces
+        local current_workspace = self:getWorkspaceByTag(current_tag)
+        local new_workspace = self:getWorkspaceByTag(new_tag)
+
+        current_workspace:removeTag(current_tag)
+        new_workspace:removeTag(new_tag)
+
+        current_workspace:addTag(new_tag)
+        new_workspace:addTag(current_tag)
+
+        -- Update the taglist widget
+        self:refresh()
+    end
+end
+
 function WorkspaceManagerService:refresh()
     self:switchTo(__.first(self:getAllActiveWorkspaces()))
 
