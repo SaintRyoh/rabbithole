@@ -130,22 +130,23 @@ function _M.get(...)
     -- Prompt
         awful.key({ modkey },            "r",     function () os.execute("lxqt-runner") end,
                 {description = "run lxqt-runner", group = "launcher"}),
-	awful.key({ modkey }, "d",
-	    function()
-	        os.execute("rofi -show run")
-	    end,
-	    {description = "run rofi",
-	    group       = "launcher"}),
+	    
+        awful.key({ modkey }, "d",
+	        function()
+	            os.execute("rofi -show run")
+	        end,
+	        {description = "run rofi",
+	        group       = "launcher"}),
 
         awful.key({ modkey }, "x",
-	    function ()
+       	    function ()
                 awful.prompt.run {
                     prompt       = "Run Lua code: ",
                     textbox      = awful.screen.focused().mypromptbox.widget,
                     exe_callback = awful.util.eval,
                     history_path = awful.util.get_cache_dir() .. "/history_eval"
                 }
-            end,
+            end                                                ,
             {description = "lua execute prompt", group = "awesome"}),
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -191,7 +192,8 @@ function _M.get(...)
                     local tags = workspaceManagerService:getAllTags()
                     local tag = tags[i]
                     if tag then
-                        sharedtags.viewonly(tag)
+                        --sharedtags.viewonly(tag)
+                        
                     -- Tag doesnt exist, so create it and switch to it
                     else
                         workspaceManagerService:addTagToWorkspace()
@@ -219,30 +221,14 @@ function _M.get(...)
                     end
                 end,
                 {description = "move focused client to tag #"..i, group = "tag"}),
-            -- Swap tags by index
-            -- Alt key doesnt seem to be working
-            --awful.key({ modkey, "Control", "Alt_L" }, "#" .. i + 9,
-            --    function ()
-            --        local current_tag = mouse.screen.tags[awful.screen.focused().selected_tag.index]
-            --        local target_idx = i
-            --        if target_idx and current_tag ~= target_idx then
-            --            workspaceManagerService:swapTag(current_tag.index, target_idx)
-            --            --target_idx.viewonly()
-            --        end
-            --    end,
-            --    {description = "swao tags by index"..i, group = "tag"}),
-            -- Move tag to a different workspace
-            -- WIP
+             -- Swap tags by index
             awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                 function ()
-                    if client.focus then
-                        local tag = client.focus.screen.tags[i]
-                        if tag then
-                            client.focus:toggle_tag(tag)
-                        end
-                    end
-                 end,
-                {description = "toggle focused client on tag #" .. i, group = "tag"})
+                    local current_tag = awful.screen.focused().selected_tag
+                    local current_index = awful.tag.getidx(current_tag)
+                    workspaceManagerService:swapTagsByIndex(current_index, 3)
+                end,
+                {description = "Swap current tag with tag 3", group = "tag"}),
             )
     end
 
