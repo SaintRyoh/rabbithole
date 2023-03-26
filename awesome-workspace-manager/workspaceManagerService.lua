@@ -4,9 +4,9 @@ local awful     = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
 local workspaceManager = require("awesome-workspace-manager.workspaceManager")
-local serpent = require("serpent")
 local gears = require("gears")
 local serpent = require("serpent")
+local modal = require("awesome-workspace-manager.modal")
 
 local capi = {
     screen = screen,
@@ -255,9 +255,11 @@ end
 -- Add a new tag
 function WorkspaceManagerService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
-    awful.prompt.run {
-        prompt       = "New tag name: ",
-        textbox      = awful.screen.focused().mypromptbox.widget,
+    -- open modal prompt to get tag name
+    modal.prompt({
+        prompt = "New Tag Name: ",
+        width = 300,
+        height = 100,
         exe_callback = function(name)
             if not name or #name == 0 then return end
             local index = #self:getAllTags() + #self:getGlobalWorkspace():getAllTags() + 1
@@ -266,7 +268,7 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
             sharedtags.viewonly(tag, awful.screen.focused())
             self:refresh()
         end
-    }
+    }):show()
 end
 
 function WorkspaceManagerService:createTag(index, tag_def)
