@@ -11,8 +11,6 @@ function Modal:new(args)
 
     args = args or {}
 
-    self.width = args.width or 400
-    self.height = args.height or 300
     self.widget = args.widget or wibox.widget.textbox()
     self.bg_color = args.bg_color or beautiful.bg_normal
     self.fg_color = args.fg_color or beautiful.fg_normal
@@ -23,8 +21,8 @@ function Modal:new(args)
     if not args.x and not args.y then
         local screen = awful.screen.focused()
         local geometry = screen.geometry
-        args.x = (geometry.width - self.width) / 2
-        args.y = (geometry.height - self.height) / 2
+        args.x = (geometry.width - args.width) / 2
+        args.y = (geometry.height - args.height) / 2
     end
 
     -- If fullscreen is specified, cover the entire screen
@@ -35,19 +33,27 @@ function Modal:new(args)
         args.height = awful.screen.focused().geometry.height
     end
 
-    self.popup_widget = wibox({
-        x = args.x,
-        y = args.y,
-        width = args.width,
-        height = args.height,
-        ontop = true,
-        visible = false,
+    self.popup_widget = awful.popup {
+        widget = self.widget,
         bg = self.bg_color,
         fg = self.fg_color,
         border_width = self.border_width,
         border_color = self.border_color,
-        widget = self.widget
-    })
+        placement = args.placement or awful.placement.centered,
+        ontop = true,
+        visible = false,
+        x = args.x,
+        y = args.y,
+        width = args.width,
+        height = args.height,
+    }
+
+    -- Update the popup_widget size when the child widget changes
+    self.widget:connect_signal("widget::updated", function()
+        local new_width = self.widget:get_preferred_size()
+        self.popup_widget.width = new_width.width
+        self.popup_widget.height = new_width.height
+    end)
 
     return self
 end

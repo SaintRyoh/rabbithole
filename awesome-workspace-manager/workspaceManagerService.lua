@@ -258,8 +258,6 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
     -- open modal prompt to get tag name
     modal.prompt({
         prompt = "New Tag Name: ",
-        width = 300,
-        height = 100,
         exe_callback = function(name)
             if not name or #name == 0 then return end
             local index = #self:getAllTags() + #self:getGlobalWorkspace():getAllTags() + 1
