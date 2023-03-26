@@ -4,6 +4,7 @@ local gears = require("gears")
 local naughty = require("naughty")
 local viewHelper = require("awesome-workspace-manager.widgets.viewHelper")
 local beautiful = require("beautiful")
+local modal = require("awesome-workspace-manager.modal")
 
 local _M = {}
 
@@ -97,16 +98,15 @@ end
 
 -- rename workspace
 function WorkspaceMenuController:rename_workspace(workspace)
-    awful.prompt.run {
+    modal.prompt( {
         prompt       = "Rename workspace: ",
-        textbox      = awful.screen.focused().mypromptbox.widget,
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
             if not workspace then return end
             workspace.name = new_name
             self.model:updateSubscribers()
         end
-    }
+    }):show()
 end
 
 function WorkspaceMenuController:remove_workspace(workspace)

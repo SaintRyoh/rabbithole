@@ -4,9 +4,9 @@ local awful     = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
 local workspaceManager = require("awesome-workspace-manager.workspaceManager")
-local serpent = require("serpent")
 local gears = require("gears")
 local serpent = require("serpent")
+local modal = require("awesome-workspace-manager.modal")
 
 local capi = {
     screen = screen,
@@ -45,11 +45,6 @@ function WorkspaceManagerService:new()
     end)
 
     if not status then
-        naughty.notify({
-            title="Error loading session",
-            text=err,
-            timeout=0
-        })
         self:backupSessionFile(self.path)
         self:newSession()
         self.session_restored = false
@@ -255,9 +250,9 @@ end
 -- Add a new tag
 function WorkspaceManagerService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
-    awful.prompt.run {
-        prompt       = "New tag name: ",
-        textbox      = awful.screen.focused().mypromptbox.widget,
+    -- open modal prompt to get tag name
+    modal.prompt({
+        prompt = "New Tag Name: ",
         exe_callback = function(name)
             if not name or #name == 0 then return end
             local index = #self:getAllTags() + #self:getGlobalWorkspace():getAllTags() + 1
@@ -266,7 +261,7 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
             sharedtags.viewonly(tag, awful.screen.focused())
             self:refresh()
         end
-    }
+    }):show()
 end
 
 function WorkspaceManagerService:createTag(index, tag_def)
@@ -275,9 +270,8 @@ end
 
 -- Rename current tag
 function WorkspaceManagerService:renameCurrentTag()
-    awful.prompt.run {
+    modal.prompt({
         prompt       = "Rename tag: ",
-        textbox      = awful.screen.focused().mypromptbox.widget,
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
             local t = awful.screen.focused().selected_tag
@@ -286,7 +280,7 @@ function WorkspaceManagerService:renameCurrentTag()
                 self:refresh()
             end
         end
-    }
+    }):show()
 end
 
 ---- Move current tag
