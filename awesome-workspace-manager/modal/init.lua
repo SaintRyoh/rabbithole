@@ -9,7 +9,8 @@ function Modal:new(args)
     local self = {}
     setmetatable(self, Modal)
 
-    args = args or {}
+    args.width = args.width or 300
+    args.height = args.height or 100
 
     self.widget = args.widget or wibox.widget.textbox()
     self.bg_color = args.bg_color or beautiful.bg_normal
@@ -74,8 +75,6 @@ end
 function Modal.prompt(args)
     local modal
 
-    args.width = args.width or 300
-    args.height = args.height or 100
     args.prompt = args.prompt or "Run: "
 
 
@@ -116,10 +115,13 @@ function Modal.prompt(args)
     return modal
 end
 
-
-
 function Modal.confirm(args)
-    args = args or {}
+    local modal
+
+    args.title = args.title or "Confirm"
+    args.message = args.message or "Are you sure?"
+    args.yes_text = args.yes_text or "Yes"
+    args.no_text = args.no_text or "No"
 
     local widget = wibox.widget {
         {
@@ -151,8 +153,8 @@ function Modal.confirm(args)
         layout = wibox.layout.fixed.vertical
     }
 
-    local yes_callback = args.yes_callback or function() end
-    local no_callback = args.no_callback or function() end
+    local yes_callback = args.yes_callback or function(...) end
+    local no_callback = args.no_callback or function(...) end
 
     local yes_button = widget:get_children_by_id("modal_yes_button")[1]
     local no_button = widget:get_children_by_id("modal_no_button")[1]
@@ -166,14 +168,26 @@ function Modal.confirm(args)
         Modal.hide(modal)
         no_callback(modal)
     end)
+    yes_button:connect_signal("mouse::enter", function()
+        yes_button.markup = "<u><b>" .. args.yes_text .. "</b></u>"
+    end)
 
-    args.fullscreen = args.fullscreen or false
-    local modal = Modal(args)
-    modal.widget = widget
+    yes_button:connect_signal("mouse::leave", function()
+        yes_button.markup = "<u>" .. args.yes_text .. "</u>"
+    end)
+
+    no_button:connect_signal("mouse::enter", function()
+        no_button.markup = "<u><b>" .. args.no_text .. "</b></u>"
+    end)
+
+    no_button:connect_signal("mouse::leave", function()
+        no_button.markup = "<u>" .. args.no_text .. "</u>"
+    end)
+    args.widget = widget
+    modal = Modal(args)
 
     return modal
 end
-
 
 
 return setmetatable(Modal, {
