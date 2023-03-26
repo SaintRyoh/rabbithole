@@ -72,11 +72,15 @@ end
 
 
 function Modal.prompt(args)
-    args = args or {}
     local modal
 
-    args.widget = awful.widget.prompt({
-            prompt = args.prompt or "Enter text: ",
+    args.width = args.width or 300
+    args.height = args.height or 100
+    args.prompt = args.prompt or "Run: "
+
+
+    local prompt_widget = awful.widget.prompt({
+            prompt = args.prompt,
             textbox = wibox.widget.textbox(),
             exe_callback = function(text)
                 if args.exe_callback then
@@ -92,7 +96,20 @@ function Modal.prompt(args)
             end
     })
 
-    args.widget:run()
+    args.widget = wibox.widget {
+        {
+            prompt_widget,
+            top = 10,
+            bottom = 10,
+            left = 10,
+            right = 10,
+            widget = wibox.container.margin,
+        },
+        layout = wibox.layout.fixed.vertical,
+    }
+
+
+    prompt_widget:run()
 
     modal = Modal(args)
 
