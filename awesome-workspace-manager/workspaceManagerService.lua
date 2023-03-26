@@ -275,7 +275,7 @@ end
 
 -- Rename current tag
 function WorkspaceManagerService:renameCurrentTag()
-    awful.prompt.run {
+    modal.prompt({
         prompt       = "Rename tag: ",
         textbox      = awful.screen.focused().mypromptbox.widget,
         exe_callback = function(new_name)
@@ -286,7 +286,7 @@ function WorkspaceManagerService:renameCurrentTag()
                 self:refresh()
             end
         end
-    }
+    }):show()
 end
 
 ---- Move current tag
