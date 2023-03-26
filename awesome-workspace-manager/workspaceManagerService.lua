@@ -45,11 +45,6 @@ function WorkspaceManagerService:new()
     end)
 
     if not status then
-        naughty.notify({
-            title="Error loading session",
-            text=err,
-            timeout=0
-        })
         self:backupSessionFile(self.path)
         self:newSession()
         self.session_restored = false
@@ -277,7 +272,6 @@ end
 function WorkspaceManagerService:renameCurrentTag()
     modal.prompt({
         prompt       = "Rename tag: ",
-        textbox      = awful.screen.focused().mypromptbox.widget,
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
             local t = awful.screen.focused().selected_tag
