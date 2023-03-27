@@ -2,17 +2,33 @@ name: Check Awesome WM Configuration
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - 'feature/*'
 
 jobs:
-  reload-configuration:
+  check-configuration:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
+
       - name: Reload Awesome WM Configuration
         run: |
           sudo apt-get update
           sudo apt-get install -y awesome
           awesome --config ./rc.lua --check
+
+      - name: Set status check
+        uses: github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const status = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              context: 'Check Awesome WM Configuration',
+              description: 'The configuration file is valid'
+            };
+            await github.repos.createStatus(status);
