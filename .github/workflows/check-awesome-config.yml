@@ -1,0 +1,20 @@
+name: Check Awesome WM Configuration
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+  workflow_dispatch:
+
+jobs:
+  check-configuration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check Awesome WM Configuration
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awesome
+          awesome --config ./rc.lua --check
