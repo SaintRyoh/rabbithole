@@ -22,8 +22,8 @@ in
 
     shellHook = ''
       BASE_DIRECTORY=$(pwd)
-      if [[ -f ./hook.sh ]]; then
-          source ./hook.sh
+      if [[ -f ./scripts/hook.sh ]]; then
+          source ./scripts/hook.sh
       fi
     '';
   }
