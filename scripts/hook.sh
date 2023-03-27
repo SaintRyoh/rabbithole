@@ -1,27 +1,27 @@
-#!/usr/bin/env bash
+#!/usr/scripts/env bash
 
 export LAST_AWESOME_ADDRESS=""
 
 start() {
   stop
-  ./awmtt.sh start -W -C ./rc.lua -S 1280x800
+  ./scripts/awmtt.sh start -W -C ./rc.lua -S 1280x800
 }
 
-alias restart='./awmtt.sh restart'
+alias restart='./scripts/awmtt.sh restart'
 
 stop() {
   export LAST_AWESOME_ADDRESS=""
-  ./awmtt.sh stop
+  ./scripts/awmtt.sh stop
 }
 
 run() {
-  ./awmtt.sh run $1
+  ./scripts/awmtt.sh run $1
 }
 
 find-awesome-dbus-addresses() {
   DBUS_ADDRESSES=($(dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames | grep -o ':[0-9].[0-9]*'))
   for ADDRESS in "${DBUS_ADDRESSES[@]}"; do
-    ./awesome-client-wrapped --dest $ADDRESS 'return 1 + 1' &>/dev/null
+    ./scripts/awesome-client-wrapped --dest $ADDRESS 'return 1 + 1' &>/dev/null
     if [[ $? -eq 0 ]]; then
       printf "%s\n" $ADDRESS
     fi
@@ -37,7 +37,7 @@ send() {
   else
     STDIN=$(cat -)
   fi
-  ./awesome-client-wrapped --dest $LAST_AWESOME_ADDRESS "$STDIN"
+  ./scripts/awesome-client-wrapped --dest $LAST_AWESOME_ADDRESS "$STDIN"
 }
 
 alert() {
