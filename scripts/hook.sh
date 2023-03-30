@@ -3,8 +3,12 @@
 export LAST_AWESOME_ADDRESS=""
 
 start() {
+  CONFIG_FILE=$1
+  if [[ -z $CONFIG_FILE ]]; then
+    CONFIG_FILE=./rc.lua
+  fi
   stop
-  ./scripts/awmtt.sh start -W -C ./rc.lua -S 1280x800
+  ./scripts/awmtt.sh start -W -C $CONFIG_FILE
 }
 
 alias restart='./scripts/awmtt.sh restart'
