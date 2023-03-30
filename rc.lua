@@ -1,27 +1,15 @@
--- If LuaRocks is installed, make sure that packages installed through it are
--- found (e.g. lgi). If LuaRocks is not installed, do nothing.
-pcall(require, "luarocks.loader")
-
-local gears = require("gears")
-local config_dir = gears.filesystem.get_configuration_dir()
--- https://leafo.net/guides/customizing-the-luarocks-tree.html
-local version = '5.2' --_VERSION:match("%d+%.%d+")
-package.path = './?.lua;./?/init.lua;lua_modules/share/lua/' .. version .. '/?.lua;lua_modules/share/lua/' .. version .. '/?/init.lua;' .. package.path
-package.path = config_dir .. '?.lua;' .. config_dir ..'?/init.lua;' .. config_dir .. 'lua_modules/share/lua/' .. version .. '/?.lua;' .. config_dir .. 'lua_modules/share/lua/' .. version .. '/?/init.lua;' .. package.path
-package.cpath = 'lua_modules/lib/lua/' .. version .. '/?.so;' .. package.cpath
+require("paths")
 
 -- Standard awesome library
+local gears = require("gears")
 local awful = require("awful")
-require("awful.autofocus")
-
--- Widget and layout library
-
--- Theme handling library
 local beautiful = require("beautiful")
 local menubar = require("menubar")
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
+require("awful.autofocus")
 
 -- {{{ Local extensions
 __ = require("lodash")
