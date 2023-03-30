@@ -132,11 +132,11 @@ function WorkspaceManagerService:loadSession()
         __.forEach(tagCoroutines, function(tc)
             coroutine.resume(tc)
         end)
-        capi.awesome.disconnect_signal("refresh", restoreClientHelper)
+        capi.awesome.disconnect_signal("property::client", restoreClientHelper)
         self:unpauseService()
     end
         
-    capi.awesome.connect_signal("refresh", restoreClientHelper)
+    capi.awesome.connect_signal("property::client", restoreClientHelper)
     -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
 end
@@ -210,7 +210,7 @@ end
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
     __.forEach(clients, function(client)
         local c = __.find(capi.client.get(), function(c) 
-            return c.pid == client.pid
+            return c.pid == client.pid and c.class == client.class and c.instance == client.instance and c.role == client.role and c.name == client.name
         end)
 
         if c and c.moved_to_tag == nil then
@@ -473,7 +473,7 @@ function WorkspaceManagerService:unpauseService()
     self:setStatusForAllWorkspaces(false)
     __.forEach(self.pauseState.activeWorkspaces, function(workspace) workspace:setStatus(true) end)
     self.pauseState.activeWorkspaces = nil
-    capi.awesome.disconnect_signal("refresh", self.unpauseServiceHelper)
+    capi.awesome.disconnect_signal("property::client", self.unpauseServiceHelper)
 end
 
 function WorkspaceManagerService:screenDisconnectUpdate(s)
@@ -514,7 +514,7 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
     end
 
     -- let all the other events play out the unpause service
-    capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
+    capi.awesome.connect_signal("property::client", self.unpauseServiceHelper)
 
 end
 
