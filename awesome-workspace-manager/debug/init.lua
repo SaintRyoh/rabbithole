@@ -31,7 +31,7 @@ end
 function debug.startServer()
     local server = assert(socket.bind("localhost", 9000))
     local ip, port = server:getsockname()
-    dbg.auto_where = 1
+    dbg.auto_where = 5
     naughty.notify({
         preset = naughty.config.presets.normal,
         title = "Debug Server",
