@@ -33,7 +33,7 @@ function debug.startServer()
     })
 
     server:settimeout(1) -- make the server blocking
-    local client -- = server:accept()
+    local client 
 
     -- Redirect debugger input and output to the connected client
     function dbg.read(prompt)
@@ -51,8 +51,6 @@ function debug.startServer()
         client:send(str)
     end
 
-    -- Start the debugger
-    -- dbg()
 end
 
 debug.breakpoint = dbg
