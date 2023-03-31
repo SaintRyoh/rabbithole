@@ -22,10 +22,16 @@ function debug.dumpTableSerpent(tbl)
     debug.notifyDump(tbl, serpent.block)
 end
 
+-- dbg.pretty dump
+function debug.dumpTablePretty(tbl)
+    debug.notifyDump(tbl, dbg.pretty)
+end
+
+
 function debug.startServer()
     local server = assert(socket.bind("localhost", 9000))
     local ip, port = server:getsockname()
-
+    dbg.auto_where = 1
     naughty.notify({
         preset = naughty.config.presets.normal,
         title = "Debug Server",
@@ -54,6 +60,7 @@ function debug.startServer()
 end
 
 debug.breakpoint = dbg
-
+debug.assert = dbg.assert
+debug.call = dbg.call
 
 return debug
