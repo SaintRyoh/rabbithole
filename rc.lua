@@ -1,5 +1,8 @@
 require("paths")
-
+RC = {} -- global namespace, on top before require any modules
+RC.vars = require("main.user-variables")
+local debug = require("awesome-workspace-manager.debug")
+debug.startServer()
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -15,8 +18,6 @@ require("awful.autofocus")
 __ = require("lodash")
 -- }}}
 
-RC = {} -- global namespace, on top before require any modules
-RC.vars = require("main.user-variables")
 
 
 -- {{{ Error handling
