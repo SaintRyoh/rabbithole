@@ -1,7 +1,5 @@
 {
     "Lua.diagnostics.globals": [
-        "client",
-        "awesome",
-        "screen"
+        "RC"
     ]
 }

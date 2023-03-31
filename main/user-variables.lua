@@ -6,7 +6,7 @@ local home = os.getenv("HOME")
 
 local _M = {
     -- This is used later as the default terminal and editor to run.
-    terminal = os.getenv("TERM") or "qterminal",
+    terminal = "qterminal",
     editor = os.getenv("EDITOR") or "nvim",
 
     -- Default modkey.
