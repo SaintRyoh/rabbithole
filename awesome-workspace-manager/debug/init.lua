@@ -32,34 +32,30 @@ function debug.startServer()
         text = string.format("Server started on port %d", port)
     })
 
-    server:settimeout(nil) -- make the server blocking
-    local client = server:accept()
+    server:settimeout(1) -- make the server blocking
+    local client -- = server:accept()
 
-    if client then
-        -- Redirect debugger input and output to the connected client
-        function dbg.read(prompt)
-            client:send(prompt)
-            return client:receive()
+    -- Redirect debugger input and output to the connected client
+    function dbg.read(prompt)
+        while not client do
+            client = server:accept()
         end
-
-        function dbg.write(str)
-            client:send(str)
-        end
-
-        -- Start the debugger
-        dbg()
-    else
-        naughty.notify({
-            preset = naughty.config.presets.critical,
-            title = "Error",
-            text = "Could not start the debugger server"
-        })
+        client:send(prompt)
+        return client:receive()
     end
+
+    function dbg.write(str)
+        while not client do
+            client = server:accept()
+        end
+        client:send(str)
+    end
+
+    -- Start the debugger
+    -- dbg()
 end
 
-function debug.breakpoint()
-    dbg()
-end
+debug.breakpoint = dbg
 
 
 return debug
