@@ -68,3 +68,7 @@ total_number_of_tags() {
 EOF
 }
 
+# connect to debug server
+debug_connect() {
+  nc localhost 9000
+}
