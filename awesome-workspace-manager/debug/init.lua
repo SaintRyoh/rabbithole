@@ -28,39 +28,27 @@ function debug.dumpTablePretty(tbl)
 end
 
 
-function debug.startServer()
-    local server = assert(socket.bind("localhost", 9000))
-    local ip, port = server:getsockname()
-    dbg.auto_where = 5
-    naughty.notify({
-        preset = naughty.config.presets.normal,
-        title = "Debug Server",
-        text = string.format("Server started on port %d", port)
-    })
+debug.dbg = dbg
+dbg.auto_where = 5
+dbg.port = 9000
 
-    server:settimeout(1) -- make the server blocking
-    local client 
-
-    -- Redirect debugger input and output to the connected client
-    function dbg.read(prompt)
-        while not client do
-            client = server:accept()
-        end
-        client:send(prompt)
-        return client:receive()
-    end
-
-    function dbg.write(str)
-        while not client do
-            client = server:accept()
-        end
-        client:send(str)
-    end
-
+dbg.read = function (prompt)
+     dbg.server = dbg.server or assert(socket.bind("localhost", dbg.port))
+     while not dbg.client do
+         dbg.client = dbg.server:accept()
+     end
+     dbg.client:send(prompt)
+    return dbg.client:receive()
 end
 
-debug.breakpoint = dbg
-debug.assert = dbg.assert
-debug.call = dbg.call
+-- dbg.write 
+dbg.write = function (str)
+    dbg.server = dbg.server or assert(socket.bind("localhost", dbg.port))
+    while not dbg.client do
+        dbg.client = dbg.server:accept()
+    end
+    dbg.client:send(str)
+end
+
 
 return debug

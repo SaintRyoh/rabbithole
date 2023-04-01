@@ -1,28 +1,18 @@
-require("paths")
 RC = {} -- global namespace, on top before require any modules
-RC.vars = require("main.user-variables")
-local debug = require("awesome-workspace-manager.debug")
-debug.startServer()
+
+-- setup paths, includes things like lua_modules
+require("paths")
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
 local beautiful = require("beautiful")
 local menubar = require("menubar")
 
--- Enable hotkeys help widget for VIM and other apps
--- when client with a matching name is opened:
+RC.vars = require("main.user-variables")
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
-
--- {{{ Local extensions
-__ = require("lodash")
--- }}}
-
-
-
--- {{{ Error handling
 require("main.error-handling")
--- }}}
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
