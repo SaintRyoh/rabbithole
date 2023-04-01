@@ -42,7 +42,7 @@ function workspace:hasTag(tag)
 end
 
 function workspace:unselectAllTags()
-    __.forEach(self.tags, function (tag)
+    lodash.forEach(self.tags, function (tag)
         tag.selected = false
     end)
 end
