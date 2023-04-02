@@ -1,34 +1,53 @@
-RC = {} -- global namespace, on top before require any modules
-
 -- setup paths, includes things like lua_modules
 require("paths")
 
+-- global namespace, on top before require any modules
+RC = {
+    diModule = require("lua-di.lua-di.DependencyInjectionModule")(function (config) 
+        -- Make workspaceManagerService a singleton
+        config.bindings.types.workspaceManagerService = "workspaceManagerService"
+        config.singletons.workspaceManagerService = true
+        config.providers.workspaceManagerService = function()
+            return RC.diModule.getInstance("awesome-workspace-manager.workspaceManagerService") 
+        end
+
+
+        -- Make debugger a singleton
+        config.singletons.debugger = true
+        config.providers.debugger = require("awesome-workspace-manager.debug")
+
+
+        -- Make theme a singleton (so we only call beautiful.init once)
+        config.singletons.theme = true
+        config.providers.theme = function()
+            return RC.diModule.getInstance("awesome-workspace-manager.theme")
+        end
+
+        config.bindings.values.settings = {
+            theme_dir = "themes/rabbithole/theme.lua",
+        }
+
+    end),
+    vars = require("main.user-variables"),
+} 
+
+RC.workspaceManagerService = RC.diModule.getInstance("workspaceManagerService")
+RC.theme = RC.diModule.getInstance( "theme")
+
+
 -- Standard awesome library
-local gears = require("gears")
 local awful = require("awful")
-local beautiful = require("beautiful")
 local menubar = require("menubar")
 
-RC.vars = require("main.user-variables")
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
 require("main.error-handling")
 
--- {{{ Variable definitions
--- Themes define colours, icons, font and wallpapers.
-local theme_dir = "themes/rabbithole/theme.lua"
-if gears.filesystem.file_readable(gears.filesystem.get_configuration_dir() .. theme_dir) then
-    beautiful.init(gears.filesystem.get_configuration_dir() .. theme_dir)
-else
-    beautiful.init("themes/zenburn/theme.lua")
-end
---beautiful.wallpaper = RC.vars.wallpaper
--- }}}
 
 modkey = RC.vars.modkey
 editor_cmd = RC.vars.terminal .. " -e " .. RC.vars.editor
 
-RC.workspaceManagerService = require("awesome-workspace-manager")()
+
 
 -- Custom Local Library
 local main = {
@@ -55,11 +74,6 @@ RC.layouts = main.layouts()
 -- }}}
 
 
--- {{{ Tags
--- Define a tag table which hold all screen tags.
--- a variable needed in rules, tasklist, and globalkeys
--- }}}
-
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 RC.mainmenu = awful.menu({ items = main.menu() }) -- in globalkeys
@@ -72,7 +86,7 @@ RC.mainmenu = awful.menu({ items = main.menu() }) -- in globalkeys
 
 -- a variable needed in statusbar (helper)
 RC.launcher = awful.widget.launcher(
-        { image = beautiful.awesome_icon, menu = RC.mainmenu }
+        { image = RC.theme.awesome_icon, menu = RC.mainmenu }
 )
 
 -- Menubar configuration

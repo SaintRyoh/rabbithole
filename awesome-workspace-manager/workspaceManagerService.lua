@@ -17,8 +17,8 @@ local capi = {
 local WorkspaceManagerService = { }
 WorkspaceManagerService.__index = WorkspaceManagerService
 
-function WorkspaceManagerService:new()
-    self = {}
+function WorkspaceManagerService.new()
+    local self = {}
     setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel = workspaceManager:new()
@@ -520,12 +520,4 @@ end
 
 local _M = {}
 
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-function _M.get()
-    return WorkspaceManagerService:new()
-end
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-return setmetatable({}, { __call = function(_, ...) return _M.get(...) end })
+return WorkspaceManagerService

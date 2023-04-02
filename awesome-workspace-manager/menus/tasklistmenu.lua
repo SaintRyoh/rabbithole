@@ -65,4 +65,8 @@ end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-return setmetatable({}, { __call = function(_, workspaceManagerService) return _M.get(workspaceManagerService) end })
+return setmetatable({}, {
+    __constructor = function(workspaceManagerService)
+        return _M.get(workspaceManagerService)
+    end,
+})

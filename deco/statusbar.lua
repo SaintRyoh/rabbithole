@@ -13,14 +13,9 @@ local deco = {
     wallpaper = require("deco.wallpaper"),
 }
 
-local workspaceMenu = require("awesome-workspace-manager.widgets.workspace-menu")
-local taglist = require("awesome-workspace-manager.widgets.taglist")
+-- local workspaceMenu = require("awesome-workspace-manager.widgets.workspace-menu")
 
 local tasklist_buttons = require("deco.tasklist_buttons")()
-
-local __ = require("lodash")
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 
 awful.screen.connect_for_each_screen(function(s)
@@ -68,8 +63,8 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             RC.launcher,
-            workspaceMenu(workspaceManagerService),
-            taglist(workspaceManagerService, s),
+            RC.diModule.getInstance("awesome-workspace-manager.widgets.workspace-menu"),
+            RC.diModule.getInstance("awesome-workspace-manager.widgets.taglist")(s),
             s.mypromptbox
         },
         s.mytasklist, -- Middle widget
