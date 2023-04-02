@@ -5,6 +5,7 @@ require("paths")
 RC = {
     diModule = require("lua-di.lua-di.DependencyInjectionModule")(function (config) 
         -- Make workspaceManagerService a singleton
+        config.bindings.types.workspaceManagerService = "workspaceManagerService"
         config.singletons.workspaceManagerService = true
         config.providers.workspaceManagerService = function()
             return RC.diModule.getInstance("awesome-workspace-manager.workspaceManagerService") 
@@ -36,7 +37,6 @@ RC.theme = RC.diModule.getInstance( "theme")
 
 -- Standard awesome library
 local awful = require("awful")
-local beautiful = require("beautiful")
 local menubar = require("menubar")
 
 require("awful.hotkeys_popup.keys")
