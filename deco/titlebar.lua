@@ -8,13 +8,12 @@ local awful = require("awful")
 local wibox = require("wibox")
 
 local workspaceManagerService = RC.workspaceManagerService
-local tasklistmenu = require("awesome-workspace-manager.widgets.tasklistmenu")
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
-    local tasklistmenu = tasklistmenu(workspaceManagerService)
+    local tasklistmenu = RC.diModule.getInstance("awesome-workspace-manager.menus.tasklistmenu")
     -- buttons for the titlebar
     local buttons = gears.table.join(
             awful.button({ }, 1, function()

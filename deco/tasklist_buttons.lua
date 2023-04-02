@@ -1,7 +1,6 @@
 -- {{{ Required libraries
 local gears = require("gears")
 local awful = require("awful")
-local tasklistmenu = require("awesome-workspace-manager.widgets.tasklistmenu")
 local workspaceManagerService = RC.workspaceManagerService
 -- }}}
 
@@ -10,7 +9,7 @@ local _M = {}
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function _M.get()
-    local tasklistmenu = tasklistmenu(workspaceManagerService)
+    local tasklistmenu = RC.diModule.getInstance("awesome-workspace-manager.menus.tasklistmenu")
 
     local tasklist_buttons = gears.table.join(
             awful.button({ }, 1, function (c)
