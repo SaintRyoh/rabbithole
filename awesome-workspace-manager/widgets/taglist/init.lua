@@ -1,9 +1,10 @@
-local controller = require("awesome-workspace-manager/widgets/taglist/controller")
-
-local _M = {}
-
-function _M.get(workspaceManagerService, s)
-    return controller(workspaceManagerService, s):get_view_widget()
-end
-
-return setmetatable({}, { __call = function(_, workspaceManagerService, s) return _M.get(workspaceManagerService, s) end })
+-- This receives workspaceManagerService through dependency injection
+-- returns a widget
+return setmetatable({}, {
+    __constructor = function(workspaceManagerService)
+        local controller = require("awesome-workspace-manager/widgets/taglist/controller")
+        return function (s)
+            return controller(workspaceManagerService, s):get_view_widget()
+        end
+    end,
+})
