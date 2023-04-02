@@ -1,7 +1,18 @@
-RC = {} -- global namespace, on top before require any modules
-
 -- setup paths, includes things like lua_modules
 require("paths")
+
+-- global namespace, on top before require any modules
+RC = {
+    diModule = require("lua-di.lua-di.DependencyInjectionModule")(function (config) 
+        -- Make workspaceManagerService a singleton
+        config.singletons.workspaceManagerService = true
+        config.providers.workspaceManagerService = function()
+            return RC.diModule.getInstance("awesome-workspace-manager.workspaceManagerService") 
+        end
+    end),
+    vars = require("main.user-variables"),
+} 
+
 
 -- Standard awesome library
 local gears = require("gears")
@@ -9,7 +20,6 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local menubar = require("menubar")
 
-RC.vars = require("main.user-variables")
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
 require("main.error-handling")
@@ -28,7 +38,8 @@ end
 modkey = RC.vars.modkey
 editor_cmd = RC.vars.terminal .. " -e " .. RC.vars.editor
 
-RC.workspaceManagerService = require("awesome-workspace-manager")()
+RC.workspaceManagerService = RC.diModule.getInstance("workspaceManagerService")
+
 
 -- Custom Local Library
 local main = {
