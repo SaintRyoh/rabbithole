@@ -9,6 +9,11 @@ RC = {
         config.providers.workspaceManagerService = function()
             return RC.diModule.getInstance("awesome-workspace-manager.workspaceManagerService") 
         end
+
+        -- Make debugger a singleton
+        config.singletons.debugger = true
+        config.providers.debugger = require("awesome-workspace-manager.debug")
+
     end),
     vars = require("main.user-variables"),
 } 
