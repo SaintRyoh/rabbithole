@@ -27,6 +27,8 @@ RC = {
             theme_dir = "themes/rabbithole/theme.lua",
         }
 
+        config.bindings.types.workspaceMenu = "awesome-workspace-manager.widgets.workspace-menu"
+
     end),
     vars = require("main.user-variables"),
 } 
