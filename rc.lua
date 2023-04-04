@@ -18,10 +18,8 @@ RC = {
 
 
         -- Make theme a singleton (so we only call beautiful.init once)
+        config.bindings.types.theme = "awesome-workspace-manager.theme"
         config.singletons.theme = true
-        config.providers.theme = function()
-            return RC.diModule.getInstance("awesome-workspace-manager.theme")
-        end
 
         config.bindings.values.settings = {
             theme_dir = "themes/rabbithole/theme.lua",
@@ -34,9 +32,7 @@ RC = {
 } 
 
 RC.workspaceManagerService = RC.diModule.getInstance("workspaceManagerService")
-RC.theme = RC.diModule.getInstance( "theme")
 RC.statusbar = RC.diModule.getInstance("deco.statusbar")
-
 
 -- Standard awesome library
 local awful = require("awful")
@@ -89,7 +85,7 @@ RC.mainmenu = awful.menu({ items = main.menu() }) -- in globalkeys
 
 -- a variable needed in statusbar (helper)
 RC.launcher = awful.widget.launcher(
-        { image = RC.theme.awesome_icon, menu = RC.mainmenu }
+        {  menu = RC.mainmenu }
 )
 
 -- Menubar configuration
