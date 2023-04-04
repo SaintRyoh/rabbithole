@@ -30,7 +30,6 @@ RC = {
         config.bindings.types.workspaceMenu = "awesome-workspace-manager.widgets.workspace-menu"
         
 
-        config.singletons.taglist = true
         config.bindings.types.taglist = "taglist"
         config.providers.taglist = function()
             return RC.diModule.getInstance("awesome-workspace-manager.widgets.taglist")
