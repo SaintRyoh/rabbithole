@@ -35,6 +35,8 @@ RC = {
             return RC.diModule.getInstance("awesome-workspace-manager.widgets.taglist")
         end
 
+        config.bindings.types.layouts = "main.layouts_table"
+
     end),
     vars = require("main.user-variables"),
 } 
@@ -58,7 +60,6 @@ editor_cmd = RC.vars.terminal .. " -e " .. RC.vars.editor
 
 -- Custom Local Library
 local main = {
-    layouts = require("main.layouts"),
     menu    = require("main.menu"),
     rules   = require("main.rules"),
 }
@@ -70,15 +71,6 @@ local binding = {
     globalkeys    = require("binding.globalkeys"),
     clientkeys    = require("binding.clientkeys")
 }
-
-
-
--- {{{ Layouts
--- Table of layouts to cover with awful.layout.inc, order matters.
--- a variable needed in main.tags, and statusbar
--- awful.layout.layouts = { ... }
-RC.layouts = main.layouts()
--- }}}
 
 
 -- {{{ Menu
