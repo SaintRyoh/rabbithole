@@ -6,4 +6,4 @@
 	url = https://github.com/slembcke/debugger.lua
 [submodule "lua-di"]
 	path = lua-di
-	url = https://github.com/djfdyuruiry/lua-di
+	url = https://github.com/SaintRyoh/lua-di
