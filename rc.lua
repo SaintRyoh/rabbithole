@@ -21,11 +21,20 @@ RC = {
         config.bindings.types.theme = "awesome-workspace-manager.theme"
         config.singletons.theme = true
 
+
         config.bindings.values.settings = {
             theme_dir = "themes/rabbithole/theme.lua",
         }
 
+
         config.bindings.types.workspaceMenu = "awesome-workspace-manager.widgets.workspace-menu"
+        
+
+        config.singletons.taglist = true
+        config.bindings.types.taglist = "taglist"
+        config.providers.taglist = function()
+            return RC.diModule.getInstance("awesome-workspace-manager.widgets.taglist")
+        end
 
     end),
     vars = require("main.user-variables"),

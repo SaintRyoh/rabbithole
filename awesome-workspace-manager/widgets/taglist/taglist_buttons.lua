@@ -3,7 +3,6 @@ local gears = require("gears")
 local awful = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
-local workspaceManagerService = RC.workspaceManagerService
 -- }}}
 
 local _M = {}
@@ -11,7 +10,7 @@ local _M = {}
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function _M.get(_taglistmenu)
-    local taglistmenu = _taglistmenu(workspaceManagerService)
+    local taglistmenu = _taglistmenu
     -- Create a wibox for each screen and add it
     local taglist_buttons = gears.table.join(
             awful.button({ }, 1, function(t) -- clicked tag
@@ -31,7 +30,7 @@ function _M.get(_taglistmenu)
                 end
 
             end),
-            awful.button({ modkey }, 1, function(t)
+            awful.button({ "Mod4" }, 1, function(t)
                 taglistmenu:updateMenu(t)
                 taglistmenu.taglist_menu:toggle()
             --    if client.focus then

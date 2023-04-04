@@ -15,7 +15,7 @@ local deco = {
 local tasklist_buttons = require("deco.tasklist_buttons")()
 
 return setmetatable({}, {
-    __constructor = function(workspaceManagerService, workspaceMenu)
+    __constructor = function(workspaceManagerService, workspaceMenu, taglist)
         awful.screen.connect_for_each_screen(function(s)
             -- Wallpaper
             set_wallpaper(s)
@@ -62,7 +62,7 @@ return setmetatable({}, {
                     layout = wibox.layout.fixed.horizontal,
                     RC.launcher,
                     workspaceMenu,
-                    RC.diModule.getInstance("awesome-workspace-manager.widgets.taglist")(s),
+                    taglist(s),
                     s.mypromptbox
                 },
                 s.mytasklist, -- Middle widget
