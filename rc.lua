@@ -33,6 +33,7 @@ RC = {
 
 RC.workspaceManagerService = RC.diModule.getInstance("workspaceManagerService")
 RC.theme = RC.diModule.getInstance( "theme")
+RC.statusbar = RC.diModule.getInstance("deco.statusbar")
 
 
 -- Standard awesome library
@@ -107,7 +108,7 @@ root.keys(RC.globalkeys)
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Statusbar: Wibar
-require("deco.statusbar")
+-- require("deco.statusbar")
 -- }}}
 
 -- {{{ Rules
