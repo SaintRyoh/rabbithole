@@ -55,50 +55,12 @@ local awful = require("awful")
 
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
-require("main.error-handling")
-
-
 
 
 -- Custom Local Library
 local main = {
-    menu    = require("main.menu"),
     rules   = require("main.rules"),
 }
-
-
--- {{{ Menu
--- Create a laucher widget and a main menu
--- RC.mainmenu = awful.menu({ items = main.menu() }) -- in globalkeys
-
--- a variable needed in statusbar (helper)
--- RC.launcher = awful.widget.launcher(
---         {  menu = RC.mainmenu }
--- )
-
-
--- Custom Local Library: Keys and Mouse Binding
-local binding = {
-    globalbuttons = require("binding.globalbuttons"),
-    -- clientbuttons = require("binding.clientbuttons"),
-    -- clientkeys    = require("binding.clientkeys")
-}
-
-
--- {{{ Mouse and Key bindings
--- RC.globalkeys = RC.diModule.getInstance("globalKeybindings")
-
--- Set root
--- root.buttons(binding.globalbuttons())
--- root.keys(RC.globalkeys)
--- }}}
-
--- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
-
--- {{{ Statusbar: Wibar
--- require("deco.statusbar")
--- }}}
 
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
@@ -108,7 +70,6 @@ awful.rules.rules = main.rules(
 )
 -- }}}
 
--- {{{ Signals
 require("main.signals")
--- }}}
+require("main.error-handling")
 

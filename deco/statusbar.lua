@@ -61,7 +61,6 @@ return setmetatable({}, {
                 layout = wibox.layout.align.horizontal,
                 { -- Left widgets
                     layout = wibox.layout.fixed.horizontal,
-                    RC.launcher,
                     workspaceMenu,
                     taglist(s),
                     s.mypromptbox
