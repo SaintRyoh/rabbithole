@@ -56,19 +56,6 @@ require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
 
 
-local awful = require("awful")
--- Custom Local Library
-local main = {
-    rules   = require("main.rules"),
-}
-
--- {{{ Rules
--- Rules to apply to new clients (through the "manage" signal).
--- awful.rules.rules = main.rules(
---         RC.diModule.getInstance("binding.clientkeys"),
---         RC.diModule.getInstance("binding.clientbuttons")
--- )
--- }}}
 
 require("main.signals")
 require("main.error-handling")
