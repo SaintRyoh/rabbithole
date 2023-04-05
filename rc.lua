@@ -36,7 +36,6 @@ RC = {
 
         -- this is just a taglist function that returns a widget if you give it a screen
         config.bindings.types.taglist = "taglist"
-        config.singletons.taglist = true
         config.providers.taglist = function()
             return RC.diModule.getInstance("awesome-workspace-manager.widgets.taglist")
         end
