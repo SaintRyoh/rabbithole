@@ -34,7 +34,9 @@ RC = {
         config.bindings.types.workspaceMenu = "awesome-workspace-manager.widgets.workspace-menu"
         
 
+        -- this is just a taglist function that returns a widget if you give it a screen
         config.bindings.types.taglist = "taglist"
+        config.singletons.taglist = true
         config.providers.taglist = function()
             return RC.diModule.getInstance("awesome-workspace-manager.widgets.taglist")
         end
@@ -46,11 +48,12 @@ RC = {
         config.bindings.types.mainmenu = "main.menu"
         config.bindings.types.globalMouseButtons = "binding.globalbuttons"
         config.bindings.types.rules = "main.rules"
+        config.bindings.types.statusbar = "deco.statusbar"
 
     end),
 } 
 
-RC.statusbar = RC.diModule.getInstance("deco.statusbar")
+RC.environment = RC.diModule.getInstance("awesome-workspace-manager.environment")
 
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")

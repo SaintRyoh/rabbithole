@@ -15,7 +15,7 @@ local deco = {
 local tasklist_buttons = require("deco.tasklist_buttons")()
 
 return setmetatable({}, {
-    __constructor = function(workspaceManagerService, workspaceMenu, taglist, layouts, globalKeybindings, clientKeybindings, mainmenu, globalMouseButtons, rules)
+    __constructor = function(workspaceManagerService, workspaceMenu, taglist)
         -- RC.diModule.getInstance("debugger").dbg()
         awful.screen.connect_for_each_screen(function(s)
             -- Wallpaper
