@@ -42,21 +42,21 @@ RC = {
         config.bindings.types.layouts = "main.layouts_table"
         config.bindings.types.globalKeybindings = "binding.globalkeys"
         config.bindings.types.clientKeybindings = "binding.clientkeys"
+        config.bindings.types.clientButtons = "binding.clientbuttons"
         config.bindings.types.mainmenu = "main.menu"
         config.bindings.types.globalMouseButtons = "binding.globalbuttons"
+        config.bindings.types.rules = "main.rules"
 
     end),
 } 
 
 RC.statusbar = RC.diModule.getInstance("deco.statusbar")
 
--- Standard awesome library
-local awful = require("awful")
-
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
 
 
+local awful = require("awful")
 -- Custom Local Library
 local main = {
     rules   = require("main.rules"),
@@ -64,10 +64,10 @@ local main = {
 
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
-awful.rules.rules = main.rules(
-        RC.diModule.getInstance("binding.clientkeys"),
-        RC.diModule.getInstance("binding.clientbuttons")
-)
+-- awful.rules.rules = main.rules(
+--         RC.diModule.getInstance("binding.clientkeys"),
+--         RC.diModule.getInstance("binding.clientbuttons")
+-- )
 -- }}}
 
 require("main.signals")

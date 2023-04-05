@@ -15,7 +15,7 @@ local deco = {
 local tasklist_buttons = require("deco.tasklist_buttons")()
 
 return setmetatable({}, {
-    __constructor = function(workspaceManagerService, workspaceMenu, taglist, layouts, globalKeybindings, clientKeybindings, mainmenu, globalMouseButtons)
+    __constructor = function(workspaceManagerService, workspaceMenu, taglist, layouts, globalKeybindings, clientKeybindings, mainmenu, globalMouseButtons, rules)
         -- RC.diModule.getInstance("debugger").dbg()
         awful.screen.connect_for_each_screen(function(s)
             -- Wallpaper
@@ -68,7 +68,7 @@ return setmetatable({}, {
                 s.mytasklist, -- Middle widget
                 { -- Right widgets
                     layout = wibox.layout.fixed.horizontal,
-                    mykeyboardlayout,
+                    awful.widget.keyboardlayout(),
                     wibox.widget.systray(),
                     mytextclock,
                     s.mylayoutbox,
