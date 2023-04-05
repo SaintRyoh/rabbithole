@@ -20,9 +20,10 @@ local _M = {}
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 return setmetatable({}, {
-    __constructor = function(workspaceManagerService, settings)
+    __constructor = function(workspaceManagerService, settings, mainmenu)
     -- Resource Configuration
     local modkey = settings.modkey
+    local mainmenu = mainmenu
     local terminal = settings.terminal
     local globalkeys = gears.table.join(
         awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -61,7 +62,7 @@ return setmetatable({}, {
             end,
             {description = "focus previous by index", group = "client"}
         ),
-        awful.key({ modkey,           }, "w", function () RC.mainmenu:show() end,
+        awful.key({ modkey,           }, "w", function () mainmenu:show() end,
             {description = "show main menu", group = "awesome"}),
 	    
 

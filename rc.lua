@@ -26,6 +26,8 @@ RC = {
             theme_dir = "themes/rabbithole/theme.lua",
             modkey = "Mod4",
             terminal = "qterminal",
+            editor = os.getenv("EDITOR") or "nvim",
+            editor_cmd = "qterminal -e nvim",
         }
 
 
@@ -39,9 +41,11 @@ RC = {
 
         config.bindings.types.layouts = "main.layouts_table"
         config.bindings.types.globalKeybindings = "binding.globalkeys"
+        config.bindings.types.clientKeybindings = "binding.clientkeys"
+        config.bindings.types.mainmenu = "main.menu"
+        config.bindings.types.globalMouseButtons = "binding.globalbuttons"
 
     end),
-    vars = require("main.user-variables"),
 } 
 
 RC.statusbar = RC.diModule.getInstance("deco.statusbar")
@@ -54,9 +58,6 @@ require("awful.autofocus")
 require("main.error-handling")
 
 
-modkey = RC.vars.modkey
-editor_cmd = RC.vars.terminal .. " -e " .. RC.vars.editor
-
 
 
 -- Custom Local Library
@@ -68,19 +69,19 @@ local main = {
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
-RC.mainmenu = awful.menu({ items = main.menu() }) -- in globalkeys
+-- RC.mainmenu = awful.menu({ items = main.menu() }) -- in globalkeys
 
 -- a variable needed in statusbar (helper)
-RC.launcher = awful.widget.launcher(
-        {  menu = RC.mainmenu }
-)
+-- RC.launcher = awful.widget.launcher(
+--         {  menu = RC.mainmenu }
+-- )
 
 
 -- Custom Local Library: Keys and Mouse Binding
 local binding = {
     globalbuttons = require("binding.globalbuttons"),
-    clientbuttons = require("binding.clientbuttons"),
-    clientkeys    = require("binding.clientkeys")
+    -- clientbuttons = require("binding.clientbuttons"),
+    -- clientkeys    = require("binding.clientkeys")
 }
 
 
@@ -88,7 +89,7 @@ local binding = {
 -- RC.globalkeys = RC.diModule.getInstance("globalKeybindings")
 
 -- Set root
-root.buttons(binding.globalbuttons())
+-- root.buttons(binding.globalbuttons())
 -- root.keys(RC.globalkeys)
 -- }}}
 
@@ -102,8 +103,8 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = main.rules(
-        binding.clientkeys(),
-        binding.clientbuttons()
+        RC.diModule.getInstance("binding.clientkeys"),
+        RC.diModule.getInstance("binding.clientbuttons")
 )
 -- }}}
 
