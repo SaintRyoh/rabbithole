@@ -24,6 +24,8 @@ RC = {
 
         config.bindings.values.settings = {
             theme_dir = "themes/rabbithole/theme.lua",
+            modkey = "Mod4",
+            terminal = "qterminal",
         }
 
 
@@ -36,12 +38,12 @@ RC = {
         end
 
         config.bindings.types.layouts = "main.layouts_table"
+        config.bindings.types.globalKeybindings = "binding.globalkeys"
 
     end),
     vars = require("main.user-variables"),
 } 
 
-RC.workspaceManagerService = RC.diModule.getInstance("workspaceManagerService")
 RC.statusbar = RC.diModule.getInstance("deco.statusbar")
 
 -- Standard awesome library
@@ -68,16 +70,8 @@ local main = {
 local binding = {
     globalbuttons = require("binding.globalbuttons"),
     clientbuttons = require("binding.clientbuttons"),
-    globalkeys    = require("binding.globalkeys"),
     clientkeys    = require("binding.clientkeys")
 }
-
-
--- {{{ Menu
--- Create a laucher widget and a main menu
-RC.mainmenu = awful.menu({ items = main.menu() }) -- in globalkeys
-
-
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
@@ -95,11 +89,11 @@ menubar.utils.terminal = RC.vars.terminal
 -- }}}
 
 -- {{{ Mouse and Key bindings
-RC.globalkeys = binding.globalkeys(RC.workspaceManagerService)
+-- RC.globalkeys = RC.diModule.getInstance("globalKeybindings")
 
 -- Set root
 root.buttons(binding.globalbuttons())
-root.keys(RC.globalkeys)
+-- root.keys(RC.globalkeys)
 -- }}}
 
 -- Keyboard map indicator and switcher
