@@ -49,14 +49,16 @@ RC = {
         config.bindings.types.rules = "main.rules"
         config.bindings.types.statusbar = "deco.statusbar"
 
+        config.singletons.enableAutoFocus = true
+        config.providers.enableAutoFocus = require("awful.autofocus")
+
+        config.singletons.hotKeyKeys = true
+        config.providers.hotKeyKeys = require("awful.hotkeys_popup.keys")
+
     end),
 } 
 
 RC.environment = RC.diModule.getInstance("awesome-workspace-manager.environment")
-
-require("awful.hotkeys_popup.keys")
-require("awful.autofocus")
-
 
 
 require("main.signals")
