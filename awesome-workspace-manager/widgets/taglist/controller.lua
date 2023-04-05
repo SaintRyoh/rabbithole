@@ -1,14 +1,9 @@
 local __ = require("lodash")
 local awful = require("awful")
-local template = require("awesome-workspace-manager.widgets.taglist.template")
 local wibox = require("wibox")
 local get_update_function = require("awesome-workspace-manager.widgets.taglist.update_function")
+local taglistButtons   = require("awesome-workspace-manager.widgets.taglist.taglist_buttons")
 
--- Custom Local Library: Common Functional Decoration
-local taglist   = require("awesome-workspace-manager.widgets.taglist.taglist_buttons")
-
-local taglist_buttons  = taglist(require("awesome-workspace-manager.widgets.taglist.taglistmenu"))
-local globaltaglist_buttons = taglist(require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu"))
 local _M = {}
 
 -- workspace menu controller
@@ -16,6 +11,13 @@ local TaglistController = { }
 TaglistController.__index = TaglistController
 
 function TaglistController:new(workspaceManagerService, s)
+    -- Custom Local Library: Common Functional Decoration
+
+    local taglist_menu = require("awesome-workspace-manager.widgets.taglist.taglistmenu")(workspaceManagerService)
+    local globaltaglist_menu = require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu")(workspaceManagerService)
+    local taglist_buttons  = taglistButtons( taglist_menu)
+    local globaltaglist_buttons = taglistButtons( globaltaglist_menu)
+
     self = {}
     setmetatable(self, TaglistController)
 

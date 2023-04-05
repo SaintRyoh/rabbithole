@@ -10,11 +10,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
 local __ = require("lodash")
 
--- Resource Configuration
-local modkey = RC.vars.modkey
-local terminal = RC.vars.terminal
 
-local workspaceManagerService = RC.workspaceManagerService
 
 local _M = {}
 
@@ -23,7 +19,12 @@ local _M = {}
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-function _M.get(...)
+return setmetatable({}, {
+    __constructor = function(workspaceManagerService, settings, mainmenu)
+    -- Resource Configuration
+    local modkey = settings.modkey
+    local mainmenu = mainmenu
+    local terminal = settings.terminal
     local globalkeys = gears.table.join(
         awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
             {description="show help", group="awesome"}),
@@ -61,7 +62,7 @@ function _M.get(...)
             end,
             {description = "focus previous by index", group = "client"}
         ),
-        awful.key({ modkey,           }, "w", function () RC.mainmenu:show() end,
+        awful.key({ modkey,           }, "w", function () mainmenu:show() end,
             {description = "show main menu", group = "awesome"}),
 	    
 
@@ -246,9 +247,9 @@ function _M.get(...)
             )
     end
 
+    root.keys(globalkeys)
+
     return globalkeys
-end
+    end,
+})
 
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-return setmetatable({}, { __call = function(_, ...) return _M.get(...) end })

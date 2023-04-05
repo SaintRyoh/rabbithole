@@ -12,10 +12,11 @@ local _M = {}
 local WorkspaceMenuController = { }
 WorkspaceMenuController.__index = WorkspaceMenuController
 
-function WorkspaceMenuController:new(workspaceManagerService)
-    self = {}
+function WorkspaceMenuController:new(workspaceManagerService, theme)
+    self = { }
     setmetatable(self, WorkspaceMenuController)
 
+    self.theme = theme
     self.model = workspaceManagerService
     self.bindings = viewHelper.load_template(require("awesome-workspace-manager.widgets.workspace-menu.template"), self)
     self.view = {
@@ -92,7 +93,7 @@ function WorkspaceMenuController:set_menu(menu)
 
     self.view.bindings.menu.hide = viewHelper.decorate_method(self.view.bindings.menu.hide, function() 
         self.view.bindings.rotator.direction = "north"
-        self.view.bindings.root.bg = beautiful.bg_normal
+        self.view.bindings.root.bg = self.theme.bg_normal
     end)
 end
 
@@ -136,8 +137,8 @@ function WorkspaceMenuController:add_workspace()
 end
 
 
-function _M.get(workspaceManagerService)
-    return WorkspaceMenuController:new(workspaceManagerService)
+function _M.get(workspaceManagerService, theme)
+    return WorkspaceMenuController:new(workspaceManagerService, theme)
 end
 
-return setmetatable({}, { __call = function(_, workspaceManagerService) return _M.get(workspaceManagerService) end })
+return setmetatable({}, { __call = function(_, workspaceManagerService, theme) return _M.get(workspaceManagerService, theme) end })

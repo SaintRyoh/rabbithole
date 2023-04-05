@@ -1,7 +1,6 @@
 -- {{{ Required libraries
 local gears = require("gears")
 local awful = require("awful")
-local workspaceManagerService = RC.workspaceManagerService
 -- }}}
 
 local _M = {}

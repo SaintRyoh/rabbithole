@@ -7,7 +7,6 @@ local awful = require("awful")
 -- Widget and layout library
 local wibox = require("wibox")
 
-local workspaceManagerService = RC.workspaceManagerService
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
