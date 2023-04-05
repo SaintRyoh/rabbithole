@@ -48,7 +48,6 @@ RC.statusbar = RC.diModule.getInstance("deco.statusbar")
 
 -- Standard awesome library
 local awful = require("awful")
-local menubar = require("menubar")
 
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
@@ -66,12 +65,6 @@ local main = {
     rules   = require("main.rules"),
 }
 
--- Custom Local Library: Keys and Mouse Binding
-local binding = {
-    globalbuttons = require("binding.globalbuttons"),
-    clientbuttons = require("binding.clientbuttons"),
-    clientkeys    = require("binding.clientkeys")
-}
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
@@ -82,11 +75,14 @@ RC.launcher = awful.widget.launcher(
         {  menu = RC.mainmenu }
 )
 
--- Menubar configuration
--- Set the terminal for applications that require it
-menubar.utils.terminal = RC.vars.terminal
 
--- }}}
+-- Custom Local Library: Keys and Mouse Binding
+local binding = {
+    globalbuttons = require("binding.globalbuttons"),
+    clientbuttons = require("binding.clientbuttons"),
+    clientkeys    = require("binding.clientkeys")
+}
+
 
 -- {{{ Mouse and Key bindings
 -- RC.globalkeys = RC.diModule.getInstance("globalKeybindings")
