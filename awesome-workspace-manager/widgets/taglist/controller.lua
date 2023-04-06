@@ -60,29 +60,29 @@ function TaglistController:get_view_widget()
     return self.taglist_layout
 end
 
+-- set tag background color
+function TaglistController:set_tag_template_bg(tag)
+    if tag.selected then
+        return beautiful.bg_focus
+    else
+        return beautiful.bg_normal
+    end
+end
 
 function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
     tag_template:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
     tag_template.bg = beautiful.bg_focus
     tag_template:connect_signal('mouse::enter', function()
-        tag_template.bg = '#ff0000'
+        tag_template.bg = beautiful.bg_focus
     end)
     tag_template:connect_signal('mouse::leave', function()
-        if tag.selected then
-            tag_template.bg = beautiful.bg_focus
-        else
-            tag_template.bg = beautiful.bg_normal
-        end
+        tag_template.bg = self:set_tag_template_bg(tag)
     end)
 end
 
 function TaglistController:update_tag_callback(tag_template, tag, index, objects)
     tag_template:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
-    if tag.selected then
-        tag_template.bg = beautiful.bg_focus
-    else
-        tag_template.bg = beautiful.bg_normal
-    end
+    tag_template.bg = self:set_tag_template_bg(tag)
 end
 
 function _M.get(workspaceManagerService, s)
