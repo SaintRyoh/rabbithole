@@ -6,7 +6,6 @@ local taglistButtons   = require("awesome-workspace-manager.widgets.taglist.tagl
 local taglist_template = require("awesome-workspace-manager.widgets.taglist.template")
 local beautiful = require("beautiful")
 
-local _M = {}
 
 -- workspace menu controller
 local TaglistController = { }

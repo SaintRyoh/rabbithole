@@ -1,5 +1,5 @@
 -- This receives workspaceManagerService through dependency injection
--- returns a widget
+-- returns a  function that will return a widget after receiving a screen
 return setmetatable({}, {
     __constructor = function(workspaceManagerService)
         return function (s)
