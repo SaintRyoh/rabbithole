@@ -3,7 +3,8 @@ local awful = require("awful")
 local wibox = require("wibox")
 local get_update_function = require("awesome-workspace-manager.widgets.taglist.update_function")
 local taglistButtons   = require("awesome-workspace-manager.widgets.taglist.taglist_buttons")
-local taglist_template = require("awesome-workspace-manager.widgets.taglist.template")
+local local_taglist_template = require("awesome-workspace-manager.widgets.taglist.template_local")
+local global_taglist_template = require("awesome-workspace-manager.widgets.taglist.template_global")
 local beautiful = require("beautiful")
 
 
@@ -32,7 +33,7 @@ function TaglistController.new(workspaceManagerService, s)
         end,
         buttons = globaltaglist_buttons,
         update_function = get_update_function(s),
-        widget_template = taglist_template(self)
+        widget_template = global_taglist_template(self)
     }
 
 
@@ -42,7 +43,7 @@ function TaglistController.new(workspaceManagerService, s)
         buttons = taglist_buttons,
         source = function() return workspaceManagerService:getAllActiveTags() end,
         update_function = get_update_function(s),
-        widget_template = taglist_template(self)
+        widget_template = local_taglist_template(self)
     }
 
     self.taglist_layout = wibox.layout {
@@ -68,9 +69,16 @@ function TaglistController:set_tag_template_bg(tag)
     end
 end
 
+-- update index 
+function TaglistController:update_index(tag_template, index)
+    local index_widget = __.first(tag_template:get_children_by_id('index_role')) or nil
+    if index_widget then 
+        index_widget.markup = '<b> '..index..' </b>'
+    end
+end
+
 function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
-    tag_template:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
-    tag_template.bg = beautiful.bg_focus
+    self:update_index(tag_template, index)
     tag_template:connect_signal('mouse::enter', function()
         tag_template.bg = beautiful.bg_focus
     end)
@@ -80,7 +88,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 end
 
 function TaglistController:update_tag_callback(tag_template, tag, index, objects)
-    tag_template:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
+    self:update_index(tag_template, index)
     tag_template.bg = self:set_tag_template_bg(tag)
 end
 
