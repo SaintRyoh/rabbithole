@@ -2,9 +2,6 @@
 require("paths")
 require("main.error-handling")
 
-RC = {}
-
-RC.debugger = require("awesome-workspace-manager.debug")
 
 -- global namespace, on top before require any modules
 RC = {
@@ -16,6 +13,8 @@ RC = {
             return RC.diModule.getInstance("awesome-workspace-manager.workspaceManagerService") 
         end
 
+        config.singletons.debug = true
+        config.providers.debugger = require("awesome-workspace-manager.debug")
 
 
         -- Make theme a singleton (so we only call beautiful.init once)
@@ -62,4 +61,5 @@ RC = {
     end),
 } 
 
+RC.debugger = RC.diModule.getInstance("debugger")
 RC.environment = RC.diModule.getInstance("awesome-workspace-manager.environment")
