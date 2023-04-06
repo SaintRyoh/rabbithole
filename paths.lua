@@ -1,7 +1,11 @@
 local gears = require("gears")
 
 local config_dir = gears.filesystem.get_configuration_dir()
-local version = '5.2' --_VERSION:match("%d+%.%d+")
+
+-- The 5.2 modules will sometimes work for us,
+-- but we need to use the real version for the cpath
+local version = '5.2' 
+local realVersion = _VERSION:match("%d+%.%d+")
   
 local paths = {
     './?.lua',
@@ -15,7 +19,7 @@ local paths = {
 }
 
 local cpaths = {
-    'lua_modules/lib/lua/' .. version .. '/?.so'
+   config_dir .. 'lua_modules/lib/lua/' .. realVersion .. '/?.so'
 }
 
 for _, path in ipairs(paths) do
