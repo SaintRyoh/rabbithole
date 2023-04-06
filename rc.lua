@@ -61,6 +61,7 @@ RC = {
 RC.environment = RC.diModule.getInstance("awesome-workspace-manager.environment")
 
 
+require("deco.titlebar")
 require("main.signals")
 require("main.error-handling")
 

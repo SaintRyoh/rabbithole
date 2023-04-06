@@ -1,21 +1,7 @@
--- Standard awesome library
-local gears = require("gears")
 local awful = require("awful")
-
--- Widget and layout library
-local wibox = require("wibox")
-
--- Theme handling library
 local beautiful = require("beautiful")
 
--- Custom Local Library: Common Functional Decoration
-require("deco.titlebar")
-
-local __ = require("lodash")
-
-
 capi = {
-    screen = screen,
     client = client,
     awesome = awesome
 }
