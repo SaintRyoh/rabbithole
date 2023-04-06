@@ -12,13 +12,13 @@ local _M = {}
 local TaglistController = { }
 TaglistController.__index = TaglistController
 
-function TaglistController:new(workspaceManagerService, s)
+function TaglistController.new(workspaceManagerService, s)
     local taglist_menu = require("awesome-workspace-manager.widgets.taglist.taglistmenu")(workspaceManagerService)
     local globaltaglist_menu = require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu")(workspaceManagerService)
     local taglist_buttons  = taglistButtons( taglist_menu)
     local globaltaglist_buttons = taglistButtons( globaltaglist_menu)
 
-    self = {}
+    local self = {}
     setmetatable(self, TaglistController)
 
     -- resources
@@ -85,8 +85,8 @@ function TaglistController:update_tag_callback(tag_template, tag, index, objects
     tag_template.bg = self:set_tag_template_bg(tag)
 end
 
-function _M.get(workspaceManagerService, s)
-    return TaglistController:new(workspaceManagerService, s)
-end
-
-return setmetatable({}, { __call = function(_, workspaceManagerService, s) return _M.get(workspaceManagerService, s) end })
+return setmetatable(TaglistController, {
+    __call = function(self, workspaceManagerService, s)
+        return self.new(workspaceManagerService, s)
+    end
+})
