@@ -7,7 +7,8 @@ return setmetatable({}, {
         mainmenu, 
         globalMouseButtons, 
         rules, 
-        titlebar
+        titlebar,
+        main__sloppy___focus
     )
         return 
     end,

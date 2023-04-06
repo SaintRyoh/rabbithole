@@ -1,5 +1,6 @@
 -- setup paths, includes things like lua_modules
 require("paths")
+require("main.error-handling")
 
 -- global namespace, on top before require any modules
 RC = {
@@ -56,13 +57,13 @@ RC = {
         config.singletons.hotKeyKeys = true
         config.providers.hotKeyKeys = require("awful.hotkeys_popup.keys")
 
+        config.enableAutoConfiguration()
+
     end),
 } 
 
 RC.environment = RC.diModule.getInstance("awesome-workspace-manager.environment")
 
 
--- require("deco.titlebar")
 require("main.signals")
-require("main.error-handling")
 
