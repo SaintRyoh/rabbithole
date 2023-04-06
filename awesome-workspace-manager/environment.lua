@@ -8,7 +8,8 @@ return setmetatable({}, {
         globalMouseButtons, 
         rules, 
         titlebar,
-        main__sloppy___focus
+        main__sloppy___focus,
+        main__signals
     )
         return 
     end,

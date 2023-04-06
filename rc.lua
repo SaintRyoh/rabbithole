@@ -2,6 +2,10 @@
 require("paths")
 require("main.error-handling")
 
+RC = {}
+
+RC.debugger = require("awesome-workspace-manager.debug")
+
 -- global namespace, on top before require any modules
 RC = {
     diModule = require("lua-di.lua-di.DependencyInjectionModule")(function (config) 
@@ -12,10 +16,6 @@ RC = {
             return RC.diModule.getInstance("awesome-workspace-manager.workspaceManagerService") 
         end
 
-
-        -- Make debugger a singleton
-        config.singletons.debugger = true
-        config.providers.debugger = require("awesome-workspace-manager.debug")
 
 
         -- Make theme a singleton (so we only call beautiful.init once)
@@ -63,7 +63,3 @@ RC = {
 } 
 
 RC.environment = RC.diModule.getInstance("awesome-workspace-manager.environment")
-
-
-require("main.signals")
-
