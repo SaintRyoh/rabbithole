@@ -48,6 +48,7 @@ RC = {
         config.bindings.types.globalMouseButtons = "binding.globalbuttons"
         config.bindings.types.rules = "main.rules"
         config.bindings.types.statusbar = "deco.statusbar"
+        config.bindings.types.titlebar = "deco.titlebar"
 
         config.singletons.enableAutoFocus = true
         config.providers.enableAutoFocus = require("awful.autofocus")
@@ -61,7 +62,7 @@ RC = {
 RC.environment = RC.diModule.getInstance("awesome-workspace-manager.environment")
 
 
-require("deco.titlebar")
+-- require("deco.titlebar")
 require("main.signals")
 require("main.error-handling")
 
