@@ -4,6 +4,7 @@
 -------------------------------
 
 local themes_path = require("gears.filesystem").get_configuration_dir() .. "themes/"
+local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
 
 -- {{{ Main
@@ -45,6 +46,14 @@ theme.titlebar_bg_normal = "#3F3F3F"
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- Example:
 --theme.taglist_bg_focus = "#CC9393"
+-- }}}
+
+-- {{{ Taglist 
+theme.taglist_shape = gears.shape.rectangle
+theme.taglist_bg_normal = theme.bg_normal
+theme.taglist_bg_focus = theme.bg_focus
+-- theme.taglist_shape_border_width = dpi(1)
+-- theme.taglist_shape_border_color = "#000000"
 -- }}}
 
 -- {{{ Widgets

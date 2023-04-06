@@ -2,8 +2,8 @@ local wibox = require("wibox")
 
 
 return function (controller)
-    -- RC.debugger.dbg()
-    return {
+    return 
+    {
         id     = 'background_role',
         widget = wibox.container.background,
         {

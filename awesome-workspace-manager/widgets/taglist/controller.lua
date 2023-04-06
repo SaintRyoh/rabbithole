@@ -63,9 +63,9 @@ end
 -- set tag background color
 function TaglistController:set_tag_template_bg(tag)
     if tag.selected then
-        return beautiful.bg_focus
+        return beautiful.taglist_bg_focus
     else
-        return beautiful.bg_normal
+        return beautiful.taglist_bg_normal
     end
 end
 
@@ -80,7 +80,7 @@ end
 function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
     self:update_index(tag_template, index)
     tag_template:connect_signal('mouse::enter', function()
-        tag_template.bg = beautiful.bg_focus
+        tag_template.bg = beautiful.taglist_bg_focus
     end)
     tag_template:connect_signal('mouse::leave', function()
         tag_template.bg = self:set_tag_template_bg(tag)
