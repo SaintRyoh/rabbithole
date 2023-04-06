@@ -1,15 +1,7 @@
 local wibox = require("wibox")
-local beautiful = require("beautiful")
-local awful = require("awful")
-local naughty = require("naughty")
-local gears = require("gears")
-local __ = require("lodash")
-local color = require("src.themes.rabbithole.colors")
 
 
-local _M = {}
-
-function _M.get(controller)
+return function (controller)
     -- RC.debugger.dbg()
     return {
         id     = 'background_role',
@@ -41,5 +33,3 @@ function _M.get(controller)
         update_callback = function (tag_template, tag, index, objects) controller:update_tag_callback(tag_template, tag, index, objects) end,
     }
 end
-
-return setmetatable({}, { __call = function(_, controller) return _M.get(controller) end })
