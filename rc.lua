@@ -1,5 +1,10 @@
 -- setup paths, includes things like lua_modules
 require("paths")
+require("main.error-handling")
+
+RC = {}
+
+RC.debugger = require("awesome-workspace-manager.debug")
 
 -- global namespace, on top before require any modules
 RC = {
@@ -11,10 +16,6 @@ RC = {
             return RC.diModule.getInstance("awesome-workspace-manager.workspaceManagerService") 
         end
 
-
-        -- Make debugger a singleton
-        config.singletons.debugger = true
-        config.providers.debugger = require("awesome-workspace-manager.debug")
 
 
         -- Make theme a singleton (so we only call beautiful.init once)
@@ -48,6 +49,7 @@ RC = {
         config.bindings.types.globalMouseButtons = "binding.globalbuttons"
         config.bindings.types.rules = "main.rules"
         config.bindings.types.statusbar = "deco.statusbar"
+        config.bindings.types.titlebar = "deco.titlebar"
 
         config.singletons.enableAutoFocus = true
         config.providers.enableAutoFocus = require("awful.autofocus")
@@ -55,12 +57,9 @@ RC = {
         config.singletons.hotKeyKeys = true
         config.providers.hotKeyKeys = require("awful.hotkeys_popup.keys")
 
+        config.enableAutoConfiguration()
+
     end),
 } 
 
 RC.environment = RC.diModule.getInstance("awesome-workspace-manager.environment")
-
-
-require("main.signals")
-require("main.error-handling")
-
