@@ -17,7 +17,7 @@ function _M.get(controller)
         {
             left  = 18,
             right = 18,
-            widget = wibox.container.margin
+            widget = wibox.container.margin,
             {
                 widget = wibox.widget.textbox,
                 text = "test",
@@ -26,29 +26,9 @@ function _M.get(controller)
         },
 
         -- Add support for hover colors and an index label
-        create_callback = function(self, tag, index, objects) --luacheck: no unused args
-            self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
-            self.bg = beautiful.bg_focus
-            self:connect_signal('mouse::enter', function()
-                self.bg = '#ff0000'
-            end)
-            self:connect_signal('mouse::leave', function()
-                if tag.selected then
-                    self.bg = beautiful.bg_focus
-                else
-                    self.bg = beautiful.bg_normal
-                end
-            end)
-        end,
+        create_callback = function (tag_template, tag, index, objects) controller:create_tag_callback(tag_template, tag, index, objects) end,
 
-        update_callback = function(self, tag, index, objects) --luacheck: no unused args
-            self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
-            if tag.selected then
-                self.bg = beautiful.bg_focus
-            else
-                self.bg = beautiful.bg_normal
-            end
-        end,
+        update_callback = function (tag_template, tag, index, objects) controller:update_tag_callback(tag_template, tag, index, objects) end,
     }
 end
 

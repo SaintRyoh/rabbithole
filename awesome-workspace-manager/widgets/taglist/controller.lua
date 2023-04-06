@@ -4,6 +4,7 @@ local wibox = require("wibox")
 local get_update_function = require("awesome-workspace-manager.widgets.taglist.update_function")
 local taglistButtons   = require("awesome-workspace-manager.widgets.taglist.taglist_buttons")
 local taglist_template = require("awesome-workspace-manager.widgets.taglist.template")
+local beautiful = require("beautiful")
 
 local _M = {}
 
@@ -57,6 +58,31 @@ end
 -- get view 
 function TaglistController:get_view_widget()
     return self.taglist_layout
+end
+
+
+function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
+    tag_template:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
+    tag_template.bg = beautiful.bg_focus
+    tag_template:connect_signal('mouse::enter', function()
+        tag_template.bg = '#ff0000'
+    end)
+    tag_template:connect_signal('mouse::leave', function()
+        if tag.selected then
+            tag_template.bg = beautiful.bg_focus
+        else
+            tag_template.bg = beautiful.bg_normal
+        end
+    end)
+end
+
+function TaglistController:update_tag_callback(tag_template, tag, index, objects)
+    tag_template:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
+    if tag.selected then
+        tag_template.bg = beautiful.bg_focus
+    else
+        tag_template.bg = beautiful.bg_normal
+    end
 end
 
 function _M.get(workspaceManagerService, s)
