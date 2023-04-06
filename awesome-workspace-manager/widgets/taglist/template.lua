@@ -19,9 +19,19 @@ function _M.get(controller)
             right = 18,
             widget = wibox.container.margin,
             {
-                widget = wibox.widget.textbox,
-                text = "test",
-                id = "index_role"
+                layout = wibox.layout.fixed.horizontal,
+                {
+                    id     = 'index_role',
+                    widget = wibox.widget.textbox,
+                },
+                {
+                    widget = wibox.container.margin,
+                    left = 5,
+                },
+                {
+                    id     = 'text_role',
+                    widget = wibox.widget.textbox,
+                },
             },
         },
 
