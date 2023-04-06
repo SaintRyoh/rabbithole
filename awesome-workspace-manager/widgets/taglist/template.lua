@@ -10,148 +10,58 @@ local color = require("src.themes.rabbithole.colors")
 local _M = {}
 
 function _M.get(controller)
-    return {
-        layout = wibox.layout.fixed.horizontal,
-        create_callback = function(self, object, index, objects)
-            local tag_widget = wibox.widget {
+    return     {
+        {
+            {
                 {
                     {
                         {
-                            {
-                                text = "",
-                                align = "center",
-                                valign = "center",
-                                visible = true,
-                                font = "#000000", -- TODO: Replace with  colors.lua when recreated
-                                forced_width = dpi(25),
-                                id = "label",
-                                widget = wibox.widget.textbox
-                            },
-                            id = "margin",
-                            left = dpi(5),
-                            right = dpi(5),
-                            widget = wibox.container.margin
+                            id     = 'index_role',
+                            widget = wibox.widget.textbox,
                         },
-                        id = "container",
-                        layout = wibox.layout.fixed.horizontal
+                        margins = 4,
+                        widget  = wibox.container.margin,
                     },
-                    fg = "#000000", -- Replace with the appropriate color value
-                    shape = function(cr, width, height)
-                        gears.shape.rounded_rect(cr, width, height, 8)
-                    end,
-                    widget = wibox.container.background
-                }
-            }
-
-            tag_widget.container.margin.label:set_text(object.index)
-            if object.urgent == true then
-              tag_widget:set_bg(color["RedA200"])
-              tag_widget:set_fg(color["Grey900"])
-            elseif object == awful.screen.focused().selected_tag then
-              tag_widget:set_bg(color["LightBlue50"])
-              tag_widget:set_fg(color["Grey900"])
-            else
-              tag_widget:set_bg(beautiful.widget_bg_gradient)
-            end
-
-            -- Set the icon for each client
-            for _, client in ipairs(object:clients()) do
-              tag_widget.container.margin:set_right(0)
-              local icon = wibox.widget {
-                {
-                  id = "icon_container",
-                  {
-                    id = "icon",
-                    resize = true,
-                    widget = wibox.widget.imagebox
-                  },
-                  widget = wibox.container.place
+                    bg     = '#dddddd',
+                    shape  = gears.shape.circle,
+                    widget = wibox.container.background,
                 },
-                forced_width = dpi(25),
-                margins = dpi(3),
-                widget = wibox.container.margin
-              }
-              --icon.icon_container.icon:set_image(Get_icon(user_vars.icon_theme, client))
-              tag_widget.container:setup({
-                icon,
-                strategy = "exact",
-                layout = wibox.container.constraint,
-              })
-            end
-            -- mouse signals for each tag button
-            local old_wibox, old_cursor, old_bg
-            tag_widget:connect_signal(
-                "mouse::enter",
-                function()
-                    old_bg = tag_widget.bg
-                    if object == awful.screen.focused().selected_tag then
-                        tag_widget.bg = '#dddddd' .. 'dd'
-                    else
-                        tag_widget.bg = '#3A475C' .. 'dd'
-                    end
-                    local w = mouse.current_wibox
-                    if w then
-                        old_cursor, old_wibox = w.cursor, w
-                        w.cursor = "hand1"
-                    end
+                {
+                    {
+                        id     = 'icon_role',
+                        widget = wibox.widget.imagebox,
+                    },
+                    margins = 2,
+                    widget  = wibox.container.margin,
+                },
+                {
+                    id     = 'text_role',
+                    widget = wibox.widget.textbox,
+                },
+                layout = wibox.layout.fixed.horizontal,
+            },
+            left  = 18,
+            right = 18,
+            widget = wibox.container.margin
+        },
+        id     = 'background_role',
+        widget = wibox.container.background,
+        -- Add support for hover colors and an index label
+        create_callback = function(self, c3, index, objects) --luacheck: no unused args
+            self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
+            self:connect_signal('mouse::enter', function()
+                if self.bg ~= '#ff0000' then
+                    self.backup     = self.bg
+                    self.has_backup = true
                 end
-            )
-
-            tag_widget:connect_signal(
-                "button::press",
-                function()
-                    if object == awful.screen.focused().selected_tag then
-                        tag_widget.bg = '#bbbbbb' .. 'dd'
-                    else
-                        tag_widget.bg = '#3A475C' .. 'dd'
-                    end
-                end
-            )
-
-            tag_widget:connect_signal(
-                "button::release",
-                function()
-                    if object == awful.screen.focused().selected_tag then
-                        tag_widget.bg = '#dddddd' .. 'dd'
-                    else
-                        tag_widget.bg = '#3A475C' .. 'dd'
-                    end
-                end
-            )
-
-            tag_widget:connect_signal(
-                "mouse::leave",
-                function()
-                    tag_widget.bg = old_bg
-                    if old_wibox then
-                        old_wibox.cursor = old_cursor
-                        old_wibox = nil
-                    end
-                end
-            )
-
-            self:get_children_by_id("label")[1]:set_text(index)
-            self:get_children_by_id("container")[1]:add(tag_widget)
-
-            -- Update the background color based on the state
-            object:connect_signal("property::selected", function()
-                if object.selected then
-                    tag_widget.bg = '#dddddd' .. 'dd'
-                else
-                    tag_widget.bg = '#3A475C' .. 'dd'
-                end
+                self.bg = '#ff0000'
             end)
-
-            object:connect_signal("property::urgent", function()
-                if object.urgent then
-                    tag_widget.bg = '#ff0000' .. 'dd'
-                else
-                    tag_widget.bg = '#3A475C' .. 'dd'
-                end
+            self:connect_signal('mouse::leave', function()
+                if self.has_backup then self.bg = self.backup end
             end)
         end,
-        update_callback = function(self, object, index, objects)
-            self:get_children_by_id("label")[1]:set_text(index)
+        update_callback = function(self, c3, index, objects) --luacheck: no unused args
+            self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
         end,
     }
 end
