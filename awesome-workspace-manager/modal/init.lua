@@ -1,6 +1,7 @@
 local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
+local gears = require("gears")
 
 local Modal = {}
 Modal.__index = Modal
@@ -47,6 +48,9 @@ function Modal:new(args)
         y = args.y,
         width = args.width,
         height = args.height,
+        shape = function(cr, width, height)
+            gears.shape.rounded_rect(cr, width, height, 10)
+        end
     }
 
     -- Update the popup_widget size when the child widget changes
