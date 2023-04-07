@@ -1,10 +1,9 @@
 -- This receives workspaceManagerService through dependency injection
--- returns a widget
+-- returns a  function that will return a widget after receiving a screen
 return setmetatable({}, {
-    __constructor = function(workspaceManagerService)
-        local controller = require("awesome-workspace-manager/widgets/taglist/controller")
+    __constructor = function(workspaceManagerService, theme)
         return function (s)
-            return controller(workspaceManagerService, s):get_view_widget()
+            return require("awesome-workspace-manager/widgets/taglist/controller")(workspaceManagerService, s):get_view_widget()
         end
     end,
 })

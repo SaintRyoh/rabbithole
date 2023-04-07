@@ -1,20 +1,11 @@
--- {{{ Required libraries
-local gears = require("gears")
 local awful = require("awful")
-local wibox = require("wibox")
 local __ = require("lodash")
--- }}}
 
-local _M = {}
-
-
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 local GlobalTaglistMenuController = { }
 GlobalTaglistMenuController.__index = GlobalTaglistMenuController
 
-function GlobalTaglistMenuController:new(workspaceManagerService)
-    self = {}
+function GlobalTaglistMenuController.new(workspaceManagerService)
+    local self = {}
     setmetatable(self, GlobalTaglistMenuController)
 
     self.workspaceManagerService = workspaceManagerService
@@ -51,13 +42,8 @@ end
 
 
 
-function _M.get(workspaceManagerService)
-    local wmc = GlobalTaglistMenuController:new(workspaceManagerService)
-
-    return wmc
-
-end
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-return setmetatable({}, { __call = function(_, workspaceManagerService) return _M.get(workspaceManagerService) end })
+return setmetatable(GlobalTaglistMenuController, {
+    __call = function(self, workspaceManagerService)
+        return self.new(workspaceManagerService)
+    end,
+})
