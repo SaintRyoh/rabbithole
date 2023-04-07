@@ -76,7 +76,7 @@ theme.menu_width  = dpi(100)
 -- {{{ Icons
 -- {{{ Taglist
 theme.taglist_shape = gears.shape.rounded_rect
-theme.taglist_bg_normal = "#ADD8E6"
+theme.taglist_bg_normal = theme.bg_normal
 theme.taglist_bg_empty = theme.taglist_bg_normal
 theme.taglist_bg_focus = theme.bg_focus
 theme.taglist_squares_sel   = themes_path .. "zenburn/taglist/squarefz.png"
