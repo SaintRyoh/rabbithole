@@ -109,6 +109,7 @@ end
 function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
     self:update_index(tag_template, index)
     self:add_client_bubbles(tag_template, tag)
+    tag_template.bg = self:set_tag_template_bg(tag)
     tag_template:connect_signal('mouse::enter', function()
         tag_template.bg = beautiful.taglist_bg_focus
     end)
