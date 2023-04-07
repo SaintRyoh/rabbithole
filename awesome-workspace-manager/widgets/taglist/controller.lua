@@ -18,6 +18,7 @@ function TaglistController.new(workspaceManagerService, s)
     local globaltaglist_menu = require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu")(workspaceManagerService)
     local taglist_buttons  = taglistButtons( taglist_menu)
     local globaltaglist_buttons = taglistButtons( globaltaglist_menu)
+    local plusButton = require("awesome-workspace-manager.widgets.taglist.plus_button")(workspaceManagerService)
 
     local self = {}
     setmetatable(self, TaglistController)
@@ -50,7 +51,8 @@ function TaglistController.new(workspaceManagerService, s)
     self.taglist_layout = wibox.layout {
         layout = wibox.layout.fixed.horizontal,
         self.my_global_workspace_taglist,
-        self.my_local_workspace_taglist
+        self.my_local_workspace_taglist,
+        plusButton
     }
 
     return self
