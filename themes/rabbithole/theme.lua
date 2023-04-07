@@ -50,7 +50,7 @@ theme.titlebar_bg_normal = "#3F3F3F"
 
 -- {{{ Taglist 
 theme.taglist_shape = gears.shape.rectangle
-theme.taglist_bg_normal = theme.bg_normal
+theme.taglist_bg_normal = "#ADD8E6"
 theme.taglist_bg_focus = theme.bg_focus
 -- theme.taglist_shape_border_width = dpi(1)
 -- theme.taglist_shape_border_color = "#000000"
