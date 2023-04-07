@@ -24,6 +24,14 @@ return function (controller)
                     id     = 'text_role',
                     widget = wibox.widget.textbox,
                 },
+                {
+                    id = "icon_container",
+                    widget = wibox.container.place,
+                    {
+                        widget = wibox.layout.fixed.horizontal,
+                    }
+
+                },
             },
         },
 
