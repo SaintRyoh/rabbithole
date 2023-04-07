@@ -9,7 +9,7 @@ local dpi = require("beautiful.xresources").apply_dpi
 
 -- {{{ Main
 local theme = {}
-theme.wallpaper =  themes_path .. "rabbithole/Circuit.png"
+theme.wallpaper =  themes_path .. "rabbithole/mushroom_forest.jpg"
 -- }}}
 
 -- {{{ Styles
