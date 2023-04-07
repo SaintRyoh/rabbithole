@@ -33,6 +33,18 @@ function TaglistMenuController:generate_menu(t)
             self.workspaceManagerService:moveTagToGlobalWorkspace(t)
         end
     })
+    menu:add({
+        "Delete tag",
+        function ()
+            self.workspaceManagerService:deleteTagFromWorkspace(nil, t)
+        end
+    })
+    menu:add({
+        "Rename tag",
+        function ()
+            self.workspaceManagerService:renameTag(t)
+        end
+    })
 
     return menu
 end

@@ -4,11 +4,8 @@ local gears = require("gears")
 return function (controller)
     return {
         -- for some reason, having the container with the id=background role makes it not take a shape
-        --id     = 'background_role',
+        id     = 'background_role',
         widget = wibox.container.background,
-        shape = function(cr, width, height)
-            gears.shape.rounded_rect(cr, width, height, 10)
-        end,
         {
             widget = wibox.container.margin,
             {

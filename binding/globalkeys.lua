@@ -33,7 +33,7 @@ return setmetatable({}, {
     -- Dynamic tagging
         awful.key({ modkey, "Shift" }, "n", function ()  workspaceManagerService:addTagToWorkspace() end,
             {description = "add new tag", group = "tag"}),
-        awful.key({ modkey, "Shift" }, "r", function () workspaceManagerService:renameCurrentTag() end,
+        awful.key({ modkey, "Shift" }, "r", function () workspaceManagerService:renameTag() end,
             {description = "rename tag", group = "tag"}),
         awful.key({ modkey, "Shift" }, "Left", function () workspaceManagerService:moveTag(-1) end,
             {description = "move tag to the left", group = "tag"}),

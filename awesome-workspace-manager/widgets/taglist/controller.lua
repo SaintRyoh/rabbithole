@@ -87,7 +87,7 @@ function TaglistController:add_client_bubbles(tag_template, tag)
                     },
                     widget = wibox.container.place
                 },
-                forced_width = dpi(33),
+                forced_width = dpi(20),
                 margins = dpi(2),
                 widget = wibox.container.margin
             }
