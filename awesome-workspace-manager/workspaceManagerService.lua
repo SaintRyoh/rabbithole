@@ -269,12 +269,12 @@ function WorkspaceManagerService:createTag(index, tag_def)
 end
 
 -- Rename current tag
-function WorkspaceManagerService:renameCurrentTag()
+function WorkspaceManagerService:renameTag(tag)
     modal.prompt({
         prompt       = "Rename tag: ",
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
-            local t = awful.screen.focused().selected_tag
+            local t = tag or awful.screen.focused().selected_tag
             if t then
                 t.name = new_name
                 self:refresh()
