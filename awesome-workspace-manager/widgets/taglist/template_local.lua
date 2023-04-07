@@ -7,8 +7,8 @@ return function (controller)
         id     = 'background_role',
         widget = wibox.container.background,
         {
-            left  = 18,
-            right = 18,
+            left  = 5,
+            right = 5,
             widget = wibox.container.margin,
             {
                 layout = wibox.layout.fixed.horizontal,
