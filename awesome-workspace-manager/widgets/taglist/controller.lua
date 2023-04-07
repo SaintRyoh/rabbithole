@@ -70,14 +70,29 @@ function TaglistController:set_tag_template_bg(tag)
     end
 end
 
--- add client bubbles
 function TaglistController:add_client_bubbles(tag_template, tag)
     local icon_container = __.first(tag_template:get_children_by_id('icon_container')) or nil
     if icon_container then
-    -- Debugger.dbg()
-        icon_container:set_children(__.map(tag:clients(), function(client)
-            return wibox.widget.imagebox(client.icon)
-        end))
+        local icons = __.map(tag:clients(), function(client)
+            local dpi = require("beautiful").xresources.apply_dpi
+            local icon = wibox.widget {
+                {
+                    id = "icon_container",
+                    {
+                        id = "icon",
+                        resize = true,
+                        widget = wibox.widget.imagebox
+                    },
+                    widget = wibox.container.place
+                },
+                forced_width = dpi(33),
+                margins = dpi(2),
+                widget = wibox.container.margin
+            }
+            icon.icon_container.icon:set_image(client.icon)
+            return icon
+        end)
+        icon_container.widget:set_children(icons)
     end
 end
 
