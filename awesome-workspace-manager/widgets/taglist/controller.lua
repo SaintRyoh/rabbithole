@@ -6,6 +6,7 @@ local taglistButtons   = require("awesome-workspace-manager.widgets.taglist.tagl
 local local_taglist_template = require("awesome-workspace-manager.widgets.taglist.template_local")
 local global_taglist_template = require("awesome-workspace-manager.widgets.taglist.template_global")
 local beautiful = require("beautiful")
+local common = require("awful.widget.common")
 
 
 -- workspace menu controller
@@ -69,6 +70,32 @@ function TaglistController:set_tag_template_bg(tag)
     end
 end
 
+function TaglistController:add_client_bubbles(tag_template, tag)
+    local icon_container = __.first(tag_template:get_children_by_id('icon_container')) or nil
+    if icon_container then
+        local icons = __.map(tag:clients(), function(client)
+            local dpi = require("beautiful").xresources.apply_dpi
+            local icon = wibox.widget {
+                {
+                    id = "icon_container",
+                    {
+                        id = "icon",
+                        resize = true,
+                        widget = wibox.widget.imagebox
+                    },
+                    widget = wibox.container.place
+                },
+                forced_width = dpi(33),
+                margins = dpi(2),
+                widget = wibox.container.margin
+            }
+            icon.icon_container.icon:set_image(client.icon)
+            return icon
+        end)
+        icon_container.widget:set_children(icons)
+    end
+end
+
 -- update index 
 function TaglistController:update_index(tag_template, index)
     local index_widget = __.first(tag_template:get_children_by_id('index_role')) or nil
@@ -79,6 +106,7 @@ end
 
 function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
     self:update_index(tag_template, index)
+    self:add_client_bubbles(tag_template, tag)
     tag_template:connect_signal('mouse::enter', function()
         tag_template.bg = beautiful.taglist_bg_focus
     end)
@@ -89,6 +117,7 @@ end
 
 function TaglistController:update_tag_callback(tag_template, tag, index, objects)
     self:update_index(tag_template, index)
+    self:add_client_bubbles(tag_template, tag)
     tag_template.bg = self:set_tag_template_bg(tag)
 end
 

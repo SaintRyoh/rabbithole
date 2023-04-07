@@ -7,8 +7,8 @@ return function (controller)
         id     = 'background_role',
         widget = wibox.container.background,
         {
-            left  = 18,
-            right = 18,
+            left  = 5,
+            right = 5,
             widget = wibox.container.margin,
             {
                 layout = wibox.layout.fixed.horizontal,
@@ -23,6 +23,14 @@ return function (controller)
                 {
                     id     = 'text_role',
                     widget = wibox.widget.textbox,
+                },
+                {
+                    id = "icon_container",
+                    widget = wibox.container.place,
+                    {
+                        widget = wibox.layout.fixed.horizontal,
+                    }
+
                 },
             },
         },
