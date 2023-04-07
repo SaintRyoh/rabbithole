@@ -1,36 +1,41 @@
 local wibox = require("wibox")
-
+local gears = require("gears")
 
 return function (controller)
-    -- RC.debugger.dbg()
     return {
-        id     = 'background_role',
+        -- for some reason, having the container with the id=background role makes it not take a shape
+        --id     = 'background_role',
         widget = wibox.container.background,
+        shape = function(cr, width, height)
+            gears.shape.rounded_rect(cr, width, height, 10)
+        end,
         {
-            left  = 5,
-            right = 5,
             widget = wibox.container.margin,
             {
-                layout = wibox.layout.fixed.horizontal,
+                left  = 5,
+                right = 5,
+                widget = wibox.container.margin,
                 {
-                    id     = 'index_role',
-                    widget = wibox.widget.textbox,
-                },
-                {
-                    widget = wibox.container.margin,
-                    left = 5,
-                },
-                {
-                    id     = 'text_role',
-                    widget = wibox.widget.textbox,
-                },
-                {
-                    id = "icon_container",
-                    widget = wibox.container.place,
+                    layout = wibox.layout.fixed.horizontal,
                     {
-                        widget = wibox.layout.fixed.horizontal,
-                    }
-
+                        id     = 'index_role',
+                        widget = wibox.widget.textbox,
+                    },
+                    {
+                        widget = wibox.container.margin,
+                        left = 5,
+                    },
+                    {
+                        id     = 'text_role',
+                        widget = wibox.widget.textbox,
+                    },
+                    {
+                        id = "icon_container",
+                        widget = wibox.container.place,
+                        {
+                            widget = wibox.layout.fixed.horizontal,
+                        }
+                    },
                 },
             },
         },
