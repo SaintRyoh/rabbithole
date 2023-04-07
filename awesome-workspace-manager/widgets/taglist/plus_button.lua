@@ -6,29 +6,24 @@ local naughty = require("naughty")
 local PlusButton = {}
 PlusButton.__index = PlusButton
 
-local template =  function(controller)
-    
-    return 
-    wibox.widget {
-        id = "background_role",
-        widget  = wibox.container.background,
+local template = wibox.widget {
+    id = "background_role",
+    widget  = wibox.container.background,
+    {
+        widget = wibox.container.margin,
+        margins = 5,
         {
-            widget = wibox.container.margin,
-            margins = 5,
+            widget = wibox.container.place,
+            align = "center",
+            valign = "center",
             {
-                widget = wibox.container.place,
-                align = "center",
-                valign = "center",
-                {
-                    widget = wibox.widget.textbox,
-                    text = "+",
-                    font = "sans 15",
-                }
+                widget = wibox.widget.textbox,
+                text = "+",
+                font = "sans 15",
             }
-        },
-    }
-
-end
+        }
+    },
+}
 
 function PlusButton.new(workspaceManagerService)
     local self = {}
@@ -36,7 +31,7 @@ function PlusButton.new(workspaceManagerService)
 
     -- Debugger.dbg()
 
-    self.tmpl = template(self)
+    self.tmpl = template
 
     local bg = __.first( self.tmpl:get_children_by_id('background_role') ) or nil
 
@@ -48,7 +43,7 @@ function PlusButton.new(workspaceManagerService)
             bg.bg = beautiful.bg_normal
         end)
         bg:connect_signal("button::press", function()
-            naughty.notify({text = "Pressed"})
+            workspaceManagerService:addTagToWorkspace()
         end)
     end
 
