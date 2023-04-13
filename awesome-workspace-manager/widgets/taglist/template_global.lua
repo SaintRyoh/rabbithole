@@ -1,5 +1,7 @@
 local wibox = require("wibox")
+local awful = require("awful")
 
+local icon_path = awful.util.getdir("config") .. "/src/assets/icons/rabbithole/global.svg"
 
 return function (controller)
     return 
@@ -7,7 +9,7 @@ return function (controller)
         id     = 'background_role',
         widget = wibox.container.background,
         {
-            left  = 18,
+            left  = 3,
             right = 18,
             widget = wibox.container.margin,
             {
@@ -17,8 +19,25 @@ return function (controller)
                     left = 5,
                 },
                 {
-                    id     = 'text_role',
-                    widget = wibox.widget.textbox,
+                    widget = wibox.container.background,
+                    fg = "#FFFFFF",
+                    {
+                        layout = wibox.layout.fixed.horizontal,
+                        spacing = 5,
+                        {
+                            widget = wibox.container.margin,
+                            left = 5,
+                            right = 5,
+                            {
+                                widget = wibox.widget.imagebox,
+                                image = icon_path,
+                            },
+                        },
+                        {
+                            id     = 'text_role',
+                            widget = wibox.widget.textbox,
+                        },
+                    },
                 },
             },
         },

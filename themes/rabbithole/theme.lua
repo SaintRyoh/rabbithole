@@ -1,15 +1,10 @@
--------------------------------
---  "Zenburn" awesome theme  --
---    By Adrian C. (anrxc)   --
--------------------------------
-
 local themes_path = require("gears.filesystem").get_configuration_dir() .. "themes/"
 local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
 
 -- {{{ Main
 local theme = {}
-theme.wallpaper =  themes_path .. "rabbithole/Circuit.png"
+theme.wallpaper =  themes_path .. "rabbithole/purple.jpg"
 -- }}}
 
 -- {{{ Styles
@@ -138,5 +133,3 @@ theme.titlebar_maximized_button_normal_inactive = themes_path .. "zenburn/titleb
 -- }}}
 
 return theme
-
--- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
