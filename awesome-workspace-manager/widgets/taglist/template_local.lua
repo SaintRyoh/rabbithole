@@ -9,8 +9,8 @@ return function (controller)
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
-        fg = "#000000",
-        bg = "#ADD8E6", -- Set the background color to a light blue
+        --fg = "#000000",
+        --bg = "#ADD8E6", -- Set the background color to a light blue
         {
             widget = wibox.container.margin,
             {
