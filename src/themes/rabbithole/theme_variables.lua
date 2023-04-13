@@ -1,8 +1,10 @@
 --[[
   Main themeing variables file. Everything including custom widgets are edited here.
+  
   Eventually, the goal is the ability to change every single element of the appearance of
   Rabbithole via this file and to have it play nice with the future settings manager. 
---]]
+]]
+
 -- Awesome Libs
 local dpi = require("beautiful.xresources").apply_dpi
 local gears = require("gears")
