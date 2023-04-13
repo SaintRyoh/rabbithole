@@ -48,6 +48,13 @@ theme.titlebar_bg_normal = "#3F3F3F"
 --theme.taglist_bg_focus = "#CC9393"
 -- }}}
 
+-- {{{ Taglist 
+theme.taglist_shape = gears.shape.rectangle
+theme.taglist_bg_normal = "#ADD8E6"
+theme.taglist_bg_focus = theme.bg_focus
+-- theme.taglist_shape_border_width = dpi(1)
+-- theme.taglist_shape_border_color = "#000000"
+-- }}}
 
 -- {{{ Widgets
 -- You can add as many variables as
@@ -75,10 +82,6 @@ theme.menu_width  = dpi(100)
 
 -- {{{ Icons
 -- {{{ Taglist
-theme.taglist_shape = gears.shape.rounded_rect
-theme.taglist_bg_normal = theme.bg_normal
-theme.taglist_bg_empty = theme.taglist_bg_normal
-theme.taglist_bg_focus = theme.bg_focus
 theme.taglist_squares_sel   = themes_path .. "zenburn/taglist/squarefz.png"
 theme.taglist_squares_unsel = themes_path .. "zenburn/taglist/squarez.png"
 --theme.taglist_squares_resize = "false"
