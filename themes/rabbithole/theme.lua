@@ -2,20 +2,51 @@ local themes_path = require("gears.filesystem").get_configuration_dir() .. "them
 local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
 
+-- Custom local libs
+--local color = require("src.themes.rabbithole.colors")
+
+-- {{{
+-- theme helpers temporary home. this is just so i can bear to look at the interface 
+-- while I code.
+local create_widget_bg = function(color1, color2)
+    return {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = {
+            { 0, color1 },
+            { 0.5, color2 },
+            { 1, color1 }
+        }
+    }
+end
+
+-- Helper function to create the shadow for widgets
+local create_widget_shadow = function(radius, offset)
+    return {
+        offset = offset,
+        color = "#000000",
+        opacity = 1.4,
+        shape = function(cr, w, h)
+            gears.shape.rounded_rect(cr, w, h, radius)
+        end
+    }
+end
+--}}}
 -- {{{ Main
 local theme = {}
 theme.wallpaper =  themes_path .. "rabbithole/purple.jpg"
 -- }}}
 
 -- {{{ Styles
-theme.font      = "sans 8"
+theme.font      = "Ubuntu 8"
 
 -- {{{ Colors
 theme.fg_normal  = "#DCDCCC"
 theme.fg_focus   = "#F0DFAF"
 theme.fg_urgent  = "#CC9393"
-theme.bg_normal  = "#3F3F3F"
-theme.bg_focus   = "#1E2320"
+theme.bg_normal  = create_widget_bg("#5123db", "#7559c9")
+theme.bg_focus   = create_widget_bg("#7559c9", "#5123db")
 theme.bg_urgent  = "#3F3F3F"
 theme.bg_systray = theme.bg_normal
 -- }}}
@@ -23,8 +54,8 @@ theme.bg_systray = theme.bg_normal
 -- {{{ Borders
 theme.useless_gap   = dpi(3)
 theme.border_width  = dpi(2)
-theme.border_normal = "#3F3F3F"
-theme.border_focus  = "#6F6F6F"
+theme.border_normal = "#7559c9"
+theme.border_focus  = "#5123db"
 theme.border_marked = "#CC9393"
 -- }}}
 
