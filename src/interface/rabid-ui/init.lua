@@ -26,6 +26,7 @@ return setmetatable({}, {
 
             -- Create a promptbox for each screen
             s.mypromptbox = awful.widget.prompt()
+            --s.layoutlist = require("src.interface.widgets.layout_list")(s)
 
             -- Create a layoutbox for each screen
             s.mylayoutbox = awful.widget.layoutbox(s)
@@ -50,7 +51,8 @@ return setmetatable({}, {
             left_bar(s, {
                 workspaceMenu,
                 taglist(s),
-                s.mypromptbox
+                s.mypromptbox,
+                s.mylayoutbox,
             })
 
             -- Create center wibox
