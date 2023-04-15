@@ -46,7 +46,7 @@ theme.fg_urgent = "#FFFFFF"
 
 theme.base_color = "#5123db"
 theme.bg_normal = create_widget_bg(theme.base_color, "#6e5bd6")
-theme.bg_focus = create_widget_bg("#f5c62c", theme.base_color)
+theme.bg_focus = create_widget_bg("#e86689", "#e6537a")
 theme.bg_urgent = "#3F3F3F"
 theme.bg_systray = theme.bg_normal
 
