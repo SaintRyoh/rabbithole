@@ -17,7 +17,7 @@ return function(s, widgets)
         visible = true,
         maximum_width = dpi(700),
         placement = function(c)
-            awful.placement.top_left(c, {margins = dpi(10)})
+            awful.placement.top(c, { margins = dpi(10) })
         end,
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
