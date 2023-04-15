@@ -10,7 +10,7 @@ local create_widget_bg = function(color1, color2)
         stops = {
             { 0,   color1 },
             { 0.5, color2 },
-            { 1,   color1 }
+            { 1,   color1 },
         }
     }
 end
@@ -38,7 +38,7 @@ end
 local theme = {}
 theme.wallpaper = themes_path .. "rabbithole/purple.jpg"
 
-theme.font = "Ubuntu 8"
+theme.font = "Ubuntu Mono 8"
 
 theme.fg_normal = "#FFFFFF"
 theme.fg_focus = "#FFFFFF"
@@ -46,7 +46,7 @@ theme.fg_urgent = "#FFFFFF"
 
 theme.base_color = "#5123db"
 theme.bg_normal = create_widget_bg(theme.base_color, "#6e5bd6")
-theme.bg_focus = create_widget_bg("#6e5bd6", theme.base_color)
+theme.bg_focus = create_widget_bg("#f5c62c", theme.base_color)
 theme.bg_urgent = "#3F3F3F"
 theme.bg_systray = theme.bg_normal
 
