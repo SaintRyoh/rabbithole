@@ -24,9 +24,6 @@ return function(s, widgets)
         end,
         shape_clip = true,
         shape_border_width = dpi(3),
-        --shape_border_color = color["LightBlue300"],
-        shape_draw_outline = true,
-        --shape_outline_color = color["LightBlue300"],
         shape_outline_width = dpi(1)
     }
 

@@ -20,7 +20,7 @@ return setmetatable({}, {
             workspaceManagerService:assignWorkspaceTagsToScreens()
 
             -- Require the separate wibar files
-            local left_bar = require("src.interface.rabid-ui.left_bar")
+            local left_bar = require("src.interface.rabid-ui.rabid_bar")
             -- local center_bar = require("center_bar")
             -- local right_bar = require("right_bar")
 
