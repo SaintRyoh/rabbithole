@@ -57,9 +57,9 @@ return setmetatable({}, {
             })
 
             -- Create center wibox
-            center_bar(s, {
-                s.mytasklist
-            })
+            --center_bar(s, {
+            --    s.mytasklist
+            --})
 
             -- Create right wibox
             -- right_bar(s, {

@@ -9,32 +9,28 @@ local beautiful = require("beautiful")
 
 return function(s, widgets)
 
-    local top_left = awful.popup {
+    local rabid_bar = awful.popup {
         screen = s,
         widget = wibox.container.background,
         ontop = false,
-        bg = beautiful.bg_normal,
+        bg = beautiful.bg_normal, -- requires picom to be turned on
         visible = true,
-        maximum_width = dpi(700),
-        width = dpi(400),
-        height = dpi(50),
+        maximum_width = dpi(500),
         placement = function(c)
-            awful.placement.top(c, { margins = dpi(10) })
+            awful.placement.top(c, {
+                margins = dpi(5)
+            })
         end,
         shape = function(cr, width, height)
-            gears.shape.rounded_rect(cr, width, height, 10)
-        end,
-        shape_clip = true,
-        shape_border_width = dpi(3),
-        shape_outline_width = dpi(1)
+            gears.shape.rounded_rect(cr, width, height, 5)
+        end
     }
 
-    -- This is how close clients will get to the wibar
-    top_left:struts{top = 55}
+    rabid_bar:struts{top = dpi(35)}
 
     local function prepare_widgets(widgets)
         local layout = {
-            forced_height = 40,
+            forced_height = dpi(28),
             layout = wibox.layout.fixed.horizontal
         }
         for i, widget in pairs(widgets) do
@@ -43,8 +39,8 @@ return function(s, widgets)
                     widget,
                     left = dpi(6),
                     right = dpi(3),
-                    top = dpi(6),
-                    bottom = dpi(6),
+                    top = dpi(4),
+                    bottom = dpi(4),
                     widget = wibox.container.margin
                 })
             elseif i == #widgets then
@@ -52,8 +48,8 @@ return function(s, widgets)
                     widget,
                     left = dpi(3),
                     right = dpi(6),
-                    top = dpi(6),
-                    bottom = dpi(6),
+                    top = dpi(4),
+                    bottom = dpi(4),
                     widget = wibox.container.margin
                 })
             else
@@ -61,18 +57,18 @@ return function(s, widgets)
                     widget,
                     left = dpi(3),
                     right = dpi(3),
-                    top = dpi(6),
-                    bottom = dpi(6),
+                    top = dpi(4),
+                    bottom = dpi(4),
                     widget = wibox.container.margin
                 })
             end
 
             -- Connect signal to refresh the wibox size when child widget changes size
             widget:connect_signal("widget::layout_changed", function()
-                top_left.width = top_left.widget:fit(
-                    top_left.screen.dpi,
-                    top_left.widget:layout().forced_width,
-                    top_left.widget:layout().forced_height
+                rabid_bar.width = rabid_bar.widget:fit(
+                    rabid_bar.screen.dpi,
+                    rabid_bar.widget:layout().forced_width,
+                    rabid_bar.widget:layout().forced_height
                 )
             end)
             widget:connect_signal("widget::updated", function()
@@ -85,7 +81,7 @@ return function(s, widgets)
         return layout
     end
 
-    top_left:setup{
+    rabid_bar:setup{
         prepare_widgets(widgets),
         nil,
         nil,
