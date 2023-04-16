@@ -46,7 +46,7 @@ return setmetatable({}, {
             
             -- Require the separate wibar files
             local left_bar = require("src.interface.rabid-ui.rabid_bar")
-            -- local center_bar = require("center_bar")
+            local center_bar = require("src.interface.rabid-ui.center_bar")
             -- local right_bar = require("right_bar")
             -- Create left wibox
             left_bar(s, {
@@ -57,9 +57,9 @@ return setmetatable({}, {
             })
 
             -- Create center wibox
-            -- center_bar(s, {
-            --     s.mytasklist
-            -- })
+            center_bar(s, {
+                s.mytasklist
+            })
 
             -- Create right wibox
             -- right_bar(s, {
