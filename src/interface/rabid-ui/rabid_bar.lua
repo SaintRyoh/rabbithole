@@ -15,7 +15,7 @@ return function(s, widgets)
         ontop = false,
         bg = beautiful.bg_normal, -- requires picom to be turned on
         visible = true,
-        maximum_width = dpi(500),
+        maximum_width = dpi(750),
         placement = function(c)
             awful.placement.top(c, {
                 -- margine below top and botton of rabid_bar
@@ -67,7 +67,7 @@ return function(s, widgets)
                 })
             end
 
-            -- Connect signal to refresh the wibox size when child widget changes size
+            -- connect signals to refresh the wibox size when child widget changes size
             widget:connect_signal("widget::layout_changed", function()
                 rabid_bar.width = rabid_bar.widget:fit(
                     rabid_bar.screen.dpi,
