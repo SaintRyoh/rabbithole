@@ -18,7 +18,7 @@ return function(s, widgets)
         maximum_width = dpi(500),
         placement = function(c)
             awful.placement.top(c, {
-                margins = dpi(5)
+                margins = dpi(3)
             })
         end,
         shape = function(cr, width, height)
