@@ -18,6 +18,7 @@ return function(s, widgets)
         maximum_width = dpi(500),
         placement = function(c)
             awful.placement.top(c, {
+                -- margine below top and botton of rabid_bar
                 margins = dpi(3)
             })
         end,
@@ -34,6 +35,7 @@ return function(s, widgets)
             layout = wibox.layout.fixed.horizontal
         }
         for i, widget in pairs(widgets) do
+            -- first widges gaps
             if i == 1 then
                 table.insert(layout, {
                     widget,
@@ -43,6 +45,7 @@ return function(s, widgets)
                     bottom = dpi(4),
                     widget = wibox.container.margin
                 })
+            -- last widgets gaps
             elseif i == #widgets then
                 table.insert(layout, {
                     widget,
@@ -52,6 +55,7 @@ return function(s, widgets)
                     bottom = dpi(4),
                     widget = wibox.container.margin
                 })
+            -- middle widgets gaps
             else
                 table.insert(layout, {
                     widget,
