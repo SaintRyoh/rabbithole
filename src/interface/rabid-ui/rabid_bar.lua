@@ -16,6 +16,8 @@ return function(s, widgets)
         bg = beautiful.left_bar_color,
         visible = true,
         maximum_width = dpi(700),
+        width = dpi(400),
+        height = dpi(50),
         placement = function(c)
             awful.placement.top(c, { margins = dpi(10) })
         end,
@@ -64,6 +66,21 @@ return function(s, widgets)
                     widget = wibox.container.margin
                 })
             end
+
+            -- Connect signal to refresh the wibox size when child widget changes size
+            widget:connect_signal("widget::layout_changed", function()
+                top_left.width = top_left.widget:fit(
+                    top_left.screen.dpi,
+                    top_left.widget:layout().forced_width,
+                    top_left.widget:layout().forced_height
+                )
+            end)
+            widget:connect_signal("widget::updated", function()
+                local new_width = widget:get_preferred_size()
+                self.popup_widget.width = new_width.width
+                self.popup_widget.height = new_width.height
+            end)
+
         end
         return layout
     end
