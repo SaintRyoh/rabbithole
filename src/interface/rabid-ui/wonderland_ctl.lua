@@ -20,7 +20,7 @@ return function(s, widgets)
             awful.placement.top_right(c, { margins = dpi(3) })
         end,
         shape = function(cr, width, height)
-            gears.shape.rounded_rect(cr, width, height, 5)
+            gears.shape.rounded_rect(cr, width, height, 10)
         end
     }
     -- this sets the distance between the top of the screen and the clients

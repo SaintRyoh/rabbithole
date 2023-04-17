@@ -19,8 +19,6 @@ return setmetatable({}, {
 
             workspaceManagerService:assignWorkspaceTagsToScreens()
 
-
-
             -- Create a promptbox for each screen
             s.mypromptbox = awful.widget.prompt()
             --s.layoutlist = require("src.interface.widgets.layout_list")(s)
@@ -46,7 +44,7 @@ return setmetatable({}, {
             
             -- Require the separate wibar files
             local rabid_bar = require("src.interface.rabid-ui.rabid_bar")
-            local wonderland_ctlbar = require("src.interface.rabid-ui.wonderland_ctlbar")
+            local wonderland_ctlbar = require("src.interface.rabid-ui.wonderland_ctl")
             
             -- Create left wibox
             rabid_bar(s, {
