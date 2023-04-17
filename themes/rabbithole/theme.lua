@@ -38,7 +38,7 @@ end
 local theme = {}
 theme.wallpaper = themes_path .. "rabbithole/purple.jpg"
 
-theme.font = "Ubuntu Mono 8"
+theme.font = "Ubuntu 8"
 
 theme.fg_normal = "#FFFFFF"
 theme.fg_focus = "#FFFFFF"

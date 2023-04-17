@@ -1,4 +1,5 @@
--- Left floating container wibox for rabid
+-- Floating container wibox for rabid unixdgram_methods
+
 -- Awesome Libs
 local awful = require("awful")
 local dpi = require("beautiful").xresources.apply_dpi
@@ -13,12 +14,12 @@ return function(s, widgets)
         screen = s,
         widget = wibox.container.background,
         ontop = false,
-        bg = beautiful.bg_normal, -- requires picom to be turned on
+        bg = "transparent", -- requires picom to be turned on
         visible = true,
-        maximum_width = dpi(650),
+        maximum_width = dpi(600),
         placement = function(c)
             awful.placement.top(c, {
-                -- margine below top and botton of rabid_bar
+                -- margin on top and bottom of rabid_bar
                 margins = dpi(3)
             })
         end,
@@ -75,6 +76,7 @@ return function(s, widgets)
                     rabid_bar.widget:layout().forced_height
                 )
             end)
+
             widget:connect_signal("widget::updated", function()
                 local new_width = widget:get_preferred_size()
                 self.popup_widget.width = new_width.width
@@ -82,6 +84,7 @@ return function(s, widgets)
             end)
 
         end
+
         return layout
     end
 
