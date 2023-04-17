@@ -15,12 +15,12 @@ return function(s, widgets)
         bg = beautiful.bg_normal,
         visible = true,
         screen = s,
-        maximum_width = dpi(200),
+        maximum_width = dpi(285),
         placement = function(c)
             awful.placement.top_right(c, { margins = dpi(3) })
         end,
         shape = function(cr, width, height)
-            gears.shape.rounded_rect(cr, width, height, 10)
+            gears.shape.rounded_rect(cr, width, height, 15)
         end
     }
     -- this sets the distance between the top of the screen and the clients

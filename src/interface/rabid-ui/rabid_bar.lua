@@ -1,4 +1,4 @@
--- Floating container wibox for rabid unixdgram_methods
+-- Floating container wibox for rabid UI
 
 -- Awesome Libs
 local awful = require("awful")

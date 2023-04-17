@@ -48,13 +48,15 @@ theme.base_color = "#5123db"
 theme.bg_normal = create_widget_bg(theme.base_color, "#6e5bd6")
 theme.bg_focus = create_widget_bg("#e86689", "#e6537a")
 theme.bg_urgent = "#3F3F3F"
-theme.bg_systray = "#000000"
+theme.bg_systray = "#2F2F2F"
 
 theme.useless_gap = dpi(3)
 theme.border_width = dpi(2)
 theme.border_normal = theme.base_color
 theme.border_focus = "#6e5bd6"
 theme.border_marked = "#CC9393"
+
+theme.taglist_spacing = 1
 
 theme.titlebar_bg_focus = create_widget_bg(theme.base_color, "#6e5bd6")
 theme.titlebar_bg_normal = create_widget_bg("#6e5bd6", theme.base_color)
@@ -129,7 +131,7 @@ local function apply_rounded_corners(c)
     end
 
     c.shape = function(cr, width, height)
-        gears.shape.rounded_rect(cr, width, height, 5)
+        gears.shape.rounded_rect(cr, width, height, 10)
     end
 
     c.round_corners = true

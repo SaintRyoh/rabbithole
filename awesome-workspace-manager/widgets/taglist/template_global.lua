@@ -4,7 +4,7 @@ local awful = require("awful")
 local icon_path = awful.util.getdir("config") .. "/src/assets/icons/rabbithole/global.svg"
 
 return function (controller)
-    return 
+    return
     {
         id     = 'background_role',
         widget = wibox.container.background,
@@ -42,7 +42,6 @@ return function (controller)
             },
         },
 
-        -- Add support for hover colors and an index label
         create_callback = function (tag_template, tag, index, objects) controller:create_tag_callback(tag_template, tag, index, objects) end,
 
         update_callback = function (tag_template, tag, index, objects) controller:update_tag_callback(tag_template, tag, index, objects) end,
