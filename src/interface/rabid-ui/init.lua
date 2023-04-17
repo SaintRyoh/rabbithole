@@ -45,12 +45,11 @@ return setmetatable({}, {
             local mytextclock = wibox.widget.textclock()
             
             -- Require the separate wibar files
-            local left_bar = require("src.interface.rabid-ui.rabid_bar")
-            local center_bar = require("src.interface.rabid-ui.center_bar")
-            -- local right_bar = require("right_bar")
+            local rabid_bar = require("src.interface.rabid-ui.rabid_bar")
+            local wonderland_ctlbar = require("src.interface.rabid-ui.wonderland_ctlbar")
+            
             -- Create left wibox
-            left_bar(s, {
-                workspaceMenu,
+            rabid_bar(s, {
                 taglist(s),
                 s.mypromptbox,
                 s.mylayoutbox,
@@ -62,12 +61,11 @@ return setmetatable({}, {
             --})
 
             -- Create right wibox
-            -- right_bar(s, {
-            --     awful.widget.keyboardlayout(),
-            --     wibox.widget.systray(),
-            --     mytextclock,
-            --     s.mylayoutbox,
-            -- })
+            wonderland_ctlbar(s, {
+                workspaceMenu,
+                wibox.widget.systray(),
+                mytextclock,
+            })
         end)
     end,
 })
