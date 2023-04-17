@@ -15,7 +15,7 @@ return function(s, widgets)
         ontop = false,
         bg = beautiful.bg_normal, -- requires picom to be turned on
         visible = true,
-        maximum_width = dpi(750),
+        maximum_width = dpi(650),
         placement = function(c)
             awful.placement.top(c, {
                 -- margine below top and botton of rabid_bar
@@ -26,8 +26,8 @@ return function(s, widgets)
             gears.shape.rounded_rect(cr, width, height, 5)
         end
     }
-
-    rabid_bar:struts{top = dpi(35)}
+    -- struts need to be == to placement margins plus the difference in prepare_widgets forced_height=
+    rabid_bar:struts{top = dpi(34)}
 
     local function prepare_widgets(widgets)
         local layout = {
