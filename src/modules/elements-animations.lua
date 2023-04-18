@@ -1106,4 +1106,31 @@ function Animations:shake(widget, duration, intensity, direction, callback)
     }
 end
 
+function Animations:hoverElevation(widget, duration, elevation, callback)
+    duration = duration or 0.3
+    elevation = elevation or 5
+
+    local original_elevation = widget.elevation or 0
+    local target_elevation = original_elevation + elevation
+
+    local timer = gears.timer {
+        timeout = duration / 100,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            local progress = (widget.elevation - original_elevation) / elevation
+            widget.elevation = self.easing["outQuad"](progress, original_elevation, elevation, 1)
+
+            if progress >= 1 then
+                timer:stop()
+                widget.elevation = target_elevation
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
 return Animations
