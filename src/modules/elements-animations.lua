@@ -1106,11 +1106,99 @@ function Animations:shake(widget, duration, intensity, direction, callback)
     }
 end
 
+--[[ Usage:
+local awful = require("awful")
+local wibox = require("wibox")
+local Animations = require("elements-animations") -- Make sure the path is correct
+
+-- Create a basic button widget
+local button_widget = wibox.widget {
+    {
+        text = "Click me!",
+        align = "center",
+        valign = "center",
+        widget = wibox.widget.textbox
+    },
+    shape = gears.shape.rounded_rect,
+    bg = "#3f51b5", -- Change the color to your preference
+    forced_width = 100,
+    forced_height = 30,
+    widget = wibox.container.background
+}
+--------------------------------------------------------------------------------
+-- Create an instance of the Animations class
+local animations = Animations()
+
+-- Add hover elevation animation on mouse enter
+button_widget:connect_signal("mouse::enter", function()
+    animations:hoverElevation(button_widget, 0.3, 5)
+end)
+
+-- Remove hover elevation animation on mouse leave
+button_widget:connect_signal("mouse::leave", function()
+    animations:hoverElevation(button_widget, 0.3, -5)
+end)
+
+-- Add a click event to the button
+button_widget:buttons(gears.table.join(
+    awful.button({}, 1, nil, function()
+        print("Button clicked!")
+    end)
+))
+
+local button_widget = ShadowContainer {
+    {
+        {
+            text = "Click me!",
+            align = "center",
+            valign = "center",
+            widget = wibox.widget.textbox
+        },
+        shape = gears.shape.rounded_rect,
+        bg = "#3f51b5", -- Change the color to your preference
+        forced_width = 100,
+        forced_height = 30,
+        widget = wibox.container.background
+    },
+    shadow_color = "#000", -- Set the shadow color
+    widget = ShadowContainer
+}
+
+
+]]
+
+-- Shadow container
+local ShadowContainer = {
+    draw = function(self, context, cr, width, height)
+        -- Draw shadow based on the elevation
+        local elevation = self._private.elevation or 0
+        local shadow_color = self._private.shadow_color or "#000"
+        local opacity = elevation / 30 -- Adjust the opacity based on elevation, you can modify this formula
+
+        cr:set_source_rgba(gears.color.parse_color(shadow_color))
+        cr:paint_with_alpha(opacity)
+        wibox.container.background.draw(self, context, cr, width, height)
+    end,
+
+    set_elevation = function(self, elevation)
+        self._private.elevation = elevation
+        self:emit_signal("widget::redraw_needed")
+    end,
+
+    set_shadow_color = function(self, color)
+        self._private.shadow_color = color
+        self:emit_signal("widget::redraw_needed")
+    end,
+}
+
+ShadowContainer = class(wibox.container.background, ShadowContainer)
+
+-- Updated hoverElevation function
 function Animations:hoverElevation(widget, duration, elevation, callback)
     duration = duration or 0.3
     elevation = elevation or 5
 
-    local original_elevation = widget.elevation or 0
+    local original_elevation = widget._private.elevation or 0
     local target_elevation = original_elevation + elevation
 
     local timer = gears.timer {
@@ -1118,12 +1206,12 @@ function Animations:hoverElevation(widget, duration, elevation, callback)
         call_now = false,
         autostart = true,
         callback = function()
-            local progress = (widget.elevation - original_elevation) / elevation
-            widget.elevation = self.easing["outQuad"](progress, original_elevation, elevation, 1)
+            local progress = (widget._private.elevation - original_elevation) / elevation
+            widget:set_elevation(self.easing["outQuad"](progress, original_elevation, elevation, 1))
 
             if progress >= 1 then
                 timer:stop()
-                widget.elevation = target_elevation
+                widget:set_elevation(target_elevation)
 
                 if callback then
                     callback()
@@ -1132,5 +1220,6 @@ function Animations:hoverElevation(widget, duration, elevation, callback)
         end
     }
 end
+
 
 return Animations
