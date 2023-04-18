@@ -1,5 +1,7 @@
 local wibox = require("wibox")
 local gears = require("gears")
+local beautiful = require("beautiful")
+
 
 return function (controller)
     return {
@@ -9,8 +11,8 @@ return function (controller)
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
-        --fg = "#000000",
-        --bg = "#ADD8E6", -- Set the background color to a light blue
+        -- bugfix to revent tags from inheriting rabid_bars color until it is moused-over
+        bg = beautiful.bg_normal,
         {
             widget = wibox.container.margin,
             {
