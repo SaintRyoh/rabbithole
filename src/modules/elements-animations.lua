@@ -1,7 +1,17 @@
 local class = require("src.modules.class") -- Make sure to point to the correct path of your class file
 local gears = require("gears")
 
---[[ Usage:
+--[[ 
+Material Design 3 Standards:
+
+Purposeful: Ensure that animations serve a purpose, such as providing feedback, focusing attention, or revealing elements. Avoid animations that don't add value to the user experience.
+
+Smooth: Make sure that animations are fluid and smooth by using easing functions and appropriate durations.
+
+Consistent: Maintain consistency throughout your application by using a predefined set of animations or motion patterns. 
+
+Usage:
+
 local anim = Animations()
 
 -- Apply elevation animation
@@ -21,6 +31,18 @@ end
 anim:shapeTransformation(myWidget, 1, from_shape, to_shape, function()
     print("Shape transformation completed!")
 end)
+
+-- OR --c
+
+Animations:
+
+local animations = Animations()
+local myWidget = Widget()
+
+myWidget:addAnimation(animations.fadeIn, 1, function()
+    print("Fade-in animation completed!")
+end)
+
 ]]
 
 local Animations = class()
@@ -635,5 +657,453 @@ function Animations:standardAccelerate(widget, duration, from_x, from_y, to_x, t
     self:acceleratedMovement(widget, duration, from_x, from_y, to_x, to_y, callback)
 end
 
+function Animations:scaleIn(widget, duration, from_scale, to_scale, callback)
+    duration = duration or 0.25
+    local steps = duration / 0.01
+    local progress = 0
+    from_scale = from_scale or 0
+    to_scale = to_scale or 1
+
+    widget:set_forced_height(widget.height * from_scale)
+    widget:set_forced_width(widget.width * from_scale)
+
+    local timer = gears.timer {
+        timeout = 0.01,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            progress = progress + (1 / steps)
+            local scale = from_scale + (to_scale - from_scale) * progress
+
+            widget:set_forced_height(widget.height * scale)
+            widget:set_forced_width(widget.width * scale)
+
+            if progress >= 1 then
+                timer:stop()
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+function Animations:scaleOut(widget, duration, from_scale, to_scale, callback)
+    duration = duration or 0.25
+    local steps = duration / 0.01
+    local progress = 0
+    from_scale = from_scale or 1
+    to_scale = to_scale or 0
+
+    widget:set_forced_height(widget.height * from_scale)
+    widget:set_forced_width(widget.width * from_scale)
+
+    local timer = gears.timer {
+        timeout = 0.01,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            progress = progress + (1 / steps)
+            local scale = from_scale + (to_scale - from_scale) * progress
+
+            widget:set_forced_height(widget.height * scale)
+            widget:set_forced_width(widget.width * scale)
+
+            if progress >= 1 then
+                timer:stop()
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+function Animations:rotateIn(widget, duration, from_angle, to_angle, callback)
+    duration = duration or 0.5
+    local steps = duration / 0.01
+    local progress = 0
+    from_angle = from_angle or 0
+    to_angle = to_angle or 360
+
+    widget.rotation = math.rad(from_angle)
+
+    local timer = gears.timer {
+        timeout = 0.01,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            progress = progress + (1 / steps)
+            local angle = from_angle + (to_angle - from_angle) * progress
+
+            widget.rotation = math.rad(angle)
+
+            if progress >= 1 then
+                timer:stop()
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+function Animations:rotateOut(widget, duration, from_angle, to_angle, callback)
+    duration = duration or 0.5
+    local steps = duration / 0.01
+    local progress = 0
+    from_angle = from_angle or 0
+    to_angle = to_angle or -360
+
+    widget.rotation = math.rad(from_angle)
+
+    local timer = gears.timer {
+        timeout = 0.01,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            progress = progress + (1 / steps)
+            local angle = from_angle + (to_angle - from_angle) * progress
+
+            widget.rotation = math.rad(angle)
+
+            if progress >= 1 then
+                timer:stop()
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+function Animations:slideIn(widget, direction, duration, distance, callback)
+    duration = duration or 0.3
+    direction = direction or "left"
+    distance = distance or 100
+
+    local original_x = widget.x
+    local original_y = widget.y
+
+    if direction == "left" then
+        widget.x = original_x - distance
+    elseif direction == "right" then
+        widget.x = original_x + distance
+    elseif direction == "up" then
+        widget.y = original_y - distance
+    elseif direction == "down" then
+        widget.y = original_y + distance
+    end
+
+    self:positionChange(widget, original_x, original_y, duration, "outCubic", callback)
+end
+
+function Animations:slideOut(widget, direction, duration, distance, callback)
+    duration = duration or 0.3
+    direction = direction or "left"
+    distance = distance or 100
+
+    local target_x = widget.x
+    local target_y = widget.y
+
+    if direction == "left" then
+        target_x = target_x - distance
+    elseif direction == "right" then
+        target_x = target_x + distance
+    elseif direction == "up" then
+        target_y = target_y - distance
+    elseif direction == "down" then
+        target_y = target_y + distance
+    end
+
+    self:positionChange(widget, target_x, target_y, duration, "inCubic", callback)
+end
+
+function Animations:ripple(widget, x, y, duration, max_radius, callback)
+    duration = duration or 0.3
+    max_radius = max_radius or 50
+    local progress = 0
+    local steps = duration / 0.01
+
+    local timer = gears.timer {
+        timeout = 0.01,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            progress = progress + (1 / steps)
+            local radius = max_radius * progress
+
+            widget:draw_ripple(x, y, radius)
+
+            if progress >= 1 then
+                timer:stop()
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+function Animations:expand(widget, target_height, duration, callback)
+    duration = duration or 0.3
+    self:sizeChange(widget, nil, target_height, duration, "outCubic", callback)
+end
+
+function Animations:collapse(widget, target_height, duration, callback)
+    duration = duration or 0.3
+    self:sizeChange(widget, nil, target_height, duration, "inCubic", callback)
+end
+
+function Animations:staggered(widgets, animation, delay, ...)
+    delay = delay or 0.1
+    local current_delay = 0
+
+    for _, widget in ipairs(widgets) do
+        gears.timer.start_new(current_delay, function()
+            animation(self, widget, ...)
+        end)
+
+        current_delay = current_delay + delay
+    end
+end
+
+function Animations:flipIn(widget, duration, axis, callback)
+    duration = duration or 0.3
+    axis = axis or "y"
+
+    local original_rotation
+    if axis == "y" then
+        original_rotation = widget.rotation_y
+        widget.rotation_y = 90
+    else
+        original_rotation = widget.rotation_x
+        widget.rotation_x = 90
+    end
+
+    local timer = gears.timer {
+        timeout = duration / 100,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            local progress = (90 - (axis == "y" and widget.rotation_y or widget.rotation_x)) / 90
+            local rotation = self.easing["outCubic"](progress, 90, -90, 1)
+
+            if axis == "y" then
+                widget.rotation_y = rotation
+            else
+                widget.rotation_x = rotation
+            end
+
+            if progress >= 1 then
+                timer:stop()
+
+                if axis == "y" then
+                    widget.rotation_y = original_rotation
+                else
+                    widget.rotation_x = original_rotation
+                end
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+function Animations:flipOut(widget, duration, axis, callback)
+    duration = duration or 0.3
+    axis = axis or "y"
+
+    local original_rotation
+    if axis == "y" then
+        original_rotation = widget.rotation_y
+    else
+        original_rotation = widget.rotation_x
+    end
+
+    local timer = gears.timer {
+        timeout = duration / 100,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            local progress = ((axis == "y" and widget.rotation_y or widget.rotation_x) - original_rotation) / 90
+            local rotation = self.easing["inCubic"](progress, original_rotation, 90, 1)
+
+            if axis == "y" then
+                widget.rotation_y = rotation
+            else
+                widget.rotation_x = rotation
+            end
+
+            if progress >= 1 then
+                timer:stop()
+
+                if axis == "y" then
+                    widget.rotation_y = original_rotation + 90
+                else
+                    widget.rotation_x = original_rotation + 90
+                end
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+
+function Animations:bounceIn(widget, duration, intensity, callback)
+    duration = duration or 0.5
+    intensity = intensity or 30
+
+    local original_y = widget.y
+    widget.y = original_y - intensity
+
+    local timer = gears.timer {
+        timeout = duration / 100,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            local progress = (original_y - widget.y) / intensity
+            widget.y = original_y + self.easing["outBounce"](progress, -intensity, intensity, 1)
+
+            if progress >= 1 then
+                timer:stop()
+                widget.y = original_y
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+function Animations:bounceOut(widget, duration, intensity, callback)
+    duration = duration or 0.5
+    intensity = intensity or 30
+
+    local original_y = widget.y
+
+    local timer = gears.timer {
+        timeout = duration / 100,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            local progress = (widget.y - original_y) / intensity
+            widget.y = original_y - self.easing["inBounce"](progress, 0, intensity, 1)
+
+            if progress >= 1 then
+                timer:stop()
+                widget.y = original_y - intensity
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+
+function Animations:elasticIn(widget, duration, amplitude, period, callback)
+    duration = duration or 0.5
+    amplitude = amplitude or 1
+    period = period or 0.3
+    local original_y = widget.y
+    widget.y = original_y + amplitude * 100
+
+    local timer = gears.timer {
+        timeout = duration / 100,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            local progress = (original_y - widget.y) / (amplitude * 100)
+            widget.y = original_y + self.easing["inElastic"](progress, 0, amplitude * 100, 1, period)
+
+            if progress >= 1 then
+                timer:stop()
+                widget.y = original_y
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+function Animations:elasticOut(widget, duration, amplitude, period, callback)
+    duration = duration or 0.5
+    amplitude = amplitude or 1
+    period = period or 0.3
+    local original_y = widget.y
+
+    local timer = gears.timer {
+        timeout = duration / 100,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            local progress = (original_y - widget.y) / (amplitude * 100)
+            widget.y = original_y - self.easing["outElastic"](progress, 0, amplitude * 100, 1, period)
+
+            if progress >= 1 then
+                timer:stop()
+                widget.y = original_y - amplitude * 100
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
+
+function Animations:shake(widget, duration, intensity, direction, callback)
+    duration = duration or 0.3
+    intensity = intensity or 10
+    direction = direction or "horizontal"
+
+    local original_x = widget.x
+    local original_y = widget.y
+
+    local timer = gears.timer {
+        timeout = duration / 100,
+        call_now = false,
+        autostart = true,
+        callback = function()
+            local progress = (widget.x - original_x) / (intensity * 2)
+            local shake_value = self.easing["inOutSine"](progress, -intensity, intensity * 2, 1)
+
+            if direction == "horizontal" then
+                widget.x = original_x + shake_value
+            else
+                widget.y = original_y + shake_value
+            end
+
+            if progress >= 1 then
+                timer:stop()
+
+                if direction == "horizontal" then
+                    widget.x = original_x
+                else
+                    widget.y = original_y
+                end
+
+                if callback then
+                    callback()
+                end
+            end
+        end
+    }
+end
 
 return Animations

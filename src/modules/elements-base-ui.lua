@@ -5,6 +5,9 @@ local gears = require("gears")
 local class = require("src.modules.class")
 
 --[[ Usage:
+
+Widgets:
+
 local myCheckbox = Checkbox(false, {color = "#ffffff"}, function(checked)
     print("Checkbox state:", checked)
 end)
@@ -20,6 +23,14 @@ local Widget = class()
 function Widget:init(properties)
     for k, v in pairs(properties) do
         self[k] = v
+    end
+end
+
+function Widget:addAnimation(animation, ...)
+    if animation and type(animation) == "function" then
+        animation(self, ...)
+    else
+        print("Invalid animation function")
     end
 end
 
