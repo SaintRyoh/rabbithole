@@ -6,7 +6,7 @@ local gears = require("gears")
 local Modal = {}
 Modal.__index = Modal
 
-function Modal:new(args)
+function Modal.new(args)
     local self = {}
     setmetatable(self, Modal)
 
@@ -114,7 +114,7 @@ function Modal.prompt(args)
 
     prompt_widget:run()
 
-    modal = Modal(args)
+    modal = Modal.new(args)
 
     return modal
 end
@@ -188,14 +188,9 @@ function Modal.confirm(args)
         no_button.markup = "<u>" .. args.no_text .. "</u>"
     end)
     args.widget = widget
-    modal = Modal(args)
+    modal = Modal.new(args)
 
     return modal
 end
 
-
-return setmetatable(Modal, {
-    __call = function(cls, ...)
-        return cls:new(...)
-    end
-})
+return Modal
