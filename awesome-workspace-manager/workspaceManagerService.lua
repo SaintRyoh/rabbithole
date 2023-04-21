@@ -6,7 +6,7 @@ local __ = require("lodash")
 local workspaceManager = require("awesome-workspace-manager.workspaceManager")
 local gears = require("gears")
 local serpent = require("serpent")
-local modal = require("awesome-workspace-manager.modal")
+-- local modal = require("awesome-workspace-manager.wibox.modal")
 
 local capi = {
     screen = screen,
@@ -17,11 +17,12 @@ local capi = {
 local WorkspaceManagerService = { }
 WorkspaceManagerService.__index = WorkspaceManagerService
 
-function WorkspaceManagerService.new()
+function WorkspaceManagerService.new(awesome___workspace___manager__wibox__modal)
     local self = {}
     setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel = workspaceManager:new()
+    self.modal = awesome___workspace___manager__wibox__modal
 
     -- pause stuff
     self.pauseState = {
@@ -251,7 +252,7 @@ end
 function WorkspaceManagerService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
     -- open modal prompt to get tag name
-    modal.prompt({
+    self.modal.prompt({
         prompt = "New Tag Name: ",
         exe_callback = function(name)
             if not name or #name == 0 then return end
@@ -270,7 +271,7 @@ end
 
 -- Rename current tag
 function WorkspaceManagerService:renameTag(tag)
-    modal.prompt({
+    self.modal.prompt({
         prompt       = "Rename tag: ",
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
@@ -517,7 +518,5 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
     capi.awesome.connect_signal("property::client", self.unpauseServiceHelper)
 
 end
-
-local _M = {}
 
 return WorkspaceManagerService
