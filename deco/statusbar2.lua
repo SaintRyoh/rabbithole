@@ -27,9 +27,6 @@ return setmetatable({}, {
             --     workspaceManagerService.session_restored = true
             -- end
 
-        -- {{{ Wibar
-            -- Create a promptbox for each screen
-            s.mypromptbox = awful.widget.prompt()
 
             -- Create an imagebox widget which will contain an icon indicating which layout we're using.
             -- We need one layoutbox per screen.
@@ -61,7 +58,6 @@ return setmetatable({}, {
                     layout = wibox.layout.fixed.horizontal,
                     workspaceMenu,
                     taglist(s),
-                    s.mypromptbox
                 },
                 s.mytasklist, -- Middle widget
                 { -- Right widgets
@@ -72,28 +68,7 @@ return setmetatable({}, {
                     s.mylayoutbox,
                 },
             }
-            -- -- Create a textclock widget
-            -- local mytextclock = wibox.widget.textclock()
 
-            -- -- Add widgets to the wibox
-            -- s.mywibar:setup {
-            --     layout = wibox.layout.align.horizontal,
-            --     { -- Left widgets
-            --         layout = wibox.layout.fixed.horizontal,
-            --         workspaceMenu,
-            --         taglist(s),
-            --         s.mypromptbox
-            --     },
-            --     s.mytasklist, -- Middle widget
-            --     { -- Right widgets
-            --         layout = wibox.layout.fixed.horizontal,
-            --         awful.widget.keyboardlayout(),
-            --         wibox.widget.systray(),
-            --         mytextclock,
-            --         s.mylayoutbox,
-            --     },
-            -- }
-        -- }}}
         end)
     end,
 })
