@@ -15,7 +15,7 @@ local deco = {
 local tasklist_buttons = require("deco.tasklist_buttons")()
 
 return setmetatable({}, {
-    __constructor = function(workspaceManagerService, workspaceMenu, taglist, awesome___workspace___manager__wibox__bars__left)
+    __constructor = function(workspaceManagerService, workspaceMenu, taglist, awesome___workspace___manager__wibox__bars__left, awesome___workspace___manager__wibox__bars__center, awesome___workspace___manager__wibox__bars__right)
         -- RC.diModule.getInstance("debugger").dbg()
         awful.screen.connect_for_each_screen(function(s)
             -- Wallpaper
@@ -45,28 +45,31 @@ return setmetatable({}, {
                 buttons = tasklist_buttons
             }
 
+            local mytextclock = wibox.widget.textclock()
+
             -- Create the wibox
-            -- s.mywibar = awful.wibar({ position = "top", screen = s })
 
             -- Debugger.dbg()
             s.leftbar = awesome___workspace___manager__wibox__bars__left(s)
+            s.center = awesome___workspace___manager__wibox__bars__center(s)
+            s.rightbar = awesome___workspace___manager__wibox__bars__right(s)
 
-            local mytextclock = wibox.widget.textclock()
             s.leftbar:setup {
                 layout = wibox.layout.align.horizontal,
-                { -- Left widgets
-                    layout = wibox.layout.fixed.horizontal,
-                    workspaceMenu,
-                    taglist(s),
-                },
-                s.mytasklist, -- Middle widget
-                { -- Right widgets
-                    layout = wibox.layout.fixed.horizontal,
-                    awful.widget.keyboardlayout(),
-                    wibox.widget.systray(),
-                    mytextclock,
-                    s.mylayoutbox,
-                },
+                workspaceMenu
+            }
+
+            s.center:setup {
+                layout = wibox.layout.align.horizontal,
+                taglist(s),
+            }
+
+            s.rightbar:setup {
+                layout = wibox.layout.fixed.horizontal,
+                awful.widget.keyboardlayout(),
+                wibox.widget.systray(),
+                mytextclock,
+                s.mylayoutbox,
             }
 
         end)
