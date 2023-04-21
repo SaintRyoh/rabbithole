@@ -1,6 +1,6 @@
 return setmetatable({}, {
     __constructor = function(
-        deco__statusbar2, 
+       awesome___workspace___manager__ui__statusbar, 
         layouts, 
         globalKeybindings, 
         clientKeybindings, 
