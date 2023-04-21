@@ -1,6 +1,6 @@
 return setmetatable({}, {
     __constructor = function(
-        src__interface__rabid___ui__init, 
+        deco__statusbar2, 
         layouts, 
         globalKeybindings, 
         clientKeybindings, 
