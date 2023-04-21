@@ -74,6 +74,7 @@ return setmetatable({}, {
             s.center:setup {
                 layout = wibox.layout.align.horizontal,
                 taglist(s),
+                s.mytasklist,
             }
 
             s.rightbar:setup {
