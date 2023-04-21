@@ -24,7 +24,7 @@ RC = {
 
 
         config.bindings.values.settings = {
-            theme_dir = "themes/default/theme.lua",
+            theme_dir = "themes/rabbithole/theme.lua",
             modkey = "Mod4",
             terminal = "qterminal",
             editor = os.getenv("EDITOR") or "nvim",
