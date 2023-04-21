@@ -59,7 +59,7 @@ end
 
 -- set the text of the widget
 function WorkspaceMenuController:set_text(text)
-    self.view.bindings.textbox.text = "Workspace: " .. text
+    self.view.bindings.textbox.text = "Activity: " .. text
 end
 
 -- get all workspaces
