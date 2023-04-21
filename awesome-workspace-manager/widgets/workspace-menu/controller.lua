@@ -3,8 +3,6 @@ local awful = require("awful")
 local gears = require("gears")
 local naughty = require("naughty")
 local viewHelper = require("awesome-workspace-manager.widgets.viewHelper")
-local beautiful = require("beautiful")
-local modal = require("awesome-workspace-manager.modal")
 
 local _M = {}
 
@@ -12,7 +10,7 @@ local _M = {}
 local WorkspaceMenuController = { }
 WorkspaceMenuController.__index = WorkspaceMenuController
 
-function WorkspaceMenuController:new(workspaceManagerService, theme)
+function WorkspaceMenuController:new(workspaceManagerService, theme, awesome___workspace___manager__wibox__modal)
     self = { }
     setmetatable(self, WorkspaceMenuController)
 
@@ -24,6 +22,7 @@ function WorkspaceMenuController:new(workspaceManagerService, theme)
     }
     self:set_menu(self:generate_menu())
     self:set_text(self.model:getActiveWorkspace():getName())
+    self.modal = awesome___workspace___manager__wibox__modal
 
     workspaceManagerService:subscribeController(self)
 
@@ -99,7 +98,7 @@ end
 
 -- rename workspace
 function WorkspaceMenuController:rename_workspace(workspace)
-    modal.prompt( {
+    self.modal.prompt( {
         prompt       = "Rename workspace: ",
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
