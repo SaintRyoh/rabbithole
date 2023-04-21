@@ -6,7 +6,7 @@ local __ = require("lodash")
 local workspaceManager = require("awesome-workspace-manager.workspaceManager")
 local gears = require("gears")
 local serpent = require("serpent")
-local modal = require("awesome-workspace-manager.modal")
+-- local modal = require("awesome-workspace-manager.wibox.modal")
 
 local capi = {
     screen = screen,
@@ -17,11 +17,12 @@ local capi = {
 local WorkspaceManagerService = { }
 WorkspaceManagerService.__index = WorkspaceManagerService
 
-function WorkspaceManagerService.new()
+function WorkspaceManagerService.new(awesome___workspace___manager__wibox__modal)
     local self = {}
     setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel = workspaceManager:new()
+    self.modal = awesome___workspace___manager__wibox__modal
 
     -- pause stuff
     self.pauseState = {
@@ -251,7 +252,7 @@ end
 function WorkspaceManagerService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
     -- open modal prompt to get tag name
-    modal.prompt({
+    self.modal.prompt({
         prompt = "New Tag Name: ",
         exe_callback = function(name)
             if not name or #name == 0 then return end
@@ -269,12 +270,12 @@ function WorkspaceManagerService:createTag(index, tag_def)
 end
 
 -- Rename current tag
-function WorkspaceManagerService:renameCurrentTag()
-    modal.prompt({
+function WorkspaceManagerService:renameTag(tag)
+    self.modal.prompt({
         prompt       = "Rename tag: ",
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
-            local t = awful.screen.focused().selected_tag
+            local t = tag or awful.screen.focused().selected_tag
             if t then
                 t.name = new_name
                 self:refresh()
@@ -299,8 +300,9 @@ end
 
 -- Delete current tag
 -- Any rule set on the tag shall be broken
-function WorkspaceManagerService:deleteTagFromWorkspace(workspace)
-    local workspace = workspace or __.last(self:getAllActiveWorkspaces())
+function WorkspaceManagerService:deleteTagFromWorkspace(workspace, tag)
+    local workspace = workspace or self:getWorkspaceByTag(tag) or __.last(self:getAllActiveWorkspaces())
+    local tag = tag or awful.screen.focused().selected_tag
     -- if number of tags from global and local workspace is equal to number of screen then don't delete
     local total_tags = #self:getGlobalWorkspace():getAllTags() + #workspace:getAllTags()
     if total_tags <= #capi.screen then
@@ -311,20 +313,19 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace)
         })
         return
     end
-    local t = awful.screen.focused().selected_tag
-    if not t then return end
+    if not tag then return end
     
     local deleted = false
-    if workspace:hasTag(t) then
-        workspace:removeTag(t)
+    if workspace:hasTag(tag) then
+        workspace:removeTag(tag)
         deleted = true
-    elseif self:getGlobalWorkspace():hasTag(t) then
-        self:getGlobalWorkspace():removeTag(t)
+    elseif self:getGlobalWorkspace():hasTag(tag) then
+        self:getGlobalWorkspace():removeTag(tag)
         deleted = true
     end
 
     if deleted then
-        t:delete()
+        tag:delete()
         self:refresh()
     end
 end
@@ -517,7 +518,5 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
     capi.awesome.connect_signal("property::client", self.unpauseServiceHelper)
 
 end
-
-local _M = {}
 
 return WorkspaceManagerService

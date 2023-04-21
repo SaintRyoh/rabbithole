@@ -1,20 +1,12 @@
--- {{{ Required libraries
-local gears = require("gears")
 local awful = require("awful")
-local wibox = require("wibox")
 local __ = require("lodash")
--- }}}
-
-local _M = {}
 
 
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 local TaglistMenuController = { }
 TaglistMenuController.__index = TaglistMenuController
 
-function TaglistMenuController:new(workspaceManagerService)
-    self = {}
+function TaglistMenuController.new(workspaceManagerService)
+    local self = {}
     setmetatable(self, TaglistMenuController)
 
     self.workspaceManagerService = workspaceManagerService
@@ -41,6 +33,18 @@ function TaglistMenuController:generate_menu(t)
             self.workspaceManagerService:moveTagToGlobalWorkspace(t)
         end
     })
+    menu:add({
+        "Delete tag",
+        function ()
+            self.workspaceManagerService:deleteTagFromWorkspace(nil, t)
+        end
+    })
+    menu:add({
+        "Rename tag",
+        function ()
+            self.workspaceManagerService:renameTag(t)
+        end
+    })
 
     return menu
 end
@@ -56,14 +60,8 @@ function TaglistMenuController:updateMenu(t)
 end
 
 
-
-function _M.get(workspaceManagerService)
-    local wmc = TaglistMenuController:new(workspaceManagerService)
-
-    return wmc
-
-end
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-return setmetatable({}, { __call = function(_, workspaceManagerService) return _M.get(workspaceManagerService) end })
+return setmetatable(TaglistMenuController, {
+    __call = function(self, workspaceManagerService)
+        return self.new(workspaceManagerService)
+    end
+})
