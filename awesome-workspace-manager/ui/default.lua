@@ -79,7 +79,6 @@ return setmetatable({}, {
 
             s.rightbar:setup {
                 layout = wibox.layout.fixed.horizontal,
-                awful.widget.keyboardlayout(),
                 wibox.widget.systray(),
                 mytextclock,
                 s.mylayoutbox,
