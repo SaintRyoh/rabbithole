@@ -10,7 +10,7 @@ function MiniBar.new(options)
     local minibar = awful.popup({
         screen = options.screen,
         widget = options.widget or wibox.container.background,
-        ontop = true,
+        ontop = false,
         visible = true,
         maximum_height = dpi(30),
         placement = options.placement,
