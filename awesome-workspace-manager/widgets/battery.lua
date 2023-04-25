@@ -8,11 +8,11 @@ local batteryWidget = {}
 
 local icon_dir = "rabbithole/themes/rabbithole/icons/battery/"
 
+
 function batteryWidget.new(args)
     local self = {}
     setmetatable(self, { __index = batteryWidget })
 
-    -- Initialize your battery widget here
     self.widget = self:createWidget(args)
 
     self.widget:connect_signal("mouse::enter", function()
