@@ -10,7 +10,6 @@ function clockWidget.new(args)
     local self = {}
     setmetatable(self, { __index = clockWidget })
 
-    -- Initialize your clock widget here
     self.widget = self:createWidget(args)
 
     self.widget:buttons(gears.table.join(
@@ -25,7 +24,6 @@ end
 function clockWidget:createWidget(args)
     local widget = wibox.widget.textclock()
 
-    -- Set appearance from beautiful
     widget.font = beautiful.clock_font or "sans 12"
     widget.align = "center"
     widget.valign = "center"
