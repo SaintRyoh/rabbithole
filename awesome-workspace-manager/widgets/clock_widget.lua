@@ -5,6 +5,7 @@ local systray = require("wonderland.systrayWidget")
 
 local clockWidget = {}
 
+
 function clockWidget.new(args)
     local self = {}
     setmetatable(self, { __index = clockWidget })

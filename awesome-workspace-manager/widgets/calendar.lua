@@ -6,11 +6,11 @@ local naughty = require("naughty")
 
 local calendarWidget = {}
 
+
 function calendarWidget.new(args)
     local self = {}
     setmetatable(self, { __index = calendarWidget })
 
-    -- Initialize your calendar widget here
     self.widget = self:createWidget(args)
 
     self.widget:connect_signal("mouse::enter", function()

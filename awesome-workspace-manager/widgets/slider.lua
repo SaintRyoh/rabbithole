@@ -3,6 +3,7 @@ local gears = require("gears")
 
 local Slider = {}
 
+
 function Slider.new(args)
     local self = {}
     setmetatable(self, { __index = Slider })

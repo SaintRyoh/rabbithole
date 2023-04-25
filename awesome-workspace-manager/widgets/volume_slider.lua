@@ -4,6 +4,7 @@ local Slider = require("slider")
 
 local volumeSlider = {}
 
+
 function volumeSlider.new(args)
     local self = {}
     setmetatable(self, { __index = volumeSlider })
