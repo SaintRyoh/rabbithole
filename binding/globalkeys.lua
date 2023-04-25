@@ -177,11 +177,11 @@ return setmetatable({}, {
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Menubar
             awful.key({ modkey }, "p", function() menubar.show() end,
-                { description = "show the menubar", group = "launcher" }),
+                { description = "show the menubar", group = "launcher" })
 
             -- Screen brightness up & down with xbacklight
-            awful.key({}, "XF86AudioRaiseVolume", function() awful.spawn("amixer -D pulse sset Master 5%+") end),
-            awful.key({}, "XF86AudioLowerVolume", function() awful.spawn("amixer -D pulse sset Master 5%-") end)
+            --awful.key({}, "XF86AudioRaiseVolume", function() awful.spawn("amixer -D pulse sset Master 5%+") end),
+            --awful.key({}, "XF86AudioLowerVolume", function() awful.spawn("amixer -D pulse sset Master 5%-") end)
         )
         -- For loop to add number row of keyboard to global keybindings. Workspace, tag, & client
         for i = 0, 9 do
