@@ -4,14 +4,15 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local awful = require("awful")
 
-
 local batteryWidget = {}
 
+local icon_dir = "rabbithole/themes/rabbithole/icons/battery/"
 
 function batteryWidget.new(args)
     local self = {}
     setmetatable(self, { __index = batteryWidget })
 
+    -- Initialize your battery widget here
     self.widget = self:createWidget(args)
 
     self.widget:connect_signal("mouse::enter", function()
@@ -39,14 +40,8 @@ function batteryWidget:createWidget(args)
         }
     }
 
-    -- these will be custom settings in the settings manager
-    widget.icon.image = beautiful.battery_icon or "/path/to/default/battery_icon.svg"
-    widget.text.font = beautiful.battery_font or "sans 12"
-    widget.text.align = "center"
-    widget.text.valign = "center"
-
-    -- update battery information every 120 seconds
-    gears.timer.start_new(120, function()
+    -- Update battery information
+    gears.timer.start_new(30, function()
         self:updateBatteryInfo()
         return true
     end)
@@ -65,31 +60,59 @@ end
 
 function batteryWidget:parseBatteryInfo(output)
     local battery_info = {
-        icon = beautiful.battery_icon,
+        icon = icon_dir .. "battery.svg",
         text = "N/A"
     }
 
-    -- parse battery status
+    -- Parse battery status
     local status = output:match("Battery %d+: (%a+),")
     if status then
         if status == "Charging" then
-            battery_info.icon = beautiful.battery_charging_icon or "/path/to/default/battery_charging_icon.svg"
+            battery_info.icon = icon_dir .. "battery-charging.svg"
         elseif status == "Discharging" then
-            battery_info.icon = beautiful.battery_discharging_icon or "/path/to/default/battery_discharging_icon.svg"
+            battery_info.icon = icon_dir .. "battery-discharging.svg"
         else
-            battery_info.icon = beautiful.battery_icon or "/path/to/default/battery_icon.svg"
+            battery_info.icon = icon_dir .. "battery.svg"
         end
     end
 
-    -- parse battery percentage
+    -- Parse battery percentage
     local percentage = output:match(" (%d?%d?%d)%%")
     if percentage then
+        local icon_suffix
+        if percentage >= 90 then
+            icon_suffix = "90"
+        elseif percentage >= 80 then
+            icon_suffix = "80"
+        elseif percentage >= 70 then
+            icon_suffix = "70"
+        elseif percentage >= 60 then
+            icon_suffix = "60"
+        elseif percentage >= 50 then
+            icon_suffix = "50"
+        elseif percentage >= 40 then
+            icon_suffix = "40"
+        elseif percentage >= 30 then
+            icon_suffix = "30"
+        elseif percentage >= 20 then
+            icon_suffix = "20"
+        else
+            icon_suffix = "10"
+        end
+
+        if status == "Charging" then
+            battery_info.icon = icon_dir .. "battery-charging-" .. icon_suffix .. ".svg"
+        else
+            battery_info.icon = icon_dir .. "battery-discharging-" .. icon_suffix .. ".svg"
+        end
+
         battery_info.text = percentage .. "%"
     end
 
-    -- parse time remaining
+    -- Parse battery time remaining
     local hours, minutes = output:match("(%d?%d):(%d%d) remaining")
     if hours and minutes then
+        battery_info.text = battery_info.text .. " (" .. hours .. "h"
         battery_info.text = battery_info.text .. " (" .. hours .. "h" .. minutes .. "m)"
     end
 
@@ -97,41 +120,21 @@ function batteryWidget:parseBatteryInfo(output)
 end
 
 function batteryWidget:showBatteryNotification()
-    if not self.batteryNotification then
-        self.batteryNotification = naughty.connect_signal("request::display", function(n)
-            naughty.layout.box {
-                notification = n,
-                type = "notification",
-                widget_template = {
-                    {
-                        {
-                            id = "battery_details",
-                            widget = wibox.widget.textbox
-                        },
-                        widget = wibox.container.margin,
-                        margins = 8
-                    },
-                    widget = wibox.container.background,
-                    bg = beautiful.notification_bg,
-                    shape = gears.shape.rounded_rect
-                }
-            }
-        end)
+    if self.notification then
+        naughty.destroy(self.notification)
     end
-
-    self:updateBatteryInfo()
-    naughty.notify {
-        title = "Battery Status",
-        text = self.widget.text.text,
-        icon = self.widget.icon.image,
-        preset = naughty.config.presets.normal,
-        timeout = 5
-    }
+    self.notification = naughty.notify({
+        text = "Battery Status: " .. self.widget.text.text,
+        timeout = 0,
+        position = "bottom_right",
+        screen = mouse.screen
+    })
 end
 
 function batteryWidget:hideBatteryNotification()
-    if self.batteryNotification then
-        naughty.destroy_all_notifications()
+    if self.notification then
+        naughty.destroy(self.notification)
+        self.notification = nil
     end
 end
 
