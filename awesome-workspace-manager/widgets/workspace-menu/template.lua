@@ -8,8 +8,8 @@ local __ = require("lodash")
 local _M = {}
 
 function _M.get(controller)
-    local Template = { }
-    
+    local Template = {}
+
     Template.root = wibox.widget {
         widget = wibox.container.background,
         bg = beautiful.bg_normal,
@@ -18,14 +18,13 @@ function _M.get(controller)
             ["mouse::enter"] = function(widget, bindings)
                 widget.bg = beautiful.bg_focus
             end,
-
             ["mouse::leave"] = function(widget, bindings)
                 widget.bg = beautiful.bg_normal
             end
         },
         t_buttons = {
             function(widget, bindings)
-                return awful.button({ }, 1, function(event) 
+                return awful.button({}, 1, function(event)
                     if bindings.menu.wibox.visible == true then
                         bindings.menu:hide()
                     else
@@ -34,7 +33,7 @@ function _M.get(controller)
                         bindings.menu:show({
                             coords = {
                                 x = event.x,
-                                y = event.y 
+                                y = event.y
                             }
                         })
                     end
@@ -47,11 +46,11 @@ function _M.get(controller)
             {
                 layout = wibox.layout.fixed.horizontal,
                 {
-                    text = "initial text",
-                    align = "center",
-                    valign = "center",
-                    widget = wibox.widget.textbox,
-                    bind = "textbox"
+                    -- Replace text with SVG icon and workspace name
+                    widget = wibox.widget.imagebox,
+                    bind = "workspace_icon",
+                    resize = true,
+                    forced_height = 30,
                 },
                 {
                     widget = wibox.container.rotate,
@@ -73,9 +72,6 @@ function _M.get(controller)
     }
 
     return Template
-
 end
-
-
 
 return setmetatable({}, { __call = function(_, controller) return _M.get(controller) end })

@@ -15,7 +15,7 @@ function MiniBar.new(options)
         maximum_height = dpi(30),
         placement = options.placement,
         shape = function(cr, width, height)
-            gears.shape.rounded_rect(cr, width, height, 5)
+            gears.shape.rounded_rect(cr, width, height, 10)
         end,
     })
     minibar:struts{top = dpi(30)}
