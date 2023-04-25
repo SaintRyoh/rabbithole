@@ -48,8 +48,15 @@ function WorkspaceMenuController:generate_menu()
                     }
                 end))
     })
-    menu:add({ "add workspace", function () self:add_workspace() end})
+    menu:add({ "New Activity...", function () self:add_workspace() end})
     return menu
+end
+
+-- generate svg icons
+function WorkspaceMenuController:set_icon(workspace_name)
+    local config_dir = gears.filesystem.get_configuration_dir()
+    local svg_icon_path = config_dir .. "themes/rabbithole/icons/workspace-menu.svg"
+    self.view.bindings.workspace_icon.image = svg_icon_path
 end
 
 -- get view 
@@ -59,7 +66,7 @@ end
 
 -- set the text of the widget
 function WorkspaceMenuController:set_text(text)
-    self.view.bindings.textbox.text = "Activity: " .. text
+    self:set_icon(text)
 end
 
 -- get all workspaces
