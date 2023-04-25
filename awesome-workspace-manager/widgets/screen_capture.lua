@@ -23,23 +23,33 @@ function screenCapture:createWidget(args)
 end
 
 function screenCapture:getButtons()
+    -- Takes a screenshot on left mouse click, and  screen record on right click
     local buttons = awful.util.table.join(
         awful.button({}, 1, function()
-            self:takeScreenshot(false)
+            self:takeScreenshot()
         end),
         awful.button({}, 3, function()
-            self:takeScreenshot(true)
+            self:startScreenRecording()
         end)
     )
     return buttons
 end
 
-function screenCapture:takeScreenshot(include_cursor)
-    -- I chose to use scrot, we should bind this to flameshot for both screen shots and screen recording and just add it as a dependency
+function screenCapture:takeScreenshot()
+    -- You can use scrot or flameshot, whichever is your preference
+    --local command = "flameshot gui"
+    --awful.spawn.easy_async_with_shell(command, function()
     local cursor_flag = include_cursor and "-cursor" or ""
     local command = "sleep 0.5 && scrot " .. cursor_flag .. " '%Y-%m-%d_%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'"
     awful.spawn.easy_async_with_shell(command, function()
-        -- You can add a callback function here if needed
+        -- callbacks
+    end)
+end
+
+function screenCapture:startScreenRecording()
+    local command = "ffmpeg -f x11grab -r 30 -s $(xdpyinfo | grep dimensions | awk '{print $2}') -i :0.0 -c:v libx264 -preset ultrafast -crf 0 -threads 0 ~/Videos/screen_record-$(date '+%Y-%m-%d_%H-%M-%S').mkv"
+    awful.spawn.easy_async_with_shell(command, function()
+        -- callbacks
     end)
 end
 
