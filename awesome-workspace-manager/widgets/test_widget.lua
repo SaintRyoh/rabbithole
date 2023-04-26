@@ -12,22 +12,22 @@ local hover_anim_duration = 0.2 -- seconds
 local function add_hover_animation(widget)
     widget:connect_signal("mouse::enter", function()
         -- Animate the background color to the hover color using Material Design 3 easing
-        gears.timer.start_new(hover_anim_duration, function(t)
+        gears.timer.start_new(function(t)
             local progress = t / hover_anim_duration
             local eased_progress = 1 - math.pow(1 - progress, 2.5) -- Material Design 3 easing
             widget.bg = gears.color.interpolate_color(beautiful.bg_normal, hover_bg_color, eased_progress)
             return progress < 1
-        end)
+        end, hover_anim_duration)
     end)
 
     widget:connect_signal("mouse::leave", function()
         -- Animate the background color back to the default color using Material Design 3 easing
-        gears.timer.start_new(hover_anim_duration, function(t)
+        gears.timer.start_new(function(t)
             local progress = t / hover_anim_duration
             local eased_progress = 1 - math.pow(1 - progress, 2.5) -- Material Design 3 easing
             widget.bg = gears.color.interpolate_color(hover_bg_color, beautiful.bg_normal, eased_progress)
             return progress < 1
-        end)
+        end, hover_anim_duration)
     end)
 end
 
