@@ -2,40 +2,16 @@ local wibox = require("wibox")
 local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
+local wibox = require("wibox")
+local dpi = require("beautiful").xresources.apply_dpi
 
--- update this shit when i know the popup is working
---local volumeSlider = require("../volumeSlider")
---local brightnessSlider = require("../brightnessSlider")
---local clockWidget = require("../clockWidget")
---local calendarWidget = require("../calendarWidget")
---local batteryWidget = require("../batteryWidget")
---local networkWidget = require("../networkWidget")
---local vpnWidget = require("../vpnWidget")
---local screenCaptureWidget = require("../screenCaptureWidget")
---local notificationWidget = require("../notificationWidget")
---local wifiHotspotWidget = require("../wifiHotspotWidget")
---local volumeIconWidget = require("../volumeIconWidget")
-
+-- define csystray object
 local systrayPopup = {}
+
 
 function systrayPopup.new(args)
     local self = {}
     setmetatable(self, { __index = systrayPopup })
-
-    -- Comment out or remove the other widgets
-    -- self.widgets = {
-    --     volumeSlider.new(),
-    --     brightnessSlider.new(),
-    --     clockWidget.new(),
-    --     calendarWidget.new(),
-    --     batteryWidget.new(),
-    --     networkWidget.new(),
-    --     vpnWidget.new(),
-    --     screenCaptureWidget.new(),
-    --     notificationWidget.new(),
-    --     wifiHotspotWidget.new(),
-    --     volumeIconWidget.new(),
-    -- }
 
     self.popup = self:create_popup()
 
@@ -43,9 +19,14 @@ function systrayPopup.new(args)
 end
 
 function systrayPopup:create_popup()
+    local test_textbox = wibox.widget {
+        text   = "This is gonna be where wonderlands icons get fed into",
+        widget = wibox.widget.textbox
+    }
+
     local popup = awful.popup {
         widget = {
-            -- The popup will be empty for now
+            test_textbox,
             layout = wibox.layout.fixed.horizontal
         },
         visible = false,
@@ -53,14 +34,22 @@ function systrayPopup:create_popup()
         shape = gears.shape.rounded_rect,
         bg = beautiful.bg_normal,
         border_color = beautiful.border_normal,
-        border_width = beautiful.border_width
+        border_width = beautiful.border_width,
+        width = 200,
+        height = 100
     }
 
-    -- Attach the popup to the clock widget
-    awful.placement.top(popup, { margins = { top = 30 }, parent = awful.screen.focused() })
+    -- Set the position of the popup widget
+    local dpi = require("beautiful").xresources.apply_dpi
+    local s = awful.screen.focused()
+    local x = s.geometry.width - popup.width - dpi(30)  -- Set x position to the right of the screen with 30px margin
+    local y = dpi(30)  -- Set y position to 30px below the top of the wibar
+    popup.x = x
+    popup.y = y
 
     return popup
 end
+
 
 function systrayPopup:toggle()
     self.popup.visible = not self.popup.visible
