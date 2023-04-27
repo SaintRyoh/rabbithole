@@ -1,9 +1,9 @@
 local wibox = require("wibox")
 local awful = require("awful")
 local gears = require("gears")
+local beautiful = require("beautiful")
 
 local _M = {}
-
 local generate_filter = function(t)
     return function(c, scr)
         local ctags = c:tags()
@@ -43,8 +43,11 @@ function _M.create(tasklist_buttons, s, tag)
                 end
 
                 self:connect_signal('mouse::enter', function()
-                    self:get_children_by_id('background_role')[1]:set_bg('#BBBBBB22')
-                    self:get_children_by_id('background_role')[1]:set_fg('#BBBBBB22')
+                    self:get_children_by_id('background_role')[1]:set_bg(beautiful.bg_normal)
+                    self:get_children_by_id('background_role')[1]:set_fg(beautiful.bg_normal)
+                end)
+                self:connect_signal('mouse::leave', function()
+                    self:get_children_by_id('background_role')[1]:set_bg('#00000000')
                     self:get_children_by_id('background_role')[1]:set_fg('#00000000')
                 end)
 
