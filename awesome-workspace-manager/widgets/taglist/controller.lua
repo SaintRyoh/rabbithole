@@ -17,7 +17,7 @@ TaglistController.__index = TaglistController
 function TaglistController.new(workspaceManagerService, s, tasklist)
     local taglist_menu = require("awesome-workspace-manager.widgets.taglist.taglistmenu")(workspaceManagerService)
     local globaltaglist_menu = require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu")(workspaceManagerService)
-    local taglist_buttons  = taglistButtons( taglist_menu)
+    local taglist_buttons  = taglistButtons(taglist_menu, workspaceManagerService)
     local globaltaglist_buttons = taglistButtons( globaltaglist_menu)
     local plusButton = require("awesome-workspace-manager.widgets.taglist.plus_button")(workspaceManagerService)
 

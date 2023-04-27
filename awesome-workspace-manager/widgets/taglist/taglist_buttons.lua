@@ -9,7 +9,7 @@ local _M = {}
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-function _M.get(_taglistmenu)
+function _M.get(_taglistmenu, workspaceManagerService)
     local taglistmenu = _taglistmenu
     -- Create a wibox for each screen and add it
     local taglist_buttons = gears.table.join(
@@ -39,6 +39,9 @@ function _M.get(_taglistmenu)
             end),
             awful.button({ }, 3, function(t)
                 sharedtags.viewtoggle(t, t.screen)
+            end ),
+            awful.button({ }, 2, function(t)
+                workspaceManagerService:deleteTagFromWorkspace(nil, t)
             end )
             --awful.button({ modkey }, 3, function(t)
             --    if client.focus then
@@ -54,4 +57,4 @@ end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-return setmetatable({}, { __call = function(_, taglistmenu) return _M.get(taglistmenu) end })
+return setmetatable({}, { __call = function(_, taglistmenu, workspaceManagerService) return _M.get(taglistmenu, workspaceManagerService) end })
