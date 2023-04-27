@@ -5,12 +5,20 @@ local controller = require("awesome-workspace-manager.widgets.tasklist.controlle
 
 local _M = {}
 
-function _M.create(screen)
+function _M.create(screen, tag, tasklistmenu)
     local clients = model.get_clients(screen)
-    local tasklist_buttons = controller.create_buttons()
-    local tasklist_widget = view.create(tasklist_buttons)
+    local tasklist_buttons = controller.create_buttons(tasklistmenu)
+    local tasklist_widget = view.create(tasklist_buttons, screen, tag)
     
     return tasklist_widget
 end
 
-return _M
+return setmetatable({}, {
+    __constructor = function(
+        awesome___workspace___manager__menus__tasklistmenu
+    )
+        return function(screen, tag)
+            return _M.create(screen, tag, awesome___workspace___manager__menus__tasklistmenu)
+        end
+    end
+})

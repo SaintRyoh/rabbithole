@@ -7,13 +7,14 @@ local local_taglist_template = require("awesome-workspace-manager.widgets.taglis
 local global_taglist_template = require("awesome-workspace-manager.widgets.taglist.template_global")
 local beautiful = require("beautiful")
 local common = require("awful.widget.common")
+-- local tasklist = require("awesome-workspace-manager.widgets.tasklist")
 
 
 -- workspace menu controller
 local TaglistController = { }
 TaglistController.__index = TaglistController
 
-function TaglistController.new(workspaceManagerService, s)
+function TaglistController.new(workspaceManagerService, s, tasklist)
     local taglist_menu = require("awesome-workspace-manager.widgets.taglist.taglistmenu")(workspaceManagerService)
     local globaltaglist_menu = require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu")(workspaceManagerService)
     local taglist_buttons  = taglistButtons( taglist_menu)
@@ -26,6 +27,7 @@ function TaglistController.new(workspaceManagerService, s)
     -- resources
     self.workspaceManagerService = workspaceManagerService
     self.screen = s
+    self.getTasklist = tasklist
     
     self.my_global_workspace_taglist = awful.widget.taglist {
         screen = s,
@@ -75,26 +77,7 @@ end
 function TaglistController:add_client_bubbles(tag_template, tag)
     local icon_container = __.first(tag_template:get_children_by_id('icon_container')) or nil
     if icon_container then
-        local icons = __.map(tag:clients(), function(client)
-            local dpi = require("beautiful").xresources.apply_dpi
-            local icon = wibox.widget {
-                {
-                    id = "icon_container",
-                    {
-                        id = "icon",
-                        resize = true,
-                        widget = wibox.widget.imagebox
-                    },
-                    widget = wibox.container.place
-                },
-                forced_width = dpi(20),
-                margins = dpi(2),
-                widget = wibox.container.margin
-            }
-            icon.icon_container.icon:set_image(client.icon)
-            return icon
-        end)
-        icon_container.widget:set_children(icons)
+        icon_container.widget:add(self.getTasklist(self.screen, tag))
     end
 end
 
@@ -119,12 +102,12 @@ end
 
 function TaglistController:update_tag_callback(tag_template, tag, index, objects)
     self:update_index(tag_template, index)
-    self:add_client_bubbles(tag_template, tag)
+    -- self:add_client_bubbles(tag_template, tag)
     tag_template.bg = self:set_tag_template_bg(tag)
 end
 
 return setmetatable(TaglistController, {
-    __call = function(self, workspaceManagerService, s)
-        return self.new(workspaceManagerService, s)
+    __call = function(self, workspaceManagerService, s, tasklist)
+        return self.new(workspaceManagerService, s, tasklist)
     end
 })

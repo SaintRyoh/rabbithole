@@ -22,7 +22,7 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
-local tasklist_buttons = require("deco.tasklist_buttons")()
+-- local tasklist_buttons = require("deco.tasklist_buttons")()
 
 return setmetatable({}, {
     __constructor = function(
@@ -53,12 +53,6 @@ return setmetatable({}, {
                     awful.button({ }, 5, function () awful.layout.inc(-1) end)
             ))
 
-            -- Create a tasklist widget
-            s.mytasklist = awful.widget.tasklist {
-                screen  = s,
-                filter  = awful.widget.tasklist.filter.currenttags,
-                buttons = tasklist_buttons
-            }
 
             local mytextclock = wibox.widget.textclock()
 
@@ -74,7 +68,6 @@ return setmetatable({}, {
             s.center:setup {
                 layout = wibox.layout.align.horizontal,
                 taglist(s),
-                s.mytasklist,
             }
 
             s.rightbar:setup {
