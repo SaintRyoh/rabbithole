@@ -19,6 +19,10 @@ end
 function _M.create(tasklist_buttons, s, tag)
     return wibox.widget {
         {
+            widget = wibox.container.margin,
+            left = 5,
+        },
+        {
             awful.widget.tasklist({
                 screen = s,
                 filter  = generate_filter(tag),
