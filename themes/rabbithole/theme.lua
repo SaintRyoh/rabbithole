@@ -73,6 +73,8 @@ theme.taglist_bg_focus = theme.bg_focus
 theme.taglist_squares_sel = themes_path .. "rabbithole/taglist/squarefz.png"
 theme.taglist_squares_unsel = themes_path .. "rabbithole/taglist/squarez.png"
 
+theme.tasklist_bg = "#3F3F3F"
+
 theme.awesome_icon = themes_path .. "rabbithole/awesome-icon.png"
 theme.menu_submenu_icon = themes_path .. "default/submenu.png"
 
