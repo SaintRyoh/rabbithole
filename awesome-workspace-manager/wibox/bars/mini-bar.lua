@@ -13,6 +13,7 @@ function MiniBar.new(options)
         ontop = false,
         visible = true,
         maximum_height = dpi(30),
+        minimum_height = dpi(30),
         placement = options.placement,
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
