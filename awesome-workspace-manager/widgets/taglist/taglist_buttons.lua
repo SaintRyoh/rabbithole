@@ -3,6 +3,7 @@ local gears = require("gears")
 local awful = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
+local modal = require("awesome-workspace-manager.wibox.modal.modal")
 -- }}}
 
 local _M = {}
@@ -41,7 +42,13 @@ function _M.get(_taglistmenu, workspaceManagerService)
                 sharedtags.viewtoggle(t, t.screen)
             end ),
             awful.button({ }, 2, function(t)
-                workspaceManagerService:deleteTagFromWorkspace(nil, t)
+                modal.confirm({
+                    title = "Delete tag",
+                    text = "Are you sure you want to delete this tag?",
+                    yes_callback = function()
+                        workspaceManagerService:deleteTagFromWorkspace(nil, t)
+                    end
+                }):show()
             end )
             --awful.button({ modkey }, 3, function(t)
             --    if client.focus then
