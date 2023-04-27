@@ -73,7 +73,11 @@ theme.taglist_bg_focus = theme.bg_focus
 theme.taglist_squares_sel = themes_path .. "rabbithole/taglist/squarefz.png"
 theme.taglist_squares_unsel = themes_path .. "rabbithole/taglist/squarez.png"
 
-theme.tasklist_bg = "#3F3F3F"
+theme.tasklist_bg_normal = "#3F3F3F"
+theme.tasklist_bg_focus = theme.bg_focus
+theme.tasklist_shape = gears.shape.rounded_rect
+theme.tasklist_shape_border_width = dpi(1)
+theme.tasklist_shape_border_color = theme.tasklist_bg_normal
 
 theme.awesome_icon = themes_path .. "rabbithole/awesome-icon.png"
 theme.menu_submenu_icon = themes_path .. "default/submenu.png"
