@@ -2,8 +2,6 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-local gradient_bg = beautiful.taglist_bg_focus
-
 return function (controller)
     return {
         widget = wibox.container.background,
@@ -19,14 +17,16 @@ return function (controller)
             },
             {
                 widget = wibox.container.margin,
-                top = 10, -- Increase top margin here
-                bottom = 10, -- Increase bottom margin here
+                top = 8, -- Increase top margin here
+                bottom = 8, -- Increase bottom margin here
                 {
                     widget = wibox.container.background,
                     shape = function(cr, width, height)
-                        gears.shape.rounded_rect(cr, width, height, 10)
+                        gears.shape.rounded_rect(cr, width, height, 8)
                     end,
-                    bg = gradient_bg,
+                    bg = beautiful.taglist_container_bg,
+                    border_color = "#FFFFFF", -- Set border color here
+                    border_width = 2, -- Set border width here
                     {
                         layout = wibox.layout.fixed.horizontal,
                         {
