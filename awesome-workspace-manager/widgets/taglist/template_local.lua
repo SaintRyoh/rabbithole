@@ -12,23 +12,23 @@ return function (controller)
         {
             layout = wibox.layout.fixed.horizontal,
             {
-                id     = 'index_role',
-                widget = wibox.widget.textbox,
-            },
-            {
                 widget = wibox.container.margin,
-                top = 8, -- Increase top margin here
-                bottom = 8, -- Increase bottom margin here
+                top = 8,
+                bottom = 8,
+                left = 4,
+                right = 4,
                 {
                     widget = wibox.container.background,
                     shape = function(cr, width, height)
                         gears.shape.rounded_rect(cr, width, height, 8)
                     end,
-                    bg = beautiful.taglist_container_bg,
-                    border_color = "#FFFFFF", -- Set border color here
-                    border_width = 2, -- Set border width here
+                    bg = beautiful.bg_normal,
                     {
                         layout = wibox.layout.fixed.horizontal,
+                        {
+                            id     = 'index_role',
+                            widget = wibox.widget.textbox,
+                        },
                         {
                             id     = 'text_role',
                             widget = wibox.widget.textbox,
