@@ -96,4 +96,4 @@ function appDrawer:toggle()
     end
 end
 
-returnappDrawer
+return appDrawer
