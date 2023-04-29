@@ -1,7 +1,6 @@
 local wibox = require("wibox")
-local awful = require("awful")
-
-local icon_path = awful.util.getdir("config") .. "/src/assets/icons/rabbithole/global.svg"
+local gears = require("gears")
+local beautiful = require("beautiful")
 
 return function (controller)
     return
@@ -19,23 +18,25 @@ return function (controller)
                     left = 5,
                 },
                 {
-                    widget = wibox.container.background,
-                    fg = "#FFFFFF",
+                    widget = wibox.container.margin,
+                    top = 8,
+                    bottom = 8,
                     {
-                        layout = wibox.layout.fixed.horizontal,
-                        spacing = 5,
+                        widget = wibox.container.background,
+                        shape = function(cr, width, height)
+                            gears.shape.rounded_rect(cr, width, height, 8)
+                        end,
+                        bg = beautiful.bg_normal,
+                        border_color = "#FFFFFF",
+                        border_width = 2,
                         {
                             widget = wibox.container.margin,
-                            left = 5,
-                            right = 5,
+                            left = 4,
+                            right = 4,
                             {
-                                widget = wibox.widget.imagebox,
-                                image = icon_path,
+                                id     = 'text_role',
+                                widget = wibox.widget.textbox,
                             },
-                        },
-                        {
-                            id     = 'text_role',
-                            widget = wibox.widget.textbox,
                         },
                     },
                 },

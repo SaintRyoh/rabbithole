@@ -1,51 +1,63 @@
-local __ = require("lodash")
-local awful = require("awful")
-local wibox = require("wibox")
-local get_update_function = require("awesome-workspace-manager.widgets.taglist.update_function")
-local taglistButtons   = require("awesome-workspace-manager.widgets.taglist.taglist_buttons")
-local local_taglist_template = require("awesome-workspace-manager.widgets.taglist.template_local")
+local __                      = require("lodash")
+local awful                   = require("awful")
+local wibox                   = require("wibox")
+local get_update_function     = require("awesome-workspace-manager.widgets.taglist.update_function")
+local taglistButtons          = require("awesome-workspace-manager.widgets.taglist.taglist_buttons")
+local local_taglist_template  = require("awesome-workspace-manager.widgets.taglist.template_local")
 local global_taglist_template = require("awesome-workspace-manager.widgets.taglist.template_global")
-local beautiful = require("beautiful")
-local common = require("awful.widget.common")
--- local tasklist = require("awesome-workspace-manager.widgets.tasklist")
+local beautiful               = require("beautiful")
+local common                  = require("awful.widget.common")
+
 
 
 -- workspace menu controller
-local TaglistController = { }
+local TaglistController = {}
 TaglistController.__index = TaglistController
 
 function TaglistController.new(workspaceManagerService, s, tasklist)
-    local taglist_menu = require("awesome-workspace-manager.widgets.taglist.taglistmenu")(workspaceManagerService)
-    local globaltaglist_menu = require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu")(workspaceManagerService)
-    local taglist_buttons  = taglistButtons(taglist_menu, workspaceManagerService)
-    local globaltaglist_buttons = taglistButtons( globaltaglist_menu)
-    local plusButton = require("awesome-workspace-manager.widgets.taglist.plus_button")(workspaceManagerService)
+    local taglist_menu          = require("awesome-workspace-manager.widgets.taglist.taglistmenu")(
+    workspaceManagerService)
+    local globaltaglist_menu    = require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu")(
+    workspaceManagerService)
+    local taglist_buttons       = taglistButtons(taglist_menu, workspaceManagerService)
+    local globaltaglist_buttons = taglistButtons(globaltaglist_menu)
+    local plusButton            = require("awesome-workspace-manager.widgets.taglist.plus_button")(
+    workspaceManagerService)
+    -- globe icon for global tag widget
+    local icon_path             = awful.util.getdir("config") .. "/src/assets/icons/rabbithole/global.svg"
+    local global_icon           = wibox.widget.imagebox(icon_path)
 
-    local self = {}
+    local self                  = {}
     setmetatable(self, TaglistController)
 
     -- resources
     self.workspaceManagerService = workspaceManagerService
     self.screen = s
     self.getTasklist = tasklist
-    
-    self.my_global_workspace_taglist = awful.widget.taglist {
-        screen = s,
-        filter  = awful.widget.taglist.filter.all,
-        source  = function ()
+
+    local global_taglist_layout = wibox.layout.fixed.horizontal()
+
+    local global_taglist = awful.widget.taglist {
+        screen          = s,
+        filter          = awful.widget.taglist.filter.all,
+        source          = function()
             return workspaceManagerService:getAllGlobalTags()
         end,
-        buttons = globaltaglist_buttons,
+        buttons         = globaltaglist_buttons,
         update_function = get_update_function(s),
         widget_template = global_taglist_template(self)
     }
 
+    global_taglist_layout:add(global_icon)
+    global_taglist_layout:add(global_taglist)
+
+    self.my_global_workspace_taglist = global_taglist_layout
 
     self.my_local_workspace_taglist = awful.widget.taglist {
-        screen  = s,
-        filter  = awful.widget.taglist.filter.all,
-        buttons = taglist_buttons,
-        source = function() return workspaceManagerService:getAllActiveTags() end,
+        screen          = s,
+        filter          = awful.widget.taglist.filter.all,
+        buttons         = taglist_buttons,
+        source          = function() return workspaceManagerService:getAllActiveTags() end,
         update_function = get_update_function(s),
         widget_template = local_taglist_template(self)
     }
@@ -60,7 +72,7 @@ function TaglistController.new(workspaceManagerService, s, tasklist)
     return self
 end
 
--- get view 
+-- get view
 function TaglistController:get_view_widget()
     return self.taglist_layout
 end
@@ -81,11 +93,11 @@ function TaglistController:add_client_bubbles(tag_template, tag)
     end
 end
 
--- update index 
+-- update index
 function TaglistController:update_index(tag_template, index)
     local index_widget = __.first(tag_template:get_children_by_id('index_role')) or nil
-    if index_widget then 
-        index_widget.markup = '<b> '..index..' </b>'
+    if index_widget then
+        index_widget.markup = '<b> ' .. index .. ' </b>'
     end
 end
 

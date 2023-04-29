@@ -3,8 +3,7 @@ local wibox = require("wibox")
 local dpi = require("beautiful").xresources.apply_dpi
 local gears = require("gears")
 
-MiniBar = {}
-MiniBar.__index = MiniBar
+local MiniBar = {}
 
 function MiniBar.new(options)
     local minibar = awful.popup({
@@ -14,7 +13,11 @@ function MiniBar.new(options)
         visible = true,
         maximum_height = dpi(30),
         minimum_height = dpi(30),
-        placement = options.placement,
+        placement = function(c)
+            options.placement(c, {
+                margins = dpi(2)
+            })
+        end,
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
@@ -24,8 +27,10 @@ function MiniBar.new(options)
     return minibar
 end
 
-return setmetatable(MiniBar, {
+setmetatable(MiniBar, {
     __call = function(self, options)
         return self.new(options)
     end
 })
+
+return MiniBar
