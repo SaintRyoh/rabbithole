@@ -1,9 +1,6 @@
 local wibox = require("wibox")
 local gears = require("gears")
-local awful = require("awful")
 local beautiful = require("beautiful")
-
-local icon_path = awful.util.getdir("config") .. "/src/assets/icons/rabbithole/global.svg"
 
 return function (controller)
     return
@@ -19,15 +16,6 @@ return function (controller)
                 {
                     widget = wibox.container.margin,
                     left = 5,
-                },
-                {
-                    widget = wibox.container.margin,
-                    left = 5,
-                    right = 5,
-                    {
-                        widget = wibox.widget.imagebox,
-                        image = icon_path,
-                    },
                 },
                 {
                     widget = wibox.container.margin,
