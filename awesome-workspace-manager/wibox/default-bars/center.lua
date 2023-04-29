@@ -1,22 +1,17 @@
 local wibox = require("wibox")
 local awful = require("awful")
 local gears = require("gears")
+local layoutlist_widget = require("awesome-workspace-manager.widgets.layout_list")
 
 return setmetatable({}, {
     __constructor = function(taglist, awesome___workspace___manager__wibox__bars__center)
         return function(s)
-            -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-            s.mylayoutbox = awful.widget.layoutbox(s)
-            s.mylayoutbox:buttons(gears.table.join(
-                    awful.button({ }, 1, function () awful.layout.inc( 1) end),
-                    awful.button({ }, 3, function () awful.layout.inc(-1) end),
-                    awful.button({ }, 4, function () awful.layout.inc( 1) end),
-                    awful.button({ }, 5, function () awful.layout.inc(-1) end)
-            ))
+            local custom_layoutlist = layoutlist_widget.new(s)
+
             awesome___workspace___manager__wibox__bars__center(s):setup {
                 layout = wibox.layout.align.horizontal,
                 taglist(s),
-                s.mylayoutbox
+                custom_layoutlist,
             }
         end
     end
