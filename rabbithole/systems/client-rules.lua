@@ -11,9 +11,12 @@ local _M = {}
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 return setmetatable({}, {
-    __constructor = function(clientKeybindings, clientButtons)
-        local clientkeys = clientKeybindings
-        local clientbuttons = clientButtons
+    __constructor = function(
+        rabbithole__components__keys__clientkeys, 
+        rabbithole__components__buttons__clientbuttons
+    )
+        local clientkeys = rabbithole__components__keys__clientkeys
+        local clientbuttons = rabbithole__components__buttons__clientbuttons
         local rules = {
 
             -- All clients will match this rule.

@@ -43,8 +43,8 @@ RC = {
 
         config.bindings.types.layouts = "main.layouts_table"
         config.bindings.types.globalKeybindings = "binding.globalkeys"
-        config.bindings.types.clientKeybindings = "binding.clientkeys"
-        config.bindings.types.clientButtons = "binding.clientbuttons"
+        -- config.bindings.types.clientKeybindings = "rabbithole.components.keys.clientkeys"
+        -- config.bindings.types.clientButtons = "rabbithole.components.buttons.clientbuttons"
         config.bindings.types.mainmenu = "main.menu"
         config.bindings.types.globalMouseButtons = "binding.globalbuttons"
         config.bindings.types.rules = "rabbithole.systems.client-rules"

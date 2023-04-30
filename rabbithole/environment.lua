@@ -3,7 +3,6 @@ return setmetatable({}, {
        rabbithole__ui__default, 
         layouts, 
         globalKeybindings, 
-        clientKeybindings, 
         mainmenu, 
         globalMouseButtons, 
         rules, 
