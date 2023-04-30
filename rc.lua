@@ -34,12 +34,6 @@ RC = {
             editor_cmd = "qterminal -e nvim",
         }
 
-        -- this is just a taglist function that returns a widget if you give it a screen
-        config.bindings.types.taglist = "taglist"
-        config.providers.taglist = function()
-            return RC.diModule.getInstance("rabbithole.components.widgets.taglist")
-        end
-
         config.bindings.types.titlebar = "rabbithole.components.wiboxes.titlebar"
 
         config.enableAutoConfiguration()
