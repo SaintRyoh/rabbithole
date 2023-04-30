@@ -1,6 +1,6 @@
 -- setup paths, includes things like lua_modules
 require("paths")
-require("main.error-handling")
+require("error-handling")
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
 
@@ -14,7 +14,7 @@ end
 RC = {
     diModule = require("sub.lua-di.lua-di.DependencyInjectionModule")(function (config) 
 
-        -- eventually only Services and Settings should be in here.
+        -- eventually only Services and Settings should be
 
         -- Make workspaceManagerService a singleton
         config.bindings.types.workspaceManagerService = "workspaceManagerService"

@@ -24,7 +24,7 @@ function TaglistController.new(workspaceManagerService, s, tasklist)
     local plusButton            = require("rabbithole.components.widgets.taglist.plus_button")(
     workspaceManagerService)
     -- globe icon for global tag widget
-    local icon_path             = awful.util.getdir("config") .. "/src/assets/icons/rabbithole/global.svg"
+    local icon_path             = awful.util.getdir("config") .. "themes/rabbithole/assets/icons/rabbithole/global.svg"
     local global_icon           = wibox.widget.imagebox(icon_path)
 
     local self                  = {}

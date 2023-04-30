@@ -11,7 +11,7 @@ local wibox = require("wibox")
 require("src.core.signals")
 
 -- Icon directory path
-local icondir = awful.util.getdir("config") .. "src/assets/icons/powermenu/"
+local icondir = awful.util.getdir("config") .. "themes/rabbithole/assets/icons/powermenu/"
 
 return function(s)
 
@@ -58,7 +58,7 @@ return function(s)
       "./.config/awesome/src/scripts/pfp.sh 'userName' '" .. user_vars.namestyle .. "'",
       function(stdout)
         if stdout:gsub("\n", "") == "Rick Astley" then
-          profile_picture:set_image(awful.util.getdir("config") .. "src/assets/userpfp/" .. "rickastley.jpg")
+          profile_picture:set_image(awful.util.getdir("config") .. "themes/rabbithole/assets/userpfp/" .. "rickastley.jpg")
         end
         profile_name:set_text(stdout)
       end
