@@ -7,7 +7,7 @@ return setmetatable({}, {
         rabbithole__components__widgets__tasklist
     )
         return function (s)
-            return require("rabbithole/components/widgets/taglist/controller")(workspaceManagerService, s, rabbithole__components__widgets__tasklist):get_view_widget()
+            return require("rabbithole.components.widgets.taglist.controller")(workspaceManagerService, s, rabbithole__components__widgets__tasklist):get_view_widget()
         end
     end,
 })
