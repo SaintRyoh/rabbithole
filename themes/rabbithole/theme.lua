@@ -99,7 +99,7 @@ theme.layout_cornernw = themes_path .. "rabbithole/layouts/cornernw.png"
 theme.layout_cornerne = themes_path .. "rabbithole/layouts/cornerne.png"
 theme.layout_cornersw = themes_path .. "rabbithole/layouts/cornersw.png"
 theme.layout_cornerse = themes_path .. "rabbithole/layouts/cornerse.png"
-
+theme.layoulist_bg_normal = theme.bg_normal
 theme.titlebar_close_button_focus = themes_path .. "rabbithole/titlebar/close_focus.png"
 theme.titlebar_close_button_normal = themes_path .. "rabbithole/titlebar/close_normal.png"
 
