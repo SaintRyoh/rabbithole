@@ -16,7 +16,6 @@ return setmetatable({}, {
                 awful.button({ }, 5, awful.tag.viewprev)
         )
 
-        root.buttons(globalbuttons)
 
         return globalbuttons
     end

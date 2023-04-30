@@ -1,6 +1,9 @@
 {
     "Lua.diagnostics.globals": [
         "RC",
-        "screen"
+        "screen",
+        "root",
+        "awesome",
+        "client"
     ]
 }

@@ -247,7 +247,6 @@ return setmetatable({}, {
             )
         end
 
-        root.keys(globalkeys)
 
         return globalkeys
     end,
