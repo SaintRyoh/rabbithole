@@ -12,10 +12,10 @@ local wibox = require("wibox")
 
 
 return setmetatable({}, {
-    __constructor = function(rabbithole__menus__tasklistmenu)
+    __constructor = function(rabbithole__components__menus__tasklistmenu)
         -- Add a titlebar if titlebars_enabled is set to true in the rules.
         client.connect_signal("request::titlebars", function(c)
-            local tasklistmenu = rabbithole__menus__tasklistmenu
+            local tasklistmenu = rabbithole__components__menus__tasklistmenu
             -- buttons for the titlebar
             local buttons = gears.table.join(
                     awful.button({ }, 1, function()
