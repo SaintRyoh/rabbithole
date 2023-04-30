@@ -3,11 +3,11 @@ return setmetatable({}, {
        rabbithole__ui__default, 
        rabbithole__systems__global___rules,
        rabbithole__systems__client___rules,
-        layouts, 
-        mainmenu, 
-        titlebar,
-        main__sloppy___focus,
-        main__signals
+       rabbithole__systems__sloppy___focus,
+       rabbithole__systems__signals,
+       layouts, 
+       mainmenu, 
+       titlebar
     )
         return 
     end,
