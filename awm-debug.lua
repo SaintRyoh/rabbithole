@@ -27,7 +27,6 @@ function debug.dumpTablePretty(tbl)
     debug.notifyDump(tbl, dbg.pretty)
 end
 
-
 debug.dbg = dbg
 dbg.auto_where = 5
 dbg.port = 9000
