@@ -10,7 +10,7 @@ local _M = {}
 local WorkspaceMenuController = { }
 WorkspaceMenuController.__index = WorkspaceMenuController
 
-function WorkspaceMenuController:new(workspaceManagerService, theme, rabbithole__components__wiboxes__modal)
+function WorkspaceMenuController:new(workspaceManagerService, theme, rabbithole__services__modal)
     self = { }
     setmetatable(self, WorkspaceMenuController)
 
@@ -22,7 +22,7 @@ function WorkspaceMenuController:new(workspaceManagerService, theme, rabbithole_
     }
     self:set_menu(self:generate_menu())
     self:set_text(self.model:getActiveWorkspace():getName())
-    self.modal = rabbithole__components__wiboxes__modal
+    self.modal = rabbithole__services__modal
 
     workspaceManagerService:subscribeController(self)
 

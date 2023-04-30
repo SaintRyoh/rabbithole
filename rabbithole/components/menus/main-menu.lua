@@ -14,8 +14,8 @@ return setmetatable({}, {
     __constructor = function (settings)
         local M = {}  -- menu
         local editor = settings.editor or "nano"
-        local editor_cmd = settings.editor_cmd or terminal .. " -e " .. editor
         local terminal = settings.terminal or "xfce4-terminal"
+        local editor_cmd = settings.editor_cmd or terminal .. " -e " .. editor
 
         M.awesome = {
             { "hotkeys", function()

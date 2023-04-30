@@ -3,7 +3,7 @@ local gears = require("gears")
 local awful = require("awful")
 local sharedtags = require("sub.awesome-sharedtags")
 local __ = require("lodash")
-local modal = require("rabbithole.components.wiboxes.modal.modal")
+local modal = require("rabbithole.services.modal.modal")
 -- }}}
 
 local _M = {}

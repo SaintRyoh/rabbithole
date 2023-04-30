@@ -1,5 +1,5 @@
 return setmetatable({}, {
     __constructor = function ()
-        return require("rabbithole.components.wiboxes.modal.modal")
+        return require("rabbithole.services.modal.modal")
     end
 })
