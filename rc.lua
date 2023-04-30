@@ -1,8 +1,14 @@
 -- setup paths, includes things like lua_modules
 require("paths")
 require("main.error-handling")
+require("awful.autofocus")
+require("awful.hotkeys_popup.keys")
 
-Debugger = require("debug")
+-- if AWM_DEBUG set in environment then require debug
+if os.getenv("AWM_DEBUG") then
+    Debugger = require("debug")
+end
+
 
 -- global namespace, on top before require any modules
 RC = {
@@ -35,12 +41,6 @@ RC = {
         end
 
         config.bindings.types.titlebar = "rabbithole.components.wiboxes.titlebar"
-
-        config.singletons.enableAutoFocus = true
-        config.providers.enableAutoFocus = require("awful.autofocus")
-
-        config.singletons.hotKeyKeys = true
-        config.providers.hotKeyKeys = require("awful.hotkeys_popup.keys")
 
         config.enableAutoConfiguration()
 
