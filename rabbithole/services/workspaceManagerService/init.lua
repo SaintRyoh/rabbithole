@@ -3,7 +3,7 @@ local naughty = require("naughty")
 local awful     = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
-local workspaceManager = require("rabbithole.workspaceManager")
+local workspaceManager = require("rabbithole.services.workspaceManagerService.workspaceManager")
 local gears = require("gears")
 local serpent = require("serpent")
 -- local modal = require("rabbithole.components.wiboxes.modal")
@@ -17,12 +17,12 @@ local capi = {
 local WorkspaceManagerService = { }
 WorkspaceManagerService.__index = WorkspaceManagerService
 
-function WorkspaceManagerService.new(rabbithole__components__wibox__modal)
+function WorkspaceManagerService.new(rabbithole__components__wiboxes__modal)
     local self = {}
     setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel = workspaceManager:new()
-    self.modal = rabbithole__components__wibox__modal
+    self.modal = rabbithole__components__wiboxes__modal
 
     -- pause stuff
     self.pauseState = {

@@ -11,7 +11,7 @@ RC = {
         config.bindings.types.workspaceManagerService = "workspaceManagerService"
         config.singletons.workspaceManagerService = true
         config.providers.workspaceManagerService = function()
-            return RC.diModule.getInstance("rabbithole.workspaceManagerService") 
+            return RC.diModule.getInstance("rabbithole.services.workspaceManagerService") 
         end
 
         -- config.singletons.debug = true

@@ -6,7 +6,7 @@
 -- @license MIT
 
 local lodash = require("lodash")
-local workspace = require("rabbithole.workspace")
+local workspace = require("rabbithole.services.workspaceManagerService.workspace")
 
 
 
