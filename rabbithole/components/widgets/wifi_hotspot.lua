@@ -18,7 +18,7 @@ function wifiHotspot.new(args)
 
     self:updateHotspotStatus()
 
-    return self
+    return self.widget
 end
 
 function wifiHotspot:createWidget(args)
