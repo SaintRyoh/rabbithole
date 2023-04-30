@@ -2,7 +2,7 @@
 require("paths")
 require("main.error-handling")
 
-Debugger = require("rabbithole.debug")
+Debugger = require("rabbithole.services.debug.init")
 
 -- global namespace, on top before require any modules
 RC = {
