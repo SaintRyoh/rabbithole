@@ -13,6 +13,9 @@ end
 -- global namespace, on top before require any modules
 RC = {
     diModule = require("sub.lua-di.lua-di.DependencyInjectionModule")(function (config) 
+
+        -- eventually only Services and Settings should be in here.
+
         -- Make workspaceManagerService a singleton
         config.bindings.types.workspaceManagerService = "workspaceManagerService"
         config.singletons.workspaceManagerService = true
@@ -33,8 +36,6 @@ RC = {
             editor = os.getenv("EDITOR") or "nvim",
             editor_cmd = "qterminal -e nvim",
         }
-
-        config.bindings.types.titlebar = "rabbithole.components.wiboxes.titlebar"
 
         config.enableAutoConfiguration()
 

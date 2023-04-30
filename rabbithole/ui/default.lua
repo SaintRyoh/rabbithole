@@ -5,8 +5,7 @@ return setmetatable({}, {
         workspaceManagerService, 
         rabbithole__components__wiboxes__default___bars__left, 
         rabbithole__components__wiboxes__default___bars__center, 
-        rabbithole__components__wiboxes__default___bars__right,
-        rabbithole__systems__wallpaper
+        rabbithole__components__wiboxes__default___bars__right
     )
         awful.screen.connect_for_each_screen(function(s)
 

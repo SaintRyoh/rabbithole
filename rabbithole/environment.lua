@@ -1,3 +1,4 @@
+-- Environments are made out of systems and UIs
 return setmetatable({}, {
     __constructor = function(
        rabbithole__ui__default, 
@@ -5,7 +6,8 @@ return setmetatable({}, {
        rabbithole__systems__client___rules,
        rabbithole__systems__sloppy___focus,
        rabbithole__systems__signals,
-       titlebar
+       rabbithole__systems__titlebar,
+       rabbithole__systems__wallpaper
     )
         return 
     end,
