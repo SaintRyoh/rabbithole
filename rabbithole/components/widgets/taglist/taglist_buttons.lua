@@ -1,7 +1,7 @@
 -- {{{ Required libraries
 local gears = require("gears")
 local awful = require("awful")
-local sharedtags = require("awesome-sharedtags")
+local sharedtags = require("sub.awesome-sharedtags")
 local __ = require("lodash")
 local modal = require("rabbithole.components.wiboxes.modal.modal")
 -- }}}

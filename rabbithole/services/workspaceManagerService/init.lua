@@ -1,7 +1,7 @@
 
 local naughty = require("naughty")
 local awful     = require("awful")
-local sharedtags = require("awesome-sharedtags")
+local sharedtags = require("sub.awesome-sharedtags")
 local __ = require("lodash")
 local workspaceManager = require("rabbithole.services.workspaceManagerService.workspaceManager")
 local gears = require("gears")

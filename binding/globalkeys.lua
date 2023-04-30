@@ -2,7 +2,7 @@
 local gears = require("gears")
 local awful = require("awful")
 
-local sharedtags = require("awesome-sharedtags")
+local sharedtags = require("sub.awesome-sharedtags")
 
 -- local hotkeys_popup = require("awful.hotkeys_popup").widget
 local hotkeys_popup = require("awful.hotkeys_popup")

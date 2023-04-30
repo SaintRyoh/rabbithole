@@ -2,7 +2,7 @@ local naughty = require("naughty")
 local gears = require("gears")
 local serpent = require("serpent")
 local awful = require("awful")
-local dbg = require("debugger.debugger")
+local dbg = require("sub.debugger.debugger")
 local socket = require("socket")
 local debug = {}
 

@@ -6,7 +6,7 @@ Debugger = require("rabbithole.services.debug.init")
 
 -- global namespace, on top before require any modules
 RC = {
-    diModule = require("lua-di.lua-di.DependencyInjectionModule")(function (config) 
+    diModule = require("sub.lua-di.lua-di.DependencyInjectionModule")(function (config) 
         -- Make workspaceManagerService a singleton
         config.bindings.types.workspaceManagerService = "workspaceManagerService"
         config.singletons.workspaceManagerService = true
@@ -47,8 +47,7 @@ RC = {
         config.bindings.types.clientButtons = "binding.clientbuttons"
         config.bindings.types.mainmenu = "main.menu"
         config.bindings.types.globalMouseButtons = "binding.globalbuttons"
-        config.bindings.types.rules = "main.rules"
-        config.bindings.types.statusbar = "deco.statusbar"
+        config.bindings.types.rules = "rabbithole.systems.client-rules"
         config.bindings.types.titlebar = "rabbithole.components.wiboxes.titlebar"
 
         config.singletons.enableAutoFocus = true
