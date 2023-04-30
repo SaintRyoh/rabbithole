@@ -1,9 +1,9 @@
-[submodule "awesome-sharedtags"]
-	path = awesome-sharedtags
-	url = https://github.com/SaintRyoh/awesome-sharedtags.git
-[submodule "debugger"]
-	path = debugger
-	url = https://github.com/slembcke/debugger.lua
-[submodule "lua-di"]
-	path = lua-di
+[submodule "sub/lua-di"]
+	path = sub/lua-di
 	url = https://github.com/SaintRyoh/lua-di
+[submodule "sub/debugger"]
+	path = sub/debugger
+	url = https://github.com/slembcke/debugger.lua
+[submodule "sub/awesome-sharedtags"]
+	path = sub/awesome-sharedtags
+	url = https://github.com/SaintRyoh/awesome-sharedtags.git
