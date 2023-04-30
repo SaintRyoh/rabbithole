@@ -28,10 +28,6 @@ RC = {
             editor_cmd = "qterminal -e nvim",
         }
 
-
-        config.bindings.types.workspaceMenu = "rabbithole.components.widgets.workspace-menu"
-        
-
         -- this is just a taglist function that returns a widget if you give it a screen
         config.bindings.types.taglist = "taglist"
         config.providers.taglist = function()
