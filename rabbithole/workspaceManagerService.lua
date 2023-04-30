@@ -6,7 +6,7 @@ local __ = require("lodash")
 local workspaceManager = require("rabbithole.workspaceManager")
 local gears = require("gears")
 local serpent = require("serpent")
--- local modal = require("rabbithole.wibox.modal")
+-- local modal = require("rabbithole.components.wiboxes.modal")
 
 local capi = {
     screen = screen,
@@ -17,12 +17,12 @@ local capi = {
 local WorkspaceManagerService = { }
 WorkspaceManagerService.__index = WorkspaceManagerService
 
-function WorkspaceManagerService.new(rabbithole__wibox__modal)
+function WorkspaceManagerService.new(rabbithole__components__wibox__modal)
     local self = {}
     setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel = workspaceManager:new()
-    self.modal = rabbithole__wibox__modal
+    self.modal = rabbithole__components__wibox__modal
 
     -- pause stuff
     self.pauseState = {

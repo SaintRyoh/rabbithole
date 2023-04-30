@@ -5,9 +5,9 @@ return setmetatable({}, {
         return function (s)
             local options = {
                 screen = s,
-                placement = awful.placement.top,
+                placement = awful.placement.top_right,
             }
-            return require("rabbithole.wibox.bars.mini-bar")(options)
+            return require("rabbithole.components.wiboxes.bars.mini-bar")(options)
         end
     end
 })
