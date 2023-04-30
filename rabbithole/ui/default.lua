@@ -6,7 +6,7 @@ return setmetatable({}, {
         rabbithole__components__wibox__default___bars__left, 
         rabbithole__components__wibox__default___bars__center, 
         rabbithole__components__wibox__default___bars__right,
-        rabbithole__wallpaper
+        rabbithole__systems__wallpaper
     )
         awful.screen.connect_for_each_screen(function(s)
 
