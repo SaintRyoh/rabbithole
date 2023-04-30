@@ -2,7 +2,7 @@ local __ = require("lodash")
 local awful = require("awful")
 local gears = require("gears")
 local naughty = require("naughty")
-local viewHelper = require("rabbithole.widgets.viewHelper")
+local viewHelper = require("rabbithole.components.widgets.viewHelper")
 
 local _M = {}
 
@@ -16,7 +16,7 @@ function WorkspaceMenuController:new(workspaceManagerService, theme, rabbithole_
 
     self.theme = theme
     self.model = workspaceManagerService
-    self.bindings = viewHelper.load_template(require("rabbithole.widgets.workspace-menu.template"), self)
+    self.bindings = viewHelper.load_template(require("rabbithole.components.widgets.workspace-menu.template"), self)
     self.view = {
         bindings = self.bindings
     }

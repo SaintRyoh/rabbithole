@@ -4,10 +4,10 @@ return setmetatable({}, {
     __constructor = function(
         workspaceManagerService, 
         theme,
-        rabbithole__widgets__tasklist
+        rabbithole__components__widgets__tasklist
     )
         return function (s)
-            return require("rabbithole/widgets/taglist/controller")(workspaceManagerService, s, rabbithole__widgets__tasklist):get_view_widget()
+            return require("rabbithole/components/widgets/taglist/controller")(workspaceManagerService, s, rabbithole__components__widgets__tasklist):get_view_widget()
         end
     end,
 })

@@ -1,7 +1,7 @@
 local awful = require("awful")
-local model = require("rabbithole.widgets.tasklist.model")
-local view = require("rabbithole.widgets.tasklist.view")
-local controller = require("rabbithole.widgets.tasklist.controller")
+local model = require("rabbithole.components.widgets.tasklist.model")
+local view = require("rabbithole.components.widgets.tasklist.view")
+local controller = require("rabbithole.components.widgets.tasklist.controller")
 
 local _M = {}
 

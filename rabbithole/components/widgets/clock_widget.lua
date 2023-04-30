@@ -2,7 +2,7 @@ local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
 local gears = require("gears")
-local systrayWidget = require("rabbithole.widgets.wonderland.systray_widget")
+local systrayWidget = require("rabbithole.components.widgets.wonderland.systray_widget")
 
 local clockWidget = {}
 

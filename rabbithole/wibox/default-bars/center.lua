@@ -1,7 +1,7 @@
 local wibox = require("wibox")
 local awful = require("awful")
 local gears = require("gears")
-local layoutlist_widget = require("rabbithole.widgets.layout_list")
+local layoutlist_widget = require("rabbithole.components.widgets.layout_list")
 
 return setmetatable({}, {
     __constructor = function(taglist, rabbithole__wibox__bars__center)

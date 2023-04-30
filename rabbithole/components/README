@@ -1,0 +1,2 @@
+All Components should return standard awesome data types, or a function that returns a standard awesome data type
+All components must have an init.lua that defines a __constructor for use in DependencyInjectionModule

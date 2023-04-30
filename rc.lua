@@ -32,13 +32,13 @@ RC = {
         }
 
 
-        config.bindings.types.workspaceMenu = "rabbithole.widgets.workspace-menu"
+        config.bindings.types.workspaceMenu = "rabbithole.components.widgets.workspace-menu"
         
 
         -- this is just a taglist function that returns a widget if you give it a screen
         config.bindings.types.taglist = "taglist"
         config.providers.taglist = function()
-            return RC.diModule.getInstance("rabbithole.widgets.taglist")
+            return RC.diModule.getInstance("rabbithole.components.widgets.taglist")
         end
 
         config.bindings.types.layouts = "main.layouts_table"
