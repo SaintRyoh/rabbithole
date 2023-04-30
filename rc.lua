@@ -2,7 +2,7 @@
 require("paths")
 require("main.error-handling")
 
-Debugger = require("rabbithole.services.debug.init")
+Debugger = require("debug")
 
 -- global namespace, on top before require any modules
 RC = {
@@ -13,9 +13,6 @@ RC = {
         config.providers.workspaceManagerService = function()
             return RC.diModule.getInstance("rabbithole.services.workspaceManagerService") 
         end
-
-        -- config.singletons.debug = true
-        -- config.providers.debugger = require("rabbithole.debug")
 
 
         -- Make theme a singleton (so we only call beautiful.init once)
@@ -43,7 +40,6 @@ RC = {
 
         config.bindings.types.layouts = "main.layouts_table"
         config.bindings.types.mainmenu = "main.menu"
-        config.bindings.types.rules = "rabbithole.systems.client-rules"
         config.bindings.types.titlebar = "rabbithole.components.wiboxes.titlebar"
 
         config.singletons.enableAutoFocus = true
