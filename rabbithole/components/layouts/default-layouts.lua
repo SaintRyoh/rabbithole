@@ -1,11 +1,9 @@
--- Standard awesome library
 local awful = require("awful")
-
 -- Table of layouts to cover with awful.layout.inc, order matters.
 return setmetatable({}, {
     __constructor = function ()
         -- TODO - pull this from settings
-        awful.layout.layouts = {
+        return {
             awful.layout.suit.floating,           -- 1:
 
             awful.layout.suit.tile,             -- 2:
@@ -28,6 +26,5 @@ return setmetatable({}, {
             --  awful.layout.suit.corner.sw,
             --  awful.layout.suit.corner.se,
         }
-        return awful.layout.layouts
     end
 })

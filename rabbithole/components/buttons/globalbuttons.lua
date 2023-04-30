@@ -9,14 +9,15 @@ local _M = {}
 
 
 return setmetatable({}, {
-    __constructor = function (mainmenu)
+    __constructor = function (
+        rabbithole__components__menus__main___menu
+    )
         local globalbuttons = gears.table.join(
-                awful.button({ }, 3, function () mainmenu:toggle() end),
+                awful.button({ }, 3, function () rabbithole__components__menus__main___menu:toggle() end),
                 awful.button({ }, 4, awful.tag.viewnext),
                 awful.button({ }, 5, awful.tag.viewprev)
         )
 
-        root.buttons(globalbuttons)
 
         return globalbuttons
     end

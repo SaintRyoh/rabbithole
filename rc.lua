@@ -1,21 +1,27 @@
 -- setup paths, includes things like lua_modules
 require("paths")
 require("main.error-handling")
+require("awful.autofocus")
+require("awful.hotkeys_popup.keys")
 
-Debugger = require("rabbithole.services.debug.init")
+-- if AWM_DEBUG set in environment then require debug
+if os.getenv("AWM_DEBUG") then
+    Debugger = require("debug")
+end
+
 
 -- global namespace, on top before require any modules
 RC = {
     diModule = require("sub.lua-di.lua-di.DependencyInjectionModule")(function (config) 
+
+        -- eventually only Services and Settings should be in here.
+
         -- Make workspaceManagerService a singleton
         config.bindings.types.workspaceManagerService = "workspaceManagerService"
         config.singletons.workspaceManagerService = true
         config.providers.workspaceManagerService = function()
             return RC.diModule.getInstance("rabbithole.services.workspaceManagerService") 
         end
-
-        -- config.singletons.debug = true
-        -- config.providers.debugger = require("rabbithole.debug")
 
 
         -- Make theme a singleton (so we only call beautiful.init once)
@@ -30,31 +36,6 @@ RC = {
             editor = os.getenv("EDITOR") or "nvim",
             editor_cmd = "qterminal -e nvim",
         }
-
-
-        config.bindings.types.workspaceMenu = "rabbithole.components.widgets.workspace-menu"
-        
-
-        -- this is just a taglist function that returns a widget if you give it a screen
-        config.bindings.types.taglist = "taglist"
-        config.providers.taglist = function()
-            return RC.diModule.getInstance("rabbithole.components.widgets.taglist")
-        end
-
-        config.bindings.types.layouts = "main.layouts_table"
-        config.bindings.types.globalKeybindings = "binding.globalkeys"
-        config.bindings.types.clientKeybindings = "binding.clientkeys"
-        config.bindings.types.clientButtons = "binding.clientbuttons"
-        config.bindings.types.mainmenu = "main.menu"
-        config.bindings.types.globalMouseButtons = "binding.globalbuttons"
-        config.bindings.types.rules = "rabbithole.systems.client-rules"
-        config.bindings.types.titlebar = "rabbithole.components.wiboxes.titlebar"
-
-        config.singletons.enableAutoFocus = true
-        config.providers.enableAutoFocus = require("awful.autofocus")
-
-        config.singletons.hotKeyKeys = true
-        config.providers.hotKeyKeys = require("awful.hotkeys_popup.keys")
 
         config.enableAutoConfiguration()
 

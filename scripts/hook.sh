@@ -1,6 +1,7 @@
 #!/usr/scripts/env bash
 
 export LAST_AWESOME_ADDRESS=""
+export AWM_DEBUG=1
 
 start() {
   CONFIG_FILE=$1
