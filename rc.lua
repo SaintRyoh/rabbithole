@@ -49,7 +49,7 @@ RC = {
         config.bindings.types.globalMouseButtons = "binding.globalbuttons"
         config.bindings.types.rules = "main.rules"
         config.bindings.types.statusbar = "deco.statusbar"
-        config.bindings.types.titlebar = "deco.titlebar"
+        config.bindings.types.titlebar = "rabbithole.components.wiboxes.titlebar"
 
         config.singletons.enableAutoFocus = true
         config.providers.enableAutoFocus = require("awful.autofocus")
