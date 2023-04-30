@@ -4,3 +4,6 @@
 [submodule "debugger"]
 	path = debugger
 	url = https://github.com/slembcke/debugger.lua
+[submodule "sub/lua-di"]
+	path = sub/lua-di
+	url = https://github.com/SaintRyoh/lua-di
