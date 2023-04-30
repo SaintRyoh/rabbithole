@@ -2,7 +2,7 @@ local __ = require("lodash")
 local awful = require("awful")
 local gears = require("gears")
 local naughty = require("naughty")
-local viewHelper = require("awesome-workspace-manager.widgets.viewHelper")
+local viewHelper = require("rabbithole.widgets.viewHelper")
 
 local _M = {}
 
@@ -10,19 +10,19 @@ local _M = {}
 local WorkspaceMenuController = { }
 WorkspaceMenuController.__index = WorkspaceMenuController
 
-function WorkspaceMenuController:new(workspaceManagerService, theme, awesome___workspace___manager__wibox__modal)
+function WorkspaceMenuController:new(workspaceManagerService, theme, rabbithole__wibox__modal)
     self = { }
     setmetatable(self, WorkspaceMenuController)
 
     self.theme = theme
     self.model = workspaceManagerService
-    self.bindings = viewHelper.load_template(require("awesome-workspace-manager.widgets.workspace-menu.template"), self)
+    self.bindings = viewHelper.load_template(require("rabbithole.widgets.workspace-menu.template"), self)
     self.view = {
         bindings = self.bindings
     }
     self:set_menu(self:generate_menu())
     self:set_text(self.model:getActiveWorkspace():getName())
-    self.modal = awesome___workspace___manager__wibox__modal
+    self.modal = rabbithole__wibox__modal
 
     workspaceManagerService:subscribeController(self)
 

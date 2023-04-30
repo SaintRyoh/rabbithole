@@ -3,10 +3,10 @@ local naughty = require("naughty")
 local awful     = require("awful")
 local sharedtags = require("awesome-sharedtags")
 local __ = require("lodash")
-local workspaceManager = require("awesome-workspace-manager.workspaceManager")
+local workspaceManager = require("rabbithole.workspaceManager")
 local gears = require("gears")
 local serpent = require("serpent")
--- local modal = require("awesome-workspace-manager.wibox.modal")
+-- local modal = require("rabbithole.wibox.modal")
 
 local capi = {
     screen = screen,
@@ -17,12 +17,12 @@ local capi = {
 local WorkspaceManagerService = { }
 WorkspaceManagerService.__index = WorkspaceManagerService
 
-function WorkspaceManagerService.new(awesome___workspace___manager__wibox__modal)
+function WorkspaceManagerService.new(rabbithole__wibox__modal)
     local self = {}
     setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel = workspaceManager:new()
-    self.modal = awesome___workspace___manager__wibox__modal
+    self.modal = rabbithole__wibox__modal
 
     -- pause stuff
     self.pauseState = {
@@ -39,7 +39,7 @@ function WorkspaceManagerService.new(awesome___workspace___manager__wibox__modal
 
 
     -- load sesison
-    self.path = gears.filesystem.get_configuration_dir() .. "/awesome-workspace-manager/session.dat"
+    self.path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat"
 
     local status, err = pcall(function ()
         self:loadSession() 

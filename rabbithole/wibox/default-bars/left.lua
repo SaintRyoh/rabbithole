@@ -1,9 +1,9 @@
 local wibox = require("wibox")
 
 return setmetatable({}, {
-    __constructor = function(workspaceMenu, awesome___workspace___manager__wibox__bars__left)
+    __constructor = function(workspaceMenu, rabbithole__wibox__bars__left)
         return function(s)
-            awesome___workspace___manager__wibox__bars__left(s):setup {
+            rabbithole__wibox__bars__left(s):setup {
                 layout = wibox.layout.align.horizontal,
                 workspaceMenu
             }

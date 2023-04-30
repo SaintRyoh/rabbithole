@@ -6,7 +6,7 @@
 -- @license MIT
 
 local lodash = require("lodash")
-local workspace = require("awesome-workspace-manager.workspace")
+local workspace = require("rabbithole.workspace")
 
 
 

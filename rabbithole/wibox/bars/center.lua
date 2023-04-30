@@ -7,7 +7,7 @@ return setmetatable({}, {
                 screen = s,
                 placement = awful.placement.top,
             }
-            return require("awesome-workspace-manager.wibox.bars.mini-bar")(options)
+            return require("rabbithole.wibox.bars.mini-bar")(options)
         end
     end
 })

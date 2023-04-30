@@ -1,7 +1,7 @@
 local awful = require("awful")
-local model = require("awesome-workspace-manager.widgets.tasklist.model")
-local view = require("awesome-workspace-manager.widgets.tasklist.view")
-local controller = require("awesome-workspace-manager.widgets.tasklist.controller")
+local model = require("rabbithole.widgets.tasklist.model")
+local view = require("rabbithole.widgets.tasklist.view")
+local controller = require("rabbithole.widgets.tasklist.controller")
 
 local _M = {}
 
@@ -15,10 +15,10 @@ end
 
 return setmetatable({}, {
     __constructor = function(
-        awesome___workspace___manager__menus__tasklistmenu
+        rabbithole__menus__tasklistmenu
     )
         return function(screen, tag)
-            return _M.create(screen, tag, awesome___workspace___manager__menus__tasklistmenu)
+            return _M.create(screen, tag, rabbithole__menus__tasklistmenu)
         end
     end
 })

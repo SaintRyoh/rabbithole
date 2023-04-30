@@ -1,10 +1,10 @@
 local __                      = require("lodash")
 local awful                   = require("awful")
 local wibox                   = require("wibox")
-local get_update_function     = require("awesome-workspace-manager.widgets.taglist.update_function")
-local taglistButtons          = require("awesome-workspace-manager.widgets.taglist.taglist_buttons")
-local local_taglist_template  = require("awesome-workspace-manager.widgets.taglist.template_local")
-local global_taglist_template = require("awesome-workspace-manager.widgets.taglist.template_global")
+local get_update_function     = require("rabbithole.widgets.taglist.update_function")
+local taglistButtons          = require("rabbithole.widgets.taglist.taglist_buttons")
+local local_taglist_template  = require("rabbithole.widgets.taglist.template_local")
+local global_taglist_template = require("rabbithole.widgets.taglist.template_global")
 local beautiful               = require("beautiful")
 local common                  = require("awful.widget.common")
 
@@ -15,13 +15,13 @@ local TaglistController = {}
 TaglistController.__index = TaglistController
 
 function TaglistController.new(workspaceManagerService, s, tasklist)
-    local taglist_menu          = require("awesome-workspace-manager.widgets.taglist.taglistmenu")(
+    local taglist_menu          = require("rabbithole.widgets.taglist.taglistmenu")(
     workspaceManagerService)
-    local globaltaglist_menu    = require("awesome-workspace-manager.widgets.taglist.globaltaglistmenu")(
+    local globaltaglist_menu    = require("rabbithole.widgets.taglist.globaltaglistmenu")(
     workspaceManagerService)
     local taglist_buttons       = taglistButtons(taglist_menu, workspaceManagerService)
     local globaltaglist_buttons = taglistButtons(globaltaglist_menu)
-    local plusButton            = require("awesome-workspace-manager.widgets.taglist.plus_button")(
+    local plusButton            = require("rabbithole.widgets.taglist.plus_button")(
     workspaceManagerService)
     -- globe icon for global tag widget
     local icon_path             = awful.util.getdir("config") .. "/src/assets/icons/rabbithole/global.svg"

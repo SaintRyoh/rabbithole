@@ -2,7 +2,7 @@
 require("paths")
 require("main.error-handling")
 
-Debugger = require("awesome-workspace-manager.debug")
+Debugger = require("rabbithole.debug")
 
 -- global namespace, on top before require any modules
 RC = {
@@ -11,15 +11,15 @@ RC = {
         config.bindings.types.workspaceManagerService = "workspaceManagerService"
         config.singletons.workspaceManagerService = true
         config.providers.workspaceManagerService = function()
-            return RC.diModule.getInstance("awesome-workspace-manager.workspaceManagerService") 
+            return RC.diModule.getInstance("rabbithole.workspaceManagerService") 
         end
 
         -- config.singletons.debug = true
-        -- config.providers.debugger = require("awesome-workspace-manager.debug")
+        -- config.providers.debugger = require("rabbithole.debug")
 
 
         -- Make theme a singleton (so we only call beautiful.init once)
-        config.bindings.types.theme = "awesome-workspace-manager.theme"
+        config.bindings.types.theme = "rabbithole.theme"
         config.singletons.theme = true
 
 
@@ -32,13 +32,13 @@ RC = {
         }
 
 
-        config.bindings.types.workspaceMenu = "awesome-workspace-manager.widgets.workspace-menu"
+        config.bindings.types.workspaceMenu = "rabbithole.widgets.workspace-menu"
         
 
         -- this is just a taglist function that returns a widget if you give it a screen
         config.bindings.types.taglist = "taglist"
         config.providers.taglist = function()
-            return RC.diModule.getInstance("awesome-workspace-manager.widgets.taglist")
+            return RC.diModule.getInstance("rabbithole.widgets.taglist")
         end
 
         config.bindings.types.layouts = "main.layouts_table"
@@ -62,4 +62,4 @@ RC = {
     end),
 } 
 
-RC.environment = RC.diModule.getInstance("awesome-workspace-manager.environment")
+RC.environment = RC.diModule.getInstance("rabbithole.environment")

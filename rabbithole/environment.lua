@@ -1,6 +1,6 @@
 return setmetatable({}, {
     __constructor = function(
-       awesome___workspace___manager__ui__default, 
+       rabbithole__ui__default, 
         layouts, 
         globalKeybindings, 
         clientKeybindings, 

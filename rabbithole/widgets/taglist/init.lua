@@ -4,10 +4,10 @@ return setmetatable({}, {
     __constructor = function(
         workspaceManagerService, 
         theme,
-        awesome___workspace___manager__widgets__tasklist
+        rabbithole__widgets__tasklist
     )
         return function (s)
-            return require("awesome-workspace-manager/widgets/taglist/controller")(workspaceManagerService, s, awesome___workspace___manager__widgets__tasklist):get_view_widget()
+            return require("rabbithole/widgets/taglist/controller")(workspaceManagerService, s, rabbithole__widgets__tasklist):get_view_widget()
         end
     end,
 })
