@@ -3,6 +3,7 @@ local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 local __ = require("lodash")
+local viewHelper = require("rabbithole.components.viewHelper")
 -- }}}
 
 local _M = {}
@@ -13,12 +14,13 @@ local _M = {}
 local TasklistMenuController = { }
 TasklistMenuController.__index = TasklistMenuController
 
-function TasklistMenuController:new(workspaceManagerService)
+function TasklistMenuController:new(workspaceManagerService, c)
     self = {}
     setmetatable(self, TasklistMenuController)
 
     self.workspaceManagerService = workspaceManagerService
-    self.tasklist_menu = self:generate_menu()
+    self.tasklist_menu = self:updateMenu(c)
+
 
     return self
 end
@@ -50,23 +52,23 @@ end
 
 
 function TasklistMenuController:updateMenu(c)
-    self.tasklist_menu:hide()
+    if self.tasklist_menu then
+        self.tasklist_menu:hide()
+    end
     self.tasklist_menu = self:generate_menu(c)
+    self.tasklist_menu.toggle = viewHelper.decorate_method(self.tasklist_menu.toggle, function()
+        self:updateMenu(c)
+    end)
+    return self.tasklist_menu
 end
 
-
-
-function _M.get(workspaceManagerService)
-    local wmc = TasklistMenuController:new(workspaceManagerService)
-
-    return wmc
-
-end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 return setmetatable({}, {
     __constructor = function(workspaceManagerService)
-        return _M.get(workspaceManagerService)
+        return function(c)
+            return TasklistMenuController:new(workspaceManagerService, c).tasklist_menu
+        end
     end,
 })

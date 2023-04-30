@@ -15,7 +15,7 @@ return setmetatable({}, {
     __constructor = function(rabbithole__components__menus__tasklistmenu)
         -- Add a titlebar if titlebars_enabled is set to true in the rules.
         client.connect_signal("request::titlebars", function(c)
-            local tasklistmenu = rabbithole__components__menus__tasklistmenu
+            local tasklistmenu = rabbithole__components__menus__tasklistmenu(c)
             -- buttons for the titlebar
             local buttons = gears.table.join(
                     awful.button({ }, 1, function()
@@ -27,8 +27,8 @@ return setmetatable({}, {
                         awful.mouse.client.resize(c)
                     end),
                     awful.button({ }, 3, function()
-                        tasklistmenu:updateMenu(c)
-                        tasklistmenu.tasklist_menu:toggle()
+                        -- tasklistmenu:updateMenu(c)
+                        tasklistmenu:toggle()
                     end)
             )
 

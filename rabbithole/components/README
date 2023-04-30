@@ -1,3 +1,3 @@
+Components are made of services, wiboxes and widgets
 All Components should return standard awesome data types (or list of types), or a function that returns a standard awesome data type(or list of types)
 All components must have an init.lua that defines a __constructor for use in DependencyInjectionModule
-Components use services, and have a visual component
