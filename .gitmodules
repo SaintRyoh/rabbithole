@@ -4,3 +4,6 @@
 [submodule "sub/debugger"]
 	path = sub/debugger
 	url = https://github.com/slembcke/debugger.lua
+[submodule "sub/awesome-sharedtags"]
+	path = sub/awesome-sharedtags
+	url = https://github.com/SaintRyoh/awesome-sharedtags.git
