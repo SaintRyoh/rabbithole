@@ -20,10 +20,10 @@ local _M = {}
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 return setmetatable({}, {
-    __constructor = function(workspaceManagerService, settings, mainmenu)
+    __constructor = function(workspaceManagerService, settings, rabbithole__components__menus__main___menu)
         -- Resource Configuration
         local modkey = settings.modkey
-        local mainmenu = mainmenu
+        local mainmenu = rabbithole__components__menus__main___menu
         local terminal = settings.terminal
         local globalkeys = gears.table.join(
             awful.key({ modkey, }, "s", hotkeys_popup.show_help,

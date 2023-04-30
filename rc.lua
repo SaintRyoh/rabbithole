@@ -38,7 +38,6 @@ RC = {
             return RC.diModule.getInstance("rabbithole.components.widgets.taglist")
         end
 
-        config.bindings.types.mainmenu = "main.menu"
         config.bindings.types.titlebar = "rabbithole.components.wiboxes.titlebar"
 
         config.singletons.enableAutoFocus = true
