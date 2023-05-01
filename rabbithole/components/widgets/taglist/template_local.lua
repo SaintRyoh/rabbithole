@@ -16,8 +16,8 @@ return function (controller)
                 widget = wibox.container.margin,
                 top = dpi(4),
                 bottom = dpi(4),
-                left = dpi(4),
-                right = (4),
+                left = dpi(2),
+                right = dpi(2),
                 {
                     widget = wibox.container.background,
                     shape = function(cr, width, height)

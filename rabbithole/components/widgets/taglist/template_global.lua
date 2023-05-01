@@ -31,8 +31,8 @@ return function (controller)
                         border_width = 2,
                         {
                             widget = wibox.container.margin,
-                            left = 4,
-                            right = 4,
+                            left = dpi(2),
+                            right = dpi(2),
                             {
                                 id     = 'text_role',
                                 widget = wibox.widget.textbox,
