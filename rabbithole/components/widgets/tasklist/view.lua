@@ -2,6 +2,7 @@ local wibox = require("wibox")
 local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
 
 local _M = {}
 local generate_filter = function(t)
@@ -33,8 +34,8 @@ function _M.create(tasklist_buttons, s, tag)
                             {
                                 id = "clienticon",
                                 widget = wibox.widget.imagebox,
-                                forced_width = 24,
-                                forced_height = 24,
+                                forced_width = dpi(12),
+                                forced_height = dpi(12),
                             },
                             widget = wibox.container.margin,
                             margins = 3,
