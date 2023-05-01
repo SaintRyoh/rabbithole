@@ -22,7 +22,7 @@ function MiniBar.new(options)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
     })
-    minibar:struts{top = dpi(30)}
+    minibar:struts{top = dpi(34)}
 
     return minibar
 end
