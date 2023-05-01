@@ -65,6 +65,12 @@ function TaglistController.new(workspaceManagerService, s, tasklist)
     self.taglist_layout = wibox.layout {
         layout = wibox.layout.fixed.horizontal,
         self.my_global_workspace_taglist,
+        wibox.widget.separator({
+            orientation = 'vertical',
+            forced_width = 4,
+            opacity = 0.5,
+            widget = wibox.widget.separator
+        }),
         self.my_local_workspace_taglist,
         plusButton
     }
