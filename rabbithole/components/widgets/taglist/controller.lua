@@ -118,7 +118,6 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     end)
     tag_template:get_children_by_id('text_role')[1]:connect_signal('widget::redraw_needed', function(w)
         local t = tag
-        -- Debugger.dbg()
         t.name = w.text
     end)
 end

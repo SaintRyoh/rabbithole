@@ -39,7 +39,8 @@ return function (controller)
                                 layout = wibox.layout.fixed.horizontal,
                                 {
                                     id     = 'text_role',
-                                    widget = function () return editable_textbox.new():get_widget() end,
+                                    -- widget = function () return editable_textbox.new():get_widget() end,
+                                    widget = wibox.widget.textbox,
                                 },
                                 {
                                     id = "icon_container",

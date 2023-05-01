@@ -10,11 +10,11 @@ function editable_textbox.new(args)
     self.args = args or {}
 
     self.textbox = wibox.widget.textbox()
-    self.textbox:set_markup(self.args.text or "Double-click to edit")
-
 
     self.last_click_time = 0
     self.double_click_threshold = self.args.double_click_threshold or 0.5
+    self.debounce_duration = self.args.debounce_duration or 0.2
+    self.debounce_timer = gears.timer()
 
     self.double_click_callback = function()
         self:check_double_click()
@@ -28,7 +28,7 @@ function editable_textbox.new(args)
 end
 
 function editable_textbox:start_editing()
-    local edit_prompt = self.args.edit_prompt or "Name: "
+    local edit_prompt = self.args.edit_prompt or "Edit: "
     local backup = self.textbox.text
     awful.prompt.run {
         prompt = edit_prompt,
@@ -48,11 +48,18 @@ function editable_textbox:start_editing()
 end
 
 function editable_textbox:check_double_click()
-    -- Debugger.dbg()
     local current_time = os.clock()
     if current_time - self.last_click_time < self.double_click_threshold then
-        self.textbox:disconnect_signal("button::press", self.double_click_callback )
-        self.textbox:connect_signal("button::press", self.start_editing_callback)
+        -- Debugger.dbg()
+        if not self.debounce_timer.started then
+            self.debounce_timer.timeout = self.debounce_duration
+            self.debounce_timer:connect_signal("timeout", function()
+                self.debounce_timer:stop()
+                self.textbox:disconnect_signal("button::press", self.double_click_callback )
+                self.textbox:connect_signal("button::press", self.start_editing_callback)
+            end)
+            self.debounce_timer:start()
+        end
     else
         self.last_click_time = current_time
     end
