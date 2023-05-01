@@ -8,14 +8,14 @@ return function (controller)
         id     = 'background_role',
         widget = wibox.container.background,
         {
-            left  = 3,
-            right = 18,
+            left  = dpi(3),
+            right = dpi(3),
             widget = wibox.container.margin,
             {
                 layout = wibox.layout.fixed.horizontal,
                 {
                     widget = wibox.container.margin,
-                    left = 5,
+                    left = dpi(2),
                 },
                 {
                     widget = wibox.container.margin,
@@ -27,8 +27,6 @@ return function (controller)
                             gears.shape.rounded_rect(cr, width, height, 8)
                         end,
                         bg = beautiful.bg_normal,
-                        border_color = "#FFFFFF",
-                        border_width = 2,
                         {
                             widget = wibox.container.margin,
                             left = dpi(2),
