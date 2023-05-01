@@ -1,6 +1,7 @@
 local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
 
 return function (controller)
     return {
@@ -13,10 +14,10 @@ return function (controller)
             layout = wibox.layout.fixed.horizontal,
             {
                 widget = wibox.container.margin,
-                top = 8,
-                bottom = 8,
-                left = 4,
-                right = 4,
+                top = dpi(4),
+                bottom = dpi(4),
+                left = dpi(4),
+                right = (4),
                 {
                     widget = wibox.container.background,
                     shape = function(cr, width, height)
