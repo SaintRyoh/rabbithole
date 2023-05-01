@@ -21,7 +21,7 @@ function _M.create(tasklist_buttons, s, tag)
     return wibox.widget {
         {
             widget = wibox.container.margin,
-            left = 5,
+            left = dpi( 5 ),
         },
         {
             awful.widget.tasklist({
@@ -34,11 +34,11 @@ function _M.create(tasklist_buttons, s, tag)
                             {
                                 id = "clienticon",
                                 widget = wibox.widget.imagebox,
-                                forced_width = dpi(12),
-                                forced_height = dpi(12),
+                                -- forced_width = dpi( 24 ),
+                                -- forced_height = dpi( 24 ),
                             },
                             widget = wibox.container.margin,
-                            margins = 3,
+                            margins = dpi( 3 ),
                         },
                         id = 'background_role',
                         widget = wibox.container.background,
