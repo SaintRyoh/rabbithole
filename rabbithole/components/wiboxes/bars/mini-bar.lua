@@ -11,8 +11,8 @@ function MiniBar.new(options)
         widget = options.widget or wibox.container.background,
         ontop = false,
         visible = true,
-        maximum_height = dpi(30),
-        minimum_height = dpi(30),
+        maximum_height = dpi(34),
+        minimum_height = dpi(34),
         placement = function(c)
             options.placement(c, {
                 margins = dpi(2)
