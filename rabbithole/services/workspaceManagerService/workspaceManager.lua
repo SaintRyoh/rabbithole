@@ -77,7 +77,7 @@ function workspaceManager:switchTo(workspace)
     self:setStatusForAllWorkspaces(false)
     self.global_workspace:unselectAllTags()
     workspace:setStatus(true)
-    workspace:restoreGlobalBackup()
+    active_workspace:restoreGlobalBackup()
 end
 
 -- create a __serialize method to allow for serialization
