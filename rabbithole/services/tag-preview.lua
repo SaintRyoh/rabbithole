@@ -1,4 +1,4 @@
-Module = {}
+local Module = {}
 Module.__index = Module
 
 function Module.new()
