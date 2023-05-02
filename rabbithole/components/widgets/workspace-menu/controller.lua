@@ -138,16 +138,13 @@ function WorkspaceMenuController:remove_workspace(workspace)
         })
         return
     end
+    Debugger.dbg()
 
     self.model:removeWorkspace(workspace)
 
     -- regenerate menu
     self:updateMenu()
 
-    naughty.notify({
-        title="removed workspace",
-        timeout=5
-    })
 end
 
 function WorkspaceMenuController:add_workspace()
