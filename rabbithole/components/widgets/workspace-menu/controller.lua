@@ -10,8 +10,8 @@ local _M = {}
 local WorkspaceMenuController = { }
 WorkspaceMenuController.__index = WorkspaceMenuController
 
-function WorkspaceMenuController:new(workspaceManagerService, theme, rabbithole__services__modal)
-    self = { }
+function WorkspaceMenuController.new(workspaceManagerService, theme, rabbithole__services__modal)
+    local self = { }
     setmetatable(self, WorkspaceMenuController)
 
     self.theme = theme
@@ -97,6 +97,7 @@ function WorkspaceMenuController:switch_to(workspace)
 end
 
 function WorkspaceMenuController:updateMenu()
+    -- Debugger.dbg()
     self:set_menu(self:generate_menu())
     self:set_text(self.model:getActiveWorkspace():getName())
 end
@@ -155,8 +156,8 @@ function WorkspaceMenuController:add_workspace()
 end
 
 
-function _M.get(workspaceManagerService, theme)
-    return WorkspaceMenuController:new(workspaceManagerService, theme)
+function _M.get(workspaceManagerService, theme, modal)
+    return WorkspaceMenuController.new(workspaceManagerService, theme, modal)
 end
 
-return setmetatable({}, { __call = function(_, workspaceManagerService, theme) return _M.get(workspaceManagerService, theme) end })
+return setmetatable({}, { __call = function(_, workspaceManagerService, theme, modal) return _M.get(workspaceManagerService, theme, modal) end })

@@ -10,8 +10,7 @@ function workspace:new(name, tags)
 
     self.name = name or nil
     self.tags = tags or {}
-    math.randomseed(os.time())
-    self.id = math.random(1000000)
+    self.id = math.random(1,1000000)
 
     self.last_selected_tags = {}
 

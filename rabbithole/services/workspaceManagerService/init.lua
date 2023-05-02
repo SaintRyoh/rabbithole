@@ -437,7 +437,7 @@ function WorkspaceManagerService:getAllActiveWorkspaces()
 end
 
 function WorkspaceManagerService:getActiveWorkspace()
-    return __.first(self:getAllActiveWorkspaces() or __.first(self:getAllWorkspaces()))
+    return __.first(self:getAllActiveWorkspaces()) or __.first(self:getAllWorkspaces())
 end
 
 function WorkspaceManagerService:getAllUnactiveWorkspaces()
