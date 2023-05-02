@@ -9,4 +9,4 @@
 	url = https://github.com/SaintRyoh/awesome-sharedtags.git
 [submodule "sub/bling"]
 	path = sub/bling
-	url = https://github.com/BlingCorp/bling
+	url = https://github.com/SaintRyoh/bling
