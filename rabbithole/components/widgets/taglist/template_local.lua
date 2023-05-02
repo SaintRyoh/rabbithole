@@ -20,6 +20,7 @@ return function (controller)
                 left = dpi(2),
                 right = dpi(2),
                 {
+                    id = "background_role",
                     widget = wibox.container.background,
                     shape = function(cr, width, height)
                         gears.shape.rounded_rect(cr, width, height, 8)
