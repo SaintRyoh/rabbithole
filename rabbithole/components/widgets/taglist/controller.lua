@@ -14,7 +14,7 @@ local common                  = require("awful.widget.common")
 local TaglistController = {}
 TaglistController.__index = TaglistController
 
-function TaglistController.new(workspaceManagerService, s, tasklist)
+function TaglistController.new(workspaceManagerService, s, tasklist, tagPreview)
     local taglist_menu          = require("rabbithole.components.widgets.taglist.taglistmenu")(
     workspaceManagerService)
     local globaltaglist_menu    = require("rabbithole.components.widgets.taglist.globaltaglistmenu")(
@@ -34,6 +34,7 @@ function TaglistController.new(workspaceManagerService, s, tasklist)
     self.workspaceManagerService = workspaceManagerService
     self.screen = s
     self.getTasklist = tasklist
+    self.tagPreview = tagPreview
 
     local global_taglist_layout = wibox.layout.fixed.horizontal()
 
@@ -112,18 +113,11 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     self:add_client_bubbles(tag_template, tag)
     tag_template:connect_signal('mouse::enter', function()
         tag_template.bg = beautiful.taglist_bg_focus
-                -- BLING: Only show widget when there are clients in the tag
-                if #tag:clients() > 0 then
-                    -- BLING: Update the widget with the new tag
-                    awesome.emit_signal("bling::tag_preview::update", tag)
-                    -- BLING: Show the widget
-                    awesome.emit_signal("bling::tag_preview::visibility", self.screen, true)
-                end
+        self.tagPreview.show(tag, self.screen)
     end)
     tag_template:connect_signal('mouse::leave', function()
         tag_template.bg = self:set_tag_template_bg(tag)
-        -- BLING: Turn the widget off
-        awesome.emit_signal("bling::tag_preview::visibility", self.screen, false)
+        self.tagPreview.hide(tag, self.screen)
     end)
     tag_template:get_children_by_id('text_role')[1]:connect_signal('widget::redraw_needed', function(w)
         local t = tag
@@ -138,7 +132,7 @@ function TaglistController:update_tag_callback(tag_template, tag, index, objects
 end
 
 return setmetatable(TaglistController, {
-    __call = function(self, workspaceManagerService, s, tasklist)
-        return self.new(workspaceManagerService, s, tasklist)
+    __call = function(self, workspaceManagerService, s, tasklist, tagPreview)
+        return self.new(workspaceManagerService, s, tasklist, tagPreview)
     end
 })
