@@ -6,7 +6,7 @@ local editable_textbox = require("rabbithole.components.widgets.editable-textbox
 return function (controller)
     return
     {
-        -- id     = 'background_role',
+        id     = 'background_role',
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
