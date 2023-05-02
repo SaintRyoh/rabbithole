@@ -36,7 +36,7 @@ local function darken_color(hex_color, percent)
 end
 
 local theme = {}
-theme.wallpaper = themes_path .. "rabbithole/mushroom_forest.jpg"
+theme.wallpaper = themes_path .. "rabbithole/wallpapers/whitelion.jpg"
 
 theme.font = "Ubuntu 8"
 
