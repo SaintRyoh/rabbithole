@@ -87,7 +87,7 @@ end
 
 -- set tag background color
 function TaglistController:set_tag_template_bg(tag)
-    if tag.selected then
+    if tag.selected and tag.screen == self.screen then
         return beautiful.taglist_bg_focus
     else
         return beautiful.taglist_bg_normal
@@ -113,7 +113,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     self:update_index(tag_template, index)
     self:add_client_bubbles(tag_template, tag)
     local hover_timer = gears.timer {
-        timeout = 1,
+        timeout = 0.5,
         autostart = false,
         callback = function()
             self.tagPreview.show(tag, self.screen)
