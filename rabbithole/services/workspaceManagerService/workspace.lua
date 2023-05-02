@@ -4,13 +4,14 @@ local gears = require("gears")
 local workspace = { }
 workspace.__index = workspace
 
-function workspace:new(name, tags)
+function workspace:new(name, tags, activated)
     self = {}
     setmetatable(self, workspace)
 
     self.name = name or nil
     self.tags = tags or {}
     self.id = math.random(1,1000000)
+    self.activated = activated or false
 
     self.last_selected_tags = {}
 
@@ -69,6 +70,7 @@ function workspace:setStatus(status)
         lodash.forEach(self.last_selected_tags, function(tag) tag.selected=true  end)
         self.last_selected_tags = {}
     end
+    self.activated = status
 end
 
 -- get selected tags
@@ -88,7 +90,7 @@ end
 
 
 function workspace:getStatus()
-    return lodash.every(self.tags, function (tag) return tag.activated end)
+    return self.activated --lodash.every(self.tags, function (tag) return tag.activated end)
 end
 
 function workspace:isEmpty()

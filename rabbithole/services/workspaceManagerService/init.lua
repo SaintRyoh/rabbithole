@@ -190,6 +190,9 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
         end
 
         workspace:addTag(tag)
+        if __.every(workspace:getAllTags(), function(t) return t.activated end) then
+            workspace.activated = true
+        end
         return coroutine.create(function()
             -- dump tag
             self:restoreClientsForTag(tag, tag_definition.clients)
@@ -462,7 +465,7 @@ function WorkspaceManagerService:setStatusForAllWorkspaces(status)
 end
 
 function WorkspaceManagerService:pauseService()
-    self.pauseState.activeWorkspaces = self:getAllActiveWorkspaces()
+    self.pauseState.activeWorkspaces = self:getAllActiveWorkspaces() 
 
     self:setStatusForAllWorkspaces(true)
 end
