@@ -26,8 +26,19 @@ function WorkspaceMenuController:new(workspaceManagerService, theme, rabbithole_
 
     workspaceManagerService:subscribeController(self)
 
+    self.view.bindings.root:connect_signal("mouse::enter", function()
+        self.view.bindings.root.bg = theme.bg_focus
+        self.view.bindings.workspace_name_container.bg = theme.bg_focus
+    end)
+
+    self.view.bindings.root:connect_signal("mouse::leave", function()
+        self.view.bindings.root.bg = theme.bg_normal
+        self.view.bindings.workspace_name_container.bg = theme.bg_normal
+    end)
+
     return self
 end
+
 
 -- update the menu
 function WorkspaceMenuController:update()

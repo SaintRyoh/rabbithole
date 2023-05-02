@@ -56,15 +56,17 @@ function _M.get(controller)
                     widget = wibox.container.margin,
                     left = 5, -- Adjust this value for desired padding
                 },
+                -- Workspace name container
                 {
-                    -- workspace name container
                     widget = wibox.container.background,
                     bg = beautiful.bg_normal,
                     {
                         widget = wibox.widget.textbox,
                         bind = "workspace_name",
                     },
+                    bind = "workspace_name_container"
                 },
+
                 {
                     widget = wibox.container.rotate,
                     direction = "north",
