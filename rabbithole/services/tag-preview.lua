@@ -1,4 +1,12 @@
 Module = {}
+Module.__index = Module
+
+function Module.new()
+    local self = {}
+    setmetatable(self, Module)
+
+    return self
+end
 
 function Module.show(tag, screen)
     -- BLING: Only show widget when there are clients in the tag
@@ -10,13 +18,9 @@ function Module.show(tag, screen)
     end
 end
 
-function Module.hide(tag, screen)
+function Module.hide(screen)
     -- BLING: Turn the widget off
     awesome.emit_signal("bling::tag_preview::visibility", screen, false)
 end
 
-return setmetatable(Module, {
-    __constructor = function()
-        return Module
-    end
-})
+return Module
