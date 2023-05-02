@@ -59,6 +59,7 @@ function _M.create(tasklist_buttons, s, tag)
                         self:connect_signal('mouse::leave', function()
                             self:get_children_by_id('background_role')[1]:set_bg('#00000000')
                             self:get_children_by_id('background_role')[1]:set_fg('#00000000')
+                            c:emit_signal("request::activate", "mouse_leave", {raise = false})
                         end)
 
                         awful.tooltip({
