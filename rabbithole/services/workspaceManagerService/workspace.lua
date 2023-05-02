@@ -88,6 +88,7 @@ end
 
 
 function workspace:getStatus()
+    if #self.tags == 0 then return false end
     return lodash.every(self.tags, function (tag) return tag.activated end)
 end
 

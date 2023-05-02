@@ -128,6 +128,19 @@ theme.titlebar_maximized_button_normal_active = themes_path .. "rabbithole/title
 theme.titlebar_maximized_button_focus_inactive = themes_path .. "rabbithole/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_inactive = themes_path .. "rabbithole/titlebar/maximized_normal_inactive.png"
 
+theme.notification_bg = "#3F3F3F"
+theme.notification_fg = "#FFFFFF"
+theme.notification_border_color = "#3F3F3F"
+theme.notification_border_width = dpi(1)
+theme.notification_shape = gears.shape.rounded_rect
+theme.notification_opacity = 1
+theme.notification_margin = dpi(10)
+theme.notification_font = "sans 12"
+theme.notification_icon_size = dpi(80)
+theme.notification_max_width = dpi(600)
+theme.notification_max_height = dpi(400)
+
+
 -- Set window corner rounding to 5px
 client.connect_signal("property::size", function(c)
     gears.surface.apply_shape_bounding(c, gears.shape.rounded_rect, 10)
