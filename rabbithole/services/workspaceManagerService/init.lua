@@ -25,9 +25,7 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     self.modal = rabbithole__services__modal
 
     -- pause stuff
-    self.pauseState = {
-        activeWorkspace = nil
-    }
+    self.pauseState = nil
 
     self.unpauseServiceHelper = function ()
         self:unpauseService()
@@ -79,6 +77,7 @@ end
 function WorkspaceManagerService:newSession()
     self.workspaceManagerModel:deleteAllWorkspaces()
     local workspace = self.workspaceManagerModel:createWorkspace()
+    workspace:setStatus(true)
     self:switchTo(workspace)
     self:saveSession()
 end
@@ -465,18 +464,16 @@ function WorkspaceManagerService:setStatusForAllWorkspaces(status)
 end
 
 function WorkspaceManagerService:pauseService()
-    self.pauseState.activeWorkspace = self:getActiveWorkspace() 
+    self.pauseState = self:getActiveWorkspace() 
 
     self:setStatusForAllWorkspaces(true)
 end
 
 function WorkspaceManagerService:unpauseService()
+    capi.awesome.disconnect_signal("refresh", self.unpauseServiceHelper)
     self:setStatusForAllWorkspaces(false)
-    if self.pausestate.activeworkspace then
-        self.pauseState.activeWorkspace:setStatus(true)
-    end
-    self.pausestate.activeworkspace = nil
-    capi.awesome.disconnect_signal("property::client", self.unpauseServiceHelper)
+    self.pauseState:setStatus(true)
+    self.pauseState = nil
 end
 
 function WorkspaceManagerService:screenDisconnectUpdate(s)
@@ -517,7 +514,7 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
     end
 
     -- let all the other events play out the unpause service
-    capi.awesome.connect_signal("property::client", self.unpauseServiceHelper)
+    capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
 end
 
