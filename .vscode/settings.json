@@ -4,6 +4,7 @@
         "screen",
         "root",
         "awesome",
-        "client"
+        "client",
+        "mouse"
     ]
 }

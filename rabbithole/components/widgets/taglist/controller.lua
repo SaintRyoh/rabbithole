@@ -112,9 +112,18 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     self:add_client_bubbles(tag_template, tag)
     tag_template:connect_signal('mouse::enter', function()
         tag_template.bg = beautiful.taglist_bg_focus
+                -- BLING: Only show widget when there are clients in the tag
+                if #tag:clients() > 0 then
+                    -- BLING: Update the widget with the new tag
+                    awesome.emit_signal("bling::tag_preview::update", tag)
+                    -- BLING: Show the widget
+                    awesome.emit_signal("bling::tag_preview::visibility", self.screen, true)
+                end
     end)
     tag_template:connect_signal('mouse::leave', function()
         tag_template.bg = self:set_tag_template_bg(tag)
+        -- BLING: Turn the widget off
+        awesome.emit_signal("bling::tag_preview::visibility", self.screen, false)
     end)
     tag_template:get_children_by_id('text_role')[1]:connect_signal('widget::redraw_needed', function(w)
         local t = tag
