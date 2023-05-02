@@ -1,7 +1,16 @@
 local beautiful = require("beautiful")
 local gears = require("gears")
 
-local function set_wallpaper(s)
+local Module = {}
+Module.__index = Module
+
+function Module.new()
+    local self = setmetatable({}, Module)
+    screen.connect_signal("property::geometry", self.set_wallpaper)
+    
+    return self
+end
+function Module.set_wallpaper(s)
     -- Wallpaper
     if beautiful.wallpaper then
         local wallpaper = beautiful.wallpaper
@@ -13,11 +22,4 @@ local function set_wallpaper(s)
     end
 end
 
-
-return setmetatable({}, {
-    __constructor = function()
-        set_wallpaper(s)
-        -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-        screen.connect_signal("property::geometry", set_wallpaper)
-    end,
-})
+return Module
