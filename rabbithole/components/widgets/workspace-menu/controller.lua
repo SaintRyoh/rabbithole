@@ -138,7 +138,7 @@ function WorkspaceMenuController:remove_workspace(workspace)
         })
         return
     end
-    Debugger.dbg()
+    -- Debugger.dbg()
 
     self.model:removeWorkspace(workspace)
 
