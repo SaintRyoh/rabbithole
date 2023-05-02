@@ -5,6 +5,7 @@ local dpi = beautiful.xresources.apply_dpi
 
 return function (controller)
     return {
+        id = "background_role",
         widget = wibox.container.background,
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
