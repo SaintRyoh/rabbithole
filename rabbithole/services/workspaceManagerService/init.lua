@@ -26,7 +26,7 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
 
     -- pause stuff
     self.pauseState = {
-        activeWorkspaces = nil
+        activeWorkspace = nil
     }
 
     self.unpauseServiceHelper = function ()
@@ -465,18 +465,17 @@ function WorkspaceManagerService:setStatusForAllWorkspaces(status)
 end
 
 function WorkspaceManagerService:pauseService()
-    self.pauseState.activeWorkspaces = self:getAllActiveWorkspaces() 
+    self.pauseState.activeWorkspace = self:getActiveWorkspace() 
 
     self:setStatusForAllWorkspaces(true)
 end
 
 function WorkspaceManagerService:unpauseService()
-    if not __.get(self.pauseState, {"activeWorkspaces"}) then
-        return
-    end
     self:setStatusForAllWorkspaces(false)
-    __.forEach(self.pauseState.activeWorkspaces, function(workspace) workspace:setStatus(true) end)
-    self.pauseState.activeWorkspaces = nil
+    if self.pausestate.activeworkspace then
+        self.pauseState.activeWorkspace:setStatus(true)
+    end
+    self.pausestate.activeworkspace = nil
     capi.awesome.disconnect_signal("property::client", self.unpauseServiceHelper)
 end
 

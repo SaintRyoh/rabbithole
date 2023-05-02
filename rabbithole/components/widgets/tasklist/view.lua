@@ -51,15 +51,30 @@ function _M.create(tasklist_buttons, s, tag)
                             self:get_children_by_id("clienticon")[1].image = gears.surface.load_uncached(gears.filesystem.get_configuration_dir() .. "themes/rabbithole/icons/fallback.svg")
                         end
 
+                        local timer = gears.timer {
+                            timeout = 0.5,
+                            autostart = true,
+                            single_shot = true,
+                            callback = function()
+                                c:emit_signal("request::activate", "mouse_enter", {raise = false})
+                            end
+                        }
+
                         self:connect_signal('mouse::enter', function()
                             self:get_children_by_id('background_role')[1]:set_bg(beautiful.bg_focus)
                             self:get_children_by_id('background_role')[1]:set_fg(beautiful.bg_focus)
-                            c:emit_signal("request::activate", "mouse_enter", {raise = false})
+                            timer:again()
                         end)
                         self:connect_signal('mouse::leave', function()
+                            if timer.started then 
+                                timer:stop() 
+                            else
+                                c:emit_signal("request::activate", "mouse_leave", {raise = false})
+                            end
+                            if c == client.focus then return end
                             self:get_children_by_id('background_role')[1]:set_bg('#00000000')
                             self:get_children_by_id('background_role')[1]:set_fg('#00000000')
-                            c:emit_signal("request::activate", "mouse_leave", {raise = false})
+
                         end)
 
                         awful.tooltip({
