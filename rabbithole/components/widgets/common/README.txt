@@ -1,0 +1,1 @@
+This directory will contain all common widget class components , e.g. widget, popup, textbox, clock, etc.

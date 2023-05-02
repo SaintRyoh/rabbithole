@@ -1,5 +1,10 @@
 {
     "Lua.diagnostics.globals": [
-        "RC"
+        "RC",
+        "screen",
+        "root",
+        "awesome",
+        "client",
+        "mouse"
     ]
 }
