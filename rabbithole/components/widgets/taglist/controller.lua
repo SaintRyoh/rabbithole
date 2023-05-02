@@ -7,6 +7,7 @@ local local_taglist_template  = require("rabbithole.components.widgets.taglist.t
 local global_taglist_template = require("rabbithole.components.widgets.taglist.template_global")
 local beautiful               = require("beautiful")
 local common                  = require("awful.widget.common")
+local gears                  = require("gears")
 
 
 
@@ -111,12 +112,20 @@ end
 function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
     self:update_index(tag_template, index)
     self:add_client_bubbles(tag_template, tag)
+    local hover_timer = gears.timer {
+        timeout = 1,
+        autostart = false,
+        callback = function()
+            self.tagPreview.show(tag, self.screen)
+        end
+    }
     tag_template:connect_signal('mouse::enter', function()
         tag_template.bg = beautiful.taglist_bg_focus
-        self.tagPreview.show(tag, self.screen)
+        hover_timer:again()
     end)
     tag_template:connect_signal('mouse::leave', function()
         tag_template.bg = self:set_tag_template_bg(tag)
+        hover_timer:stop()
         self.tagPreview.hide(self.screen)
     end)
     tag_template:get_children_by_id('text_role')[1]:connect_signal('widget::redraw_needed', function(w)
