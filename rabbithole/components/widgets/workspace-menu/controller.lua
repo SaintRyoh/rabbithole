@@ -66,6 +66,7 @@ end
 
 -- set the text of the widget
 function WorkspaceMenuController:set_text(text)
+    self.view.bindings.workspace_name.text = text
     self:set_icon(text)
 end
 
