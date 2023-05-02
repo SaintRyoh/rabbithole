@@ -10,7 +10,7 @@ return setmetatable({}, {
             show_client_content = true,  -- Whether or not to show the client content
             -- x = 10,                       -- The x-coord of the popup
             -- y = 10,                       -- The y-coord of the popup
-            scale = 0.25,                 -- The scale of the previews compared to the screen
+            scale = 0.15,                 -- The scale of the previews compared to the screen
             -- honor_padding = false,        -- Honor padding when creating widget size
             -- honor_workarea = false,       -- Honor work area when creating widget size
             placement_fn = function(obj)    -- Place the widget using awful.placement (this overrides x & y)
