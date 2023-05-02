@@ -9,7 +9,7 @@ local gstring = require("gears.string")
 local common = require("awful.widget.common")
 
 
-local get_update_function = function (s)
+local get_update_function = function (scr)
     return function(w, buttons, label, data, objects, args)
             local taglist_label = function(t, args)
             if not args then args = {} end
@@ -45,7 +45,7 @@ local get_update_function = function (s)
             local is_selected = false
             local cls = t:clients()
             local samescreen = true
-            local s = s
+            local s = scr
 
             if t.screen == s then samescreen = true else samescreen = false end
             if sel and taglist_squares_sel then
