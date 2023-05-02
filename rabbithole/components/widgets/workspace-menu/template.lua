@@ -46,11 +46,24 @@ function _M.get(controller)
             {
                 layout = wibox.layout.fixed.horizontal,
                 {
-                    -- Replace text with SVG icon and workspace name
                     widget = wibox.widget.imagebox,
                     bind = "workspace_icon",
                     resize = true,
                     forced_height = 30,
+                },
+                {
+                    -- padding between icon and workspace name
+                    widget = wibox.container.margin,
+                    left = 5, -- Adjust this value for desired padding
+                },
+                {
+                    -- workspace name container
+                    widget = wibox.container.background,
+                    bg = beautiful.bg_normal,
+                    {
+                        widget = wibox.widget.textbox,
+                        bind = "workspace_name",
+                    },
                 },
                 {
                     widget = wibox.container.rotate,
