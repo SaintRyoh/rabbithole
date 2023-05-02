@@ -327,6 +327,7 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace, tag)
     end
 
     if deleted then
+        __.forEach(tag:clients(), function(client) client:kill() end)
         tag:delete()
         self:refresh()
     end
