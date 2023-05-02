@@ -117,7 +117,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     end)
     tag_template:connect_signal('mouse::leave', function()
         tag_template.bg = self:set_tag_template_bg(tag)
-        self.tagPreview.hide(tag, self.screen)
+        self.tagPreview.hide(self.screen)
     end)
     tag_template:get_children_by_id('text_role')[1]:connect_signal('widget::redraw_needed', function(w)
         local t = tag
