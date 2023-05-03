@@ -82,7 +82,6 @@ return setmetatable({}, {
             --   properties = { screen = 1, tag = "2" } },
 
         }
-        awful.rules.rules = rules
         return rules
     end
 })
