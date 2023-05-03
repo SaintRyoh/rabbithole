@@ -10,3 +10,6 @@
 [submodule "sub/bling"]
 	path = sub/bling
 	url = https://github.com/SaintRyoh/bling
+[submodule "sub/rubato"]
+	path = sub/rubato
+	url = https://github.com/andOrlando/rubato
