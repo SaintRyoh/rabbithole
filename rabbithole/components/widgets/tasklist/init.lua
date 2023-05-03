@@ -15,10 +15,10 @@ end
 
 return setmetatable({}, {
     __constructor = function(
-        rabbithole__components__menus__tasklist___menu
+        rabbithole__components__menus__tasklist
     )
         return function(screen, tag)
-            return _M.create(screen, tag, rabbithole__components__menus__tasklist___menu)
+            return _M.create(screen, tag, rabbithole__components__menus__tasklist)
         end
     end
 })

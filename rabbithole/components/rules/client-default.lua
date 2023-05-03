@@ -12,10 +12,10 @@ local _M = {}
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 return setmetatable({}, {
     __constructor = function(
-        rabbithole__components__keys__clientkeys, 
+        rabbithole__components__keys__client, 
         rabbithole__components__buttons__client
     )
-        local clientkeys = rabbithole__components__keys__clientkeys
+        local clientkeys = rabbithole__components__keys__client
         local clientbuttons = rabbithole__components__buttons__client
         local rules = {
 

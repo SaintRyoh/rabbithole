@@ -3,7 +3,7 @@ local awful = require("awful")
 
 return setmetatable({}, {
     __constructor = function (
-        rabbithole__components__menus__tasklist___menu
+        rabbithole__components__menus__tasklist
     )
         return function (client)
             return gears.table.join(
@@ -16,7 +16,7 @@ return setmetatable({}, {
                         awful.mouse.client.resize(client)
                     end),
                     awful.button({ }, 3, function()
-                        rabbithole__components__menus__tasklist___menu(client):toggle()
+                        rabbithole__components__menus__tasklist(client):toggle()
                     end)
             )
         end
