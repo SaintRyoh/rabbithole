@@ -18,13 +18,17 @@ function TaskListController.new(
         )
     end
 end
+function TaskListController:get_client_icon(c)
+    local icon = c.icon or c.class_icon or c.instance_icon or nil
+    if not icon then
+    --   icon = gears.surface.load(beautiful.fallback_icon)
+        icon = gears.surface.load_uncached(gears.filesystem.get_configuration_dir() .. "themes/rabbithole/icons/fallback.svg")
+    end
+    return icon
+  end
 
 function TaskListController:create_callback(tasklist, c, _, _)
-    if c.icon then
-        tasklist:get_children_by_id("clienticon")[1].image = c.icon
-    else
-        tasklist:get_children_by_id("clienticon")[1].image = gears.surface.load_uncached(gears.filesystem.get_configuration_dir() .. "themes/rabbithole/icons/fallback.svg")
-    end
+    tasklist:get_children_by_id("clienticon")[1].image = self:get_client_icon(c)
 
     local timer = gears.timer {
         timeout = 0.5,
