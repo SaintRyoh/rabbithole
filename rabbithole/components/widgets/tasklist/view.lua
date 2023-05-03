@@ -1,10 +1,9 @@
 local wibox = require("wibox")
 local awful = require("awful")
-local gears = require("gears")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
+local gears = require("gears")
 
-local _M = {}
 local generate_filter = function(t)
     return function(c, scr)
         local ctags = c:tags()
@@ -17,7 +16,7 @@ local generate_filter = function(t)
     end
 end
 
-function _M.create(tasklist_buttons, s, tag)
+return function (controller, tasklist_buttons, s, tag)
     return wibox.widget {
         {
             widget = wibox.container.margin,
@@ -44,45 +43,8 @@ function _M.create(tasklist_buttons, s, tag)
                         widget = wibox.container.background,
                     },
                     layout = wibox.layout.stack,
-                    create_callback = function(self, c, _, _)
-                        if c.icon then
-                            self:get_children_by_id("clienticon")[1].image = c.icon
-                        else
-                            self:get_children_by_id("clienticon")[1].image = gears.surface.load_uncached(gears.filesystem.get_configuration_dir() .. "themes/rabbithole/icons/fallback.svg")
-                        end
-
-                        local timer = gears.timer {
-                            timeout = 0.5,
-                            autostart = true,
-                            single_shot = true,
-                            callback = function()
-                                c:emit_signal("request::activate", "mouse_enter", {raise = false})
-                            end
-                        }
-
-                        self:connect_signal('mouse::enter', function()
-                            self:get_children_by_id('background_role')[1]:set_bg(beautiful.bg_focus)
-                            self:get_children_by_id('background_role')[1]:set_fg(beautiful.bg_focus)
-                            timer:again()
-                        end)
-                        self:connect_signal('mouse::leave', function()
-                            if timer.started then 
-                                timer:stop() 
-                            else
-                                c:emit_signal("request::activate", "mouse_leave", {raise = false})
-                            end
-                            if c == client.focus then return end
-                            self:get_children_by_id('background_role')[1]:set_bg('#00000000')
-                            self:get_children_by_id('background_role')[1]:set_fg('#00000000')
-
-                        end)
-
-                        awful.tooltip({
-                            objects = { self },
-                            timer_function = function()
-                                return c.name
-                            end,
-                        })
+                    create_callback = function(tasklist, c, _, _)
+                        controller:create_callback(tasklist, c, _, _)
                     end,
                 },
             }),
@@ -95,5 +57,3 @@ function _M.create(tasklist_buttons, s, tag)
         layout = wibox.layout.fixed.horizontal,
     }
 end
-
-return _M
