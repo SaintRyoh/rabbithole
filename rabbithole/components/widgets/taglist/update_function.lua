@@ -32,7 +32,7 @@ local get_update_function = function (scr)
             local taglist_disable_icon = args.taglist_disable_icon or theme.taglist_disable_icon or false
             local font = args.font or theme.taglist_font or theme.font or ""
             local text = nil
-            local sel = capi.client.focus
+            local sel = client.focus
             local bg_color = nil
             local fg_color = nil
             local bg_image

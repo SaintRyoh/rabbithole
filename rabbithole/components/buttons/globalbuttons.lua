@@ -2,12 +2,9 @@
 local gears = require("gears")
 local awful = require("awful")
 
-local _M = {}
 
 -- For when mouse is over the desktop
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-
 return setmetatable({}, {
     __constructor = function (
         rabbithole__components__menus__main___menu

@@ -1,2 +1,10 @@
-Systems are made out of Services and signals
-Systems use services and do not have a visual component
+Systems are made out of:
+    Services (which are just interfaces to other systems)
+    Signal Handlers
+    settings (injected settings)
+    components (buttons,keys,rules,layouts)
+    Systems (you can actually make systems of systems)
+
+Systems do not have a visual component
+for a component to interact with a system, there should be a
+corresponding service.
