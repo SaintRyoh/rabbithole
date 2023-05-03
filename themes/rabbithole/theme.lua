@@ -3,7 +3,7 @@ local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
 
 local create_widget_bg = function(color1, color2)
-    return {
+    return gears.color {
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(40) },
@@ -16,7 +16,7 @@ local create_widget_bg = function(color1, color2)
 end
 
 local create_widget_shadow = function(radius, offset)
-    return {
+    return gears.color {
         offset = offset,
         color = "#000000",
         opacity = 1.4,

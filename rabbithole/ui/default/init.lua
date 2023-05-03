@@ -6,8 +6,7 @@ return setmetatable({}, {
         rabbithole__ui__default__left, 
         rabbithole__ui__default__center, 
         rabbithole__ui__default__right,
-        rabbithole__ui__default__titlebar,
-        rabbithole__services__wallpaper
+        rabbithole__ui__default__titlebar
     )
         awful.screen.connect_for_each_screen(function(s)
 
@@ -16,7 +15,7 @@ return setmetatable({}, {
             --     workspaceManagerService.session_restored = true
             -- end
 
-            rabbithole__services__wallpaper.set_wallpaper(s)
+            -- rabbithole__services__wallpaper.set_wallpaper(s)
 
             -- wibars
             rabbithole__ui__default__left(s)

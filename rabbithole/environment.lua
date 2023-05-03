@@ -5,7 +5,8 @@ return setmetatable({}, {
        rabbithole__systems__global,
        rabbithole__systems__sloppy___focus,
        rabbithole__systems__client___no___offscreen,
-       rabbithole__systems__bling___tag___preview
+       rabbithole__systems__bling___tag___preview,
+       rabbithole__systems__wallpaper___engine
     )
         return 
     end,

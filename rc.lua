@@ -35,6 +35,7 @@ RC = {
             terminal = "qterminal",
             editor = os.getenv("EDITOR") or "nvim",
             editor_cmd = "qterminal -e nvim",
+            wallpaper = { }
         }
 
         config.enableAutoConfiguration()
