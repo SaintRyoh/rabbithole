@@ -8,14 +8,14 @@ local global_taglist_template = require("rabbithole.components.widgets.taglist.t
 local beautiful               = require("beautiful")
 local common                  = require("awful.widget.common")
 local gears                  = require("gears")
-
+local colorHelper = require("sub/bling/helpers/color")
 
 
 -- workspace menu controller
 local TaglistController = {}
 TaglistController.__index = TaglistController
 
-function TaglistController.new(workspaceManagerService, s, tasklist, tagPreview)
+function TaglistController.new(workspaceManagerService, s, tasklist, tagPreview, animationService)
     local taglist_menu          = require("rabbithole.components.widgets.taglist.taglistmenu")(
     workspaceManagerService)
     local globaltaglist_menu    = require("rabbithole.components.widgets.taglist.globaltaglistmenu")(
@@ -36,6 +36,7 @@ function TaglistController.new(workspaceManagerService, s, tasklist, tagPreview)
     self.screen = s
     self.getTasklist = tasklist
     self.tagPreview = tagPreview
+    self.animationService = animationService
 
     local global_taglist_layout = wibox.layout.fixed.horizontal()
 
@@ -108,7 +109,7 @@ function TaglistController:update_index(tag_template, index)
         index_widget.markup = '<b> ' .. index .. ' </b>'
     end
 end
-
+local rubato = require("sub/rubato")
 function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
     self:update_index(tag_template, index)
     self:add_client_bubbles(tag_template, tag)
@@ -119,12 +120,23 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             self.tagPreview.show(tag, self.screen)
         end
     }
+    local animation = self.animationService:get_basic_animation()
+    animation:subscribe(function (pos)
+        -- tag_template.bg = self.animationService.blend_colors(beautiful.taglist_bg_normal, beautiful.taglist_bg_focus, pos) --beautiful.taglist_bg_focus
+        tag_template.bg = colorHelper.darken('#00ff00', pos * 100)
+    end)
+    -- animation.target = 1
     tag_template:connect_signal('mouse::enter', function()
-        tag_template.bg = beautiful.taglist_bg_focus
+        if not animation.running then
+            animation.target = 0
+        end
         hover_timer:again()
     end)
     tag_template:connect_signal('mouse::leave', function()
-        tag_template.bg = self:set_tag_template_bg(tag)
+        if not animation.running then
+            animation.target = 1
+        end
+        -- tag_template.bg = self:set_tag_template_bg(tag)
         hover_timer:stop()
         self.tagPreview.hide(self.screen)
     end)
@@ -141,7 +153,7 @@ function TaglistController:update_tag_callback(tag_template, tag, index, objects
 end
 
 return setmetatable(TaglistController, {
-    __call = function(self, workspaceManagerService, s, tasklist, tagPreview)
-        return self.new(workspaceManagerService, s, tasklist, tagPreview)
+    __call = function(self, workspaceManagerService, s, tasklist, tagPreview, animationService)
+        return self.new(workspaceManagerService, s, tasklist, tagPreview, animationService)
     end
 })

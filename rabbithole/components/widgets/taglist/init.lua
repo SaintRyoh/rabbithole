@@ -5,14 +5,16 @@ return setmetatable({}, {
         workspaceManagerService, 
         theme,
         rabbithole__components__widgets__tasklist,
-        rabbithole__services__tag___preview
+        rabbithole__services__tag___preview,
+        rabbithole__services__animation
     )
         return function (s)
             return require("rabbithole.components.widgets.taglist.controller")(
                 workspaceManagerService, 
                 s, 
                 rabbithole__components__widgets__tasklist,
-                rabbithole__services__tag___preview
+                rabbithole__services__tag___preview,
+                rabbithole__services__animation
             ):get_view_widget()
         end
     end,
