@@ -132,11 +132,11 @@ function WorkspaceManagerService:loadSession()
         __.forEach(tagCoroutines, function(tc)
             coroutine.resume(tc)
         end)
-        capi.awesome.disconnect_signal("property::client", restoreClientHelper)
+        client.disconnect_signal("property::client", restoreClientHelper)
         self:unpauseService()
     end
         
-    capi.awesome.connect_signal("property::client", restoreClientHelper)
+    client.connect_signal("property::client", restoreClientHelper)
     -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
 end
