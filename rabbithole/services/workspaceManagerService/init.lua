@@ -119,13 +119,22 @@ function WorkspaceManagerService:loadSession()
         error("Error parsing session file")
     end
 
+    -- Store the currently selected workspace and tag indices
+    local selected_workspace_index, selected_tag_index
+    for idx, workspace in ipairs(self.workspaceManagerModel:getAllWorkspaces()) do
+        local selected_tag = workspace:getSelectedTag()
+        if selected_tag then
+            selected_workspace_index = idx
+            selected_tag_index = selected_tag.index
+            break
+        end
+    end
 
     local tagCoroutines = __.flatten(__.map(loadedModel.workspaces, function(workspace_model)
         return self:restoreWorkspace(workspace_model)
     end))
 
     __.push(tagCoroutines, __.first( __.flatten( self:restoreWorkspace(loadedModel.global_workspace, true) ) ))
-
 
     local function restoreClientHelper()
         self:pauseService()
@@ -134,12 +143,20 @@ function WorkspaceManagerService:loadSession()
         end)
         client.disconnect_signal("property::client", restoreClientHelper)
         self:unpauseService()
-    end
-        
-    client.connect_signal("property::client", restoreClientHelper)
-    -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
+        -- Restore the selected workspace and tag after clients are restored
+        if selected_workspace_index and selected_tag_index then
+            local restored_workspace = self.workspaceManagerModel:getAllWorkspaces()[selected_workspace_index]
+            local restored_tag = restored_workspace:getTagByIndex(selected_tag_index)
+            if restored_tag then
+                restored_tag:view_only()
+            end
+        end
+    end
+
+    capi.awesome.connect_signal("property::client", restoreClientHelper)
 end
+
 
 
 -- create workspace by definition
