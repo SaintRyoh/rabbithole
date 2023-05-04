@@ -5,9 +5,10 @@ local dpi = require("beautiful.xresources").apply_dpi
 local AnimationAbstractFactory = {}
 AnimationAbstractFactory.__index = AnimationAbstractFactory
 
-RUBATO_DIR = gears.filesystem.get_configuration_dir() .. "sub/rubato/"
+RUBATO_DIR = "sub.rubato."
+RUBATO_MANAGER = require("sub.rubato.manager")
 
-local rubato = require("sub/rubato")
+local rubato = require("sub.rubato")
 
 function AnimationAbstractFactory.new(settings)
     local self = setmetatable({}, AnimationAbstractFactory)

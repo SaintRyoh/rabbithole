@@ -130,14 +130,22 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     -- animation.target = 1
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
-        if not animation.running then
+        local cl = self.animationService:create_widget_bg(
+            self.animationService:blend_colors("#5123db", "#e86689", 1 * 100), 
+            self.animationService:blend_colors("#6e5bd6", "#e6537a", 1 * 100)
+        )
+        if tag_template.bg ~= cl then
             animation.target = 0
         end
     end)
     tag_template:connect_signal('mouse::leave', function()
         hover_timer:stop()
         self.tagPreview.hide(self.screen)
-        if not tag.selected then
+        local cl = self.animationService:create_widget_bg(
+            self.animationService:blend_colors("#5123db", "#e86689", 0 * 100), 
+            self.animationService:blend_colors("#6e5bd6", "#e6537a", 0 * 100)
+        )
+        if tag_template.bg ~= cl and not tag.selected then
             animation.target = 1
         end
     end)
