@@ -211,16 +211,18 @@ end
 --     }
 -- @usage WorkspaceManagerService:restoreClientsForTag(tag, clients)
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
-    __.forEach(clients, function(client)
-        local c = __.find(capi.client.get(), function(c) 
-            return c.pid == client.pid and c.class == client.class and c.instance == client.instance and c.role == client.role and c.name == client.name
+    local function manage_client_signal(c)
+        local client_to_restore = __.find(clients, function(client)
+            return c.class == client.class and c.instance == client.instance and c.name == client.name
         end)
 
-        if c and c.moved_to_tag == nil then
+        if client_to_restore then
             c:move_to_tag(tag)
-            c.moved_to_tag = true
+            capi.client.disconnect_signal("manage", manage_client_signal)
         end
-    end)
+    end
+
+    capi.client.connect_signal("manage", manage_client_signal)
 end
 
 function WorkspaceManagerService:subscribeController(widget)
