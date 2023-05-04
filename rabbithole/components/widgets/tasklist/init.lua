@@ -1,7 +1,7 @@
 local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
-
+local view = require("rabbithole.components.widgets.tasklist.view")
 local TaskListController = {}
 TaskListController.__index = TaskListController
 
@@ -9,13 +9,13 @@ function TaskListController.new(
     rabbithole__components__buttons__tasklist
 )
     local self = setmetatable({}, TaskListController)
+    self.tasklist = rabbithole__components__buttons__tasklist
+
+    -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
-        return require("rabbithole.components.widgets.tasklist.view")(
-            self, 
-            rabbithole__components__buttons__tasklist, 
-            screen, 
-            tag
-        )
+        self.screen = screen
+        self.tag = tag
+        return view(self)
     end
 end
 function TaskListController:get_client_icon(c)
