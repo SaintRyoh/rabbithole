@@ -149,6 +149,14 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             animation.target = 1
         end
     end)
+    tag_template:connect_signal('button::press', function()
+        animation.target = 1
+        animation:fire(0)
+    end)
+    tag_template:connect_signal('button::release', function()
+        animation.target = 0
+        animation:fire(1)
+    end)
     tag_template:get_children_by_id('text_role')[1]:connect_signal('widget::redraw_needed', function(w)
         local t = tag
         t.name = w.text
