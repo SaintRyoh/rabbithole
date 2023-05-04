@@ -22,6 +22,7 @@ function AnimationAbstractFactory:get_basic_animation()
     return rubato.timed {
         intro = 0.1,
         duration = 0.3,
+        rate = 120
     }
 end
 
