@@ -109,7 +109,7 @@ function TaglistController:update_index(tag_template, index)
         index_widget.markup = '<b> ' .. index .. ' </b>'
     end
 end
-local rubato = require("sub/rubato")
+
 function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
     self:update_index(tag_template, index)
     self:add_client_bubbles(tag_template, tag)
@@ -122,23 +122,24 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     }
     local animation = self.animationService:get_basic_animation()
     animation:subscribe(function (pos)
-        -- tag_template.bg = self.animationService.blend_colors(beautiful.taglist_bg_normal, beautiful.taglist_bg_focus, pos) --beautiful.taglist_bg_focus
-        tag_template.bg = colorHelper.darken('#00ff00', pos * 100)
+        tag_template.bg = self.animationService:create_widget_bg(
+            self.animationService:blend_colors("#5123db", "#e86689", pos * 100), 
+            self.animationService:blend_colors("#6e5bd6", "#e6537a", pos * 100)
+        )
     end)
     -- animation.target = 1
     tag_template:connect_signal('mouse::enter', function()
+        hover_timer:again()
         if not animation.running then
             animation.target = 0
         end
-        hover_timer:again()
     end)
     tag_template:connect_signal('mouse::leave', function()
-        if not animation.running then
-            animation.target = 1
-        end
-        -- tag_template.bg = self:set_tag_template_bg(tag)
         hover_timer:stop()
         self.tagPreview.hide(self.screen)
+        if not tag.selected then
+            animation.target = 1
+        end
     end)
     tag_template:get_children_by_id('text_role')[1]:connect_signal('widget::redraw_needed', function(w)
         local t = tag
