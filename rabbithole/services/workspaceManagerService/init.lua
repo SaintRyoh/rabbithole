@@ -132,11 +132,11 @@ function WorkspaceManagerService:loadSession()
         __.forEach(tagCoroutines, function(tc)
             coroutine.resume(tc)
         end)
-        capi.awesome.disconnect_signal("property::client", restoreClientHelper)
+        client.disconnect_signal("property::client", restoreClientHelper)
         self:unpauseService()
     end
         
-    capi.awesome.connect_signal("property::client", restoreClientHelper)
+    client.connect_signal("property::client", restoreClientHelper)
     -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
 end
@@ -211,18 +211,16 @@ end
 --     }
 -- @usage WorkspaceManagerService:restoreClientsForTag(tag, clients)
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
-    local function manage_client_signal(c)
-        local client_to_restore = __.find(clients, function(client)
-            return c.class == client.class and c.instance == client.instance and c.name == client.name
+    __.forEach(clients, function(client)
+        local c = __.find(capi.client.get(), function(c) 
+            return c.pid == client.pid and c.class == client.class and c.instance == client.instance and c.role == client.role and c.name == client.name
         end)
 
-        if client_to_restore then
+        if c and c.moved_to_tag == nil then
             c:move_to_tag(tag)
-            capi.client.disconnect_signal("manage", manage_client_signal)
+            c.moved_to_tag = true
         end
-    end
-
-    capi.client.connect_signal("manage", manage_client_signal)
+    end)
 end
 
 function WorkspaceManagerService:subscribeController(widget)
