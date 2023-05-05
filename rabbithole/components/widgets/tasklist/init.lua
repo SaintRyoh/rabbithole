@@ -43,8 +43,8 @@ function TaskListController:create_callback(tasklist, c, _, _)
             c:emit_signal("request::activate", "mouse_enter", {raise = false})
         end
         background.bg = self.animationService:create_widget_bg(
-            self.animationService:blend_colors("#111111", "#e86689", pos), 
-            self.animationService:blend_colors("#111111", "#e6537a", pos)
+            self.animationService:blend_colors(beautiful.tasklist_bg_normal, "#e86689", pos), 
+            self.animationService:blend_colors(beautiful.tasklist_bg_normal, "#e6537a", pos)
         )
     end)
 

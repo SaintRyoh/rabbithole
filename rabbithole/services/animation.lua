@@ -20,9 +20,9 @@ end
 
 function AnimationAbstractFactory:get_basic_animation()
     return rubato.timed {
-        intro = 0.1,
-        duration = 0.3,
+        duration = 0.4,
         clamp_position = true,
+        easing = rubato.easing.quadratic,
     }
 end
 
