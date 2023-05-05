@@ -102,14 +102,14 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     animation:subscribe(function (pos)
         tag_template.bg = self.animationService:create_widget_bg(
-            self.animationService:blend_colors("#5123db", "#e86689", pos * 100), 
-            self.animationService:blend_colors("#6e5bd6", "#e6537a", pos * 100)
+            self.animationService:blend_colors("#5123db", "#e86689", pos), 
+            self.animationService:blend_colors("#6e5bd6", "#e6537a", pos)
         )
     end)
     
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
-        animation.target = 0
+        animation.target = 1
     end)
 
     tag_template:connect_signal('mouse::leave', function()
@@ -119,7 +119,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
         --animation
         if not tag.selected then
-            animation.target = 1
+            animation.target = 0
         end
 
     end)
@@ -130,7 +130,6 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     end)
 
     tag_template:connect_signal('button::release', function()
-        animation.target = 0
         animation:fire(1, 1)
     end)
 end

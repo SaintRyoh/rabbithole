@@ -22,19 +22,27 @@ function AnimationAbstractFactory:get_basic_animation()
     return rubato.timed {
         intro = 0.1,
         duration = 0.3,
-        rate = 60
+        clamp_position = true,
     }
 end
 
 function AnimationAbstractFactory:blend_colors(color1, color2, percentage)
+    if percentage > 1 then
+        percentage = 1
+    end
+
+    if percentage < 0 then
+        percentage = 0
+    end
+
   -- Convert the hex strings to RGB values
   local r1, g1, b1 = tonumber(color1:sub(2, 3), 16), tonumber(color1:sub(4, 5), 16), tonumber(color1:sub(6, 7), 16)
   local r2, g2, b2 = tonumber(color2:sub(2, 3), 16), tonumber(color2:sub(4, 5), 16), tonumber(color2:sub(6, 7), 16)
 
   -- Calculate the blended RGB values
-  local r3 = math.floor((r1 * percentage / 100) + (r2 * (100 - percentage) / 100))
-  local g3 = math.floor((g1 * percentage / 100) + (g2 * (100 - percentage) / 100))
-  local b3 = math.floor((b1 * percentage / 100) + (b2 * (100 - percentage) / 100))
+  local r3 = math.floor((r2 * percentage) + (r1 * (1 - percentage)))
+  local g3 = math.floor((g2 * percentage) + (g1 * (1 - percentage)))
+  local b3 = math.floor((b2 * percentage) + (b1 * (1 - percentage)))
 
   -- Convert the blended RGB values back to a hex string
   local color3 = string.format("#%02X%02X%02X", r3, g3, b3)

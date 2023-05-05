@@ -36,18 +36,15 @@ function TaskListController:create_callback(tasklist, c, _, _)
     local animation = self.animationService:get_basic_animation()
 
     animation:subscribe(function (pos)
-        if pos  < 0 then
-            return
-        end
-        if pos ==1 then
+        if pos >= 0.5 then
             c:emit_signal("request::activate", "mouse_leave", {raise = false})
         end
-        if pos ==0 then
+        if pos < 0.5 then
             c:emit_signal("request::activate", "mouse_enter", {raise = false})
         end
         background.bg = self.animationService:create_widget_bg(
-            self.animationService:blend_colors("#111111", "#e86689", pos * 100), 
-            self.animationService:blend_colors("#111111", "#e6537a", pos * 100)
+            self.animationService:blend_colors("#111111", "#e86689", pos), 
+            self.animationService:blend_colors("#111111", "#e6537a", pos)
         )
     end)
 
@@ -56,7 +53,7 @@ function TaskListController:create_callback(tasklist, c, _, _)
 
         -- for highlighting tasklist
         -- background.bg = beautiful.bg_focus
-        animation.target = 0
+        animation.target = 1
     end)
 
     tasklist:connect_signal('mouse::leave', function()
@@ -65,7 +62,7 @@ function TaskListController:create_callback(tasklist, c, _, _)
 
         -- for highlighting tasklist
         -- background.bg = "#00000000"
-        animation.target = 1
+        animation.target = 0
 
         return true
     end)
@@ -73,13 +70,19 @@ function TaskListController:create_callback(tasklist, c, _, _)
     tasklist:connect_signal('button::press', function()
         animation.target = 1
         animation:fire(0, 1)
+        -- minimize toggle 
+        if c.minimized then
+            c.minimized = false
+        else
+            c.minimized = true
+        end
         return true
     end)
 
     tasklist:connect_signal('button::release', function()
         animation.target = 0
         animation:fire(1, 1)
-        return true
+        -- return true
     end)
 
     awful.tooltip({
