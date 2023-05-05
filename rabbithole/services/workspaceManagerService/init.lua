@@ -1,12 +1,10 @@
-
+local gears = require("gears")
 local naughty = require("naughty")
-local awful     = require("awful")
+local awful = require("awful")
 local sharedtags = require("sub.awesome-sharedtags")
 local __ = require("lodash")
 local workspaceManager = require("rabbithole.services.workspaceManagerService.workspaceManager")
-local gears = require("gears")
 local serpent = require("serpent")
--- local modal = require("rabbithole.services.modal")
 
 local capi = {
     screen = screen,
@@ -14,7 +12,7 @@ local capi = {
     awesome = awesome
 }
 
-local WorkspaceManagerService = { }
+local WorkspaceManagerService = {}
 WorkspaceManagerService.__index = WorkspaceManagerService
 
 function WorkspaceManagerService.new(rabbithole__services__modal)
@@ -23,156 +21,13 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
 
     self.workspaceManagerModel = workspaceManager:new()
     self.modal = rabbithole__services__modal
+    self.sessionManager = require("rabbithole.sessionManager.sessionManagerService").new(self)
 
-    -- pause stuff
-    self.pauseState = nil
-
-    self.unpauseServiceHelper = function ()
-        self:unpauseService()
-    end
-
-    capi.screen.connect_signal("removed", function (s)
-        self:screenDisconnectUpdate(s)
-    end)
-
-
-    -- load sesison
-    self.path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat"
-
-    local status, err = pcall(function ()
-        self:loadSession() 
-    end)
-
-    if not status then
-        self:backupSessionFile(self.path)
-        self:newSession()
-        self.session_restored = false
-    else
-        self.session_restored = true
-    end
-
-    -- make a timer to periodically save the session
-    self.saveSessionTimer = gears.timer({
-        timeout = 5,
-        autostart = false,
-        callback = function()
-            self:saveSession()
-        end
-    })
-
-    -- observer
     self.subscribers = {}
 
     return self
 end
 
--- rename session.lua to session.lua.bak
-function WorkspaceManagerService:backupSessionFile(file_path)
-    if gears.filesystem.file_readable(file_path) then
-        os.remove(file_path .. ".bak")
-        os.rename(file_path, file_path .. ".bak")
-    end
-end
-
-function WorkspaceManagerService:newSession()
-    self.workspaceManagerModel:deleteAllWorkspaces()
-    local workspace = self.workspaceManagerModel:createWorkspace()
-    workspace:setStatus(true)
-    self:switchTo(workspace)
-    self:saveSession()
-end
-
-function WorkspaceManagerService:saveSession()
-    local file,err = io.open(self.path, "w+")
-    if not file then
-        naughty.notify({
-            title="Error saving session",
-            text=err,
-            timeout=0
-        })
-       return
-    end
-    file:write(serpent.dump(self.workspaceManagerModel))
-    file:close()
-end
-
--- method to load session
-function WorkspaceManagerService:loadSession()
-    local file,err = io.open(self.path , "r+")
-    if not file then
-        naughty.notify({
-            title="Error loading session",
-            text=err,
-            timeout=0
-        })
-        error(err)
-    end
-    local session = file:read("*all")
-    file:close()
-    local _, loadedModel = serpent.load(session, {safe = false})
-    if not _ then
-        naughty.notify({
-            title="Error loading session",
-            text="Error parsing session file",
-            timeout=5
-        })
-        error("Error parsing session file")
-    end
-
-    -- Store the currently selected workspace and tag indices
-    local selected_workspace_index, selected_tag_index
-    for idx, workspace in ipairs(self.workspaceManagerModel:getAllWorkspaces()) do
-        local selected_tag = workspace:getSelectedTag()
-        if selected_tag then
-            selected_workspace_index = idx
-            selected_tag_index = selected_tag.index
-            break
-        end
-    end
-
-    local tagCoroutines = __.flatten(__.map(loadedModel.workspaces, function(workspace_model)
-        return self:restoreWorkspace(workspace_model)
-    end))
-
-    __.push(tagCoroutines, __.first( __.flatten( self:restoreWorkspace(loadedModel.global_workspace, true) ) ))
-
-    local function restoreClientHelper()
-        self:pauseService()
-        __.forEach(tagCoroutines, function(tc)
-            coroutine.resume(tc)
-        end)
-        capi.awesome.disconnect_signal("property::client", restoreClientHelper)
-        self:unpauseService()
-
-        -- Restore the selected workspace and tag after clients are restored
-        if selected_workspace_index and selected_tag_index then
-            local restored_workspace = self.workspaceManagerModel:getAllWorkspaces()[selected_workspace_index]
-            local restored_tag = restored_workspace:getTagByIndex(selected_tag_index)
-            if restored_tag then
-                restored_tag:view_only()
-            end
-        end
-    end
-        
-    capi.awesome.connect_signal("property::client", restoreClientHelper)
-    -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
-
-    capi.awesome.connect_signal("property::client", restoreClientHelper)
-end
-
-
-
--- create workspace by definition
--- @param definition table of workspace definition
---     definition = {
---         name = "workspace name",
---         tags = {
---             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
---             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
---             ...
---         }
---     }
--- @usage WorkspaceManagerService:restoreWorkspace(definition)
 function WorkspaceManagerService:restoreWorkspace(definition, global)
     global = global or false
 
@@ -230,6 +85,47 @@ end
 --          ...
 --     }
 -- @usage WorkspaceManagerService:restoreClientsForTag(tag, clients)
+function WorkspaceManagerService:getSessionData()
+    local sessionData = {
+        workspaces = {}
+    }
+
+    for _, workspace in ipairs(self.workspaceManagerModel:getAllWorkspaces()) do
+        local workspaceData = {
+            name = workspace:getName(),
+            tags = {}
+        }
+
+        for _, tag in ipairs(workspace:getAllTags()) do
+            local tagData = {
+                name = tag.name,
+                hidden = tag.hidden,
+                index = tag.index,
+                layout = tag.layout.name,
+                clients = {}
+            }
+
+            for _, client in ipairs(tag:clients()) do
+                local clientData = {
+                    pid = client.pid,
+                    class = client.class,
+                    instance = client.instance,
+                    role = client.role,
+                    name = client.name
+                }
+                table.insert(tagData.clients, clientData)
+            end
+
+            table.insert(workspaceData.tags, tagData)
+        end
+
+        table.insert(sessionData.workspaces, workspaceData)
+    end
+
+    return sessionData
+end
+
+
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
     local function manage_client_signal(c)
         local client_to_restore = __.find(clients, function(client)
@@ -268,9 +164,7 @@ function WorkspaceManagerService:setupTags()
     last_workspace:setStatus(true)
 end
 
-
 -- {{{ Dynamic tagging
-
 
 -- Add a new tag
 function WorkspaceManagerService:addTagToWorkspace(workspace)
