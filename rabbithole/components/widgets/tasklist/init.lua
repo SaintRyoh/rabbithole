@@ -6,10 +6,12 @@ local TaskListController = {}
 TaskListController.__index = TaskListController
 
 function TaskListController.new(
-    rabbithole__components__buttons__tasklist
+    rabbithole__components__buttons__tasklist,
+    rabbithole__services__animation
 )
     local self = setmetatable({}, TaskListController)
     self.tasklist = rabbithole__components__buttons__tasklist
+    self.animationService = rabbithole__services__animation
 
     -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
@@ -29,31 +31,55 @@ function TaskListController:get_client_icon(c)
 
 function TaskListController:create_callback(tasklist, c, _, _)
     tasklist:get_children_by_id("clienticon")[1].image = self:get_client_icon(c)
+    local background = tasklist:get_children_by_id('background_role')[1]
 
-    local timer = gears.timer {
-        timeout = 0.5,
-        autostart = true,
-        single_shot = true,
-        callback = function()
-            c:emit_signal("request::activate", "mouse_enter", {raise = false})
+    local animation = self.animationService:get_basic_animation()
+
+    animation:subscribe(function (pos)
+        if pos  < 0 then
+            return
         end
-    }
-
-    tasklist:connect_signal('mouse::enter', function()
-        tasklist:get_children_by_id('background_role')[1]:set_bg(beautiful.bg_focus)
-        tasklist:get_children_by_id('background_role')[1]:set_fg(beautiful.bg_focus)
-        timer:again()
-    end)
-    tasklist:connect_signal('mouse::leave', function()
-        if timer.started then 
-            timer:stop() 
-        else
+        if pos ==1 then
             c:emit_signal("request::activate", "mouse_leave", {raise = false})
         end
-        if c == client.focus then return end
-        tasklist:get_children_by_id('background_role')[1]:set_bg('#00000000')
-        tasklist:get_children_by_id('background_role')[1]:set_fg('#00000000')
+        if pos ==0 then
+            c:emit_signal("request::activate", "mouse_enter", {raise = false})
+        end
+        background.bg = self.animationService:create_widget_bg(
+            self.animationService:blend_colors("#111111", "#e86689", pos * 100), 
+            self.animationService:blend_colors("#111111", "#e6537a", pos * 100)
+        )
+    end)
 
+    tasklist:connect_signal('mouse::enter', function()
+        -- for highlighting tag preview
+
+        -- for highlighting tasklist
+        -- background.bg = beautiful.bg_focus
+        animation.target = 0
+    end)
+
+    tasklist:connect_signal('mouse::leave', function()
+        -- for highlighting tag preview
+        if c == client.focus then return end
+
+        -- for highlighting tasklist
+        -- background.bg = "#00000000"
+        animation.target = 1
+
+        return true
+    end)
+
+    tasklist:connect_signal('button::press', function()
+        animation.target = 1
+        animation:fire(0, 1)
+        return true
+    end)
+
+    tasklist:connect_signal('button::release', function()
+        animation.target = 0
+        animation:fire(1, 1)
+        return true
     end)
 
     awful.tooltip({
@@ -62,6 +88,7 @@ function TaskListController:create_callback(tasklist, c, _, _)
             return c.name
         end,
     })
+
 end
 
 return TaskListController
