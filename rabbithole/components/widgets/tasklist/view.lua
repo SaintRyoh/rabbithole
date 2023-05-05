@@ -24,7 +24,7 @@ return function (controller)
         },
         {
             awful.widget.tasklist({
-                screen = controller.s,
+                screen = controller.screen,
                 filter  = generate_filter(controller.tag),
                 buttons = controller.tasklist_buttons,
                 widget_template = {
