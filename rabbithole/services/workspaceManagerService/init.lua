@@ -54,7 +54,7 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     -- make a timer to periodically save the session
     self.saveSessionTimer = gears.timer({
         timeout = 5,
-        autostart = true,
+        autostart = false,
         callback = function()
             self:saveSession()
         end
