@@ -10,7 +10,7 @@ function TaskListController.new(
     rabbithole__services__animation
 )
     local self = setmetatable({}, TaskListController)
-    self.tasklist = rabbithole__components__buttons__tasklist
+    self.tasklist_buttons = rabbithole__components__buttons__tasklist
     self.animationService = rabbithole__services__animation
 
     -- still need screen and tag before we can create the view so we return a function
@@ -29,64 +29,45 @@ function TaskListController:get_client_icon(c)
     return icon
   end
 
-function TaskListController:create_callback(tasklist, c, _, _)
-    tasklist:get_children_by_id("clienticon")[1].image = self:get_client_icon(c)
-    local background = tasklist:get_children_by_id('background_role')[1]
+function TaskListController:create_callback(task_template, c, _, _)
+    task_template:get_children_by_id('icon_role')[1].image = self:get_client_icon(c)
+    local background = task_template:get_children_by_id('background_role')[1]
+    local animation = self.animationService:get_basic_animation({
+        duration = 0.4,
+        rapid_set = true,
+        pos = c == client.focus and 1 or 0,
+        subscribed = (function (pos)
+            background.bg = self.animationService.create_widget_bg(
+                self.animationService.blend_colors(beautiful.tasklist_bg_normal, "#e86689", pos), 
+                self.animationService.blend_colors(beautiful.tasklist_bg_normal, "#e6537a", pos)
+            )
+        end)
+    })
 
-    local animation = self.animationService:get_basic_animation()
 
-    animation:subscribe(function (pos)
-        if pos >= 0.5 then
-            c:emit_signal("request::activate", "mouse_leave", {raise = false})
-        end
-        if pos < 0.5 then
-            c:emit_signal("request::activate", "mouse_enter", {raise = false})
-        end
-        background.bg = self.animationService:create_widget_bg(
-            self.animationService:blend_colors(beautiful.tasklist_bg_normal, "#e86689", pos), 
-            self.animationService:blend_colors(beautiful.tasklist_bg_normal, "#e6537a", pos)
-        )
-    end)
-
-    tasklist:connect_signal('mouse::enter', function()
-        -- for highlighting tag preview
-
-        -- for highlighting tasklist
-        -- background.bg = beautiful.bg_focus
+    task_template:connect_signal('mouse::enter', function()
         animation.target = 1
     end)
 
-    tasklist:connect_signal('mouse::leave', function()
-        -- for highlighting tag preview
-        if c == client.focus then return end
-
-        -- for highlighting tasklist
-        -- background.bg = "#00000000"
-        animation.target = 0
+    task_template:connect_signal('mouse::leave', function()
+        if c ~= client.focus then 
+            animation.target = 0
+        end
 
         return true
     end)
 
-    tasklist:connect_signal('button::press', function()
-        animation.target = 1
-        animation:fire(0, 1)
-        -- minimize toggle 
-        if c.minimized then
-            c.minimized = false
-        else
-            c.minimized = true
-        end
+    task_template:connect_signal('button::press', function()
+        animation.target = 0
         return true
     end)
 
-    tasklist:connect_signal('button::release', function()
-        animation.target = 0
-        animation:fire(1, 1)
-        -- return true
+    task_template:connect_signal('button::release', function()
+        animation.target = 1
     end)
 
     awful.tooltip({
-        objects = { tasklist },
+        objects = { task_template },
         timer_function = function()
             return c.name
         end,

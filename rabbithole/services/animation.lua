@@ -18,15 +18,11 @@ function AnimationAbstractFactory.new(settings)
     return self
 end
 
-function AnimationAbstractFactory:get_basic_animation()
-    return rubato.timed {
-        duration = 0.4,
-        clamp_position = true,
-        easing = rubato.easing.quadratic,
-    }
+function AnimationAbstractFactory:get_basic_animation(args)
+    return rubato.timed(gears.table.crush(self.settings.animation or {}, args))
 end
 
-function AnimationAbstractFactory:blend_colors(color1, color2, percentage)
+function AnimationAbstractFactory.blend_colors(color1, color2, percentage)
     if percentage > 1 then
         percentage = 1
     end
@@ -50,7 +46,7 @@ function AnimationAbstractFactory:blend_colors(color1, color2, percentage)
   return color3
 end
 
-function AnimationAbstractFactory:create_widget_bg(color1, color2, func)
+function AnimationAbstractFactory.create_widget_bg(color1, color2, func)
     if func then
         color1 = func(color1)
         color2 = func(color2)

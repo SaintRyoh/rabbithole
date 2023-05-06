@@ -98,30 +98,23 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         end
     }
 
-    local animation = self.animationService:get_basic_animation()
+    local animation = self.animationService:get_basic_animation({
+        pos = tag.selected and 1 or 0,
+        duration = 0.4,
+        rapid_set = true,
+        subscribed = function (pos)
+            tag_template.bg = self.animationService.create_widget_bg(
+                self.animationService.blend_colors("#5123db", "#e86689", pos), 
+                self.animationService.blend_colors("#6e5bd6", "#e6537a", pos)
+            )
+        end
+    })
 
-    animation:subscribe(function (pos)
-        tag_template.bg = self.animationService:create_widget_bg(
-            self.animationService:blend_colors("#5123db", "#e86689", pos), 
-            self.animationService:blend_colors("#6e5bd6", "#e6537a", pos)
-        )
-    end)
 
-    if tag.selected then
-        animation.target = 1
-    else
-        animation.target = 0
-    end
     
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
-        -- kick it 
-        if animation.target == 1 then
-            animation.target = animation.target + 0.1
-            animation.target = animation.target - 0.1
-        else
-            animation.target = 1
-        end
+        animation.target = 1
     end)
 
     tag_template:connect_signal('mouse::leave', function()
