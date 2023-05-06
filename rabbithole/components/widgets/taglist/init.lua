@@ -18,7 +18,7 @@ function TaglistController.new(
     rabbithole__services__animation,
     rabbithole__services__color,
     rabbithole__components__buttons__taglist,
-    rabbithole__components__buttons__global___taglist
+    rabbithole__components__buttons__taglist___global
 )
     local plusButton            = require("rabbithole.components.widgets.taglist.plus_button")(workspaceManagerService)
     -- globe icon for global tag widget
@@ -44,7 +44,7 @@ function TaglistController.new(
             source          = function()
                 return workspaceManagerService:getAllGlobalTags()
             end,
-            buttons         = rabbithole__components__buttons__global___taglist,
+            buttons         = rabbithole__components__buttons__taglist___global,
             update_function = get_update_function(s),
             widget_template = global_taglist_template(self)
         }
