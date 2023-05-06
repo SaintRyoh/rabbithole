@@ -94,7 +94,7 @@ local function generate_theme(primary_color, color_scheme, options)
     return theme
 end
 
--- Usage example:
+--[[ Usage example:
 local primary_color = "#4CAF50" -- Material Design Green 500
 local color_scheme = "complementary" -- You can choose from the schemes listed above
 local options = {
@@ -108,7 +108,8 @@ local options = {
         minimize = "color4"
     }
 }
-local my_theme = generate_theme(primary_color, color_scheme, options)
+--]]
+local tesseract_theme = generate_theme(primary_color, color_scheme, options)
 
--- Apply the generated theme to AwesomeWM
-beautiful.init(my_theme)
+-- Return the the MD3 color-perfect theme
+return tesseract_theme

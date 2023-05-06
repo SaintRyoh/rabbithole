@@ -1,5 +1,5 @@
 local Widget = require("elements-base-ui") -- Make sure the path is correct
-local Animations = require("elements-animations") -- Make sure the path is correct
+local Animations = require("rabbithole.components.widgets.themeEngines.elements-animations") -- Make sure the path is correct
 
 --[[ Usage:
 local my_popup = Popup({
