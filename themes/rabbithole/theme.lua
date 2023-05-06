@@ -140,7 +140,9 @@ theme.notification_icon_size = dpi(80)
 theme.notification_max_width = dpi(600)
 theme.notification_max_height = dpi(400)
 
-
+-- BLING theme variables
+theme.tag_preview_client_border_color = theme.base_color
+theme.tag_preview_widget_border_color = "#3f3f3f"
 -- Set window corner rounding to 5px
 client.connect_signal("property::size", function(c)
     gears.surface.apply_shape_bounding(c, gears.shape.rounded_rect, 10)
