@@ -6,8 +6,6 @@ return setmetatable({}, {
     __constructor = function (settings)
         if gears.filesystem.file_readable(gears.filesystem.get_configuration_dir() .. settings.theme_dir) then
             beautiful.init(gears.filesystem.get_configuration_dir() .. settings.theme_dir)
-            local nice = require("sub.nice")
-            nice()
         else
             beautiful.init("themes/zenburn/theme.lua")
         end

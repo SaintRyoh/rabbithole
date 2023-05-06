@@ -10,6 +10,3 @@
 [submodule "sub/rubato"]
 	path = sub/rubato
 	url = https://github.com/andOrlando/rubato
-[submodule "sub/nice"]
-	path = sub/nice
-	url = https://github.com/mut-ex/awesome-wm-nice/tree/awesome-4v3-stable
