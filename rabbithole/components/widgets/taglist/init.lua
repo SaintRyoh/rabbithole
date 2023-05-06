@@ -5,6 +5,7 @@ local get_update_function     = require("rabbithole.components.widgets.taglist.u
 local local_taglist_template  = require("rabbithole.components.widgets.taglist.template_local")
 local global_taglist_template = require("rabbithole.components.widgets.taglist.template_global")
 local gears                  = require("gears")
+local beautiful             = require("beautiful")
 
 
 -- workspace menu controller
@@ -104,10 +105,14 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         duration = 0.4,
         rapid_set = true,
         subscribed = function (pos)
-            tag_template.bg = self.color.create_widget_bg(
-                self.color.blend_colors("#5123db", "#e86689", pos), 
-                self.color.blend_colors("#6e5bd6", "#e6537a", pos)
-            )
+            if type(tag_template.bg) == "string" then
+                tag_template.bg = self.color.blend_colors(beautiful.bg_normal, beautiful.bg_focus, pos)
+            else
+                tag_template.bg = self.color.create_widget_bg(
+                    self.color.blend_colors("#5123db", "#e86689", pos), 
+                    self.color.blend_colors("#6e5bd6", "#e6537a", pos)
+                )
+            end
         end
     })
 
