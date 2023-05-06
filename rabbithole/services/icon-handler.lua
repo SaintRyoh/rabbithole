@@ -38,7 +38,7 @@ function IconHandler:get_icon_by_client(c)
         awful.util.geticonpath(
             c.class:lower(), 
             gears.table.join(__.get(self.settings, {'client', 'icon', 'ext' }), {'svg', 'png', 'gif'}),
-            gears.table.join(__.get(self.settings, {'client', 'icon', 'dirs' }), {theme_path})
+            gears.table.join(__.get(self.settings, {'client', 'icon', 'dirs' }), {theme_path, '/usr/share/pixmaps/'})
         ) or nil, 
         __.get(self.settings, {'client', 'icon', 'default' },
         gears.filesystem.get_configuration_dir() .. "themes/rabbithole/icons/fallback.svg"
