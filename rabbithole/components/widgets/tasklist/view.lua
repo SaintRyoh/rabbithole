@@ -16,7 +16,7 @@ local generate_filter = function(t)
     end
 end
 
-return function (controller, tasklist_buttons, s, tag)
+return function (controller)
     return wibox.widget {
         {
             widget = wibox.container.margin,
@@ -24,18 +24,18 @@ return function (controller, tasklist_buttons, s, tag)
         },
         {
             awful.widget.tasklist({
-                screen = s,
-                filter  = generate_filter(tag),
-                buttons = tasklist_buttons,
+                screen = controller.screen,
+                filter  = generate_filter(controller.tag),
+                buttons = controller.tasklist_buttons,
                 widget_template = {
                     {
                         {
                             {
-                                id = "clienticon",
+                                id = "icon_role",
                                 widget = wibox.widget.imagebox,
-                                -- forced_width = dpi( 24 ),
                                 forced_height = dpi( 24 ),
                             },
+                            -- id = "icon_margin_role",
                             widget = wibox.container.margin,
                             margins = dpi( 4 ),
                         },
