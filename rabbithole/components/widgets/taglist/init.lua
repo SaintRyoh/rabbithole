@@ -6,6 +6,7 @@ local local_taglist_template  = require("rabbithole.components.widgets.taglist.t
 local global_taglist_template = require("rabbithole.components.widgets.taglist.template_global")
 local gears                  = require("gears")
 local beautiful             = require("beautiful")
+local math                  = require("math")
 
 
 -- workspace menu controller
@@ -146,6 +147,7 @@ end
 
 -- update index
 function TaglistController:update_index(tag_template, index)
+    index = math.min(index, 9)
     local index_widget = __.first(tag_template:get_children_by_id('index_role')) or nil
     if index_widget then
         index_widget.markup = '<b> ' .. index .. ' </b>'
