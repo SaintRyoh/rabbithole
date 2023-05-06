@@ -7,11 +7,13 @@ TaskListController.__index = TaskListController
 
 function TaskListController.new(
     rabbithole__components__buttons__tasklist,
-    rabbithole__services__animation
+    rabbithole__services__animation,
+    rabbithole__services__color
 )
     local self = setmetatable({}, TaskListController)
     self.tasklist_buttons = rabbithole__components__buttons__tasklist
-    self.animationService = rabbithole__services__animation
+    self.animation = rabbithole__services__animation
+    self.color = rabbithole__services__color
 
     -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
@@ -32,14 +34,15 @@ function TaskListController:get_client_icon(c)
 function TaskListController:create_callback(task_template, c, _, _)
     task_template:get_children_by_id('icon_role')[1].image = self:get_client_icon(c)
     local background = task_template:get_children_by_id('background_role')[1]
-    local animation = self.animationService:get_basic_animation({
+
+    local animation = self.animation({
         duration = 0.4,
         rapid_set = true,
         pos = c == client.focus and 1 or 0,
         subscribed = (function (pos)
-            background.bg = self.animationService.create_widget_bg(
-                self.animationService.blend_colors(beautiful.tasklist_bg_normal, "#e86689", pos), 
-                self.animationService.blend_colors(beautiful.tasklist_bg_normal, "#e6537a", pos)
+            background.bg = self.color.create_widget_bg(
+                self.color.blend_colors(beautiful.tasklist_bg_normal, "#e86689", pos), 
+                self.color.blend_colors(beautiful.tasklist_bg_normal, "#e6537a", pos)
             )
         end)
     })

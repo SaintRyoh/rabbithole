@@ -4,7 +4,6 @@ local wibox                   = require("wibox")
 local get_update_function     = require("rabbithole.components.widgets.taglist.update_function")
 local local_taglist_template  = require("rabbithole.components.widgets.taglist.template_local")
 local global_taglist_template = require("rabbithole.components.widgets.taglist.template_global")
-local beautiful               = require("beautiful")
 local gears                  = require("gears")
 
 
@@ -17,6 +16,7 @@ function TaglistController.new(
     rabbithole__components__widgets__tasklist,
     rabbithole__services__tag___preview,
     rabbithole__services__animation,
+    rabbithole__services__color,
     rabbithole__components__buttons__taglist,
     rabbithole__components__buttons__global___taglist
 )
@@ -31,7 +31,8 @@ function TaglistController.new(
     self.workspaceManagerService = workspaceManagerService
     self.getTasklist = rabbithole__components__widgets__tasklist
     self.tagPreview = rabbithole__services__tag___preview
-    self.animationService = rabbithole__services__animation
+    self.animation = rabbithole__services__animation
+    self.color = rabbithole__services__color
 
     return function (s)
         self.screen = s
@@ -98,14 +99,14 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         end
     }
 
-    local animation = self.animationService:get_basic_animation({
+    local animation = self.animation({
         pos = tag.selected and 1 or 0,
         duration = 0.4,
         rapid_set = true,
         subscribed = function (pos)
-            tag_template.bg = self.animationService.create_widget_bg(
-                self.animationService.blend_colors("#5123db", "#e86689", pos), 
-                self.animationService.blend_colors("#6e5bd6", "#e6537a", pos)
+            tag_template.bg = self.color.create_widget_bg(
+                self.color.blend_colors("#5123db", "#e86689", pos), 
+                self.color.blend_colors("#6e5bd6", "#e6537a", pos)
             )
         end
     })
