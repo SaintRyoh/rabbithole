@@ -47,9 +47,11 @@ function TaskListController:create_callback(task_template, c, _, _)
 
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
+        c:emit_signal('request::activate', 'mouse_enter', {raise = false})
     end)
 
     task_template:connect_signal('mouse::leave', function()
+        c:emit_signal('request::activate', 'mouse_leave', {raise = false})
         if c ~= client.focus then 
             animation.target = 0
         end
@@ -59,7 +61,6 @@ function TaskListController:create_callback(task_template, c, _, _)
 
     task_template:connect_signal('button::press', function()
         animation.target = 0
-        return true
     end)
 
     task_template:connect_signal('button::release', function()
