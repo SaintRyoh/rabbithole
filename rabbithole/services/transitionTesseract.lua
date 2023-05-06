@@ -1,14 +1,14 @@
 local class = require("src.modules.class") -- Make sure to point to the correct path of your class file
 local gears = require("gears")
 
---[[ 
+--[[
 Material Design 3 Standards:
 
 Purposeful: Ensure that animations serve a purpose, such as providing feedback, focusing attention, or revealing elements. Avoid animations that don't add value to the user experience.
 
 Smooth: Make sure that animations are fluid and smooth by using easing functions and appropriate durations.
 
-Consistent: Maintain consistency throughout your application by using a predefined set of animations or motion patterns. 
+Consistent: Maintain consistency throughout your application by using a predefined set of animations or motion patterns.
 
 Usage:
 
@@ -44,7 +44,6 @@ myWidget:addAnimation(animations.fadeIn, 1, function()
 end)
 
 ]]
-
 local Animations = class()
 
 function Animations:init()
@@ -312,7 +311,8 @@ function Animations:colorTransition(widget, duration, from_color, to_color, call
     }
 end
 
-function Animations:positionSizeTransition(widget, duration, from_x, from_y, from_width, from_height, to_x, to_y, to_width, to_height, callback)
+function Animations:positionSizeTransition(widget, duration, from_x, from_y, from_width, from_height, to_x, to_y,
+                                           to_width, to_height, callback)
     local steps = duration / 10
     local delta_x = (to_x - from_x) / steps
     local delta_y = (to_y - from_y) / steps
@@ -625,8 +625,6 @@ end)
 
 
 ]]
-
-
 function Animations:emphasized(widget, duration, from_x, from_y, to_x, to_y, callback)
     duration = duration or 0.5
     self:acceleratedDeceleratedMovement(widget, duration, from_x, from_y, to_x, to_y, callback)
@@ -959,7 +957,6 @@ function Animations:flipOut(widget, duration, axis, callback)
     }
 end
 
-
 function Animations:bounceIn(widget, duration, intensity, callback)
     duration = duration or 0.5
     intensity = intensity or 30
@@ -1012,7 +1009,6 @@ function Animations:bounceOut(widget, duration, intensity, callback)
         end
     }
 end
-
 
 function Animations:elasticIn(widget, duration, amplitude, period, callback)
     duration = duration or 0.5
@@ -1166,7 +1162,6 @@ local button_widget = ShadowContainer {
 
 
 ]]
-
 -- Shadow container
 local ShadowContainer = {
     draw = function(self, context, cr, width, height)
@@ -1220,6 +1215,5 @@ function Animations:hoverElevation(widget, duration, elevation, callback)
         end
     }
 end
-
 
 return Animations
