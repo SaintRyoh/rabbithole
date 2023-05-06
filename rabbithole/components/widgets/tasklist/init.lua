@@ -8,12 +8,14 @@ TaskListController.__index = TaskListController
 function TaskListController.new(
     rabbithole__components__buttons__tasklist,
     rabbithole__services__animation,
-    rabbithole__services__color
+    rabbithole__services__color,
+    rabbithole__services__icon___handler
 )
     local self = setmetatable({}, TaskListController)
     self.tasklist_buttons = rabbithole__components__buttons__tasklist
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
+    self.icon = rabbithole__services__icon___handler
 
     -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
@@ -22,17 +24,9 @@ function TaskListController.new(
         return view(self)
     end
 end
-function TaskListController:get_client_icon(c)
-    local icon = c.icon or c.class_icon or c.instance_icon or nil
-    if not icon then
-    --   icon = gears.surface.load(beautiful.fallback_icon)
-        icon = gears.surface.load_uncached(gears.filesystem.get_configuration_dir() .. "themes/rabbithole/icons/fallback.svg")
-    end
-    return icon
-  end
 
 function TaskListController:create_callback(task_template, c, _, _)
-    task_template:get_children_by_id('icon_role')[1].image = self:get_client_icon(c)
+    task_template:get_children_by_id('icon_role')[1].image = self.icon:get_icon_by_client(c)
     local background = task_template:get_children_by_id('background_role')[1]
 
     local animation = self.animation({
