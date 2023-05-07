@@ -92,7 +92,11 @@ return setmetatable({}, {
                 },
                 properties = {
                     titlebars_enabled = false,
-                    placement = awful.placement.centered
+                    placement = awful.placement.centered,
+                    skip_taskbar = true,
+                    floating = true,
+                    ontop = true,
+                    sticky = true,
                 }
             },
 

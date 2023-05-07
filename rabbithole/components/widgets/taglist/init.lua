@@ -130,7 +130,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         self.tagPreview.hide(self.screen)
 
         --animation
-        if not tag.selected then
+        if not tag.selected or tag.screen ~= awful.screen.focused() then
             animation.target = 0
         end
 

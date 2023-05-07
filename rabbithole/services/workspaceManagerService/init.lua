@@ -22,6 +22,47 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     self.workspaceManagerModel = workspaceManager:new()
     self.modal = rabbithole__services__modal
 
+    -- pause stuff
+    self.pauseState = nil
+
+
+    capi.screen.connect_signal("removed", function (s)
+        self:screenDisconnectUpdate(s)
+    end)
+
+
+    -- load sesison
+    self.path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat"
+
+    local status, err = pcall(function ()
+        self:loadSession() 
+    end)
+
+    if not status then
+        -- self:backupSessionFile(self.path)
+        naughty.notify({
+            title="Error loading session",
+            text=err,
+            timeout=0
+        })
+        self:newSession()
+        self.session_restored = false
+    else
+        self.session_restored = true
+    end
+
+    -- make a timer to periodically save the session
+    self.saveSessionTimer = gears.timer({
+        timeout = 5,
+        autostart = false,
+        callback = function()
+            self:saveSession()
+        end
+    })
+
+    self.startup_rules = {}
+
+    -- observer
     self.subscribers = {}
 
     return self
@@ -40,7 +81,6 @@ function WorkspaceManagerService:newSession()
     local workspace = self.workspaceManagerModel:createWorkspace("New Workspace")
     workspace:setStatus(true)
     self:switchTo(workspace)
-    self:saveSession()
 end
 
 function WorkspaceManagerService:saveSession()
@@ -68,6 +108,7 @@ function WorkspaceManagerService:loadSession()
         })
         error(err)
     end
+
     local session = file:read("*all")
     file:close()
     local _, loadedModel = serpent.load(session, {safe = false})
@@ -97,40 +138,11 @@ function WorkspaceManagerService:loadSession()
 
      self:restoreWorkspace(loadedModel.global_workspace, true)
 
-    local function restoreClientHelper()
-        self:pauseService()
-        __.forEach(tagCoroutines, function(tc)
-            coroutine.resume(tc)
-        end)
-        client.disconnect_signal("property::client", restoreClientHelper)
-        self:unpauseService()
-
-        -- Restore the selected workspace and tag after clients are restored
-        if selected_workspace_index and selected_tag_index then
-            local restored_workspace = self.workspaceManagerModel:getAllWorkspaces()[selected_workspace_index]
-            local restored_tag = restored_workspace:getTagByIndex(selected_tag_index)
-            if restored_tag then
-                restored_tag:view_only()
-            end
-        end
-    end
-
-    capi.awesome.connect_signal("property::client", restoreClientHelper)
 end
 
 
 
 -- create workspace by definition
--- @param definition table of workspace definition
---     definition = {
---         name = "workspace name",
---         tags = {
---             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
---             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
---             ...
---         }
---     }
--- @usage WorkspaceManagerService:restoreWorkspace(definition)
 function WorkspaceManagerService:restoreWorkspace(definition, global)
     global = global or false
 
@@ -151,7 +163,8 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
         return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and tag1.hidden == tag2.hidden
     end
 
-    __.forEach(definition.tags, function(tag_definition, index)
+
+    self.restore_rules = __.flatten(__.map(definition.tags, function(tag_definition, index)
         local tag = self:createTag(index, {
             name = tag_definition.name,
             hidden = tag_definition.hidden,
@@ -171,32 +184,32 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
             workspace.activated = true
         end
 
-        self:restoreClientsForTag(tag, tag_definition.clients)
-    end)
+        return self:createClientRulesForTag(tag, tag_definition.clients)
+    end))
+
+    awful.rules.rules = gears.table.join(
+        awful.rules.rules,
+        self.restore_rules
+    )
 end
 
 
-function WorkspaceManagerService:restoreClientsForTag(tag, clients)
-    -- set rules on all the clients
-    __.forEach(clients, function(c)
-        __.push(awful.rules.rules, self:createRuleForTag(tag, c) )
-    end)
+function WorkspaceManagerService:createClientRulesForTag(tag, clients)
+    return __.map(clients, function(c)
+        return self:createRuleForClient(tag, c)
+    end) 
 end
 
-function WorkspaceManagerService:createRuleForTag(tag, c)
-    print("creating rule for tag")
+function WorkspaceManagerService:createRuleForClient(tag, c)
     return {
         rule_any = {
             pid = {c.pid},
             class = {c.class},
         },
         callback = function(cl)
-            -- print("callback")
-            print(string.format("c.pid: %s, c.class: %s, c.name: %s, tag.name: %s", cl.pid, cl.class, cl.name, tag.name))
             tag.activated = true
             cl:move_to_tag(tag)
         end
-
     }
 end
 
@@ -449,52 +462,29 @@ function WorkspaceManagerService:pauseService()
     self:setStatusForAllWorkspaces(true)
 end
 
-function WorkspaceManagerService:unpauseService()
-    capi.awesome.disconnect_signal("refresh", self.unpauseServiceHelper)
-    self:setStatusForAllWorkspaces(false)
-    self.pauseState:setStatus(true)
-    self.pauseState = nil
+function WorkspaceManagerService:clearRestoreRules()
+    __.remove(awful.rules.rules, function(rule)
+        return __.includes(self.restore_rules, rule)
+    end)
+    self.restore_rules = {}
 end
 
 function WorkspaceManagerService:screenDisconnectUpdate(s)
 
-    self:pauseService()
+    self:clearRestoreRules()
+    self.restore_rules = __.map(self:getAllTags(), function(tag)
+        return self:createClientRulesForTag(tag, tag:clients())
+    end)
 
-    -- First give other code a chance to move the tag to another screen
-    for _, t in pairs(s.tags) do
-        t:emit_signal("request::screen")
-    end
-    -- Everything that's left: Tell everyone that these tags go away (other code
-    -- could e.g. save clients)
-    for _, t in pairs(s.tags) do
-        t:emit_signal("removal-pending")
-    end
-    -- Give other code yet another change to save clients
-    for _, c in pairs(capi.client.get(s)) do
-        c:emit_signal("request::tag", nil, { reason = "screen-removed" })
-    end
-    -- Then force all clients left to go somewhere random
-    local fallback = nil
-    for other_screen in capi.screen do
-        if #other_screen.tags > 0 then
-            fallback = other_screen.tags[1]
-            break
-        end
-    end
-    for _, t in pairs(s.tags) do
-        t:delete(fallback, true)
-    end
-    -- If any tag survived until now, forcefully get rid of it
-    for _, t in pairs(s.tags) do
-        t.activated = false
+    awful.rules.rules = gears.table.join(
+        awful.rules.rules,
+        self.restore_rules
+    )
 
-        if t.data.awful_tag_properties then
-            t.data.awful_tag_properties.screen = nil
-        end
-    end
-
-    -- let all the other events play out the unpause service
-    capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
+    __.forEach(client.get(s), function(c)
+        awful.rules.apply(c)
+    end)
+    self:clearRestoreRules()
 
 end
 
