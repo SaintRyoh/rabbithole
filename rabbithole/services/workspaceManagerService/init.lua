@@ -463,12 +463,25 @@ function WorkspaceManagerService:clearRestoreRules()
 end
 function WorkspaceManagerService:unpauseService()
     capi.awesome.disconnect_signal("refresh", self.unpauseServiceHelper)
-    self:setStatusForAllWorkspaces(false)
-    self.pauseState:setStatus(true)
+    self.workspaceManagerModel:switchTo(self.pauseState)
     self.pauseState = nil
 end
 function WorkspaceManagerService:screenDisconnectUpdate(s)
     self:pauseService()
+
+    self:clearRestoreRules()
+    self.restore_rules = __.map(self:getAllTags(), function(tag)
+        return self:createClientRulesForTag(tag, tag:clients())
+    end)
+
+    awful.rules.rules = gears.table.join(
+        awful.rules.rules,
+        self.restore_rules
+    )
+
+    __.forEach(client.get(s), function(c)
+        awful.rules.apply(c)
+    end)
 
     -- First give other code a chance to move the tag to another screen
     for _, t in pairs(s.tags) do
@@ -504,21 +517,11 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
     end
 
     -- let all the other events play out the unpause service
-    capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
+    -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
-    self:clearRestoreRules()
-    self.restore_rules = __.map(self:getAllTags(), function(tag)
-        return self:createClientRulesForTag(tag, tag:clients())
-    end)
 
-    awful.rules.rules = gears.table.join(
-        awful.rules.rules,
-        self.restore_rules
-    )
 
-    __.forEach(client.get(s), function(c)
-        awful.rules.apply(c)
-    end)
+    self:switchTo(self.pauseState)
 
 end
 
