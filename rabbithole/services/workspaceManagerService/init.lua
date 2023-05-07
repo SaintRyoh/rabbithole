@@ -87,6 +87,13 @@ function WorkspaceManagerService:loadSession()
 
      self:restoreWorkspace(loadedModel.global_workspace, true)
 
+     -- manually apply rules after startup 
+    --  awesome.connect_signal("startup", function()
+    --     __.forEach(client.get(), function(c)
+    --         awful.rules.apply(c)
+    --     end)
+    --  end)
+
 end
 
 
@@ -154,13 +161,18 @@ function WorkspaceManagerService:restoreClientsForTag(tag, clients)
 end
 
 function WorkspaceManagerService:createRuleForTag(tag, c)
+    print("creating rule for tag")
     return {
-        rule_any = {
+        rule = {
             pid = c.pid,
         },
-        properties = {
-            tags = {tag},
-        }
+        callback = function(cl)
+            -- print("callback")
+            print(string.format("c.pid: %s, c.class: %s, c.name: %s, tag.name: %s", cl.pid, cl.class, cl.name, tag.name))
+            tag.activated = true
+            cl:move_to_tag(tag)
+        end
+
     }
 end
 
