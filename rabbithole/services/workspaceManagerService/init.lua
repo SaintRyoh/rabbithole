@@ -163,8 +163,9 @@ end
 function WorkspaceManagerService:createRuleForTag(tag, c)
     print("creating rule for tag")
     return {
-        rule = {
-            pid = c.pid,
+        rule_any = {
+            pid = {c.pid},
+            class = {c.class},
         },
         callback = function(cl)
             -- print("callback")
