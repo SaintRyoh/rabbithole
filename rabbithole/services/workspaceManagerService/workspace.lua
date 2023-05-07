@@ -137,7 +137,7 @@ function workspace:__serialize()
     }
 end
 
-function workspace:getName()
+function workspace:getName(default)
     if self.name then
         return self.name
     elseif #self.tags > 0 then
@@ -145,7 +145,7 @@ function workspace:getName()
         -- return the first part of the split
         return string.gsub(lodash.first(self.tags).name, "%..*", "")
     else 
-        return nil
+        return default or nil
     end
 end
 

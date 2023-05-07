@@ -1,24 +1,76 @@
 local awful = require("awful")
-local model = require("rabbithole.components.widgets.tasklist.model")
+local gears = require("gears")
+local beautiful = require("beautiful")
 local view = require("rabbithole.components.widgets.tasklist.view")
-local controller = require("rabbithole.components.widgets.tasklist.controller")
+local TaskListController = {}
+TaskListController.__index = TaskListController
 
-local _M = {}
+function TaskListController.new(
+    rabbithole__components__buttons__tasklist,
+    rabbithole__services__animation,
+    rabbithole__services__color,
+    rabbithole__services__icon___handler
+)
+    local self = setmetatable({}, TaskListController)
+    self.tasklist_buttons = rabbithole__components__buttons__tasklist
+    self.animation = rabbithole__services__animation
+    self.color = rabbithole__services__color
+    self.icon = rabbithole__services__icon___handler
 
-function _M.create(screen, tag, tasklistmenu)
-    local clients = model.get_clients(screen)
-    local tasklist_buttons = controller.create_buttons(tasklistmenu)
-    local tasklist_widget = view.create(tasklist_buttons, screen, tag)
-    
-    return tasklist_widget
+    -- still need screen and tag before we can create the view so we return a function
+    return function (screen, tag)
+        self.screen = screen
+        self.tag = tag
+        return view(self)
+    end
 end
 
-return setmetatable({}, {
-    __constructor = function(
-        rabbithole__components__menus__tasklist___menu
-    )
-        return function(screen, tag)
-            return _M.create(screen, tag, rabbithole__components__menus__tasklist___menu)
+function TaskListController:create_callback(task_template, c, _, _)
+    task_template:get_children_by_id('icon_role')[1].image = self.icon:get_icon_by_client(c)
+    local background = task_template:get_children_by_id('background_role')[1]
+
+    local animation = self.animation({
+        duration = 0.4,
+        rapid_set = true,
+        pos = c == client.focus and 1 or 0,
+        subscribed = (function (pos)
+            background.bg = self.color.create_widget_bg(
+                self.color.blend_colors(beautiful.tasklist_bg_normal, "#e86689", pos), 
+                self.color.blend_colors(beautiful.tasklist_bg_normal, "#e6537a", pos)
+            )
+        end)
+    })
+
+
+    task_template:connect_signal('mouse::enter', function()
+        animation.target = 1
+        c:emit_signal('request::activate', 'mouse_enter', {raise = false})
+    end)
+
+    task_template:connect_signal('mouse::leave', function()
+        c:emit_signal('request::activate', 'mouse_leave', {raise = false})
+        if c ~= client.focus then 
+            animation.target = 0
         end
-    end
-})
+
+        return true
+    end)
+
+    task_template:connect_signal('button::press', function()
+        animation.target = 0
+    end)
+
+    task_template:connect_signal('button::release', function()
+        animation.target = 1
+    end)
+
+    awful.tooltip({
+        objects = { task_template },
+        timer_function = function()
+            return c.name
+        end,
+    })
+
+end
+
+return TaskListController

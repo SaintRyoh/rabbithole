@@ -3,7 +3,7 @@ local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
 
 local create_widget_bg = function(color1, color2)
-    return {
+    return gears.color {
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(40) },
@@ -16,7 +16,7 @@ local create_widget_bg = function(color1, color2)
 end
 
 local create_widget_shadow = function(radius, offset)
-    return {
+    return gears.color {
         offset = offset,
         color = "#000000",
         opacity = 1.4,
@@ -140,7 +140,9 @@ theme.notification_icon_size = dpi(80)
 theme.notification_max_width = dpi(600)
 theme.notification_max_height = dpi(400)
 
-
+-- BLING theme variables
+theme.tag_preview_client_border_color = theme.base_color
+theme.tag_preview_widget_border_color = "#3f3f3f"
 -- Set window corner rounding to 5px
 client.connect_signal("property::size", function(c)
     gears.surface.apply_shape_bounding(c, gears.shape.rounded_rect, 10)
