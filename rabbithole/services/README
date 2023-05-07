@@ -1,0 +1,2 @@
+Services are made of libraries and emit signals for systems
+Services should not require anything other than settings

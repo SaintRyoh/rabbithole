@@ -60,6 +60,7 @@ function WorkspaceMenuController:generate_menu()
                 end))
     })
     menu:add({ "New Activity...", function () self:add_workspace() end})
+    menu:add({ "Save Session", function () self.model:saveSession() end})
     return menu
 end
 

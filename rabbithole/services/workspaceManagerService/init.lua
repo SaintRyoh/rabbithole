@@ -23,11 +23,135 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     self.modal = rabbithole__services__modal
     self.sessionManager = require("rabbithole.sessionManager.sessionManagerService").new(self)
 
+    -- pause stuff
+    self.pauseState = nil
+
+    self.unpauseServiceHelper = function ()
+        self:unpauseService()
+    end
+
+    capi.screen.connect_signal("removed", function (s)
+        self:screenDisconnectUpdate(s)
+    end)
+
+
+    -- load sesison
+    self.path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat"
+
+    local status, err = pcall(function ()
+        self:loadSession() 
+    end)
+
+    if not status then
+        self:backupSessionFile(self.path)
+        self:newSession()
+        self.session_restored = false
+    else
+        self.session_restored = true
+    end
+
+    -- make a timer to periodically save the session
+    self.saveSessionTimer = gears.timer({
+        timeout = 5,
+        autostart = false,
+        callback = function()
+            self:saveSession()
+        end
+    })
+
+    -- observer
     self.subscribers = {}
 
     return self
 end
 
+-- rename session.lua to session.lua.bak
+function WorkspaceManagerService:backupSessionFile(file_path)
+    if gears.filesystem.file_readable(file_path) then
+        os.remove(file_path .. ".bak")
+        os.rename(file_path, file_path .. ".bak")
+    end
+end
+
+function WorkspaceManagerService:newSession()
+    self.workspaceManagerModel:deleteAllWorkspaces()
+    local workspace = self.workspaceManagerModel:createWorkspace()
+    workspace:setStatus(true)
+    self:switchTo(workspace)
+    self:saveSession()
+end
+
+function WorkspaceManagerService:saveSession()
+    local file,err = io.open(self.path, "w+")
+    if not file then
+        naughty.notify({
+            title="Error saving session",
+            text=err,
+            timeout=0
+        })
+       return
+    end
+    file:write(serpent.dump(self.workspaceManagerModel))
+    file:close()
+end
+
+-- method to load session
+function WorkspaceManagerService:loadSession()
+    local file,err = io.open(self.path , "r+")
+    if not file then
+        naughty.notify({
+            title="Error loading session",
+            text=err,
+            timeout=0
+        })
+        error(err)
+    end
+    local session = file:read("*all")
+    file:close()
+    local _, loadedModel = serpent.load(session, {safe = false})
+    if not _ then
+        naughty.notify({
+            title="Error loading session",
+            text="Error parsing session file",
+            timeout=5
+        })
+        error("Error parsing session file")
+    end
+
+
+    local tagCoroutines = __.flatten(__.map(loadedModel.workspaces, function(workspace_model)
+        return self:restoreWorkspace(workspace_model)
+    end))
+
+    __.push(tagCoroutines, __.first( __.flatten( self:restoreWorkspace(loadedModel.global_workspace, true) ) ))
+
+
+    local function restoreClientHelper()
+        self:pauseService()
+        __.forEach(tagCoroutines, function(tc)
+            coroutine.resume(tc)
+        end)
+        capi.awesome.disconnect_signal("property::client", restoreClientHelper)
+        self:unpauseService()
+    end
+        
+    capi.awesome.connect_signal("property::client", restoreClientHelper)
+    -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
+
+end
+
+
+-- create workspace by definition
+-- @param definition table of workspace definition
+--     definition = {
+--         name = "workspace name",
+--         tags = {
+--             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
+--             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
+--             ...
+--         }
+--     }
+-- @usage WorkspaceManagerService:restoreWorkspace(definition)
 function WorkspaceManagerService:restoreWorkspace(definition, global)
     global = global or false
 
@@ -127,16 +251,18 @@ end
 
 
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
-    __.forEach(clients, function(client)
-        local c = __.find(capi.client.get(), function(c) 
-            return c.pid == client.pid and c.class == client.class and c.instance == client.instance and c.role == client.role and c.name == client.name
+    local function manage_client_signal(c)
+        local client_to_restore = __.find(clients, function(client)
+            return c.class == client.class and c.instance == client.instance and c.name == client.name
         end)
 
-        if c and c.moved_to_tag == nil then
+        if client_to_restore then
             c:move_to_tag(tag)
-            c.moved_to_tag = true
+            capi.client.disconnect_signal("manage", manage_client_signal)
         end
-    end)
+    end
+
+    capi.client.connect_signal("manage", manage_client_signal)
 end
 
 function WorkspaceManagerService:subscribeController(widget)
