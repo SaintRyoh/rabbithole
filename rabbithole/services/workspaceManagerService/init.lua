@@ -42,7 +42,12 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     end)
 
     if not status then
-        self:backupSessionFile(self.path)
+        -- self:backupSessionFile(self.path)
+        naughty.notify({
+            title="Error loading session",
+            text=err,
+            timeout=0
+        })
         self:newSession()
         self.session_restored = false
     else
@@ -79,7 +84,6 @@ function WorkspaceManagerService:newSession()
     local workspace = self.workspaceManagerModel:createWorkspace("New Workspace")
     workspace:setStatus(true)
     self:switchTo(workspace)
-    self:saveSession()
 end
 
 function WorkspaceManagerService:saveSession()
@@ -151,7 +155,8 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
         return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and tag1.hidden == tag2.hidden
     end
 
-    __.forEach(definition.tags, function(tag_definition, index)
+
+    self.restore_rules = __.flatten(__.map(definition.tags, function(tag_definition, index)
         local tag = self:createTag(index, {
             name = tag_definition.name,
             hidden = tag_definition.hidden,
@@ -171,32 +176,32 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
             workspace.activated = true
         end
 
-        self:restoreClientsForTag(tag, tag_definition.clients)
-    end)
+        return self:restoreClientsForTag(tag, tag_definition.clients)
+    end))
+
+    awful.rules.rules = gears.table.join(
+        awful.rules.rules,
+        self.restore_rules
+    )
 end
 
 
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
-    -- set rules on all the clients
-    __.forEach(clients, function(c)
-        __.push(awful.rules.rules, self:createRuleForTag(tag, c) )
-    end)
+    return __.map(clients, function(c)
+        return self:createRuleForTag(tag, c)
+    end) 
 end
 
 function WorkspaceManagerService:createRuleForTag(tag, c)
-    print("creating rule for tag")
     return {
         rule_any = {
             pid = {c.pid},
             class = {c.class},
         },
         callback = function(cl)
-            -- print("callback")
-            print(string.format("c.pid: %s, c.class: %s, c.name: %s, tag.name: %s", cl.pid, cl.class, cl.name, tag.name))
             tag.activated = true
             cl:move_to_tag(tag)
         end
-
     }
 end
 
