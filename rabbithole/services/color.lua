@@ -1,12 +1,12 @@
 local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
 local color = require("sub.bling.helpers.color")
-local max = math.max
-local min = math.min
-local pow = math.pow
-local floor = math.floor
-local random = math.random
+local math = math
+local max, min, pow, floor, random = math.max, math.min, math.pow, math.floor, math.random
 
+--[[ This is the color service for tesseract. Capable of manipulating colors
+in almost every conceivable way.
+]]
 local ColorService = color
 ColorService.__index = ColorService
 
@@ -18,6 +18,92 @@ function ColorService.new()
     return self
 end
 
+-- Blends two colors together based on a given percentage
+-- @param color1 The first color in hex format
+-- @param color2 The second color in hex format
+-- @param percentage A number between 0 and 1 representing the blend percentage
+-- @return A hex string of the blended color
+function ColorService.blend_colors(color1, color2, percentage)
+    if percentage > 1 then
+        percentage = 1
+    end
+
+    if percentage < 0 then
+        percentage = 0
+    end
+
+    -- Convert the hex strings to RGB values
+    local r1, g1, b1 = tonumber(color1:sub(2, 3), 16), tonumber(color1:sub(4, 5), 16), tonumber(color1:sub(6, 7), 16)
+    local r2, g2, b2 = tonumber(color2:sub(2, 3), 16), tonumber(color2:sub(4, 5), 16), tonumber(color2:sub(6, 7), 16)
+
+    -- Calculate the blended RGB values
+    local r3 = math.floor((r2 * percentage) + (r1 * (1 - percentage)))
+    local g3 = math.floor((g2 * percentage) + (g1 * (1 - percentage)))
+    local b3 = math.floor((b2 * percentage) + (b1 * (1 - percentage)))
+
+    -- Convert the blended RGB values back to a hex string
+    local color3 = string.format("#%02X%02X%02X", r3, g3, b3)
+
+    return color3
+end
+
+-- [[[ GRADIENTS - These are used to add depth to widget appearance.
+
+-- Creates a background for a widget using two colors and a linear gradient
+-- @param color1 The first color in the gradient
+-- @param color2 The second color in the gradient
+-- @return A gears.color object representing the linear gradient background
+function ColorService.create_widget_bg(color1, color2)
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = {
+            { 0,   color1 },
+            { 0.5, color2 },
+            { 1,   color1 },
+        }
+    }
+end
+
+-- Creates a radial gradient for a 3D effect
+-- @param color1 The first color in the gradient
+-- @param color2 The second color in the gradient
+-- @return A table describing the radial gradient
+function ColorService:create_radial_gradient(color1, color2)
+    return {
+        type = "radial",
+        from = { 0, 0 },
+        to = { 0, 0 },
+        radius = dpi(20),
+        stops = {
+            { 0, color1 },
+            { 1, color2 },
+        }
+    }
+end
+
+-- Applies a 3D effect to a widget
+-- @param widget The widget to apply the 3D effect to
+-- @param color1 The first color for the radial gradient
+-- @param color2 The second color for the radial gradient
+-- @param shadow_radius The radius of the shadow's rounded corners
+-- @param shadow_offset The offset of the shadow
+function ColorService:apply_3d_effect(widget, color1, color2, shadow_radius, shadow_offset)
+    local shadow = self:create_shadow(shadow_radius, shadow_offset)
+    local gradient = self:create_radial_gradient(color1, color2)
+
+    widget:set_bg(gradient)
+    widget:set_shape(function(cr, w, h)
+        gears.shape.rounded_rect(cr, w, h, shadow_radius)
+    end)
+    widget:set_shape_clip(true)
+    widget:set_shape_border_width(dpi(1))
+    widget:set_shape_border_color(shadow.color)
+end
+
+-- END GRADIENTS ]]]
+
 -- Clips the input value to the specified interval
 -- @param num The value to be clipped
 -- @param min_num The lower bound of the interval
@@ -27,11 +113,13 @@ function ColorService:clip(num, min_num, max_num)
     return max(min(num, max_num), min_num)
 end
 
+-- [[[ CONVERSIONS - For converting colors to other values (RGB, HSL, HEX)
+
 -- Converts a hex color to normalized rgba format
 -- @param color The hex color to be converted
 -- @return The rgba color in normalized format
 function ColorService:hex2rgb(color)
-    return parse_color(color)
+    return gears.color.parse_color(color)
 end
 
 -- Converts a hex color to hsv format
@@ -91,6 +179,9 @@ function ColorService:hsv2hex(H, S, V)
     local r, g, b = (r_ + m) * 255, (g_ + m) * 255, (b_ + m) * 255
     return ("#%02x%02x%02x"):format(floor(r), floor(g), floor(b))
 end
+-- END CONVERSIONS ]]]
+
+-- [[[ CONSTRAST - These functions calculate/generate contasts
 
 -- Calculates the relative luminance of a given color
 -- @param color The hex color whose relative luminance is to be calculated
@@ -127,6 +218,9 @@ end
 function ColorService:rand_hex(lb_angle, ub_angle)
     return self:hsv2hex(random(lb_angle or 0, ub_angle or 360), 70, 90)
 end
+-- END CONTRAST ]]]
+
+-- [[[ COLOR MANIPULATION - Functions to manipulate colors (rotate, lighten, darken)
 
 -- Rotates the hue of a given hex color by the specified angle (in degrees)
 -- @param color The hex color whose hue is to be rotated
@@ -172,6 +266,34 @@ function ColorService:darken(color, amount)
     g = max(0, g - floor(g * (amount / 100)))
     b = max(0, b - floor(b * (amount / 100)))
     return ("#%02x%02x%02x"):format(r, g, b)
+end
+
+-- Darkens an RGB color and returns it as a hex string
+-- @param hex_color The RGB color to be darkened, as a hex string
+-- @param percent The percentage by which the color should be darkened
+-- @return The darkened RGB color as a hex string
+function ColorService:rgb_darken(hex_color, percent)
+    local r, g, b = gears.color.parse_color(hex_color)
+    r = math.max(math.min(255, r * (1 - percent)), 0)
+    g = math.max(math.min(255, g * (1 - percent)), 0)
+    b = math.max(math.min(255, b * (1 - percent)), 0)
+    return string.format("#%02x%02x%02x", r, g, b)
+end
+-- END COLOR MANIPULATION ]]]
+
+-- Creates a shadow effect for a widget
+-- @param radius The radius of the shadow's rounded corners
+-- @param offset The offset of the shadow
+-- @return A table describing the shadow effect
+function ColorService:create_shadow(radius, offset)
+    return {
+        offset = offset,
+        color = "#000000",
+        opacity = 1.4,
+        shape = function(cr, w, h)
+            gears.shape.rounded_rect(cr, w, h, radius)
+        end
+    }
 end
 
 return ColorService
