@@ -1,4 +1,5 @@
 local awful = require("awful")
+local gears = require("gears")
 
 return setmetatable({}, {
     __constructor = function (
@@ -17,6 +18,10 @@ return setmetatable({}, {
         awful.layout.layouts = rabbithole__components__layouts__default
 
         -- Set default client rules
-        awful.rules.rules = rabbithole__components__rules__client___default
+        -- awful.rules.rules = rabbithole__components__rules__client___default
+        awful.rules.rules = gears.table.join(
+            awful.rules.rules,
+            rabbithole__components__rules__client___default
+        )
     end
 })
