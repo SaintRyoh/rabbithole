@@ -58,6 +58,8 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
         end
     })
 
+    self.startup_rules = {}
+
     -- observer
     self.subscribers = {}
 
@@ -105,6 +107,7 @@ function WorkspaceManagerService:loadSession()
         })
         error(err)
     end
+
     local session = file:read("*all")
     file:close()
     local _, loadedModel = serpent.load(session, {safe = false})
@@ -124,27 +127,10 @@ function WorkspaceManagerService:loadSession()
 
      self:restoreWorkspace(loadedModel.global_workspace, true)
 
-     -- manually apply rules after startup 
-    --  awesome.connect_signal("startup", function()
-    --     __.forEach(client.get(), function(c)
-    --         awful.rules.apply(c)
-    --     end)
-    --  end)
-
 end
 
 
 -- create workspace by definition
--- @param definition table of workspace definition
---     definition = {
---         name = "workspace name",
---         tags = {
---             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
---             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
---             ...
---         }
---     }
--- @usage WorkspaceManagerService:restoreWorkspace(definition)
 function WorkspaceManagerService:restoreWorkspace(definition, global)
     global = global or false
 
