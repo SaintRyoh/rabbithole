@@ -231,7 +231,7 @@ end
 
 function WorkspaceManagerService:setupTags()
     local last_workspace = self:getActiveWorkspace()
-    local tag = sharedtags.add(nil, {
+    local tag = sharedtags.add(#last_workspace:getAllTags()+1, {
         name = last_workspace:getName(#self.workspaceManagerModel:getAllWorkspaces()) .. "." .. #last_workspace:getAllTags()+1,
         layout = awful.layout.layouts[2]
     })
