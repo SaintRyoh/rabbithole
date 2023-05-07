@@ -8,7 +8,6 @@ return setmetatable({}, {
         rabbithole__components__widgets__layout_list
     )
         return function(s)
-            local custom_layoutlist = layoutlist_widget.new(s)
 
             rabbithole__components__wiboxes__bars__center(s):setup {
                 layout = wibox.layout.align.horizontal,
