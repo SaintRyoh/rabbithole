@@ -10,6 +10,22 @@ themeHandler.set_theme("https://raw.githubusercontent.com/user/repo/branch/theme
 
 -- Use a local file to set the theme
 themeHandler.set_theme("/path/to/your/theme/file.lua", "local")
+
+-- Use themeTesseract to generate theme:
+local themeHandler = require("themeHandler")
+
+themeHandler.set_theme(nil, nil, "#4CAF50", "complementary", {
+    saturation_range = 0.1,
+    lightness_range = 0.1,
+    font = "Roboto 12",
+    fg_normal = "#FFFFFF",
+    fg_focus = "#000000",
+    extra_roles = {
+        urgent = "color3",
+        minimize = "color4"
+    }
+})
+
 ]]
 local themeHandler = {}
 
