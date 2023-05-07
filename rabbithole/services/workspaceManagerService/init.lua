@@ -121,6 +121,16 @@ function WorkspaceManagerService:loadSession()
         error("Error parsing session file")
     end
 
+    -- Store the currently selected workspace and tag indices
+    local selected_workspace_index, selected_tag_index
+    for idx, workspace in ipairs(self.workspaceManagerModel:getAllWorkspaces()) do
+        local selected_tag = workspace:getSelectedTag()
+        if selected_tag then
+            selected_workspace_index = idx
+            selected_tag_index = selected_tag.index
+            break
+        end
+    end
 
     __.forEach(loadedModel.workspaces, function(workspace_model)
         return self:restoreWorkspace(workspace_model)
@@ -129,6 +139,7 @@ function WorkspaceManagerService:loadSession()
      self:restoreWorkspace(loadedModel.global_workspace, true)
 
 end
+
 
 
 -- create workspace by definition

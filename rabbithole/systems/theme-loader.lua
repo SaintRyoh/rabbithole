@@ -7,7 +7,7 @@ return setmetatable({}, {
         if gears.filesystem.file_readable(gears.filesystem.get_configuration_dir() .. settings.theme_dir) then
             beautiful.init(gears.filesystem.get_configuration_dir() .. settings.theme_dir)
         else
-            beautiful.init("themes/zenburn/theme.lua")
+            beautiful.init("themes/default/theme.lua")
         end
         return beautiful.get()
     end,

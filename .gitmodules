@@ -7,9 +7,6 @@
 [submodule "sub/awesome-sharedtags"]
 	path = sub/awesome-sharedtags
 	url = https://github.com/SaintRyoh/awesome-sharedtags.git
-[submodule "sub/bling"]
-	path = sub/bling
-	url = https://github.com/SaintRyoh/bling
 [submodule "sub/rubato"]
 	path = sub/rubato
 	url = https://github.com/andOrlando/rubato
