@@ -31,6 +31,10 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     end)
 
 
+    self.unpauseServiceHelper = function ()
+        self:unpauseService()
+    end
+
     -- load sesison
     self.path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat"
 
@@ -457,8 +461,50 @@ function WorkspaceManagerService:clearRestoreRules()
     end)
     self.restore_rules = {}
 end
-
+function WorkspaceManagerService:unpauseService()
+    capi.awesome.disconnect_signal("refresh", self.unpauseServiceHelper)
+    self:setStatusForAllWorkspaces(false)
+    self.pauseState:setStatus(true)
+    self.pauseState = nil
+end
 function WorkspaceManagerService:screenDisconnectUpdate(s)
+    self:pauseService()
+
+    -- First give other code a chance to move the tag to another screen
+    for _, t in pairs(s.tags) do
+        t:emit_signal("request::screen")
+    end
+    -- Everything that's left: Tell everyone that these tags go away (other code
+    -- could e.g. save clients)
+    for _, t in pairs(s.tags) do
+        t:emit_signal("removal-pending")
+    end
+    -- Give other code yet another change to save clients
+    for _, c in pairs(capi.client.get(s)) do
+        c:emit_signal("request::tag", nil, { reason = "screen-removed" })
+    end
+    -- Then force all clients left to go somewhere random
+    local fallback = nil
+    for other_screen in capi.screen do
+        if #other_screen.tags > 0 then
+            fallback = other_screen.tags[1]
+            break
+        end
+    end
+    for _, t in pairs(s.tags) do
+        t:delete(fallback, true)
+    end
+    -- If any tag survived until now, forcefully get rid of it
+    for _, t in pairs(s.tags) do
+        t.activated = false
+
+        if t.data.awful_tag_properties then
+            t.data.awful_tag_properties.screen = nil
+        end
+    end
+
+    -- let all the other events play out the unpause service
+    capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
     self:clearRestoreRules()
     self.restore_rules = __.map(self:getAllTags(), function(tag)
@@ -473,7 +519,6 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
     __.forEach(client.get(s), function(c)
         awful.rules.apply(c)
     end)
-    self:clearRestoreRules()
 
 end
 
