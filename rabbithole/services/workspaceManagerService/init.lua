@@ -21,13 +21,86 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
 
     self.workspaceManagerModel = workspaceManager:new()
     self.modal = rabbithole__services__modal
-    self.sessionManager = require("rabbithole.sessionManager.sessionManagerService").new(self)
 
     self.subscribers = {}
 
     return self
 end
 
+-- rename session.lua to session.lua.bak
+function WorkspaceManagerService:backupSessionFile(file_path)
+    if gears.filesystem.file_readable(file_path) then
+        os.remove(file_path .. ".bak")
+        os.rename(file_path, file_path .. ".bak")
+    end
+end
+
+function WorkspaceManagerService:newSession()
+    self.workspaceManagerModel:deleteAllWorkspaces()
+    local workspace = self.workspaceManagerModel:createWorkspace("New Workspace")
+    workspace:setStatus(true)
+    self:switchTo(workspace)
+    self:saveSession()
+end
+
+function WorkspaceManagerService:saveSession()
+    local file,err = io.open(self.path, "w+")
+    if not file then
+        naughty.notify({
+            title="Error saving session",
+            text=err,
+            timeout=0
+        })
+       return
+    end
+    file:write(serpent.dump(self.workspaceManagerModel))
+    file:close()
+end
+
+-- method to load session
+function WorkspaceManagerService:loadSession()
+    local file,err = io.open(self.path , "r+")
+    if not file then
+        naughty.notify({
+            title="Error loading session",
+            text=err,
+            timeout=0
+        })
+        error(err)
+    end
+    local session = file:read("*all")
+    file:close()
+    local _, loadedModel = serpent.load(session, {safe = false})
+    if not _ then
+        naughty.notify({
+            title="Error loading session",
+            text="Error parsing session file",
+            timeout=0
+        })
+        error("Error parsing session file")
+    end
+
+
+    __.forEach(loadedModel.workspaces, function(workspace_model)
+        return self:restoreWorkspace(workspace_model)
+    end)
+
+     self:restoreWorkspace(loadedModel.global_workspace, true)
+
+end
+
+
+-- create workspace by definition
+-- @param definition table of workspace definition
+--     definition = {
+--         name = "workspace name",
+--         tags = {
+--             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
+--             {name="tag name", selected=true, activated=true, hidden=false, index=1, layout="layout name", clients={ {class="classname", exe="executable"} } },
+--             ...
+--         }
+--     }
+-- @usage WorkspaceManagerService:restoreWorkspace(definition)
 function WorkspaceManagerService:restoreWorkspace(definition, global)
     global = global or false
 
@@ -48,7 +121,7 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
         return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and tag1.hidden == tag2.hidden
     end
 
-    return __.map(definition.tags, function(tag_definition, index)
+    __.forEach(definition.tags, function(tag_definition, index)
         local tag = self:createTag(index, {
             name = tag_definition.name,
             hidden = tag_definition.hidden,
@@ -67,78 +140,28 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
         if __.every(workspace:getAllTags(), function(t) return t.activated end) then
             workspace.activated = true
         end
-        return coroutine.create(function()
-            -- dump tag
-            self:restoreClientsForTag(tag, tag_definition.clients)
-        end)
+
+        self:restoreClientsForTag(tag, tag_definition.clients)
     end)
-end
-
---- 
--- Check if client is already running, if so, then move it to the new tag, otherwise, spawn it
--- using data from clients table
--- @param instantiated awesomewm [made by awful.tag.add()] tag target tag for the clients
--- @param clients table of clients that needs to be restored
---     clients = {
---          {class="classname", exe="executable"}
---          {class="classname", exe="executable"}
---          ...
---     }
--- @usage WorkspaceManagerService:restoreClientsForTag(tag, clients)
-function WorkspaceManagerService:getSessionData()
-    local sessionData = {
-        workspaces = {}
-    }
-
-    for _, workspace in ipairs(self.workspaceManagerModel:getAllWorkspaces()) do
-        local workspaceData = {
-            name = workspace:getName(),
-            tags = {}
-        }
-
-        for _, tag in ipairs(workspace:getAllTags()) do
-            local tagData = {
-                name = tag.name,
-                hidden = tag.hidden,
-                index = tag.index,
-                layout = tag.layout.name,
-                clients = {}
-            }
-
-            for _, client in ipairs(tag:clients()) do
-                local clientData = {
-                    pid = client.pid,
-                    class = client.class,
-                    instance = client.instance,
-                    role = client.role,
-                    name = client.name
-                }
-                table.insert(tagData.clients, clientData)
-            end
-
-            table.insert(workspaceData.tags, tagData)
-        end
-
-        table.insert(sessionData.workspaces, workspaceData)
-    end
-
-    return sessionData
 end
 
 
 function WorkspaceManagerService:restoreClientsForTag(tag, clients)
-    local function manage_client_signal(c)
-        local client_to_restore = __.find(clients, function(client)
-            return c.class == client.class and c.instance == client.instance and c.name == client.name
-        end)
+    -- set rules on all the clients
+    __.forEach(clients, function(c)
+        __.push(awful.rules.rules, self:createRuleForTag(tag, c) )
+    end)
+end
 
-        if client_to_restore then
-            c:move_to_tag(tag)
-            capi.client.disconnect_signal("manage", manage_client_signal)
-        end
-    end
-
-    capi.client.connect_signal("manage", manage_client_signal)
+function WorkspaceManagerService:createRuleForTag(tag, c)
+    return {
+        rule_any = {
+            pid = c.pid,
+        },
+        properties = {
+            tags = {tag},
+        }
+    }
 end
 
 function WorkspaceManagerService:subscribeController(widget)
@@ -159,7 +182,11 @@ end
 
 function WorkspaceManagerService:setupTags()
     local last_workspace = self:getActiveWorkspace()
-    local tag = sharedtags.add((last_workspace:getName() or #self.workspaceManagerModel:getAllWorkspaces()) .. "." .. #last_workspace:getAllTags()+1, { layout = awful.layout.layouts[2] })
+    local tag = sharedtags.add(nil, {
+        name = last_workspace:getName(#self.workspaceManagerModel:getAllWorkspaces()) .. "." .. #last_workspace:getAllTags()+1,
+        layout = awful.layout.layouts[2]
+    })
+    
     last_workspace:addTag(tag)
     last_workspace:setStatus(true)
 end
