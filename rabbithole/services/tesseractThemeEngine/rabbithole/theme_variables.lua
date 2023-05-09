@@ -159,7 +159,7 @@ end
 Theme.hotkeys_description_font = user_vars.font.bold
 
 -- layout icon directory path
-local layout_path = Theme_path .. "../../assets/layout/"
+local layout_path = icondir  .. "../../assets/layout/"
 
 -- Here are the icons for the layouts defined, if you want to add more layouts go to main/layouts.lua
 Theme.layout_floating = layout_path .. "floating.svg"

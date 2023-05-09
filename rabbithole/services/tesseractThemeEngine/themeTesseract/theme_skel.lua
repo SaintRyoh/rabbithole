@@ -1,7 +1,9 @@
+-- This is a THEME SKELETON for reference when moving forward with the tesseractThemeEngine
+
+
 local gears = require("gears")
 local beautiful = require("beautiful")
 
--- This is a theme skeleton module for reference when moving forward with the tesseractThemeEngine
 local theme = {}
 
 -- General settings
