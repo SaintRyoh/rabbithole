@@ -180,7 +180,7 @@ function ColorService:hsv2hex(H, S, V)
     return ("#%02x%02x%02x"):format(floor(r), floor(g), floor(b))
 end
 
-local function ColorService:hsl2rgb(h, s, l)
+function ColorService:hsl2rgb(h, s, l)
     local r, g, b
     if s == 0 then
         r, g, b = l, l, l
