@@ -76,6 +76,8 @@ function TaglistController.new(
             plusButton
         }
 
+        s.taglist_layout = self.taglist_layout
+
         return self.taglist_layout
     end
 
