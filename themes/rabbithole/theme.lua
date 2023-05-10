@@ -19,13 +19,18 @@ theme.font = "Ubuntu 8"
 theme.fg_normal = colors['White']
 theme.fg_focus = colors['White']
 theme.fg_urgent = colors['White']
+
 -- Base color for the theme
-theme.base_color = colors['Deep Purple']['500']
+theme.base_color = colors['Deep Purple']['500'] -- ~ 60% of theme color
+theme.secondary_color = colors['Deep Purple']['300'] -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
+theme.tertiary_1 = colors['Pink']['300'] -- ~ 10% of theme color
+theme.tertiary_2 = colors['Pink']['400'] -- ~ 10% of theme color
+theme.neutral = colors['Grey']['900'] --  neutral color for widgets
+
 -- Background colors for widgets. This is the bulk of the color you see.
 theme.bg_normal = make3d(theme.base_color, colors['Deep Purple']['400'])
-theme.bg_focus = make3d(colors['Pink']['300'], colors['Pink']['400'])
+theme.bg_focus = make3d(theme.tertiary_1, theme.tertiary_2)
 --theme.bg_urgent = colors['Grey']['900']
-
 theme.bg_systray = colors['Grey']['800']
 
 theme.border_normal = theme.base_color
@@ -33,8 +38,8 @@ theme.border_focus = colors['Purple']['300']
 theme.border_marked = colors['Red']['600']
 
 -- [[[ Titlebar variables
-theme.titlebar_bg_focus = make3d(theme.base_color, colors['Purple']['300'])
-theme.titlebar_bg_normal = make3d(colors['Purple']['300'], theme.base_color)
+theme.titlebar_bg_focus = make3d(theme.base_color, theme.secondary_color)
+theme.titlebar_bg_normal = make3d(theme.secondary_color, theme.base_color)
 -- ]]]
 
 -- [[[ Taglist variables
@@ -47,17 +52,17 @@ theme.taglist_container_bg = theme.bg_normal
 -- ]]]
 
 -- [[[ Tasklist variables
-theme.tasklist_bg_normal = colors['Grey']['900']
+theme.tasklist_bg_normal = theme.neutral
 theme.tasklist_bg_focus = theme.bg_focus
 theme.tasklist_shape_border_color = theme.tasklist_bg_normal
 -- ]]]
-theme.notification_bg = colors['Grey']['900']
+theme.notification_bg = theme.neutral
 theme.notification_fg = colors['White']
-theme.notification_border_color = colors['Grey']['900']
+theme.notification_border_color = theme.neutral
 
 -- [[[ BLING theme variables
 theme.tag_preview_client_border_color = theme.base_color
-theme.tag_preview_widget_border_color = colors['Grey']['900']
+theme.tag_preview_widget_border_color = theme.neutral
 -- ]]]
 
 -- Merge tables
