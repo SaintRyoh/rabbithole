@@ -1,6 +1,7 @@
 local themes_path = require("gears.filesystem").get_configuration_dir() .. "themes/"
 local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
+local colorTesseract = require("rabbithole.services.color")
 
 local create_widget_bg = function(color1, color2)
     return gears.color {
