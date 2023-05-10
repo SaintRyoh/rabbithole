@@ -463,7 +463,14 @@ function WorkspaceManagerService:clearRestoreRules()
 end
 function WorkspaceManagerService:unpauseService()
     capi.awesome.disconnect_signal("refresh", self.unpauseServiceHelper)
-    self.workspaceManagerModel:switchTo(self.pauseState)
+    self:setStatusForAllWorkspaces(false)
+    self.pauseState:setStatus(true)
+    for _, c in pairs(capi.client.get()) do
+        local matching_rules = awful.rules.matching_rules(c, self.restore_rules)
+        __.forEach(matching_rules, function(rule)
+            awful.rules.execute(c, rule)
+        end)
+    end
     self.pauseState = nil
 end
 function WorkspaceManagerService:screenDisconnectUpdate(s)
@@ -474,14 +481,7 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
         return self:createClientRulesForTag(tag, tag:clients())
     end)
 
-    awful.rules.rules = gears.table.join(
-        awful.rules.rules,
-        self.restore_rules
-    )
 
-    __.forEach(client.get(s), function(c)
-        awful.rules.apply(c)
-    end)
 
     -- First give other code a chance to move the tag to another screen
     for _, t in pairs(s.tags) do
@@ -517,11 +517,11 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
     end
 
     -- let all the other events play out the unpause service
-    -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
+    capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
 
 
-    self:switchTo(self.pauseState)
+    -- self:switchTo(self.pauseState)
 
 end
 
