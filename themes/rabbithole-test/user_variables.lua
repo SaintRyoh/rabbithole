@@ -1,1 +1,0 @@
--- User variables file. This will eventually be for the settings manager
