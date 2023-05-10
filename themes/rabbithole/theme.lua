@@ -116,28 +116,6 @@ theme.notification_max_height = dpi(400)
 -- BLING theme variables
 theme.tag_preview_client_border_color = theme.base_color
 theme.tag_preview_widget_border_color = "#3f3f3f"
--- Set window corner rounding to 5px
-client.connect_signal("property::size", function(c)
-    gears.surface.apply_shape_bounding(c, gears.shape.rounded_rect, 10)
-end)
-client.connect_signal("property::position", function(c)
-    gears.surface.apply_shape_bounding(c, gears.shape.rounded_rect, 10)
-end)
--- Round client window borders
-local function apply_rounded_corners(c)
-    if c.round_corners then
-        return
-    end
 
-    c.shape = function(cr, width, height)
-        gears.shape.rounded_rect(cr, width, height, 10)
-    end
-
-    c.round_corners = true
-end
-
-client.connect_signal("manage", function(c)
-    apply_rounded_corners(c)
-end)
 
 return table_utils.merge(theme, icons)
