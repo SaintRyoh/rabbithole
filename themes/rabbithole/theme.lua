@@ -4,8 +4,12 @@ local dpi = require("beautiful.xresources").apply_dpi
 --  custom local libs
 local make3d = require("rabbithole.services.color").create_widget_bg
 local colors = require("rabbithole.services.tesseractThemeEngine.colors")
+-- Theme icons table
+local icons = require("themes.rabbithole.theme-icons")
+local table_utils = require("rabbithole.services.table-utils")
 
 local theme = {}
+
 theme.wallpaper = themes_path .. "rabbithole/wallpapers/whitelion.jpg"
 
 theme.font = "Ubuntu 8"
@@ -51,51 +55,51 @@ theme.tasklist_shape = gears.shape.rounded_rect
 theme.tasklist_shape_border_width = dpi(1)
 theme.tasklist_shape_border_color = theme.tasklist_bg_normal
 
-theme.awesome_icon = themes_path .. "rabbithole/awesome-icon.png"
---theme.menu_submenu_icon = themes_path .. "default/submenu.png"
-
-theme.layout_tile = themes_path .. "rabbithole/layouts/tile.png"
-theme.layout_tileleft = themes_path .. "rabbithole/layouts/tileleft.png"
-theme.layout_tilebottom = themes_path .. "rabbithole/layouts/tilebottom.png"
-theme.layout_tiletop = themes_path .. "rabbithole/layouts/tiletop.png"
-theme.layout_fairv = themes_path .. "rabbithole/layouts/fairv.png"
-theme.layout_fairh = themes_path .. "rabbithole/layouts/fairh.png"
-theme.layout_spiral = themes_path .. "rabbithole/layouts/spiral.png"
-theme.layout_dwindle = themes_path .. "rabbithole/layouts/dwindle.png"
-theme.layout_max = themes_path .. "rabbithole/layouts/max.png"
-theme.layout_fullscreen = themes_path .. "rabbithole/layouts/fullscreen.png"
-theme.layout_magnifier = themes_path .. "rabbithole/layouts/magnifier.png"
-theme.layout_floating = themes_path .. "rabbithole/layouts/floating.png"
-theme.layout_cornernw = themes_path .. "rabbithole/layouts/cornernw.png"
-theme.layout_cornerne = themes_path .. "rabbithole/layouts/cornerne.png"
-theme.layout_cornersw = themes_path .. "rabbithole/layouts/cornersw.png"
-theme.layout_cornerse = themes_path .. "rabbithole/layouts/cornerse.png"
-theme.layoulist_bg_normal = theme.bg_normal
-theme.titlebar_close_button_focus = themes_path .. "rabbithole/titlebar/close_focus.png"
-theme.titlebar_close_button_normal = themes_path .. "rabbithole/titlebar/close_normal.png"
-
-theme.titlebar_minimize_button_normal = themes_path .. "default/titlebar/minimize_normal.png"
-theme.titlebar_minimize_button_focus = themes_path .. "default/titlebar/minimize_focus.png"
-
-theme.titlebar_ontop_button_focus_active = themes_path .. "rabbithole/titlebar/ontop_focus_active.png"
-theme.titlebar_ontop_button_normal_active = themes_path .. "rabbithole/titlebar/ontop_normal_active.png"
-theme.titlebar_ontop_button_focus_inactive = themes_path .. "rabbithole/titlebar/ontop_focus_inactive.png"
-theme.titlebar_ontop_button_normal_inactive = themes_path .. "rabbithole/titlebar/ontop_normal_inactive.png"
-
-theme.titlebar_sticky_button_focus_active = themes_path .. "rabbithole/titlebar/sticky_focus_active.png"
-theme.titlebar_sticky_button_normal_active = themes_path .. "rabbithole/titlebar/sticky_normal_active.png"
-theme.titlebar_sticky_button_focus_inactive = themes_path .. "rabbithole/titlebar/sticky_focus_inactive.png"
-theme.titlebar_sticky_button_normal_inactive = themes_path .. "rabbithole/titlebar/sticky_normal_inactive.png"
-
-theme.titlebar_floating_button_focus_active = themes_path .. "rabbithole/titlebar/floating_focus_active.png"
-theme.titlebar_floating_button_normal_active = themes_path .. "rabbithole/titlebar/floating_normal_active.png"
-theme.titlebar_floating_button_focus_inactive = themes_path .. "rabbithole/titlebar/floating_focus_inactive.png"
-theme.titlebar_floating_button_normal_inactive = themes_path .. "rabbithole/titlebar/floating_normal_inactive.png"
-
-theme.titlebar_maximized_button_focus_active = themes_path .. "rabbithole/titlebar/maximized_focus_active.png"
-theme.titlebar_maximized_button_normal_active = themes_path .. "rabbithole/titlebar/maximized_normal_active.png"
-theme.titlebar_maximized_button_focus_inactive = themes_path .. "rabbithole/titlebar/maximized_focus_inactive.png"
-theme.titlebar_maximized_button_normal_inactive = themes_path .. "rabbithole/titlebar/maximized_normal_inactive.png"
+--theme.awesome_icon = themes_path .. "rabbithole/awesome-icon.png"
+----theme.menu_submenu_icon = themes_path .. "default/submenu.png"
+--
+--theme.layout_tile = themes_path .. "rabbithole/layouts/tile.png"
+--theme.layout_tileleft = themes_path .. "rabbithole/layouts/tileleft.png"
+--theme.layout_tilebottom = themes_path .. "rabbithole/layouts/tilebottom.png"
+--theme.layout_tiletop = themes_path .. "rabbithole/layouts/tiletop.png"
+--theme.layout_fairv = themes_path .. "rabbithole/layouts/fairv.png"
+--theme.layout_fairh = themes_path .. "rabbithole/layouts/fairh.png"
+--theme.layout_spiral = themes_path .. "rabbithole/layouts/spiral.png"
+--theme.layout_dwindle = themes_path .. "rabbithole/layouts/dwindle.png"
+--theme.layout_max = themes_path .. "rabbithole/layouts/max.png"
+--theme.layout_fullscreen = themes_path .. "rabbithole/layouts/fullscreen.png"
+--theme.layout_magnifier = themes_path .. "rabbithole/layouts/magnifier.png"
+--theme.layout_floating = themes_path .. "rabbithole/layouts/floating.png"
+--theme.layout_cornernw = themes_path .. "rabbithole/layouts/cornernw.png"
+--theme.layout_cornerne = themes_path .. "rabbithole/layouts/cornerne.png"
+--theme.layout_cornersw = themes_path .. "rabbithole/layouts/cornersw.png"
+--theme.layout_cornerse = themes_path .. "rabbithole/layouts/cornerse.png"
+--theme.layoulist_bg_normal = theme.bg_normal
+--theme.titlebar_close_button_focus = themes_path .. "rabbithole/titlebar/close_focus.png"
+--theme.titlebar_close_button_normal = themes_path .. "rabbithole/titlebar/close_normal.png"
+--
+--theme.titlebar_minimize_button_normal = themes_path .. "default/titlebar/minimize_normal.png"
+--theme.titlebar_minimize_button_focus = themes_path .. "default/titlebar/minimize_focus.png"
+--
+--theme.titlebar_ontop_button_focus_active = themes_path .. "rabbithole/titlebar/ontop_focus_active.png"
+--theme.titlebar_ontop_button_normal_active = themes_path .. "rabbithole/titlebar/ontop_normal_active.png"
+--theme.titlebar_ontop_button_focus_inactive = themes_path .. "rabbithole/titlebar/ontop_focus_inactive.png"
+--theme.titlebar_ontop_button_normal_inactive = themes_path .. "rabbithole/titlebar/ontop_normal_inactive.png"
+--
+--theme.titlebar_sticky_button_focus_active = themes_path .. "rabbithole/titlebar/sticky_focus_active.png"
+--theme.titlebar_sticky_button_normal_active = themes_path .. "rabbithole/titlebar/sticky_normal_active.png"
+--theme.titlebar_sticky_button_focus_inactive = themes_path .. "rabbithole/titlebar/sticky_focus_inactive.png"
+--theme.titlebar_sticky_button_normal_inactive = themes_path .. "rabbithole/titlebar/sticky_normal_inactive.png"
+--
+--theme.titlebar_floating_button_focus_active = themes_path .. "rabbithole/titlebar/floating_focus_active.png"
+--theme.titlebar_floating_button_normal_active = themes_path .. "rabbithole/titlebar/floating_normal_active.png"
+--theme.titlebar_floating_button_focus_inactive = themes_path .. "rabbithole/titlebar/floating_focus_inactive.png"
+--theme.titlebar_floating_button_normal_inactive = themes_path .. "rabbithole/titlebar/floating_normal_inactive.png"
+--
+--theme.titlebar_maximized_button_focus_active = themes_path .. "rabbithole/titlebar/maximized_focus_active.png"
+--theme.titlebar_maximized_button_normal_active = themes_path .. "rabbithole/titlebar/maximized_normal_active.png"
+--theme.titlebar_maximized_button_focus_inactive = themes_path .. "rabbithole/titlebar/maximized_focus_inactive.png"
+--theme.titlebar_maximized_button_normal_inactive = themes_path .. "rabbithole/titlebar/maximized_normal_inactive.png"
 
 theme.notification_bg = "#3F3F3F"
 theme.notification_fg = "#FFFFFF"
@@ -136,4 +140,4 @@ client.connect_signal("manage", function(c)
     apply_rounded_corners(c)
 end)
 
-return theme
+return table_utils.merge(theme, icons)
