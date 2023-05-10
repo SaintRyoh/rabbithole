@@ -1,40 +1,7 @@
 local themes_path = require("gears.filesystem").get_configuration_dir() .. "themes/"
 local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
-local colorTesseract = require("rabbithole.services.color")
-
-local create_widget_bg = function(color1, color2)
-    return gears.color {
-        type = "linear",
-        from = { 0, 0 },
-        to = { 0, dpi(40) },
-        stops = {
-            { 0,   color1 },
-            { 0.5, color2 },
-            { 1,   color1 },
-        }
-    }
-end
-
-local create_widget_shadow = function(radius, offset)
-    return gears.color {
-        offset = offset,
-        color = "#000000",
-        opacity = 1.4,
-        shape = function(cr, w, h)
-            gears.shape.rounded_rect(cr, w, h, radius)
-        end
-    }
-end
-
--- Helper function to darken a color
-local function darken_color(hex_color, percent)
-    local r, g, b = gears.color.parse_color(hex_color)
-    r = math.max(math.min(255, r * (1 - percent)), 0)
-    g = math.max(math.min(255, g * (1 - percent)), 0)
-    b = math.max(math.min(255, b * (1 - percent)), 0)
-    return string.format("#%02x%02x%02x", r, g, b)
-end
+local make3d = require("rabbithole.services.color").create_widget_bg
 
 local theme = {}
 theme.wallpaper = themes_path .. "rabbithole/wallpapers/whitelion.jpg"
@@ -46,8 +13,8 @@ theme.fg_focus = "#FFFFFF"
 theme.fg_urgent = "#FFFFFF"
 
 theme.base_color = "#5123db"
-theme.bg_normal = create_widget_bg(theme.base_color, "#6e5bd6")
-theme.bg_focus = create_widget_bg("#e86689", "#e6537a")
+theme.bg_normal = make3d(theme.base_color, "#6e5bd6")
+theme.bg_focus = make3d("#e86689", "#e6537a")
 --theme.bg_urgent = "#3F3F3F"
 
 theme.bg_systray = "#2F2F2F"
@@ -61,8 +28,8 @@ theme.border_marked = "#CC9393"
 
 theme.taglist_spacing = 1
 
-theme.titlebar_bg_focus = create_widget_bg(theme.base_color, "#6e5bd6")
-theme.titlebar_bg_normal = create_widget_bg("#6e5bd6", theme.base_color)
+theme.titlebar_bg_focus = make3d(theme.base_color, "#6e5bd6")
+theme.titlebar_bg_normal = make3d("#6e5bd6", theme.base_color)
 
 theme.menu_height = dpi(15)
 theme.menu_width = dpi(100)
