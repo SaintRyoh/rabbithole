@@ -34,7 +34,7 @@ theme.bg_focus = make3d(theme.tertiary_1, theme.tertiary_2)
 theme.bg_systray = colors['Grey']['800']
 
 theme.border_normal = theme.base_color
-theme.border_focus = colors['Purple']['900']
+theme.border_focus = colors['Purple']['300']
 theme.border_marked = colors['Red']['600']
 
 -- [[[ Titlebar variables
