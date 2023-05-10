@@ -1,24 +1,25 @@
 local themes_path = require("gears.filesystem").get_configuration_dir() .. "themes/"
 local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
+--  custom local libs
 local make3d = require("rabbithole.services.color").create_widget_bg
+local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 
 local theme = {}
 theme.wallpaper = themes_path .. "rabbithole/wallpapers/whitelion.jpg"
 
 theme.font = "Ubuntu 8"
 
-theme.fg_normal = "#FFFFFF"
-theme.fg_focus = "#FFFFFF"
-theme.fg_urgent = "#FFFFFF"
+theme.fg_normal = colors['White']
+theme.fg_focus = colors['White']
+theme.fg_urgent = colors['White']
 
-theme.base_color = "#5123db"
-theme.bg_normal = make3d(theme.base_color, "#6e5bd6")
-theme.bg_focus = make3d("#e86689", "#e6537a")
---theme.bg_urgent = "#3F3F3F"
+theme.base_color = colors['Deep Purple']['500']
+theme.bg_normal = make3d(theme.base_color, colors['Deep Purple']['400'])
+theme.bg_focus = make3d(colors['Pink']['300'], colors['Pink']['400'])
+--theme.bg_urgent = colors['Grey']['900']
 
-theme.bg_systray = "#2F2F2F"
-
+theme.bg_systray = colors['Grey']['800']
 
 theme.useless_gap = dpi(3)
 theme.border_width = dpi(2)
@@ -51,7 +52,7 @@ theme.tasklist_shape_border_width = dpi(1)
 theme.tasklist_shape_border_color = theme.tasklist_bg_normal
 
 theme.awesome_icon = themes_path .. "rabbithole/awesome-icon.png"
-theme.menu_submenu_icon = themes_path .. "default/submenu.png"
+--theme.menu_submenu_icon = themes_path .. "default/submenu.png"
 
 theme.layout_tile = themes_path .. "rabbithole/layouts/tile.png"
 theme.layout_tileleft = themes_path .. "rabbithole/layouts/tileleft.png"

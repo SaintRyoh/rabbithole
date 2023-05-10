@@ -102,6 +102,43 @@ function ColorService:apply_3d_effect(widget, color1, color2, shadow_radius, sha
     widget:set_shape_border_color(shadow.color)
 end
 
+-- Helper function to create a widget with softed edges
+-- Function to create a widget background gradient with edges in a softer, almost white gradient
+function ColorService:create_widget_soft(start_color, end_color)
+  return function(cr, width, height, x, y, widget)
+      local start_x, start_y = x, y
+      local end_x, end_y = x + width, y + height
+      local pat_top = gears.color.create_linear_pattern({ start_x, start_y }, { start_x, start_y + height/5 }, { end_color, start_color })
+      local pat_bottom = gears.color.create_linear_pattern({ start_x, end_y }, { start_x, end_y - height/5 }, { start_color, end_color })
+      local pat_left = gears.color.create_linear_pattern({ start_x, start_y }, { start_x + width/5, start_y }, { end_color, start_color })
+      local pat_right = gears.color.create_linear_pattern({ end_x, start_y }, { end_x - width/5, start_y }, { start_color, end_color })
+      local pat_center = gears.color.create_linear_pattern({ start_x, start_y + height/5 }, { start_x, end_y - height/5 }, { start_color, start_color })
+
+      gears.shape.rectangle(cr, width, height)
+
+      cr:set_source(pat_top)
+      cr:rectangle(start_x, start_y, width, height/5)
+      cr:fill()
+
+      cr:set_source(pat_bottom)
+      cr:rectangle(start_x, end_y - height/5, width, height/5)
+      cr:fill()
+
+      cr:set_source(pat_left)
+      cr:rectangle(start_x, start_y, width/5, height)
+      cr:fill()
+
+      cr:set_source(pat_right)
+      cr:rectangle(end_x - width/5, start_y, width/5, height)
+      cr:fill()
+
+      cr:set_source(pat_center)
+      cr:rectangle(start_x + width/5, start_y + height/5, width*3/5, height*3/5)
+      cr:fill()
+  end
+end
+
+
 -- END GRADIENTS ]]]
 
 -- Clips the input value to the specified interval
