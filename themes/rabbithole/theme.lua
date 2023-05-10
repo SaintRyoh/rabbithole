@@ -29,33 +29,38 @@ theme.bg_focus = make3d(colors['Pink']['300'], colors['Pink']['400'])
 theme.bg_systray = colors['Grey']['800']
 
 theme.border_normal = theme.base_color
-theme.border_focus = "#6e5bd6"
-theme.border_marked = "#CC9393"
+theme.border_focus = colors['Purple']['300']
+theme.border_marked = colors['Red']['600']
 
-theme.titlebar_bg_focus = make3d(theme.base_color, "#6e5bd6")
-theme.titlebar_bg_normal = make3d("#6e5bd6", theme.base_color)
+-- [[[ Titlebar variables
+theme.titlebar_bg_focus = make3d(theme.base_color, colors['Purple']['300'])
+theme.titlebar_bg_normal = make3d(colors['Purple']['300'], theme.base_color)
+-- ]]]
 
+-- [[[ Taglist variables
 theme.taglist_bg_normal = theme.bg_normal
 theme.taglist_bg_empty = theme.taglist_bg_normal
 theme.taglist_bg_focus = theme.bg_focus
 theme.taglist_fg_focus = theme.fg_focus
 theme.taglist_fg_empty = theme.fg_focus
-theme.taglist_container_bg = "#421500"
+theme.taglist_container_bg = theme.bg_normal
+-- ]]]
 
-theme.tasklist_bg_normal = "#3F3F3F"
+-- [[[ Tasklist variables
+theme.tasklist_bg_normal = colors['Grey']['900']
 theme.tasklist_bg_focus = theme.bg_focus
 theme.tasklist_shape_border_color = theme.tasklist_bg_normal
-
-theme.notification_bg = "#3F3F3F"
-theme.notification_fg = "#FFFFFF"
-theme.notification_border_color = "#3F3F3F"
+-- ]]]
+theme.notification_bg = colors['Grey']['900']
+theme.notification_fg = colors['White']
+theme.notification_border_color = colors['Grey']['900']
 
 -- [[[ BLING theme variables
 theme.tag_preview_client_border_color = theme.base_color
-theme.tag_preview_widget_border_color = "#3f3f3f"
+theme.tag_preview_widget_border_color = colors['Grey']['900']
 -- ]]]
 
 -- Merge tables
-theme = table_utils.merge(theme, icons, theme_shapes)
+theme = table_utils.merge(theme, icons, shapes)
 
 return theme
