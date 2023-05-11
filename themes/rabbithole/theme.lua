@@ -16,16 +16,22 @@ theme.wallpaper = themes_path .. "rabbithole/wallpapers/whitelion.jpg"
 -- Base font and font colors
 theme.font = "Ubuntu 8"
 
-theme.fg_normal = "#090117"
-theme.fg_focus = "#090117"
-theme.fg_urgent = "#090117"
+theme.fg_normal = colors['Black'] -- font colors
+theme.fg_focus = colors['Black']
+theme.fg_urgent = colors['Black']
 
 -- The bulk of the theme boils down to these lines
-theme.base_color = "#D2F9FF" -- ~ 60% of theme color
-theme.secondary_color = "#D2D5FF" -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
-theme.tertiary_1 = "#9FA0FF" -- ~ 10% of theme color
-theme.tertiary_2 = "#999AFF" -- ~ 10% of theme color
-theme.neutral = "#483E58" --  neutral color for widgets
+theme.base_color = colors['Blue']['200'] -- ~ 60% of theme color
+theme.secondary_color = colors['Periwinkle']['500'] -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
+theme.tertiary_1 = colors['Blue']['400'] -- ~ 10% of theme color
+theme.tertiary_2 = colors['Blue']['300'] -- ~ 10% of theme color
+theme.neutral = colors['Blue Grey']['900'] --  neutral color for widgets
+
+-- Errors, info, and CTAs (calls to action) variables
+theme.success = colors['Green']['500']
+theme.info = colors['Blue']['500']
+theme.warning = colors['Yellow']['500']
+theme.danger = colors['Red']['500']
 
 -- Background colors for widgets. This is the bulk of the color you see.
 theme.bg_normal = make3d(theme.base_color, theme.secondary_color)
@@ -35,7 +41,7 @@ theme.bg_systray = theme.neutral
 
 theme.border_normal = theme.base_color
 theme.border_focus = theme.secondary_color
-theme.border_marked = colors['Red']['600']
+theme.border_marked = theme.danger
 
 -- [[[ Titlebar variables
 theme.titlebar_bg_focus = make3d(theme.base_color, theme.secondary_color)
@@ -58,7 +64,7 @@ theme.tasklist_shape_border_color = theme.tasklist_bg_normal
 -- ]]]
 theme.notification_bg = theme.neutral
 theme.notification_fg = colors['White']
-theme.notification_border_color = theme.neutral
+theme.notification_border_color = theme.normal
 
 -- [[[ BLING theme variables
 theme.tag_preview_client_border_color = theme.base_color
