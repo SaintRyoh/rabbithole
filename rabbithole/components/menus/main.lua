@@ -2,7 +2,7 @@
 local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Theme handling library
-local beautiful = require("beautiful") -- for awesome.icon
+local beautiful = require("beautiful") -- for rabbithole icon
 local freedesktop = require("sub.freedesktop")
 
 
@@ -14,7 +14,7 @@ return setmetatable({}, {
         local editor_cmd = settings.editor_cmd or terminal .. " -e " .. editor
 
         M.rabbithole = {
-            { "Shortcuts cheatsheet", function()
+            { "Shortcuts...", function()
                 hotkeys_popup.show_help(nil, awful.screen.focused())
             end },
             --{ "AWM Manual", terminal .. " -e man awesome" },
