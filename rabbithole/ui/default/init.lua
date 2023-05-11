@@ -1,15 +1,14 @@
-local awful     = require("awful")
+local awful = require("awful")
 
 return setmetatable({}, {
     __constructor = function(
-        workspaceManagerService, 
-        rabbithole__ui__default__left, 
-        rabbithole__ui__default__center, 
+        workspaceManagerService,
+        rabbithole__ui__default__left,
+        rabbithole__ui__default__center,
         rabbithole__ui__default__right,
         rabbithole__ui__default__titlebar
     )
         awful.screen.connect_for_each_screen(function(s)
-
             -- if workspaceManagerService.session_restored ~= true then
             workspaceManagerService:assignWorkspaceTagsToScreens()
             --     workspaceManagerService.session_restored = true
@@ -26,7 +25,6 @@ return setmetatable({}, {
             client.connect_signal("request::titlebars", function(c)
                 rabbithole__ui__default__titlebar(c)
             end)
-
         end)
     end,
 })

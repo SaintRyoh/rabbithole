@@ -114,7 +114,30 @@ local function generate_theme(primary_color, color_scheme, options)
     return theme
 end
 
--- Function to generate a theme variant using a pseudo-random seed
+--[[ Function to generate a theme variant using a pseudo-random seed
+Usage example:
+local chromaticTesseract = require("chromaticTesseract")
+
+local primary_color = "#4CAF50" -- Material Design Green 500
+local color_schemes = {"monochromatic", "analogous", "complementary", "split_complementary", "triadic", "tetradic"}
+
+local options = {
+    saturation_range = 0.1,
+    lightness_range = 0.1,
+    font = "Roboto 12",
+    fg_normal = "#FFFFFF",
+    fg_focus = "#000000",
+    extra_roles = {
+        urgent = "color3",
+        minimize = "color4"
+    }
+}
+
+local multi_themes = chromaticTesseract.generate_multi_scheme_themes(primary_color, color_schemes, options)
+
+-- Use one of the generated themes:
+local selected_theme = multi_themes["complementary"]
+]]
 local function generate_theme_variant(primary_color, color_scheme, options)
     options = options or {}
 
