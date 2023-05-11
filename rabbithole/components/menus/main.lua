@@ -13,7 +13,7 @@ return setmetatable({}, {
         local terminal = settings.terminal or "xfce4-terminal"
         local editor_cmd = settings.editor_cmd or terminal .. " -e " .. editor
 
-        M.awesome = {
+        M.rabbithole = {
             { "Shortcuts...", function()
                 hotkeys_popup.show_help(nil, awful.screen.focused())
             end },
@@ -46,7 +46,7 @@ return setmetatable({}, {
         }
         -- Main Menu
         local menu_items = {
-            { "awesome", M.awesome, beautiful.awesome_subicon },
+            { "Rabbithole", M.rabbithole, beautiful.awesome_subicon },
             { "open terminal", terminal },
             { "network", M.network_main },
             { "favorite", M.favorite }
