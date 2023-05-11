@@ -27,10 +27,6 @@ local theme_table = themeHandler.generate_theme(nil, nil, "#4CAF50", "complement
 Then apply theme with beautiful.init(theme_table)
 ]]
 
-local http = require("socket.http")
-local chromaticTesseract = require("chromaticTesseract")
-local naughty = require("naughty")
-
 local themeHandler = {}
 
 -- Fetch theme content from a GitHub URL
@@ -57,7 +53,7 @@ local function read_theme_from_file(file_path)
 end
 
 -- Main function to handle theme fetching
--- @This function can handle any of theme types and detects it automatically.
+-- @This function can handle any of theme types and detect it automatically.
 function themeHandler.generate_theme(theme_source, source_type, primary_color, color_scheme, options)
     local theme_table = nil
 
