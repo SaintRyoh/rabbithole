@@ -60,7 +60,14 @@ function Tesseract:read_theme_from_file(file_path)
     end
     local content = file:read("*all")
     file:close()
-    return loadstring(content)()
+
+    local func, err = load(content)
+    if func then
+        return func()
+    else
+        naughty.notify({ title = "Error", text = "Failed to load theme: " .. err })
+        return nil
+    end
 end
 
 -- Main function to handle theme fetching
