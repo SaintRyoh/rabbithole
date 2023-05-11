@@ -1,6 +1,7 @@
 local http = require("socket.http")
 local chromaticTesseract = require("rabbithole.services.tesseractThemeEngine.chromaticTesseract")
 local naughty = require("naughty")
+local gears = require("gears.filesystem")
 
 --[[ Usage:
 local Tesseract = require("rabbithole.services.tesseractThemeEngine")
@@ -52,7 +53,7 @@ end
 
 -- Read theme content from a local file
 function Tesseract:read_theme_from_file(file_path)
-    local file, err = io.open(file_path, "r")
+    local file, err = io.open(gears.get_configuration_dir() .. file_path, "r")
     if not file then
         naughty.notify({ title = "Error", text = "Failed to read theme from local file: " .. err })
         return nil

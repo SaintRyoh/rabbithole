@@ -3,6 +3,7 @@ require("paths")
 require("error-handling")
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
+local gears = require("gears.filesystem")
 
 -- if AWM_DEBUG set in environment then require debug
 -- Debugger = nil
