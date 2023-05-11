@@ -1,4 +1,5 @@
 local beautiful = require("beautiful")
+local naughty = require("naughty")
 
 return setmetatable({}, {
     __constructor = function (

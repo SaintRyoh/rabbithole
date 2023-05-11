@@ -5,6 +5,7 @@ local icons = {}
 icons.awesome_icon = themes_path .. "rabbithole/awesome-icon.png"
 --icons.menu_submenu_icon = themes_path .. "default/submenu.png -- we no longer have an icon for this. idk if we need to"
 
+-- [[[ Layouts
 icons.layout_tile = themes_path .. "rabbithole/layouts/tile.svg"
 icons.layout_tileleft = themes_path .. "rabbithole/layouts/tileleft.png"
 icons.layout_tilebottom = themes_path .. "rabbithole/layouts/tilebottom.png"
@@ -12,16 +13,16 @@ icons.layout_tiletop = themes_path .. "rabbithole/layouts/tiletop.png"
 icons.layout_fairv = themes_path .. "rabbithole/layouts/fairv.png"
 icons.layout_fairh = themes_path .. "rabbithole/layouts/fairh.png"
 icons.layout_spiral = themes_path .. "rabbithole/layouts/spiral.png"
-icons.layout_dwindle = themes_path .. "rabbithole/layouts/dwindle.png"
+icons.layout_dwindle = themes_path .. "rabbithole/layouts/dwindle.svg"
 icons.layout_max = themes_path .. "rabbithole/layouts/max.png"
 icons.layout_fullscreen = themes_path .. "rabbithole/layouts/fullscreen.png"
-icons.layout_magnifier = themes_path .. "rabbithole/layouts/magnifier.png"
-icons.layout_floating = themes_path .. "rabbithole/layouts/floating.png"
+icons.layout_magnifier = themes_path .. "rabbithole/layouts/magnifier.svg"
+icons.layout_floating = themes_path .. "rabbithole/layouts/floating.svg"
 icons.layout_cornernw = themes_path .. "rabbithole/layouts/cornernw.png"
 icons.layout_cornerne = themes_path .. "rabbithole/layouts/cornerne.png"
 icons.layout_cornersw = themes_path .. "rabbithole/layouts/cornersw.png"
 icons.layout_cornerse = themes_path .. "rabbithole/layouts/cornerse.png"
-
+-- ]]]
 icons.titlebar_close_button_focus = themes_path .. "rabbithole/titlebar/close_focus.png"
 icons.titlebar_close_button_normal = themes_path .. "rabbithole/titlebar/close_normal.png"
 icons.titlebar_minimize_button_normal = themes_path .. "default/titlebar/minimize_normal.png"
