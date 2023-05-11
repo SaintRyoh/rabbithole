@@ -27,19 +27,8 @@ return setmetatable({}, {
         M.favorite = {
             -- example of a favorite apps list
             -- usage: { "MenuText", "launch-command"}
-            { "caja", "caja" },
-            { "thunar", "thunar" },
-            { "geany", "geany" },
-            { "clementine", "clementine" },
-            { "firefox", "firefox", awful.util.getdir("config") .. "/firefox.png" },
-            { "chromium", "chromium" },
-            { "&firefox", "firefox" },
-            { "&thunderbird", "thunderbird" },
-            { "libreoffice", "libreoffice" },
-            { "transmission", "transmission-gtk" },
-            { "gimp", "gimp" },
-            { "inkscape", "inkscape" },
-            { "screenshooter", "xfce4-screenshooter" }
+
+            { "firefox", "firefox", awful.util.getdir("config") .. "/firefox.png" }
         }
 
         M.network_main = {
