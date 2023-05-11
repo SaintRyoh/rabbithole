@@ -195,9 +195,10 @@ end
 
 function WorkspaceManagerService:createRuleForClient(tag, c)
     return {
-        rule_any = {
-            pid = {c.pid},
-            class = {c.class},
+        rule = {
+            pid = c.pid,
+            class = c.class,
+            name = c.name,
         },
         properties = {
             tag = tag,
