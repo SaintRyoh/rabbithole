@@ -16,25 +16,25 @@ theme.wallpaper = themes_path .. "rabbithole/wallpapers/whitelion.jpg"
 -- Base font and font colors
 theme.font = "Ubuntu 8"
 
-theme.fg_normal = colors['White']
-theme.fg_focus = colors['White']
-theme.fg_urgent = colors['White']
+theme.fg_normal = "#090117"
+theme.fg_focus = "#090117"
+theme.fg_urgent = "#090117"
 
 -- Base color for the theme
-theme.base_color = colors['Deep Purple']['500'] -- ~ 60% of theme color
-theme.secondary_color = colors['Deep Purple']['300'] -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
-theme.tertiary_1 = colors['Pink']['300'] -- ~ 10% of theme color
-theme.tertiary_2 = colors['Pink']['400'] -- ~ 10% of theme color
-theme.neutral = colors['Grey']['900'] --  neutral color for widgets
+theme.base_color = "#D2F9FF" -- ~ 60% of theme color
+theme.secondary_color = "#D2D5FF" -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
+theme.tertiary_1 = "#9FA0FF" -- ~ 10% of theme color
+theme.tertiary_2 = "#999AFF" -- ~ 10% of theme color
+theme.neutral = "#16003E" --  neutral color for widgets
 
 -- Background colors for widgets. This is the bulk of the color you see.
-theme.bg_normal = make3d(theme.base_color, colors['Deep Purple']['400'])
+theme.bg_normal = make3d(theme.base_color, theme.secondary_color)
 theme.bg_focus = make3d(theme.tertiary_1, theme.tertiary_2)
 --theme.bg_urgent = colors['Grey']['900']
-theme.bg_systray = colors['Grey']['800']
+theme.bg_systray = theme.neutral 
 
 theme.border_normal = theme.base_color
-theme.border_focus = colors['Purple']['900']
+theme.border_focus = theme.secondary_color
 theme.border_marked = colors['Red']['600']
 
 -- [[[ Titlebar variables

@@ -104,6 +104,8 @@ end
 
 -- Helper function to create a widget with softed edges
 -- Function to create a widget background gradient with edges in a softer, almost white gradient
+-- @param start_color The color at the start of the gradient
+-- @param end_color The color at the end of the gradient
 function ColorService:create_widget_soft(start_color, end_color)
   return function(cr, width, height, x, y, widget)
       local start_x, start_y = x, y
