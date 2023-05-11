@@ -199,10 +199,13 @@ function WorkspaceManagerService:createRuleForClient(tag, c)
             pid = {c.pid},
             class = {c.class},
         },
-        callback = function(cl)
-            tag.activated = true
-            cl:move_to_tag(tag)
-        end
+        properties = {
+            tag = tag,
+            callback = function(cl)
+                tag.activated = true
+                cl:move_to_tag(tag)
+            end
+        }
     }
 end
 
@@ -463,23 +466,24 @@ function WorkspaceManagerService:clearRestoreRules()
 end
 function WorkspaceManagerService:unpauseService()
     capi.awesome.disconnect_signal("refresh", self.unpauseServiceHelper)
-    self:setStatusForAllWorkspaces(false)
-    self.pauseState:setStatus(true)
+    -- Debugger.dbg()
     for _, c in pairs(capi.client.get()) do
         local matching_rules = awful.rules.matching_rules(c, self.restore_rules)
         __.forEach(matching_rules, function(rule)
-            awful.rules.execute(c, rule)
+            awful.rules.execute(c, rule.properties or {})
         end)
     end
+    self:setStatusForAllWorkspaces(false)
+    self.pauseState:setStatus(true)
     self.pauseState = nil
 end
 function WorkspaceManagerService:screenDisconnectUpdate(s)
     self:pauseService()
 
     self:clearRestoreRules()
-    self.restore_rules = __.map(self:getAllTags(), function(tag)
+    self.restore_rules = __.flatten(__.map(self:getAllTags(), function(tag)
         return self:createClientRulesForTag(tag, tag:clients())
-    end)
+    end))
 
 
 
