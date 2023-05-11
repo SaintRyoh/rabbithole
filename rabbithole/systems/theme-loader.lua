@@ -8,7 +8,6 @@ return setmetatable({}, {
         local theme_table
         local theme_source = settings.theme_dir
 
-        -- Use Tesseract service to generate the theme
         theme_table = rabbithole__services__tesseractThemeEngine:generate_theme(theme_source)
 
         if theme_table then
