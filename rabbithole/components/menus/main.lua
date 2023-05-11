@@ -32,7 +32,7 @@ return setmetatable({}, {
         }
 
         M.network_main = {
-            { "Wireless Hotspot", "wicd-curses" }
+            { "Hotspot", "wihotspot-gui" }
         }
         M.applications = freedesktop.menu.build()
         -- Main Menu
