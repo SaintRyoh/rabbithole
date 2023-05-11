@@ -1,11 +1,11 @@
 -- concatenates an arbitrary number of tables into the first table
--- Usage: table_utils.merge(t1, t2, t3, ...)
+-- this might have been something in lodash, but I couldnt find it
 
 local table_utils = {}
 
 function table_utils.merge(t1, ...)
-    local arg = {...}   -- Capture all arguments into a table
-    for _, t2 in ipairs(arg) do   -- Loop through each table in arg
+    local arg = {...}
+    for _, t2 in ipairs(arg) do
         if type(t2) == 'table' then
             for k, v in pairs(t2) do
                 t1[k] = v
