@@ -3,11 +3,7 @@ local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Theme handling library
 local beautiful = require("beautiful") -- for awesome.icon
-
-
--- reading
--- https://awesomewm.org/apidoc/popups%20and%20bars/awful.menu.html
-
+local freedesktop = require("sub.freedesktop")
 
 
 return setmetatable({}, {
