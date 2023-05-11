@@ -1,5 +1,25 @@
+--[[ chromaticTesseract takes a color as a string or RGB value, a color theory scheme,
+and options as arguments and returns a theme table that can be used with beautiful.init().
+
+Usage example:
+local primary_color = "#4CAF50" -- Material Design Green 500
+local color_scheme = "complementary" -- You can choose from the schemes listed above
+local options = {
+    saturation_range = 0.1,
+    lightness_range = 0.1,
+    font = "Roboto 12",
+    fg_normal = "#FFFFFF",
+    fg_focus = "#000000",
+    extra_roles = {
+        urgent = "color3",
+        minimize = "color4"
+    }
+}
+]]
+
 local gears = require("gears")
 local beautiful = require("beautiful")
+
 
 local function hsl_to_rgb(h, s, l)
     local r, g, b
@@ -94,22 +114,51 @@ local function generate_theme(primary_color, color_scheme, options)
     return theme
 end
 
---[[ Usage example:
-local primary_color = "#4CAF50" -- Material Design Green 500
-local color_scheme = "complementary" -- You can choose from the schemes listed above
-local options = {
-    saturation_range = 0.1,
-    lightness_range = 0.1,
-    font = "Roboto 12",
-    fg_normal = "#FFFFFF",
-    fg_focus = "#000000",
-    extra_roles = {
-        urgent = "color3",
-        minimize = "color4"
-    }
-}
---]]
-local tesseract_theme = generate_theme(primary_color, color_scheme, options)
+-- Function to generate a theme variant using a pseudo-random seed
+local function generate_theme_variant(primary_color, color_scheme, options)
+    options = options or {}
 
--- Return the the MD3 color-perfect theme
-return tesseract_theme
+    -- Set the random seed
+    local seed = options.seed or os.time()
+    math.randomseed(seed)
+
+    -- Randomize saturation and lightness ranges
+    local saturation_range = options.saturation_range or math.random() * 0.2
+    local lightness_range = options.lightness_range or math.random() * 0.2
+
+    -- Generate color palette
+    local colors = generate_colors(primary_color, color_scheme, {
+        saturation_range = saturation_range,
+        lightness_range = lightness_range
+    })
+
+    local theme = {}
+
+    -- Apply the color palette to the theme
+    for k, v in pairs(colors) do
+        theme[k] = v
+    end
+
+    -- Apply other Material Design 3 standards for theme
+    theme.font = options.font or "Roboto 10"
+    theme.bg_normal = theme.color1
+    theme.bg_focus = theme.color2
+    theme.fg_normal = options.fg_normal or "#FFFFFF"
+    theme.fg_focus = options.fg_focus or "#000000"
+
+    -- Customize additional color roles if needed
+    if options.extra_roles then
+        for role, color_key in pairs(options.extra_roles) do
+            theme[role] = theme[color_key]
+        end
+    end
+
+    return theme
+end
+
+local chromaticTesseract = {
+    generate_theme = generate_theme,
+    generate_theme_variant = generate_theme_variant
+}
+
+return chromaticTesseract
