@@ -18,10 +18,13 @@ return setmetatable({}, {
                 hotkeys_popup.show_help(nil, awful.screen.focused())
             end },
             --{ "AWM Manual", terminal .. " -e man awesome" },
-            { "Launch terminal", terminal },
-            { "Logout", "oblogout" },
-            { "Restart", awesome.restart },
-            { "Quit Rabbithole", function() awesome.quit() end }
+            { "Launch term", terminal },
+            { "Logout", function() awesome.quit() end },
+            { "Restart WM", awesome.restart() },
+            { "Quit Rabbithole", function() awesome.quit() end },
+            { "Reboot", "reboot" },
+            { "Shutdown", "shutdown now" }
+
         }
 
         M.favorite = {
@@ -34,6 +37,7 @@ return setmetatable({}, {
         M.network_main = {
             { "Hotspot", "wihotspot-gui" }
         }
+        -- Create an applications submenu from freedesktop
         M.applications = freedesktop.menu.build()
         -- Main Menu
         local menu_items = {
