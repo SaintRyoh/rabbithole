@@ -14,11 +14,11 @@ return setmetatable({}, {
         local editor_cmd = settings.editor_cmd or terminal .. " -e " .. editor
 
         M.rabbithole = {
-            { "Shortcuts...", function()
+            { "Shortcuts cheatsheet", function()
                 hotkeys_popup.show_help(nil, awful.screen.focused())
             end },
-            { "Manual", terminal .. " -e man awesome" },
-            { "Launch Terminal", terminal },
+            --{ "AWM Manual", terminal .. " -e man awesome" },
+            { "Launch terminal", terminal },
             { "Logout", "oblogout" },
             { "Restart", awesome.restart },
             { "Quit Rabbithole", function() awesome.quit() end }
@@ -49,8 +49,8 @@ return setmetatable({}, {
         -- Main Menu
         local menu_items = {
             { "Rabbithole", M.rabbithole, beautiful.awesome_subicon },
-            { "open terminal", terminal },
-            { "network", M.network_main },
+            { "Launch terminal", terminal },
+            --{ "network", M.network_main },
             --{ "favorite", M.favorite }
         }
 
