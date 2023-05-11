@@ -14,15 +14,14 @@ return setmetatable({}, {
         local editor_cmd = settings.editor_cmd or terminal .. " -e " .. editor
 
         M.awesome = {
-            { "hotkeys", function()
+            { "Shortcuts...", function()
                 hotkeys_popup.show_help(nil, awful.screen.focused())
             end },
-            { "manual", terminal .. " -e man awesome" },
-            { "edit config", editor_cmd .. " " .. awesome.conffile },
-            { "Terminal", terminal },
-            { "Shutdown/Logout", "oblogout" },
-            { "restart", awesome.restart },
-            { "quit", function() awesome.quit() end }
+            { "Manual", terminal .. " -e man awesome" },
+            { "Launch Terminal", terminal },
+            { "Logout", "oblogout" },
+            { "Restart", awesome.restart },
+            { "Quit Rabbithole", function() awesome.quit() end }
         }
 
         M.favorite = {
