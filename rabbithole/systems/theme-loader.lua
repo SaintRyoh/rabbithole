@@ -3,7 +3,14 @@ local gears = require("gears")
 
 
 return setmetatable({}, {
-    __constructor = function (settings)
+    __constructor = function (
+        settings,
+        rabbithole__services__tesseractThemeEngine
+    )
+        -- here you could do something like
+        -- if settings.theme.type == "basic" then
+        --  beautiful.init(rabbithole__services__tesseractThemeEngine:generate_theme_from_color())
+        -- end
         if gears.filesystem.file_readable(gears.filesystem.get_configuration_dir() .. settings.theme_dir) then
             beautiful.init(gears.filesystem.get_configuration_dir() .. settings.theme_dir)
         else
