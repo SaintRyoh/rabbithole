@@ -25,7 +25,7 @@ theme.base_color = "#D2F9FF" -- ~ 60% of theme color
 theme.secondary_color = "#D2D5FF" -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
 theme.tertiary_1 = "#9FA0FF" -- ~ 10% of theme color
 theme.tertiary_2 = "#999AFF" -- ~ 10% of theme color
-theme.neutral = "#16003E" --  neutral color for widgets
+theme.neutral = "#483E58" --  neutral color for widgets
 
 -- Background colors for widgets. This is the bulk of the color you see.
 theme.bg_normal = make3d(theme.base_color, theme.secondary_color)
