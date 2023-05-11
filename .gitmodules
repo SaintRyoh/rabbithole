@@ -10,3 +10,6 @@
 [submodule "sub/rubato"]
 	path = sub/rubato
 	url = https://github.com/andOrlando/rubato
+[submodule "sub/freedesktop"]
+	path = sub/freedesktop
+	url = https://github.com/fenrirlycan/rabbithole-freedesktop

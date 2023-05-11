@@ -2,7 +2,7 @@ local themes_path = require("gears.filesystem").get_configuration_dir() .. "them
 
 local icons = {}
 
-icons.awesome_icon = themes_path .. "rabbithole/awesome-icon.png"
+icons.rabbit_icon = themes_path .. "rabbithole/icons/rabbit-menu.svg"
 --icons.menu_submenu_icon = themes_path .. "default/submenu.png -- we no longer have an icon for this. idk if we need to"
 
 -- [[[ Layouts
