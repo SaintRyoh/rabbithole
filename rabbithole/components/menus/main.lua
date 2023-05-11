@@ -41,7 +41,7 @@ return setmetatable({}, {
         M.applications = freedesktop.menu.build()
         -- Main Menu
         local menu_items = {
-            { "Rabbithole", M.rabbithole, beautiful.awesome_subicon },
+            { "Rabbithole", M.rabbithole, beautiful.rabbit_menu},
             { "Launch terminal", terminal },
             { "WiFi", M.network_main },
             { "Applications", M.applications }
