@@ -530,10 +530,13 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
     -- let all the other events play out the unpause service
     -- capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
-
-
     self:switchTo(self.pauseState)
-
+    -- bugfix for the screen disconnect bug. didnt need to add a disconnect signal, this works fine
+    s.connect_signal(
+        function ()
+            awesome.restart()
+        end
+    )
 end
 
 return WorkspaceManagerService
