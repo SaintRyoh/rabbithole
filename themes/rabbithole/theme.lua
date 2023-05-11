@@ -20,7 +20,7 @@ theme.fg_normal = "#090117"
 theme.fg_focus = "#090117"
 theme.fg_urgent = "#090117"
 
--- Base color for the theme
+-- The bulk of the theme boils down to these lines
 theme.base_color = "#D2F9FF" -- ~ 60% of theme color
 theme.secondary_color = "#D2D5FF" -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
 theme.tertiary_1 = "#9FA0FF" -- ~ 10% of theme color
