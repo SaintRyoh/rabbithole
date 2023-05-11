@@ -20,7 +20,7 @@ return setmetatable({}, {
             --{ "AWM Manual", terminal .. " -e man awesome" },
             { "Launch term", terminal },
             { "Logout", function() awesome.quit() end },
-            { "Restart WM", awesome.restart() },
+            { "Restart WM", awesome.restart },
             { "Quit Rabbithole", function() awesome.quit() end },
             { "Reboot", "reboot" },
             { "Shutdown", "shutdown now" }
