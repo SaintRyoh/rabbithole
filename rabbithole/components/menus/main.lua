@@ -25,6 +25,8 @@ return setmetatable({}, {
         }
 
         M.favorite = {
+            -- example of a favorite apps list
+            -- usage: { "MenuText", "launch-command"}
             { "caja", "caja" },
             { "thunar", "thunar" },
             { "geany", "geany" },
@@ -49,7 +51,7 @@ return setmetatable({}, {
             { "Rabbithole", M.rabbithole, beautiful.awesome_subicon },
             { "open terminal", terminal },
             { "network", M.network_main },
-            { "favorite", M.favorite }
+            --{ "favorite", M.favorite }
         }
 
         return awful.menu({ items = menu_items })
