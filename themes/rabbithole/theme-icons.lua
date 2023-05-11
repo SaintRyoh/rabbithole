@@ -5,7 +5,7 @@ local icons = {}
 icons.awesome_icon = themes_path .. "rabbithole/awesome-icon.png"
 --icons.menu_submenu_icon = themes_path .. "default/submenu.png -- we no longer have an icon for this. idk if we need to"
 
-icons.layout_tile = themes_path .. "rabbithole/layouts/tile.png"
+icons.layout_tile = themes_path .. "rabbithole/layouts/tile.svg"
 icons.layout_tileleft = themes_path .. "rabbithole/layouts/tileleft.png"
 icons.layout_tilebottom = themes_path .. "rabbithole/layouts/tilebottom.png"
 icons.layout_tiletop = themes_path .. "rabbithole/layouts/tiletop.png"
