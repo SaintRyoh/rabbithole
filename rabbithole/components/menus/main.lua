@@ -32,14 +32,15 @@ return setmetatable({}, {
         }
 
         M.network_main = {
-            { "wicd-curses", "wicd-curses" },
-            { "wicd-gtk", "wicd-gtk" }
+            { "Wireless Hotspot", "wicd-curses" }
         }
+        M.applications = freedesktop.menu.build()
         -- Main Menu
         local menu_items = {
             { "Rabbithole", M.rabbithole, beautiful.awesome_subicon },
             { "Launch terminal", terminal },
-            --{ "network", M.network_main },
+            { "WiFi", M.network_main },
+            { "Applications", M.applications }
             --{ "favorite", M.favorite }
         }
 
