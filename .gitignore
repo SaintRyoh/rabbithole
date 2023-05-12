@@ -9,3 +9,5 @@ rabbithole/session.lua.bak
 rabbithole/session.dat
 
 rabbithole/session.dat.bak
+
+rabbithole/services/sessionManager/sessionManagerService.lua~HEAD
