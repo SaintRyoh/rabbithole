@@ -109,7 +109,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         rapid_set = true,
         subscribed = function (pos)
             if type(tag_template.bg) == "string" then
-                tag_template.bg = beautiful.bg_normal
+                tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, pos)
             else
                 tag_template.bg = self.color.create_widget_bg(
                     self.color.blend_colors(beautiful.base_color, beautiful.tertiary_1, pos), 
