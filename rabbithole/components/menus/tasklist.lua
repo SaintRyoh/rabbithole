@@ -27,17 +27,17 @@ end
 
 function TasklistMenuController:generate_menu(c)
     local menu = awful.menu({ })
-    menu:add({"move to tag", 
+    menu:add({"Move to...", 
         __.map(self:get_all_workspaces(), function(workspace, index)
             return {
-                workspace.name or ("workspace: " .. index),
+                workspace.name or ("Activity: " .. index),
                 __.map(workspace:getAllTags(), function (tag)
                     return { tag.name, function () c:move_to_tag(tag) end }
                 end)
             }
         end)
     })
-    menu:add({"move to global tag", 
+    menu:add({"Send to global tag...", 
         __.map(self.workspaceManagerService:getGlobalWorkspace():getAllTags(), function(tag)
             return { tag.name, function () c:move_to_tag(tag) end }
         end)
