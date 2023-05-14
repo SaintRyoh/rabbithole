@@ -13,7 +13,7 @@ return setmetatable({}, {
                     {
                         image = client_icon,
                         widget = wibox.widget.imagebox,
-                        resize = false
+                        resize = true
                     },
                     buttons = rabbithole__components__buttons__titlebar(c),
                     layout  = wibox.layout.fixed.horizontal
