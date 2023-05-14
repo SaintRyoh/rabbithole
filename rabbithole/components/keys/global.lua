@@ -189,19 +189,20 @@ return setmetatable({}, {
                 -- View tag only.
                 awful.key({ modkey }, "#" .. i + 9,
                     function()
-                        local tags = workspaceManagerService:getAllTags()
+                        local workspace = workspaceManagerService:getActiveWorkspace()
+                        local tags = workspace:getAllTags()
                         local tag = tags[i]
                         if tag then
                             sharedtags.viewonly(tag)
                         else
-                            workspaceManagerService:addTagToWorkspace()
+                            workspaceManagerService:addTagToWorkspace(workspace)
                         end
                     end,
                     { description = "view tag #" .. i, group = "tag" }),
                 -- Toggle tag display on/off
                 awful.key({ modkey, "Control" }, "#" .. i + 9,
                     function()
-                        local workspace = workspaceManagerService:getWorkspaceByTag(client.focus.screen.selected_tag)
+                        local workspace = workspaceManagerService:getActiveWorkspace()
                         local tag = workspace:getAllTags()[i]
                         if tag then
                             awful.tag.viewtoggle(tag)
@@ -212,7 +213,7 @@ return setmetatable({}, {
                 awful.key({ modkey, "Shift" }, "#" .. i + 9,
                     function()
                         if client.focus then
-                            local workspace = workspaceManagerService:getWorkspaceByTag(client.focus.screen.selected_tag)
+                            local workspace = workspaceManagerService:getActiveWorkspace()
                             local tag = workspace:getAllTags()[i]
                             if tag then
                                 client.focus:move_to_tag(tag)
@@ -224,7 +225,7 @@ return setmetatable({}, {
                 awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                     function()
                         if client.focus then
-                            local workspace = workspaceManagerService:getWorkspaceByTag(client.focus.screen.selected_tag)
+                            local workspace = workspaceManagerService:getActiveWorkspace()
                             local tag = workspace:getAllTags()[i]
                             if tag then
                                 client.focus:toggle_tag(tag)
@@ -236,8 +237,7 @@ return setmetatable({}, {
         end
                 -- Swap tags by index
                 -- Alt key doesnt seem to be working
-                --awful.key({ modkey, "Control", "Alt_L" }, "#" .. i + 9,
-                --    function ()
+                        --    function ()
                 --        local current_tag = mouse.screen.tags[awful.screen.focused().selected_tag.index]
                 --        local target_idx = i
                 --        if target_idx and current_tag ~= target_idx then
