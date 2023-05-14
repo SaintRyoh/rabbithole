@@ -37,17 +37,17 @@ return setmetatable({}, {
         M.network_main = {
             { "Hotspot", "wihotspot-gui" }
         }
-        -- Create an applications submenu from freedesktop
-        M.applications = freedesktop.menu.build()
+
         -- Main Menu
         local menu_items = {
             { "Rabbithole", M.rabbithole, beautiful.rabbit_menu},
             { "Launch terminal", terminal },
             { "WiFi", M.network_main },
-            { "Applications", M.applications }
-            --{ "favorite", M.favorite }
         }
 
-        return awful.menu({ items = menu_items })
+        return freedesktop.menu.build({
+            before = menu_items,
+            sub_menu = 'Applications',
+        })
     end
 })
