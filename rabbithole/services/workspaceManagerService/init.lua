@@ -329,9 +329,46 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace, tag)
     end
 end
 
-function WorkspaceManagerService:getTagByIndex(index)
-    local all_tags = self:getAllTags()
-    return all_tags[index]
+-- swap tags by index, regardless of workspace. can also be used for drag and drop tags later.
+function WorkspaceManagerService:swapTagsByIndex(index1, index2)
+    local allTags = self:getAllTags()
+    local tag1 = allTags[index1]
+    local tag2 = allTags[index2]
+
+    if tag1 and tag2 then
+        -- swap tags in their respective workspaces
+        local workspace1 = self:getWorkspaceByTag(tag1)
+        local workspace2 = self:getWorkspaceByTag(tag2)
+        workspace1:removeTag(tag1)
+        workspace1:addTag(tag2)
+        workspace2:removeTag(tag2)
+        workspace2:addTag(tag1)
+
+        -- update sharedtags indexes
+        local tmp_index = tag1.index
+        tag1.index = tag2.index
+        tag2.index = tmp_index
+
+        -- swap clients
+        local clients1 = tag1:clients()
+        local clients2 = tag2:clients()
+
+        for _, client in ipairs(clients1) do
+            client:tags({tag2})
+        end
+
+        for _, client in ipairs(clients2) do
+            client:tags({tag1})
+        end
+
+        self:refresh()
+    else
+        naughty.notify({
+            title="Swap Tags",
+            text="Cannot swap. One or both tags do not exist.",
+            timeout=3
+        })
+    end
 end
 
 -- }}}
