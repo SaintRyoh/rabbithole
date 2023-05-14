@@ -17,7 +17,7 @@ end
 
 function TaglistMenuController:generate_menu(t)
     local menu = awful.menu({ })
-    menu:add({"Move to Activity...", 
+    menu:add({"Move to activity...", 
         __.map(self:get_all_workspaces(), function(workspace, index)
             return {
                 workspace.name or ("Activity: " .. index),
