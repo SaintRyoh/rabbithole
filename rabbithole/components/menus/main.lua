@@ -1,5 +1,6 @@
 -- Standard awesome library
 local awful = require("awful")
+local gears = require("gears")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Theme handling library
 local beautiful = require("beautiful") -- for rabbithole icon
@@ -18,7 +19,7 @@ return setmetatable({}, {
                 hotkeys_popup.show_help(nil, awful.screen.focused())
             end },
             --{ "AWM Manual", terminal .. " -e man awesome" },
-            { "Launch term", terminal },
+            { "Launch terminal", terminal },
             { "Logout", function() awesome.quit() end },
             { "Restart WM", awesome.restart },
             { "Quit Rabbithole", function() awesome.quit() end },
@@ -38,12 +39,12 @@ return setmetatable({}, {
             { "Hotspot", "wihotspot-gui" }
         }
         -- Create an applications submenu from freedesktop
-        M.applications = freedesktop.menu.build()
+        M.applications = getApps()
         -- Main Menu
         local menu_items = {
             { "Rabbithole", M.rabbithole, beautiful.rabbit_menu},
-            { "Launch terminal", terminal },
-            { "WiFi", M.network_main },
+            { "Terminal", terminal },
+            --{ "WiFi", M.network_main },
             { "Applications", M.applications }
             --{ "favorite", M.favorite }
         }
