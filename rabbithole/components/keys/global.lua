@@ -236,12 +236,12 @@ return setmetatable({}, {
             )
         end
 
-        awful.key({ modkey, "Control", "Alt_L" }, "#" .. i + 9,
-        function ()
-            local current_tag_index = awful.screen.focused().selected_tag.index
-            workspaceManagerService:swapTagsByIndex(current_tag_index, i)
-        end,
-        {description = "swap tags by index"..i, group = "tag"})
+        --awful.key({ modkey, "Control", "Alt_L" }, "#" .. i + 9,
+        --function ()
+        --    local current_tag_index = awful.screen.focused().selected_tag.index
+        --    workspaceManagerService:swapTagsByIndex(current_tag_index, i)
+        --end,
+        --{description = "swap tags by index"..i, group = "tag"})
     
                 -- Swap tags by index
                 -- Alt key doesnt seem to be working
