@@ -177,11 +177,18 @@ return setmetatable({}, {
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Menubar
             awful.key({ modkey }, "p", function() menubar.show() end,
-                { description = "show the menubar", group = "launcher" })
+                { description = "show the menubar", group = "launcher" }),
 
-        -- Screen brightness up & down with xbacklight
-        --awful.key({}, "XF86AudioRaiseVolume", function() awful.spawn("amixer -D pulse sset Master 5%+") end),
-        --awful.key({}, "XF86AudioLowerVolume", function() awful.spawn("amixer -D pulse sset Master 5%-") end)
+            -- Screen brightness up & down with xbacklight
+            awful.key({ }, "XF86MonBrightnessUp",
+                function () awful.util.spawn("xbacklight -inc 10", false) end,
+                {description = "increase brightness", group = "hotkeys"}),
+            awful.key({ }, "XF86MonBrightnessDown",
+                function () awful.util.spawn("xbacklight -dec 10", false) end,
+                {description = "decrease brightness", group = "hotkeys"}),
+            -- Keybinding to toggle titlebar visibility
+            awful.key({ modkey }, "t", function() awful.titlebar.toggle(client.focus) end,
+                { description = "toggle titlebar", group = "client" })
         )
         -- For loop to add number row of keyboard to global keybindings. Workspace, tag, & client
         for i = 1, 9 do -- Lua's indexing starts at 1
