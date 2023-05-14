@@ -20,7 +20,7 @@ function TaglistMenuController:generate_menu(t)
     menu:add({"move to workspace", 
         __.map(self:get_all_workspaces(), function(workspace, index)
             return {
-                workspace.name or ("workspace: " .. index),
+                workspace.name or ("Workspace: " .. index),
                 function ()
                     self.workspaceManagerService:moveTagToWorkspace(t, workspace)
                 end
