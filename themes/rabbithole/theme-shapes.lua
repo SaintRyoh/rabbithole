@@ -4,10 +4,10 @@ local dpi = require("beautiful.xresources").apply_dpi
 local theme_shapes = {}
 
 theme_shapes.useless_gap = dpi(3)
-theme_shapes.border_width = dpi(2)
+theme_shapes.border_width = dpi(3)
 theme_shapes.taglist_spacing = 1
 theme_shapes.menu_height = dpi(15)
-theme_shapes.menu_width = dpi(100)
+theme_shapes.menu_width = dpi(120)
 theme_shapes.taglist_shape = gears.shape.rounded_rect
 theme_shapes.tasklist_shape = gears.shape.rounded_rect
 theme_shapes.tasklist_shape_border_width = dpi(1)
