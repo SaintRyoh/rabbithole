@@ -40,7 +40,7 @@ function appService.get_apps()
                         end
                     end
                 end
-                if app.name and app.exec then
+                if app.name and app.exec and app.categories then
                     for _, category in pairs(app.categories) do
                         if not apps[category] then apps[category] = {} end
                         table.insert(apps[category], { app.name, app.exec, app.icon })

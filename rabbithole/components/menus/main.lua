@@ -5,6 +5,7 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Theme handling library
 local beautiful = require("beautiful") -- for rabbithole icon
 local freedesktop = require("sub.freedesktop")
+local apps = require("rabbithole.services.appService")
 
 
 return setmetatable({}, {
@@ -39,7 +40,7 @@ return setmetatable({}, {
             { "Hotspot", "wihotspot-gui" }
         }
         -- Create an applications submenu from freedesktop
-        M.applications = freedesktop.menu.build()
+        M.applications = apps.get_apps()
         -- Main Menu
         local menu_items = {
             { "Rabbithole", M.rabbithole, beautiful.rabbit_menu},
