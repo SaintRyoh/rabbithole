@@ -46,8 +46,8 @@ icons.titlebar_floating_button_focus_inactive = themes_path .. "rabbithole/title
 icons.titlebar_floating_button_normal_inactive = themes_path .. "rabbithole/titlebar/floating_normal_inactive.png"
 
 icons.titlebar_maximized_button_focus_active = themes_path .. "rabbithole/titlebar/maximize_focus.png"
-icons.titlebar_maximized_button_normal_active = themes_path .. "rabbithole/titlebar/maximize_focus.png"
-icons.titlebar_maximized_button_focus_inactive = recolor(themes_path .. "rabbithole/titlebar/maximize_focus.png", colors["Grey"][500])
+icons.titlebar_maximized_button_normal_active = recolor(themes_path .. "rabbithole/titlebar/maximize_focus.png", colors["Grey"][500])
+icons.titlebar_maximized_button_focus_inactive = themes_path .. "rabbithole/titlebar/maximize_focus.png"
 icons.titlebar_maximized_button_normal_inactive = recolor(themes_path .. "rabbithole/titlebar/maximize_focus.png", colors["Grey"][500])
 
 return icons
