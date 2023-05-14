@@ -329,6 +329,11 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace, tag)
     end
 end
 
+function WorkspaceManagerService:getTagByIndex(index)
+    local all_tags = self:getAllTags()
+    return all_tags[index]
+end
+
 -- }}}
 
 function WorkspaceManagerService:removeWorkspace(workspace)
