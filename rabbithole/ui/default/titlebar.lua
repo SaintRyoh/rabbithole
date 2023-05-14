@@ -3,12 +3,18 @@ local wibox = require("wibox")
 
 return setmetatable({}, {
     __constructor = function(
-        rabbithole__components__buttons__titlebar
+        rabbithole__components__buttons__titlebar,
+        rabbithole__services__icon___handler
     )
         return function (c)
+            local client_icon = rabbithole__services__icon___handler:get_icon_by_client(c)
             awful.titlebar(c) : setup {
                 { -- Left
-                    awful.titlebar.widget.iconwidget(c),
+                    {
+                        image = client_icon,
+                        widget = wibox.widget.imagebox,
+                        resize = false
+                    },
                     buttons = rabbithole__components__buttons__titlebar(c),
                     layout  = wibox.layout.fixed.horizontal
                 },
