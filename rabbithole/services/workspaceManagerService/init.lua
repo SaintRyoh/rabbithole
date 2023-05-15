@@ -45,7 +45,7 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     if not status then
         -- self:backupSessionFile(self.path)
         naughty.notify({
-            title="Error loading session",
+            title="Fresh session",
             text=err,
             timeout=0
         })
@@ -251,7 +251,7 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
     -- open modal prompt to get tag name
     self.modal.prompt({
-        prompt = "New Tag Name: ",
+        prompt = "New tag name: ",
         exe_callback = function(name)
             if not name or #name == 0 then return end
             local index = #self:getAllTags() + #self:getGlobalWorkspace():getAllTags() + 1
