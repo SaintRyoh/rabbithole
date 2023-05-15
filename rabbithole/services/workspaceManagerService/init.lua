@@ -25,9 +25,9 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     self.restore = {}
 
 
-    capi.screen.connect_signal("removed", function (s)
-        self:screenDisconnectUpdate(s)
-    end)
+    -- capi.screen.connect_signal("removed", function (s)
+    --     self:screenDisconnectUpdate(s)
+    -- end)
 
 
     -- load sesison

@@ -21,7 +21,13 @@ function TaskListController.new(
     return function (screen, tag)
         self.screen = screen
         self.tag = tag
-        return view(self)
+        local status, ret = pcall(view, self)
+        if status then
+            return ret
+        else
+            self.screen = awful.screen.focused()
+            return view(self)
+        end
     end
 end
 
