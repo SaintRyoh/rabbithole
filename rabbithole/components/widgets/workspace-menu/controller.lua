@@ -62,7 +62,8 @@ function WorkspaceMenuController:generate_menu()
     menu:add({ "New Activity...", function () self:add_workspace() end})
     menu:add({ "Save Session", function ()
         self.model:saveSession()
-        naughty.notify({title="Session saved.", timeout=5})
+        -- cant get this to work for somet reason
+        --naughty.notify({title="Session saved.", timeout=5})
     end})
     
     return menu
