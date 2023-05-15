@@ -125,6 +125,16 @@ function WorkspaceManagerService:loadSession()
         error("Error parsing session file")
     end
 
+    -- Store the currently selected workspace and tag indices
+    local selected_workspace_index, selected_tag_index
+    for idx, workspace in ipairs(self.workspaceManagerModel:getAllWorkspaces()) do
+        local selected_tag = workspace:getSelectedTag()
+        if selected_tag then
+            selected_workspace_index = idx
+            selected_tag_index = selected_tag.index
+            break
+        end
+    end
 
     __.forEach(loadedModel.workspaces, function(workspace_model)
         return self:restoreWorkspace(workspace_model)
@@ -133,6 +143,7 @@ function WorkspaceManagerService:loadSession()
      self:restoreWorkspace(loadedModel.global_workspace, true)
 
 end
+
 
 
 -- create workspace by definition
@@ -319,6 +330,48 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace, tag)
         __.forEach(tag:clients(), function(client) client:kill() end)
         tag:delete()
         self:refresh()
+    end
+end
+
+-- swap tags by index, regardless of workspace. can also be used for drag and drop tags later.
+function WorkspaceManagerService:swapTagsByIndex(index1, index2)
+    local allTags = self:getAllTags()
+    local tag1 = allTags[index1]
+    local tag2 = allTags[index2]
+
+    if tag1 and tag2 then
+        -- swap tags in their respective workspaces
+        local workspace1 = self:getWorkspaceByTag(tag1)
+        local workspace2 = self:getWorkspaceByTag(tag2)
+        workspace1:removeTag(tag1)
+        workspace1:addTag(tag2)
+        workspace2:removeTag(tag2)
+        workspace2:addTag(tag1)
+
+        -- update sharedtags indexes
+        local tmp_index = tag1.index
+        tag1.index = tag2.index
+        tag2.index = tmp_index
+
+        -- swap clients
+        local clients1 = tag1:clients()
+        local clients2 = tag2:clients()
+
+        for _, client in ipairs(clients1) do
+            client:tags({tag2})
+        end
+
+        for _, client in ipairs(clients2) do
+            client:tags({tag1})
+        end
+
+        self:refresh()
+    else
+        naughty.notify({
+            title="Swap Tags",
+            text="Cannot swap. One or both tags do not exist.",
+            timeout=3
+        })
     end
 end
 
@@ -524,10 +577,13 @@ function WorkspaceManagerService:screenDisconnectUpdate(s)
     -- let all the other events play out the unpause service
     capi.awesome.connect_signal("refresh", self.unpauseServiceHelper)
 
-
-
-    -- self:switchTo(self.pauseState)
-
+    self:switchTo(self.pauseState)
+    -- bugfix for the screen disconnect bug. didnt need to add a disconnect signal, this works fine
+    s.connect_signal(
+        function ()
+            awesome.restart()
+        end
+    )
 end
 
 return WorkspaceManagerService

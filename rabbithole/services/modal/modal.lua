@@ -16,7 +16,7 @@ function Modal.new(args)
     self.widget = args.widget or wibox.widget.textbox()
     self.bg_color = args.bg_color or beautiful.bg_normal
     self.fg_color = args.fg_color or beautiful.fg_normal
-    self.border_color = args.border_color or beautiful.border_normal
+    self.border_color = args.border_color or beautiful.success
     self.border_width = args.border_width or beautiful.border_width
 
     -- If no position is specified, center the widget on the screen

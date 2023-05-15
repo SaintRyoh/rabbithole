@@ -1,14 +1,22 @@
 local beautiful = require("beautiful")
-local gears = require("gears")
-
+local naughty = require("naughty")
 
 return setmetatable({}, {
-    __constructor = function (settings)
-        if gears.filesystem.file_readable(gears.filesystem.get_configuration_dir() .. settings.theme_dir) then
-            beautiful.init(gears.filesystem.get_configuration_dir() .. settings.theme_dir)
+    __constructor = function (
+        settings,
+        rabbithole__services__tesseractThemeEngine
+    )
+        local theme_table
+        local theme_source = settings.theme_dir
+
+        theme_table = rabbithole__services__tesseractThemeEngine:generate_theme(theme_source)
+
+        if theme_table then
+            beautiful.init(theme_table)
         else
-            beautiful.init("themes/zenburn/theme.lua")
+            naughty.notify({title = "Error", text = "Failed to generate theme."})
         end
+
         return beautiful.get()
     end,
 })

@@ -52,15 +52,22 @@ function WorkspaceMenuController:generate_menu()
                     return {
                         workspace:getName(),
                         {
-                            { "switch", function() self:switch_to(workspace) end},
-                            { "rename", function() self:rename_workspace(workspace) end},
-                            { "remove", function()  self:remove_workspace(workspace) end}
+                            { "Switch", function() self:switch_to(workspace) end},
+                            { "Rename", function() self:rename_workspace(workspace) end},
+                            { "Delete", function()  self:remove_workspace(workspace) end}
                         }
                     }
                 end))
     })
     menu:add({ "New Activity...", function () self:add_workspace() end})
-    menu:add({ "Save Session", function () self.model:saveSession() end})
+    menu:add({ "Save Session", function ()
+        self.model:saveSession()
+        -- cant get this to work for somet reason
+        --naughty.notify({title="Session saved.", timeout=5})
+    end})
+    -- autohide menu, doesnt work for submenu items though. come back and fix this
+    --menu.wibox:connect_signal("mouse::leave", function() menu:hide() end)
+
     return menu
 end
 
@@ -120,7 +127,7 @@ end
 -- rename workspace
 function WorkspaceMenuController:rename_workspace(workspace)
     self.modal.prompt( {
-        prompt       = "Rename workspace: ",
+        prompt       = "New activity name: ",
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
             if not workspace then return end
@@ -135,7 +142,7 @@ function WorkspaceMenuController:remove_workspace(workspace)
     -- Debugger.dbg()
     if workspace:getStatus() and not workspace:isEmpty() then
         naughty.notify({
-            title="switch to another workspace before removing it",
+            title="Switch to another workspace before removing it",
             timeout=5
         })
         return
@@ -147,7 +154,7 @@ function WorkspaceMenuController:remove_workspace(workspace)
     -- regenerate menu
     self:updateMenu()
     naughty.notify({
-        title="removed",
+        title="Removed",
         timeout=5
     })
 
