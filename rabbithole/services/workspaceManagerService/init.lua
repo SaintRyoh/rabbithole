@@ -24,6 +24,7 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
 
     -- pause stuff
     self.pauseState = nil
+    self.restore = {}
 
 
     capi.screen.connect_signal("removed", function (s)
@@ -64,7 +65,6 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
         end
     })
 
-    self.startup_rules = {}
 
     -- observer
     self.subscribers = {}
@@ -140,7 +140,27 @@ function WorkspaceManagerService:loadSession()
         return self:restoreWorkspace(workspace_model)
     end)
 
-     self:restoreWorkspace(loadedModel.global_workspace, true)
+    self:restoreWorkspace(loadedModel.global_workspace, true)
+
+    awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
+        Debugger.dbg()
+        local tag_client = __.first(__.remove(self.restore, function(r) return r.pid == c.pid end))
+
+        if not tag_client or __.isEmpty(tag_client) then
+            return
+        end
+
+        properties.tag = tag_client.tag,
+
+        __.push(callbacks, function(cl)
+            tag_client.tag.activated = true
+            cl:move_to_tag(tag_client.tag)
+        end)
+
+        if __.isEmpty(self.restore) then
+            awful.rules.remove_rule_source("workspaceManagerService")
+        end
+    end)
 
 end
 
@@ -168,7 +188,7 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
     end
 
 
-    self.restore_rules = __.flatten(__.map(definition.tags, function(tag_definition, index)
+    __.forEach(definition.tags, function(tag_definition, index)
         local tag = self:createTag(index, {
             name = tag_definition.name,
             hidden = tag_definition.hidden,
@@ -188,13 +208,14 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
             workspace.activated = true
         end
 
-        return self:createClientRulesForTag(tag, tag_definition.clients)
-    end))
-
-    awful.rules.rules = gears.table.join(
-        awful.rules.rules,
-        self.restore_rules
-    )
+        if #tag_definition.clients > 0 then
+            Debugger.dbg()
+        end
+        -- return self:createClientRulesForTag(tag, tag_definition.clients)
+        self.restore = gears.table.join(self.restore, __.map(tag_definition.clients, function(client)
+            return { tag = tag, pid = client.pid }
+        end))
+    end)
 end
 
 
