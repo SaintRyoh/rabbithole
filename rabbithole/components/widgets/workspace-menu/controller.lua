@@ -65,6 +65,8 @@ function WorkspaceMenuController:generate_menu()
         -- cant get this to work for somet reason
         --naughty.notify({title="Session saved.", timeout=5})
     end})
+    -- autohide menu
+    menu.wibox:connect_signal("mouse::leave", function() menu:hide() end)
     
     return menu
 end
