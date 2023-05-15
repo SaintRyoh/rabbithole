@@ -486,8 +486,8 @@ end
 
 
 function WorkspaceManagerService:screenDisconnectUpdate(s)
-    self:saveSession()
-    awesome.restart()
+    -- self:saveSession()
+    -- awesome.restart()
 end
 
 return WorkspaceManagerService
