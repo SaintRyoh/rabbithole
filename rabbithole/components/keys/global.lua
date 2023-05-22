@@ -133,7 +133,7 @@ return setmetatable({}, {
                 { description = "run lxqt-runner", group = "launcher" }),
             awful.key({ modkey }, "d",
                 function()
-                    os.execute("rofi -show run -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons")
+                    os.execute("rofi -show drun -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons")
                 end,
                 {
                     description = "run rofi",

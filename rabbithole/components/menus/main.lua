@@ -40,7 +40,7 @@ return setmetatable({}, {
 
         -- Main Menu
         local menu_items = {
-            { "Rabbithole", M.rabbithole, beautiful.rabbit_menu},
+            { "Rabbithole", M.rabbithole, beautiful.rabbit_icon},
             { "Launch terminal", terminal },
             { "WiFi", M.network_main },
         }
