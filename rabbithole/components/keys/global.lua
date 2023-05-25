@@ -139,6 +139,12 @@ return setmetatable({}, {
                     description = "run rofi",
                     group       = "launcher"
                 }),
+            -- press mod4 to open rofi window switcher
+            awful.key({ modkey }, "Tab",
+                function()
+                    os.execute("rofi -show window -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons")
+                end,
+                { description = "show window switcher", group = "launcher" }),
 
             awful.key({ modkey }, "x",
                 function()
@@ -180,12 +186,12 @@ return setmetatable({}, {
                 { description = "show the menubar", group = "launcher" }),
 
             -- Screen brightness up & down with xbacklight
-            awful.key({ }, "XF86MonBrightnessUp",
-                function () awful.util.spawn("xbacklight -inc 10", false) end,
-                {description = "increase brightness", group = "hotkeys"}),
-            awful.key({ }, "XF86MonBrightnessDown",
-                function () awful.util.spawn("xbacklight -dec 10", false) end,
-                {description = "decrease brightness", group = "hotkeys"}),
+            awful.key({}, "XF86MonBrightnessUp",
+                function() awful.util.spawn("xbacklight -inc 10", false) end,
+                { description = "increase brightness", group = "hotkeys" }),
+            awful.key({}, "XF86MonBrightnessDown",
+                function() awful.util.spawn("xbacklight -dec 10", false) end,
+                { description = "decrease brightness", group = "hotkeys" }),
             -- Keybinding to toggle titlebar visibility
             awful.key({ modkey }, "t", function() awful.titlebar.toggle(client.focus) end,
                 { description = "toggle titlebar", group = "client" })
