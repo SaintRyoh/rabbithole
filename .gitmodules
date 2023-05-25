@@ -13,6 +13,3 @@
 [submodule "sub/freedesktop"]
 	path = sub/freedesktop
 	url = https://github.com/fenrirlycan/rabbithole-freedesktop
-[submodule "sub/nice"]
-	path = sub/nice
-	url = https://github.com/SaintRyoh/awesome-wm-nice
