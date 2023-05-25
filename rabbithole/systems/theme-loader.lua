@@ -1,5 +1,6 @@
 local beautiful = require("beautiful")
 local naughty = require("naughty")
+local nice = require("sub.nice")
 
 return setmetatable({}, {
     __constructor = function (
@@ -13,6 +14,7 @@ return setmetatable({}, {
 
         if theme_table then
             beautiful.init(theme_table)
+            nice()
         else
             naughty.notify({title = "Error", text = "Failed to generate theme."})
         end

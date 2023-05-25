@@ -22,9 +22,9 @@ return setmetatable({}, {
             rabbithole__ui__default__right(s)
 
             -- Add a titlebar if titlebars_enabled is set to true in the rules.
-            client.connect_signal("request::titlebars", function(c)
-                rabbithole__ui__default__titlebar(c)
-            end)
+            -- client.connect_signal("request::titlebars", function(c)
+            --     rabbithole__ui__default__titlebar(c)
+            -- end)
         end)
     end,
 })
