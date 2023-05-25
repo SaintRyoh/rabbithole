@@ -15,10 +15,14 @@ return setmetatable({}, {
         if theme_table then
             beautiful.init(theme_table)
             nice{
-                titlebar_height =  35,
+                titlebar_height =  40,
                 titlebar_radius = 13,
                 titlebar_font = beautiful.font,
                 no_titlebar_maximized = true,
+                button_size = 20,
+                minimize_color = beautiful.base_color,
+                maximize_color = "#9c39c6",
+                --close_color = "#ff0010",
                 titlebar_items = {
                     left = {"floating", "ontop", "sticky"},
                     middle = "title",
