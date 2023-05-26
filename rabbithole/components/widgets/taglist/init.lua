@@ -120,6 +120,19 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     })
 
 
+    awful.tooltip({
+        objects = { tag_template },
+        timer_function = function()
+            return "Middle click to delete"
+        end,
+        timeout = 0.5,
+        delay_show = 3,
+        mode = 'outside',
+        preferred_positions = {'bottom'},
+        preferred_alignments = {'middle'}
+
+
+    })
     
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
