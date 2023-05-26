@@ -17,8 +17,8 @@ return setmetatable({}, {
                         )
                     end
                 end),
-                awful.button({ }, 3, function()
-                    rabbithole__components__menus__tasklist(client):toggle()
+                awful.button({ }, 3, function(c)
+                    rabbithole__components__menus__tasklist(c):toggle()
                 end),
                 awful.button({ }, 4, function ()
                     awful.client.focus.byidx(1)
