@@ -38,7 +38,7 @@ return setmetatable({}, {
                 --        client.focus:move_to_tag(t)
                 --    end
                 end),
-                awful.button({ "Shift" }, 1, function(t)
+                awful.button({ "Control" }, 1, function(t)
                     sharedtags.viewtoggle(t, t.screen)
                 end ),
                 awful.button({ }, 2, function(t)
