@@ -23,7 +23,7 @@ return setmetatable({}, {
                 maximize_color = "#9c39c6",
                 --close_color = "#ff0010",
                 titlebar_items = {
-                    left = {"floating", "ontop", "sticky"},
+                    left = { },
                     middle = "title",
                     right = {"minimize", "maximize", "close"},
                 },
