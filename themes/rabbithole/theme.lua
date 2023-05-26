@@ -6,7 +6,6 @@ local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 -- Theme icons table
 local icons = require("themes.rabbithole.theme-icons")
 local table_utils = require("rabbithole.services.table-utils")
--- Theme shapes table
 local shapes = require("themes.rabbithole.theme-shapes")
 
 local theme = {}
