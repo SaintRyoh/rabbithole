@@ -14,9 +14,7 @@ return setmetatable({}, {
         local editor_cmd = settings.editor_cmd or terminal .. " -e " .. editor
 
         M.rabbithole = {
-            { "Shortcuts...", function()
-                hotkeys_popup.show_help(nil, awful.screen.focused())
-            end },
+            { "Shortcuts...", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
             --{ "AWM Manual", terminal .. " -e man awesome" },
             { "Launch term", terminal },
             { "Logout", function() awesome.quit() end },
