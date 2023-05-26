@@ -18,7 +18,6 @@ return setmetatable({}, {
                 titlebar_height =  40,
                 titlebar_radius = 13,
                 titlebar_font = beautiful.font,
-                no_titlebar_maximized = true,
                 button_size = 20,
                 minimize_color = beautiful.base_color,
                 maximize_color = "#9c39c6",
