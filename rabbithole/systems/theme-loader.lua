@@ -19,9 +19,9 @@ return setmetatable({}, {
                 titlebar_radius = 13,
                 titlebar_font = beautiful.font,
                 button_size = 20,
-                minimize_color = beautiful.base_color,
-                maximize_color = "#9c39c6",
-                --close_color = "#ff0010",
+                minimize_color = "#5125e5",
+                maximize_color = "#30ff48",
+                close_color = "#de1167",
                 titlebar_items = {
                     left = { },
                     middle = "title",
