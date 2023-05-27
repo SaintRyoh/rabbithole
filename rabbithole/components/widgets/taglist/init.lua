@@ -26,6 +26,12 @@ function TaglistController.new(
     -- globe icon for global tag widget
     local icon_path             = awful.util.getdir("config") .. "themes/rabbithole/icons/rabbithole/global.svg"
     local global_icon           = wibox.widget.imagebox(icon_path)
+    global_icon:connect_signal("button::press", function(_, _, _, button)
+        if button == 3 then
+            local tag = awful.tag.add("Global")
+            workspaceManagerService:getGlobalWorkspace():addTag(tag)
+        end
+    end)
 
     local self                  = {}
     setmetatable(self, TaglistController)

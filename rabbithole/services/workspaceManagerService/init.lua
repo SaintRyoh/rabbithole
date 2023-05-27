@@ -425,6 +425,14 @@ function WorkspaceManagerService:getFirstUnselectedTag()
     return __.first(__.filter(gears.table.join(self:getAllActiveTags(), self:getGlobalWorkspace():getAllTags()), function(tag) return not tag.selected end))
 end
 
+-- create a new tag "Global" to global workspace
+function WorkspaceManagerService:addGlobalTag()
+    local global_workspace = self:getGlobalWorkspace()
+    local tag = global_workspace:addTag("Global")
+    self:refresh()
+    return tag
+end
+
 function WorkspaceManagerService:moveGlobalTagToWorkspace(tag, workspace)
     self:getGlobalWorkspace():removeTag(tag)
     workspace:addTag(tag)
