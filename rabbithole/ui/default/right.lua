@@ -1,5 +1,7 @@
 local wibox = require("wibox")
-local systrayWidget= require("rabbithole.components.widgets.wonderlandSystray.systray")
+local systrayWidget = require("rabbithole.components.widgets.wonderlandSystray.systray")
+local clock = require("rabbithole.components.widgets.clock")
+local date_cal = require("rabbithole.components.widgets.date_cal")
 
 return setmetatable({}, {
     __constructor = function(rabbithole__components__wiboxes__bars__right)
@@ -7,7 +9,10 @@ return setmetatable({}, {
             rabbithole__components__wiboxes__bars__right(s):setup {
                 layout = wibox.layout.fixed.horizontal,
                 systrayWidget,
-                wibox.widget.textclock(),
+                date_cal.widget,
+                nil,
+                clock.widget,
+                --wibox.widget.textclock(),
             }
         end
     end
