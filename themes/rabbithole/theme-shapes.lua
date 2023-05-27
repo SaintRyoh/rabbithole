@@ -11,6 +11,7 @@ theme_shapes.menu_width = dpi(120)
 theme_shapes.taglist_shape = gears.shape.rounded_rect
 theme_shapes.tasklist_shape = gears.shape.rounded_rect
 theme_shapes.tasklist_shape_border_width = dpi(1)
+theme_shapes.tasklist_shape_border_width_minimized = dpi(6)
 theme_shapes.notification_border_width = dpi(1)
 theme_shapes.notification_shape = gears.shape.rounded_rect
 theme_shapes.notification_margin = dpi(10)

@@ -35,7 +35,7 @@ theme.danger = colors['Red']['500']
 -- Background colors for widgets. This is the bulk of the color you see.
 theme.bg_normal = make3d(theme.base_color, theme.secondary_color)
 theme.bg_focus = make3d(theme.tertiary_1, theme.tertiary_2)
---theme.bg_urgent = colors['Grey']['900']
+theme.bg_urgent = theme.info
 theme.bg_systray = theme.neutral 
 
 theme.border_normal = theme.base_color
@@ -60,6 +60,7 @@ theme.taglist_container_bg = theme.bg_normal
 theme.tasklist_bg_normal = theme.neutral
 theme.tasklist_bg_focus = theme.bg_focus
 theme.tasklist_shape_border_color = theme.tasklist_bg_normal
+theme.tasklist_shape_border_color_minimized = theme.taglist_bg_neutral
 -- ]]]
 theme.notification_bg = theme.neutral
 theme.notification_fg = colors['White']
