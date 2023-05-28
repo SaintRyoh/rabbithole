@@ -32,7 +32,7 @@ return setmetatable({}, {
                     end
 
                 end),
-                awful.button({ "Mod4" }, 1, function(t)
+                awful.button({ "Mod4" }, 3, function(t)
                     taglistmenu:updateMenu(t)
                     taglistmenu.taglist_menu:toggle()
                 --    if client.focus then
@@ -52,14 +52,9 @@ return setmetatable({}, {
                             workspaceManagerService:deleteTagFromWorkspace(nil, t)
                         end
                     }):show()
-                end )
-                --awful.button({ modkey }, 3, function(t)
-                --    if client.focus then
-                --        client.focus:toggle_tag(t)
-                --    end
-                --end),
-                --awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-                --awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
+                end ),
+                awful.button({ }, 4, function(t) sharedtags.viewnext(t.screen) end),
+                awful.button({ }, 5, function(t) sharedtags.viewprev(t.screen) end)
         )
         return taglist_buttons
         
