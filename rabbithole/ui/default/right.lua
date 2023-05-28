@@ -10,9 +10,7 @@ return setmetatable({}, {
                 layout = wibox.layout.fixed.horizontal,
                 systrayWidget,
                 date_cal.widget,
-                nil,
                 clock.widget,
-                --wibox.widget.textclock(),
             }
         end
     end
