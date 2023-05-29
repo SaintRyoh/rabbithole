@@ -76,6 +76,44 @@ function Modal:hide()
     end
 end
 
+function Modal.prompt(args)
+    local modal
+
+    args.prompt = args.prompt or "Run: "
+
+    local prompt_widget = awful.widget.prompt({
+        prompt = args.prompt,
+        textbox = wibox.widget.textbox(),
+        exe_callback = function(text)
+            if args.exe_callback then
+                args.exe_callback(text)
+            end
+            Modal.hide(modal)
+        end,
+        done_callback = function()
+            if args.done_callback then
+                args.done_callback()
+            end
+            Modal.hide(modal)
+        end
+    })
+    args.widget = wibox.widget {
+        {
+            prompt_widget,
+            top = 10,
+            bottom = 10,
+            left = 10,
+            right = 10,
+            widget = wibox.container.margin,
+        },
+        layout = wibox.layout.fixed.vertical,
+    }
+    prompt_widget:run()
+    modal = Modal.new(args)
+
+    return modal
+end
+
 function Modal.confirm(args)
     local modal
 
