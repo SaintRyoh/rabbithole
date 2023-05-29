@@ -15,7 +15,7 @@ return setmetatable({}, {
             --     workspaceManagerService.session_restored = true
             -- end
 
-            -- initialize left and right bars for first screen only, and center for all screens
+            -- initialize left and right bars for first screen only, and taglist widget for all screens
             if s.index == 1 then
                 rabbithole__ui__default__left(s)
                 rabbithole__ui__default__right(s)
@@ -25,12 +25,13 @@ return setmetatable({}, {
             -- set dpi of screens
             local resolution = s.geometry.width * s.geometry.height
             local dpi
-            print("s.dpi: " .. s.dpi)
+
             if resolution > 1920 * 1080 then
                 dpi = 144 -- or whatever value you want for high DPI screens
             else
                 dpi = 96 --or whatever dpi value you want for low DPI screens
             end
+
             beautiful.xresources.set_dpi(dpi, s)
         end)
     end,
