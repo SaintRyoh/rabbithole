@@ -1,6 +1,7 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
+local sharedtags = require("sub.awesome-sharedtags")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
 local __ = require("lodash")
