@@ -64,7 +64,7 @@ theme.tasklist_shape_border_color_minimized = theme.taglist_bg_neutral
 -- ]]]
 theme.notification_bg = theme.neutral
 theme.notification_fg = colors['White']
-theme.notification_border_color = theme.normal
+theme.notification_border_color = theme.base_color
 
 -- [[[ BLING theme variables
 theme.tag_preview_client_border_color = theme.base_color
