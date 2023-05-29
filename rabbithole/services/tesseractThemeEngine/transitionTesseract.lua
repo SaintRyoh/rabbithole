@@ -1,6 +1,7 @@
 local class = require("src.modules.class") -- Make sure to point to the correct path of your class file
 local gears = require("gears")
-
+local timer = gears.timer()
+local wibox = require("wibox")
 --[[
 Material Design 3 Standards:
 
@@ -861,10 +862,11 @@ end
 function Animations:staggered(widgets, animation, delay, ...)
     delay = delay or 0.1
     local current_delay = 0
+    local args = {...}
 
     for _, widget in ipairs(widgets) do
         gears.timer.start_new(current_delay, function()
-            animation(self, widget, ...)
+            animation(self, widget, table.unpack(args))
         end)
 
         current_delay = current_delay + delay
