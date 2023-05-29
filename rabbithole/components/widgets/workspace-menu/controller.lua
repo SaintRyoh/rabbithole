@@ -152,7 +152,7 @@ function WorkspaceMenuController:remove_workspace(workspace)
     -- regenerate menu
     self:updateMenu()
     naughty.notify({
-        title="Removed",
+        title="Workspace " .. workspace.name .. " was removed.",
         timeout=5
     })
 
