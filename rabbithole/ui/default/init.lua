@@ -1,13 +1,14 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+local bling = require("sub/bling")
 
 return setmetatable({}, {
     __constructor = function(
         workspaceManagerService,
         rabbithole__ui__default__left,
         rabbithole__ui__default__center,
-        rabbithole__ui__default__right,
-        rabbithole__ui__default__titlebar
+        rabbithole__ui__default__right
+        --rabbithole__ui__default__titlebar
     )
         awful.screen.connect_for_each_screen(function(s)
             -- if workspaceManagerService.session_restored ~= true then
@@ -33,6 +34,14 @@ return setmetatable({}, {
             end
 
             beautiful.xresources.set_dpi(dpi, s)
+
+            bling.module.wallpaper.setup {
+                screen = s,
+                set_function = bling.module.wallpaper.setters.simple,
+                wallpaper = beautiful.wallpaper,
+                position = "maximized",
+                ignore_aspect = true,
+            }
         end)
     end,
 })
