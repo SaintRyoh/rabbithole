@@ -2,11 +2,10 @@
 return setmetatable({}, {
     __constructor = function(
        rabbithole__ui__default, 
-       rabbithole__systems__global,
-       rabbithole__systems__sloppy___focus,
-       rabbithole__systems__bling___tag___preview,
-       rabbithole__systems__bling___wallpaper___engine
+       rabbithole__services__global,
+       rabbithole__services__sloppy___focus,
+       rabbithole__services__bling___tag___preview
     )
-        return 
+        return
     end,
 })
