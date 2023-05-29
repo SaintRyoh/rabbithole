@@ -39,9 +39,9 @@ return setmetatable({}, {
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Tag browsing
-            awful.key({ modkey, }, "Left", function() workspaceManagerService:viewprev_sharedtag() end,
+            awful.key({ modkey, }, "Left", function() workspaceManagerService:viewPrevTag() end,
                 { description = "view previous", group = "tag" }),
-            awful.key({ modkey, }, "Right", function() workspaceManagerService:viewnext_sharedtag() end,
+            awful.key({ modkey, }, "Right", function() workspaceManagerService:viewNextTag() end,
                 { description = "view next", group = "tag" }),
             awful.key({ modkey, }, "Escape", awful.tag.history.restore,
                 { description = "go back", group = "tag" }),

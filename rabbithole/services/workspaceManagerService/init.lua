@@ -447,7 +447,7 @@ function WorkspaceManagerService:moveTagToGlobalWorkspace(tag)
     self:refresh()
 end
 
-function WorkspaceManagerService:viewprev_sharedtag()
+function WorkspaceManagerService:viewPrevTag()
     local screen = awful.screen.focused()
     local tags = screen.tags
     if screen.selected_tag then
@@ -461,7 +461,7 @@ function WorkspaceManagerService:viewprev_sharedtag()
     end
 end
 
-function WorkspaceManagerService:viewnext_sharedtag()
+function WorkspaceManagerService:viewNextTag()
     local screen = awful.screen.focused()
     local tags = screen.tags
     if screen.selected_tag then
