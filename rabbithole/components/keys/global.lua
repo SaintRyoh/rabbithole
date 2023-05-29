@@ -194,16 +194,16 @@ return setmetatable({}, {
         )
         -- For loop to add number row of keyboard to global keybindings. Workspace, tag, & client
         for i = 1, 9 do -- Lua's indexing starts at 1
-            local workspace = workspaceManagerService:getActiveWorkspace()
-            local tags = workspace:getAllTags()
-            local tag = tags[i]
-
             globalkeys = gears.table.join(globalkeys,
                 -- View tag only.
                 awful.key({ modkey }, "#" .. i + 9,
                     function()
+                        local workspace = workspaceManagerService:getActiveWorkspace()
+                        local tags = workspace:getAllTags()
+                        local tag = tags[i]
+
                         if tag then
-                            sharedtags.viewonly(tag)
+                            sharedtags.viewonly(tag, awful.screen.focused())
                         else
                             workspaceManagerService:addTagToWorkspace(workspace)
                         end
@@ -212,6 +212,10 @@ return setmetatable({}, {
                 -- Toggle tag display on/off
                 awful.key({ modkey, "Control" }, "#" .. i + 9,
                     function()
+                        local workspace = workspaceManagerService:getActiveWorkspace()
+                        local tags = workspace:getAllTags()
+                        local tag = tags[i]
+
                         if tag then
                             awful.tag.viewtoggle(tag)
                         end
@@ -220,14 +224,23 @@ return setmetatable({}, {
                 -- Move client to tag by index.
                 awful.key({ modkey, "Shift" }, "#" .. i + 9,
                     function()
+                        local workspace = workspaceManagerService:getActiveWorkspace()
+                        local tags = workspace:getAllTags()
+                        local tag = tags[i]
+
                         if client.focus and tag then
                             client.focus:move_to_tag(tag)
+                            tag:view_only()
                         end
                     end,
                     { description = "move focused client to tag #" .. i, group = "tag" }),
                 -- Toggle focused client on tag.
                 awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                     function()
+                        local workspace = workspaceManagerService:getActiveWorkspace()
+                        local tags = workspace:getAllTags()
+                        local tag = tags[i]
+
                         if client.focus and tag then
                             client.focus:toggle_tag(tag)
                         end
@@ -236,6 +249,7 @@ return setmetatable({}, {
                 -- Swap tags by index.
                 awful.key({ modkey, "Control", "Alt_L" }, "#" .. i + 9,
                     function()
+                        local workspace = workspaceManagerService:getActiveWorkspace()
                         local current_tag_index = awful.screen.focused().selected_tag.index
                         workspaceManagerService:swapTagsByIndex(current_tag_index, i)
                     end,
