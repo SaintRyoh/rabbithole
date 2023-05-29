@@ -139,7 +139,6 @@ end
 
 function WorkspaceMenuController:remove_workspace(workspace)
     -- if the workspace if active don't delete it
-    -- Debugger.dbg()
     if workspace:getStatus() and not workspace:isEmpty() then
         naughty.notify({
             title="Switch to another workspace before removing it",
@@ -147,7 +146,6 @@ function WorkspaceMenuController:remove_workspace(workspace)
         })
         return
     end
-    -- Debugger.dbg()
 
     self.model:removeWorkspace(workspace)
 
