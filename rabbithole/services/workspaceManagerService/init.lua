@@ -447,6 +447,34 @@ function WorkspaceManagerService:moveTagToGlobalWorkspace(tag)
     self:refresh()
 end
 
+function WorkspaceManagerService:viewprev_sharedtag()
+    local screen = awful.screen.focused()
+    local tags = screen.tags
+    if screen.selected_tag then
+        local current_tag_index = screen.selected_tag.index
+
+        if current_tag_index > 1 then
+            sharedtags.viewonly(tags[current_tag_index - 1], screen)
+        else
+            sharedtags.viewonly(tags[#tags], screen)
+        end
+    end
+end
+
+function WorkspaceManagerService:viewnext_sharedtag()
+    local screen = awful.screen.focused()
+    local tags = screen.tags
+    if screen.selected_tag then
+        local current_tag_index = screen.selected_tag.index
+        if current_tag_index < #tags then
+            sharedtags.viewonly(tags[current_tag_index + 1], screen)
+        else
+            sharedtags.viewonly(tags[1], screen)
+        end
+    end
+end
+
+
 function WorkspaceManagerService:refresh()
     self:switchTo(__.first(self:getAllActiveWorkspaces()))
 end

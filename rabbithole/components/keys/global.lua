@@ -1,12 +1,7 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
-
-local sharedtags = require("sub.awesome-sharedtags")
-
--- local hotkeys_popup = require("awful.hotkeys_popup").widget
 local hotkeys_popup = require("awful.hotkeys_popup")
--- Menubar library
 local menubar = require("menubar")
 local __ = require("lodash")
 
@@ -44,9 +39,9 @@ return setmetatable({}, {
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Tag browsing
-            awful.key({ modkey, }, "Left", awful.tag.viewprev,
+            awful.key({ modkey, }, "Left", function() workspaceManagerService:viewprev_sharedtag() end,
                 { description = "view previous", group = "tag" }),
-            awful.key({ modkey, }, "Right", awful.tag.viewnext,
+            awful.key({ modkey, }, "Right", function() workspaceManagerService:viewnext_sharedtag() end,
                 { description = "view next", group = "tag" }),
             awful.key({ modkey, }, "Escape", awful.tag.history.restore,
                 { description = "go back", group = "tag" }),
