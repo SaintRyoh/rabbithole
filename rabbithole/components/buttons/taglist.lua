@@ -1,6 +1,7 @@
 -- {{{ Required libraries
 local gears = require("gears")
 local awful = require("awful")
+local beautiful = require("beautiful")
 local sharedtags = require("sub.awesome-sharedtags")
 local __ = require("lodash")
 local modal = require("rabbithole.services.modal.modal")
@@ -31,32 +32,29 @@ return setmetatable({}, {
                     end
 
                 end),
-                awful.button({ "Mod4" }, 1, function(t)
+                awful.button({ "Mod4" }, 3, function(t)
                     taglistmenu:updateMenu(t)
                     taglistmenu.taglist_menu:toggle()
                 --    if client.focus then
                 --        client.focus:move_to_tag(t)
                 --    end
                 end),
-                awful.button({ }, 3, function(t)
+                awful.button({ "Control" }, 1, function(t)
                     sharedtags.viewtoggle(t, t.screen)
                 end ),
                 awful.button({ }, 2, function(t)
                     modal.confirm({
-                        title = "Delete tag",
-                        text = "Are you sure you want to delete this tag?",
+                        title = "Delete Tag",
+                        text = "Are you sure you want to delete tag: " .. t.name .. "?",
+                        border_color = beautiful.secondary_color,
+                        border_width = 8,
                         yes_callback = function()
                             workspaceManagerService:deleteTagFromWorkspace(nil, t)
                         end
                     }):show()
-                end )
-                --awful.button({ modkey }, 3, function(t)
-                --    if client.focus then
-                --        client.focus:toggle_tag(t)
-                --    end
-                --end),
-                --awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-                --awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
+                end ),
+                awful.button({ }, 4, function(t) sharedtags.viewnext(t.screen) end),
+                awful.button({ }, 5, function(t) sharedtags.viewprev(t.screen) end)
         )
         return taglist_buttons
         

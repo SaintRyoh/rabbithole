@@ -3,6 +3,7 @@ require("paths")
 require("error-handling")
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
+local gears = require("gears.filesystem")
 
 -- if AWM_DEBUG set in environment then require debug
 -- Debugger = nil
@@ -25,7 +26,7 @@ RC = {
 
 
         -- Make theme a singleton (so we only call beautiful.init once)
-        config.bindings.types.theme = "rabbithole.systems.theme-loader"
+        config.bindings.types.theme = "rabbithole.services.theme-loader"
         config.singletons.theme = true
 
 

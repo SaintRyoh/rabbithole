@@ -2,6 +2,7 @@
 local awful     = require("awful")
 -- Theme handling library
 local beautiful = require("beautiful")
+local gears     = require("gears")
 
 local _M = {}
 
@@ -23,8 +24,8 @@ return setmetatable({}, {
             { 
                 rule = { },
                 properties = {
-                    border_width = beautiful.border_width,
-                    border_color = beautiful.border_normal,
+                    -- border_width = beautiful.border_width,
+                    -- border_color = beautiful.border_normal,
                     focus     = awful.client.focus.filter,
                     raise     = true,
                     keys      = clientkeys,
@@ -98,6 +99,34 @@ return setmetatable({}, {
                     ontop = true,
                     sticky = true,
                 }
+            },
+            
+            -- Set window corner rounding to 5px
+            {
+                rule_any = {
+                    type = { "normal", "dialog" }
+                },
+                callback = function(c)
+                    gears.surface.apply_shape_bounding(c, gears.shape.rounded_rect, 5)
+                end
+            },
+            
+            -- Round client window borders
+            {
+                rule_any = {
+                    type = { "normal", "dialog" }
+                },
+                callback = function(c)
+                    if c.round_corners then
+                        return
+                    end
+
+                    c.shape = function(cr, width, height)
+                        gears.shape.rounded_rect(cr, width, height, 10)
+                    end
+
+                    c.round_corners = true
+                end
             },
 
         }

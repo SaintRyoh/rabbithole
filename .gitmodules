@@ -7,9 +7,12 @@
 [submodule "sub/awesome-sharedtags"]
 	path = sub/awesome-sharedtags
 	url = https://github.com/SaintRyoh/awesome-sharedtags.git
-[submodule "sub/bling"]
-	path = sub/bling
-	url = https://github.com/SaintRyoh/bling
 [submodule "sub/rubato"]
 	path = sub/rubato
 	url = https://github.com/andOrlando/rubato
+[submodule "sub/freedesktop"]
+	path = sub/freedesktop
+	url = https://github.com/fenrirlycan/rabbithole-freedesktop
+[submodule "sub/nice"]
+	path = sub/nice
+	url = https://github.com/SaintRyoh/awesome-wm-nice

@@ -22,28 +22,27 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     self.workspaceManagerModel = workspaceManager:new()
     self.modal = rabbithole__services__modal
 
-    -- pause stuff
-    self.pauseState = nil
+    self.restore = {}
 
 
-    capi.screen.connect_signal("removed", function (s)
-        self:screenDisconnectUpdate(s)
-    end)
+    -- capi.screen.connect_signal("removed", function (s)
+    --     self:screenDisconnectUpdate(s)
+    -- end)
 
 
     -- load sesison
     self.path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat"
 
-    local status, err = pcall(function ()
-        self:loadSession() 
+    local status, err = pcall(function()
+        self:loadSession()
     end)
 
     if not status then
         -- self:backupSessionFile(self.path)
         naughty.notify({
-            title="Error loading session",
-            text=err,
-            timeout=0
+            title = "Error loading session",
+            text = err,
+            timeout = 0
         })
         self:newSession()
         self.session_restored = false
@@ -60,7 +59,6 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
         end
     })
 
-    self.startup_rules = {}
 
     -- observer
     self.subscribers = {}
@@ -84,39 +82,40 @@ function WorkspaceManagerService:newSession()
 end
 
 function WorkspaceManagerService:saveSession()
-    local file,err = io.open(self.path, "w+")
+    local file, err = io.open(self.path, "w+")
     if not file then
         naughty.notify({
-            title="Error saving session",
-            text=err,
-            timeout=0
+            title = "Error saving session",
+            text = err,
+            timeout = 0
         })
-       return
+        return
     end
     file:write(serpent.dump(self.workspaceManagerModel))
     file:close()
+    naughty.notify({title="Session saved.", timeout=3})
 end
 
 -- method to load session
 function WorkspaceManagerService:loadSession()
-    local file,err = io.open(self.path , "r+")
+    local file, err = io.open(self.path, "r+")
     if not file then
         naughty.notify({
-            title="Error loading session",
-            text=err,
-            timeout=0
+            title = "Error loading session",
+            text = err,
+            timeout = 0
         })
         error(err)
     end
 
     local session = file:read("*all")
     file:close()
-    local _, loadedModel = serpent.load(session, {safe = false})
+    local _, loadedModel = serpent.load(session, { safe = false })
     if not _ then
         naughty.notify({
-            title="Error loading session",
-            text="Error parsing session file",
-            timeout=0
+            title = "Error loading session",
+            text = "Error parsing session file",
+            timeout = 0
         })
         error("Error parsing session file")
     end
@@ -126,10 +125,27 @@ function WorkspaceManagerService:loadSession()
         return self:restoreWorkspace(workspace_model)
     end)
 
-     self:restoreWorkspace(loadedModel.global_workspace, true)
+    self:restoreWorkspace(loadedModel.global_workspace, true)
 
+    awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
+        if __.isEmpty(self.restore) then
+            awful.rules.remove_rule_source("workspaceManagerService")
+        end
+
+        local tag_client = __.first(__.remove(self.restore, function(r) return r.pid == c.pid end))
+
+        if not tag_client or __.isEmpty(tag_client) then
+            return
+        end
+
+        properties.tag = tag_client.tag,
+
+            __.push(callbacks, function(cl)
+                tag_client.tag.activated = true
+                cl:move_to_tag(tag_client.tag)
+            end)
+    end)
 end
-
 
 -- create workspace by definition
 function WorkspaceManagerService:restoreWorkspace(definition, global)
@@ -149,11 +165,12 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
     end
 
     local function tagsAreEqual(tag1, tag2)
-        return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and tag1.hidden == tag2.hidden
+        return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and
+            tag1.hidden == tag2.hidden
     end
 
 
-    self.restore_rules = __.flatten(__.map(definition.tags, function(tag_definition, index)
+    __.forEach(definition.tags, function(tag_definition, index)
         local tag = self:createTag(index, {
             name = tag_definition.name,
             hidden = tag_definition.hidden,
@@ -173,33 +190,10 @@ function WorkspaceManagerService:restoreWorkspace(definition, global)
             workspace.activated = true
         end
 
-        return self:createClientRulesForTag(tag, tag_definition.clients)
-    end))
-
-    awful.rules.rules = gears.table.join(
-        awful.rules.rules,
-        self.restore_rules
-    )
-end
-
-
-function WorkspaceManagerService:createClientRulesForTag(tag, clients)
-    return __.map(clients, function(c)
-        return self:createRuleForClient(tag, c)
-    end) 
-end
-
-function WorkspaceManagerService:createRuleForClient(tag, c)
-    return {
-        rule_any = {
-            pid = {c.pid},
-            class = {c.class},
-        },
-        callback = function(cl)
-            tag.activated = true
-            cl:move_to_tag(tag)
-        end
-    }
+        self.restore = gears.table.join(self.restore, __.map(tag_definition.clients, function(client)
+            return { tag = tag, pid = client.pid }
+        end))
+    end)
 end
 
 function WorkspaceManagerService:subscribeController(widget)
@@ -211,7 +205,7 @@ function WorkspaceManagerService:unsubscribeController(widget)
 end
 
 function WorkspaceManagerService:updateSubscribers()
-    __.forEach(self.subscribers, function (widget)
+    __.forEach(self.subscribers, function(widget)
         if widget.update then
             widget:update()
         end
@@ -220,11 +214,12 @@ end
 
 function WorkspaceManagerService:setupTags()
     local last_workspace = self:getActiveWorkspace()
-    local tag = sharedtags.add(nil, {
-        name = last_workspace:getName(#self.workspaceManagerModel:getAllWorkspaces()) .. "." .. #last_workspace:getAllTags()+1,
+    local tag = sharedtags.add(#last_workspace:getAllTags() + 1, {
+        name = last_workspace:getName(#self.workspaceManagerModel:getAllWorkspaces()) ..
+            "." .. #last_workspace:getAllTags() + 1,
         layout = awful.layout.layouts[2]
     })
-    
+
     last_workspace:addTag(tag)
     last_workspace:setStatus(true)
 end
@@ -290,14 +285,14 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace, tag)
     local total_tags = #self:getGlobalWorkspace():getAllTags() + #workspace:getAllTags()
     if total_tags <= #capi.screen then
         naughty.notify({
-            title="Delete Tag",
-            text="Can't delete tag. At least one tag is required per screen",
-            timeout=3
+            title = "Delete Tag",
+            text = "Can't delete tag. At least one tag is required per screen",
+            timeout = 3
         })
         return
     end
     if not tag then return end
-    
+
     local deleted = false
     if workspace:hasTag(tag) then
         workspace:removeTag(tag)
@@ -314,22 +309,65 @@ function WorkspaceManagerService:deleteTagFromWorkspace(workspace, tag)
     end
 end
 
+-- swap tags by index, regardless of workspace. can also be used for drag and drop tags later.
+function WorkspaceManagerService:swapTagsByIndex(index1, index2)
+    local allTags = self:getAllTags()
+    local tag1 = allTags[index1]
+    local tag2 = allTags[index2]
+
+    if tag1 and tag2 then
+        -- swap tags in their respective workspaces
+        local workspace1 = self:getWorkspaceByTag(tag1)
+        local workspace2 = self:getWorkspaceByTag(tag2)
+        workspace1:removeTag(tag1)
+        workspace1:addTag(tag2)
+        workspace2:removeTag(tag2)
+        workspace2:addTag(tag1)
+
+        -- update sharedtags indexes
+        local tmp_index = tag1.index
+        tag1.index = tag2.index
+        tag2.index = tmp_index
+
+        -- swap clients
+        local clients1 = tag1:clients()
+        local clients2 = tag2:clients()
+
+        for _, client in ipairs(clients1) do
+            client:tags({ tag2 })
+        end
+
+        for _, client in ipairs(clients2) do
+            client:tags({ tag1 })
+        end
+
+        self:refresh()
+    else
+        naughty.notify({
+            title = "Swap Tags",
+            text = "Cannot swap. One or both tags do not exist.",
+            timeout = 3
+        })
+    end
+end
+
 -- }}}
 
 function WorkspaceManagerService:removeWorkspace(workspace)
     -- First Delete all the tags and their clients in the workspace
     __.forEach(workspace:getAllTags(),
-            function(tag)
-                __.forEach(tag:clients(), function(client) client:kill() end)
-                tag:delete()
-            end)
+        function(tag)
+            __.forEach(tag:clients(), function(client) client:kill() end)
+            tag:delete()
+        end)
     -- Then Delete workspace
     self.workspaceManagerModel:deleteWorkspace(workspace)
     self:updateSubscribers()
 end
 
 function WorkspaceManagerService:addWorkspace(name)
-    local workspace = self.workspaceManagerModel:createWorkspace(name or tostring(#self.workspaceManagerModel:getAllWorkspaces()+1) )
+    local workspace = self.workspaceManagerModel:createWorkspace(name or
+        tostring(#self.workspaceManagerModel:getAllWorkspaces() + 1))
     self:switchTo(workspace)
     return workspace
 end
@@ -356,7 +394,7 @@ function WorkspaceManagerService:assignWorkspaceTagsToScreens()
 end
 
 function WorkspaceManagerService:switchTo(workspace)
-    self.workspaceManagerModel:switchTo(workspace) 
+    self.workspaceManagerModel:switchTo(workspace)
     self:assignWorkspaceTagsToScreens()
     self:updateSubscribers()
 end
@@ -370,20 +408,29 @@ function WorkspaceManagerService:moveTagToWorkspace(tag, workspace)
 end
 
 function WorkspaceManagerService:getAllTags()
-    return __.flatten(__.map(self:getAllWorkspaces(), function (workspace)
+    return __.flatten(__.map(self:getAllWorkspaces(), function(workspace)
         return workspace:getAllTags()
     end))
 end
 
 function WorkspaceManagerService:getAllActiveTags()
-    return __.flatten(__.map(self:getAllActiveWorkspaces(), function (workspace)
+    return __.flatten(__.map(self:getAllActiveWorkspaces(), function(workspace)
         return workspace:getAllTags()
     end))
 end
 
 -- get first unselcted tag from all active workspaces
 function WorkspaceManagerService:getFirstUnselectedTag()
-    return __.first(__.filter(gears.table.join(self:getAllActiveTags(), self:getGlobalWorkspace():getAllTags()), function(tag) return not tag.selected end))
+    return __.first(__.filter(gears.table.join(self:getAllActiveTags(), self:getGlobalWorkspace():getAllTags()),
+        function(tag) return not tag.selected end))
+end
+
+-- create a new tag "Global" to global workspace
+function WorkspaceManagerService:addGlobalTag()
+    local global_workspace = self:getGlobalWorkspace()
+    local tag = global_workspace:addTag("Global")
+    self:refresh()
+    return tag
 end
 
 function WorkspaceManagerService:moveGlobalTagToWorkspace(tag, workspace)
@@ -401,13 +448,40 @@ function WorkspaceManagerService:moveTagToGlobalWorkspace(tag)
     self:refresh()
 end
 
+function WorkspaceManagerService:viewPrevTag()
+    local screen = awful.screen.focused()
+    local tags = screen.tags
+    if screen.selected_tag then
+        local current_tag_index = screen.selected_tag.index
+
+        if current_tag_index > 1 then
+            sharedtags.viewonly(tags[current_tag_index - 1], screen)
+        else
+            sharedtags.viewonly(tags[#tags], screen)
+        end
+    end
+end
+
+function WorkspaceManagerService:viewNextTag()
+    local screen = awful.screen.focused()
+    local tags = screen.tags
+    if screen.selected_tag then
+        local current_tag_index = screen.selected_tag.index
+        if current_tag_index < #tags then
+            sharedtags.viewonly(tags[current_tag_index + 1], screen)
+        else
+            sharedtags.viewonly(tags[1], screen)
+        end
+    end
+end
+
+
 function WorkspaceManagerService:refresh()
     self:switchTo(__.first(self:getAllActiveWorkspaces()))
-
 end
 
 function WorkspaceManagerService:getWorkspaceByTag(tag)
-    return __.first(__.filter(self:getAllWorkspaces(), function (workspace)
+    return __.first(__.filter(self:getAllWorkspaces(), function(workspace)
         return __.includes(workspace:getAllTags(), tag)
     end))
 end
@@ -433,7 +507,6 @@ function WorkspaceManagerService:getGlobalWorkspace()
 end
 
 function WorkspaceManagerService:tagIsGlobal(tag)
-
     return __.includes(self:getAllGlobalTags(), tag)
 end
 
@@ -445,36 +518,9 @@ function WorkspaceManagerService:setStatusForAllWorkspaces(status)
     self.workspaceManagerModel:setStatusForAllWorkspaces(status)
 end
 
-function WorkspaceManagerService:pauseService()
-    self.pauseState = self:getActiveWorkspace() 
-
-    self:setStatusForAllWorkspaces(true)
-end
-
-function WorkspaceManagerService:clearRestoreRules()
-    __.remove(awful.rules.rules, function(rule)
-        return __.includes(self.restore_rules, rule)
-    end)
-    self.restore_rules = {}
-end
-
 function WorkspaceManagerService:screenDisconnectUpdate(s)
-
-    self:clearRestoreRules()
-    self.restore_rules = __.map(self:getAllTags(), function(tag)
-        return self:createClientRulesForTag(tag, tag:clients())
-    end)
-
-    awful.rules.rules = gears.table.join(
-        awful.rules.rules,
-        self.restore_rules
-    )
-
-    __.forEach(client.get(s), function(c)
-        awful.rules.apply(c)
-    end)
-    self:clearRestoreRules()
-
+    self:saveSession()
+    awesome.restart()
 end
 
 return WorkspaceManagerService

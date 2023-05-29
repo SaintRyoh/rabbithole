@@ -1,6 +1,7 @@
 local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
 local gears = require("gears")
 
 local Modal = {}
@@ -16,7 +17,7 @@ function Modal.new(args)
     self.widget = args.widget or wibox.widget.textbox()
     self.bg_color = args.bg_color or beautiful.bg_normal
     self.fg_color = args.fg_color or beautiful.fg_normal
-    self.border_color = args.border_color or beautiful.border_normal
+    self.border_color = args.border_color or beautiful.danger
     self.border_width = args.border_width or beautiful.border_width
 
     -- If no position is specified, center the widget on the screen
@@ -75,30 +76,27 @@ function Modal:hide()
     end
 end
 
-
 function Modal.prompt(args)
     local modal
 
     args.prompt = args.prompt or "Run: "
 
-
     local prompt_widget = awful.widget.prompt({
-            prompt = args.prompt,
-            textbox = wibox.widget.textbox(),
-            exe_callback = function(text)
-                if args.exe_callback then
-                    args.exe_callback(text)
-                end
-                Modal.hide(modal)
-            end,
-            done_callback = function()
-                if args.done_callback then
-                    args.done_callback()
-                end
-                Modal.hide(modal)
+        prompt = args.prompt,
+        textbox = wibox.widget.textbox(),
+        exe_callback = function(text)
+            if args.exe_callback then
+                args.exe_callback(text)
             end
+            Modal.hide(modal)
+        end,
+        done_callback = function()
+            if args.done_callback then
+                args.done_callback()
+            end
+            Modal.hide(modal)
+        end
     })
-
     args.widget = wibox.widget {
         {
             prompt_widget,
@@ -110,10 +108,7 @@ function Modal.prompt(args)
         },
         layout = wibox.layout.fixed.vertical,
     }
-
-
     prompt_widget:run()
-
     modal = Modal.new(args)
 
     return modal
@@ -127,41 +122,73 @@ function Modal.confirm(args)
     args.yes_text = args.yes_text or "Yes"
     args.no_text = args.no_text or "No"
 
+    local yes_button = wibox.widget {
+        {
+            {
+                {
+                    text = args.yes_text,
+                    align = "center",  -- Center align button text
+                    widget = wibox.widget.textbox
+                },
+                forced_width = dpi(30),
+                margins = dpi(4),
+                widget = wibox.container.margin
+            },
+            bg = beautiful.bg_focus,
+            fg = beautiful.fg_focus,
+            shape = gears.shape.rounded_rect,
+            widget = wibox.container.background
+        },
+        layout = wibox.layout.fixed.horizontal,
+    }
+
+    local no_button = wibox.widget {
+        {
+            {
+                {
+                    text = args.no_text,
+                    align = "center",  -- Center align button text
+                    widget = wibox.widget.textbox
+                },
+                forced_width = dpi(30),
+                margins = dpi(4),
+                widget = wibox.container.margin
+            },
+            bg = beautiful.bg_focus,
+            fg = beautiful.fg_focus,
+            shape = gears.shape.rounded_rect,
+            widget = wibox.container.background
+        },
+        layout = wibox.layout.fixed.horizontal,
+    }
+
     local widget = wibox.widget {
         {
-            markup = "<b>" .. args.title .. "</b>",
-            font = "sans 12",
-            widget = wibox.widget.textbox
+            {
+                markup = "<b>" .. args.title .. "</b>",
+                align = "center",  -- Center align title
+                font = "Ubuntu 16",
+                fg = beautiful.secondary_color,
+                widget = wibox.widget.textbox
+            },
+            layout = wibox.layout.fixed.horizontal,
         },
         {
             markup = args.message,
-            font = "sans 10",
             widget = wibox.widget.textbox
         },
         {
-            {
-                text = args.yes_text or "Yes",
-                font = "sans 10",
-                widget = wibox.widget.textbox,
-                id = "modal_yes_button"
-            },
-            {
-                text = args.no_text or "No",
-                font = "sans 10",
-                widget = wibox.widget.textbox,
-                id = "modal_no_button"
-            },
+            yes_button,
+            no_button,
+            spacing = args.spacing or dpi(20),
             layout = wibox.layout.fixed.horizontal
         },
-        spacing = args.spacing or 10,
+        bg = beautiful.bg_neutral,
         layout = wibox.layout.fixed.vertical
     }
 
     local yes_callback = args.yes_callback or function(...) end
     local no_callback = args.no_callback or function(...) end
-
-    local yes_button = widget:get_children_by_id("modal_yes_button")[1]
-    local no_button = widget:get_children_by_id("modal_no_button")[1]
 
     yes_button:connect_signal("button::press", function()
         Modal.hide(modal)
@@ -172,25 +199,29 @@ function Modal.confirm(args)
         Modal.hide(modal)
         no_callback(modal)
     end)
+
     yes_button:connect_signal("mouse::enter", function()
-        yes_button.markup = "<u><b>" .. args.yes_text .. "</b></u>"
+        yes_button.bg = beautiful.bg_focus
     end)
 
     yes_button:connect_signal("mouse::leave", function()
-        yes_button.markup = "<u>" .. args.yes_text .. "</u>"
+        yes_button.bg = beautiful.tertiary_1
     end)
 
     no_button:connect_signal("mouse::enter", function()
-        no_button.markup = "<u><b>" .. args.no_text .. "</b></u>"
+        no_button.bg = beautiful.bg_focus
     end)
 
     no_button:connect_signal("mouse::leave", function()
-        no_button.markup = "<u>" .. args.no_text .. "</u>"
+        no_button.bg = beautiful.tertiary_1
     end)
+
     args.widget = widget
     modal = Modal.new(args)
 
     return modal
 end
+
+
 
 return Modal

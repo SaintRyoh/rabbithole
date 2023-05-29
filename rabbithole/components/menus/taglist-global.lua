@@ -16,10 +16,10 @@ end
 
 function GlobalTaglistMenuController:generate_menu(t)
     local menu = awful.menu({ })
-    menu:add({"Send to workspace", 
+    menu:add({"Send to activity",
         __.map(self:get_all_workspaces(), function(workspace, index)
             return {
-                workspace.name or ("workspace: " .. index),
+                workspace.name or ("Activity: " .. index),
                 function ()
                     self.workspaceManagerService:moveGlobalTagToWorkspace(t, workspace)
                 end

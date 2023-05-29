@@ -1,131 +1,170 @@
----------------------------
--- Default awesome theme --
----------------------------
+local themes_path = require("gears.filesystem").get_configuration_dir() .. "themes/"
+local gears = require("gears")
+local dpi = require("beautiful.xresources").apply_dpi
 
-local theme_assets = require("beautiful.theme_assets")
-local xresources = require("beautiful.xresources")
-local dpi = xresources.apply_dpi
+local create_widget_bg = function(color1, color2)
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = {
+            { 0,   color1 },
+            { 0.5, color2 },
+            { 1,   color1 },
+        }
+    }
+end
 
-local gfs = require("gears.filesystem")
-local themes_path = gfs.get_themes_dir()
+local create_widget_shadow = function(radius, offset)
+    return gears.color {
+        offset = offset,
+        color = "#000000",
+        opacity = 1.4,
+        shape = function(cr, w, h)
+            gears.shape.rounded_rect(cr, w, h, radius)
+        end
+    }
+end
+
+-- Helper function to darken a color
+local function darken_color(hex_color, percent)
+    local r, g, b = gears.color.parse_color(hex_color)
+    r = math.max(math.min(255, r * (1 - percent)), 0)
+    g = math.max(math.min(255, g * (1 - percent)), 0)
+    b = math.max(math.min(255, b * (1 - percent)), 0)
+    return string.format("#%02x%02x%02x", r, g, b)
+end
 
 local theme = {}
+theme.wallpaper = themes_path .. "rabbithole/wallpapers/whitelion.jpg"
 
-theme.font          = "sans 8"
+theme.font = "Ubuntu 8"
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#535d6c"
-theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#444444"
-theme.bg_systray    = theme.bg_normal
+theme.fg_normal = "#FFFFFF"
+theme.fg_focus = "#FFFFFF"
+theme.fg_urgent = "#FFFFFF"
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.base_color = "#5123db"
+theme.bg_normal = create_widget_bg(theme.base_color, "#6e5bd6")
+theme.bg_focus = create_widget_bg("#e86689", "#e6537a")
+--theme.bg_urgent = "#3F3F3F"
 
-theme.useless_gap   = dpi(0)
-theme.border_width  = dpi(1)
-theme.border_normal = "#000000"
-theme.border_focus  = "#535d6c"
-theme.border_marked = "#91231c"
+theme.bg_systray = "#2F2F2F"
 
--- There are other variable sets
--- overriding the default one when
--- defined, the sets are:
--- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
--- tasklist_[bg|fg]_[focus|urgent]
--- titlebar_[bg|fg]_[normal|focus]
--- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
--- mouse_finder_[color|timeout|animate_timeout|radius|factor]
--- prompt_[fg|bg|fg_cursor|bg_cursor|font]
--- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
--- Example:
---theme.taglist_bg_focus = "#ff0000"
 
--- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
-)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.fg_normal
-)
+theme.useless_gap = dpi(3)
+theme.border_width = dpi(2)
+theme.border_normal = theme.base_color
+theme.border_focus = "#6e5bd6"
+theme.border_marked = "#CC9393"
 
--- Variables set for theming notifications:
--- notification_font
--- notification_[bg|fg]
--- notification_[width|height|margin]
--- notification_[border_color|border_width|shape|opacity]
+theme.taglist_spacing = 1
 
--- Variables set for theming the menu:
--- menu_[bg|fg]_[normal|focus]
--- menu_[border_color|border_width]
-theme.menu_submenu_icon = themes_path.."default/submenu.png"
+theme.titlebar_bg_focus = create_widget_bg(theme.base_color, "#6e5bd6")
+theme.titlebar_bg_normal = create_widget_bg("#6e5bd6", theme.base_color)
+
 theme.menu_height = dpi(15)
-theme.menu_width  = dpi(100)
+theme.menu_width = dpi(100)
 
--- You can add as many variables as
--- you wish and access them by using
--- beautiful.variable in your rc.lua
---theme.bg_widget = "#cc0000"
+theme.taglist_shape = gears.shape.rounded_rect
+theme.taglist_bg_normal = theme.bg_normal
+theme.taglist_bg_empty = theme.taglist_bg_normal
+theme.taglist_bg_focus = theme.bg_focus
+theme.taglist_fg_focus = theme.fg_focus
+theme.taglist_fg_empty = theme.fg_focus
+theme.taglist_container_bg = "#421500"
+-- theme.taglist_squares_sel = themes_path .. "rabbithole/taglist/squarefz.png"
+-- theme.taglist_squares_unsel = themes_path .. "rabbithole/taglist/squarez.png"
 
--- Define the image to load
-theme.titlebar_close_button_normal = themes_path.."default/titlebar/close_normal.png"
-theme.titlebar_close_button_focus  = themes_path.."default/titlebar/close_focus.png"
+theme.tasklist_bg_normal = "#3F3F3F"
+theme.tasklist_bg_focus = theme.bg_focus
+theme.tasklist_shape = gears.shape.rounded_rect
+theme.tasklist_shape_border_width = dpi(1)
+theme.tasklist_shape_border_color = theme.tasklist_bg_normal
 
-theme.titlebar_minimize_button_normal = themes_path.."default/titlebar/minimize_normal.png"
-theme.titlebar_minimize_button_focus  = themes_path.."default/titlebar/minimize_focus.png"
+theme.awesome_icon = themes_path .. "rabbithole/awesome-icon.png"
+theme.menu_submenu_icon = themes_path .. "default/submenu.png"
 
-theme.titlebar_ontop_button_normal_inactive = themes_path.."default/titlebar/ontop_normal_inactive.png"
-theme.titlebar_ontop_button_focus_inactive  = themes_path.."default/titlebar/ontop_focus_inactive.png"
-theme.titlebar_ontop_button_normal_active = themes_path.."default/titlebar/ontop_normal_active.png"
-theme.titlebar_ontop_button_focus_active  = themes_path.."default/titlebar/ontop_focus_active.png"
+theme.layout_tile = themes_path .. "rabbithole/layouts/tile.png"
+theme.layout_tileleft = themes_path .. "rabbithole/layouts/tileleft.png"
+theme.layout_tilebottom = themes_path .. "rabbithole/layouts/tilebottom.png"
+theme.layout_tiletop = themes_path .. "rabbithole/layouts/tiletop.png"
+theme.layout_fairv = themes_path .. "rabbithole/layouts/fairv.png"
+theme.layout_fairh = themes_path .. "rabbithole/layouts/fairh.png"
+theme.layout_spiral = themes_path .. "rabbithole/layouts/spiral.png"
+theme.layout_dwindle = themes_path .. "rabbithole/layouts/dwindle.png"
+theme.layout_max = themes_path .. "rabbithole/layouts/max.png"
+theme.layout_fullscreen = themes_path .. "rabbithole/layouts/fullscreen.png"
+theme.layout_magnifier = themes_path .. "rabbithole/layouts/magnifier.png"
+theme.layout_floating = themes_path .. "rabbithole/layouts/floating.png"
+theme.layout_cornernw = themes_path .. "rabbithole/layouts/cornernw.png"
+theme.layout_cornerne = themes_path .. "rabbithole/layouts/cornerne.png"
+theme.layout_cornersw = themes_path .. "rabbithole/layouts/cornersw.png"
+theme.layout_cornerse = themes_path .. "rabbithole/layouts/cornerse.png"
+theme.layoulist_bg_normal = theme.bg_normal
+theme.titlebar_close_button_focus = themes_path .. "rabbithole/titlebar/close_focus.png"
+theme.titlebar_close_button_normal = themes_path .. "rabbithole/titlebar/close_normal.png"
 
-theme.titlebar_sticky_button_normal_inactive = themes_path.."default/titlebar/sticky_normal_inactive.png"
-theme.titlebar_sticky_button_focus_inactive  = themes_path.."default/titlebar/sticky_focus_inactive.png"
-theme.titlebar_sticky_button_normal_active = themes_path.."default/titlebar/sticky_normal_active.png"
-theme.titlebar_sticky_button_focus_active  = themes_path.."default/titlebar/sticky_focus_active.png"
+theme.titlebar_minimize_button_normal = themes_path .. "default/titlebar/minimize_normal.png"
+theme.titlebar_minimize_button_focus = themes_path .. "default/titlebar/minimize_focus.png"
 
-theme.titlebar_floating_button_normal_inactive = themes_path.."default/titlebar/floating_normal_inactive.png"
-theme.titlebar_floating_button_focus_inactive  = themes_path.."default/titlebar/floating_focus_inactive.png"
-theme.titlebar_floating_button_normal_active = themes_path.."default/titlebar/floating_normal_active.png"
-theme.titlebar_floating_button_focus_active  = themes_path.."default/titlebar/floating_focus_active.png"
+theme.titlebar_ontop_button_focus_active = themes_path .. "rabbithole/titlebar/ontop_focus_active.png"
+theme.titlebar_ontop_button_normal_active = themes_path .. "rabbithole/titlebar/ontop_normal_active.png"
+theme.titlebar_ontop_button_focus_inactive = themes_path .. "rabbithole/titlebar/ontop_focus_inactive.png"
+theme.titlebar_ontop_button_normal_inactive = themes_path .. "rabbithole/titlebar/ontop_normal_inactive.png"
 
-theme.titlebar_maximized_button_normal_inactive = themes_path.."default/titlebar/maximized_normal_inactive.png"
-theme.titlebar_maximized_button_focus_inactive  = themes_path.."default/titlebar/maximized_focus_inactive.png"
-theme.titlebar_maximized_button_normal_active = themes_path.."default/titlebar/maximized_normal_active.png"
-theme.titlebar_maximized_button_focus_active  = themes_path.."default/titlebar/maximized_focus_active.png"
+theme.titlebar_sticky_button_focus_active = themes_path .. "rabbithole/titlebar/sticky_focus_active.png"
+theme.titlebar_sticky_button_normal_active = themes_path .. "rabbithole/titlebar/sticky_normal_active.png"
+theme.titlebar_sticky_button_focus_inactive = themes_path .. "rabbithole/titlebar/sticky_focus_inactive.png"
+theme.titlebar_sticky_button_normal_inactive = themes_path .. "rabbithole/titlebar/sticky_normal_inactive.png"
 
-theme.wallpaper = themes_path.."default/background.png"
+theme.titlebar_floating_button_focus_active = themes_path .. "rabbithole/titlebar/floating_focus_active.png"
+theme.titlebar_floating_button_normal_active = themes_path .. "rabbithole/titlebar/floating_normal_active.png"
+theme.titlebar_floating_button_focus_inactive = themes_path .. "rabbithole/titlebar/floating_focus_inactive.png"
+theme.titlebar_floating_button_normal_inactive = themes_path .. "rabbithole/titlebar/floating_normal_inactive.png"
 
--- You can use your own layout icons like this:
-theme.layout_fairh = themes_path.."default/layouts/fairhw.png"
-theme.layout_fairv = themes_path.."default/layouts/fairvw.png"
-theme.layout_floating  = themes_path.."default/layouts/floatingw.png"
-theme.layout_magnifier = themes_path.."default/layouts/magnifierw.png"
-theme.layout_max = themes_path.."default/layouts/maxw.png"
-theme.layout_fullscreen = themes_path.."default/layouts/fullscreenw.png"
-theme.layout_tilebottom = themes_path.."default/layouts/tilebottomw.png"
-theme.layout_tileleft   = themes_path.."default/layouts/tileleftw.png"
-theme.layout_tile = themes_path.."default/layouts/tilew.png"
-theme.layout_tiletop = themes_path.."default/layouts/tiletopw.png"
-theme.layout_spiral  = themes_path.."default/layouts/spiralw.png"
-theme.layout_dwindle = themes_path.."default/layouts/dwindlew.png"
-theme.layout_cornernw = themes_path.."default/layouts/cornernww.png"
-theme.layout_cornerne = themes_path.."default/layouts/cornernew.png"
-theme.layout_cornersw = themes_path.."default/layouts/cornersww.png"
-theme.layout_cornerse = themes_path.."default/layouts/cornersew.png"
+theme.titlebar_maximized_button_focus_active = themes_path .. "rabbithole/titlebar/maximized_focus_active.png"
+theme.titlebar_maximized_button_normal_active = themes_path .. "rabbithole/titlebar/maximized_normal_active.png"
+theme.titlebar_maximized_button_focus_inactive = themes_path .. "rabbithole/titlebar/maximized_focus_inactive.png"
+theme.titlebar_maximized_button_normal_inactive = themes_path .. "rabbithole/titlebar/maximized_normal_inactive.png"
 
--- Generate Awesome icon:
-theme.awesome_icon = theme_assets.awesome_icon(
-    theme.menu_height, theme.bg_focus, theme.fg_focus
-)
+theme.notification_bg = "#3F3F3F"
+theme.notification_fg = "#FFFFFF"
+theme.notification_border_color = "#3F3F3F"
+theme.notification_border_width = dpi(1)
+theme.notification_shape = gears.shape.rounded_rect
+theme.notification_opacity = 1
+theme.notification_margin = dpi(10)
+theme.notification_font = "sans 12"
+theme.notification_icon_size = dpi(80)
+theme.notification_max_width = dpi(600)
+theme.notification_max_height = dpi(400)
 
--- Define the icon theme for application icons. If not set then the icons
--- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = nil
+-- BLING theme variables
+theme.tag_preview_client_border_color = theme.base_color
+theme.tag_preview_widget_border_color = "#3f3f3f"
+-- Set window corner rounding to 5px
+client.connect_signal("property::size", function(c)
+    gears.surface.apply_shape_bounding(c, gears.shape.rounded_rect, 10)
+end)
+client.connect_signal("property::position", function(c)
+    gears.surface.apply_shape_bounding(c, gears.shape.rounded_rect, 10)
+end)
+-- Round client window borders
+local function apply_rounded_corners(c)
+    if c.round_corners then
+        return
+    end
+
+    c.shape = function(cr, width, height)
+        gears.shape.rounded_rect(cr, width, height, 10)
+    end
+
+    c.round_corners = true
+end
+
+client.connect_signal("manage", function(c)
+    apply_rounded_corners(c)
+end)
 
 return theme
-
--- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
