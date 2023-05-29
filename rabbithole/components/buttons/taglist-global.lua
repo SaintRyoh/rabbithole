@@ -50,8 +50,8 @@ return setmetatable({}, {
                         end
                     }):show()
                 end ),
-                awful.button({ }, 4, function(t) sharedtags.viewnext(t.screen) end),
-                awful.button({ }, 5, function(t) sharedtags.viewprev(t.screen) end)
+                awful.button({ }, 4, function(t) workspaceManagerService:viewNextTag() end),
+                awful.button({ }, 5, function(t) workspaceManagerService:viewPrevTag() end)
         )
         return taglist_buttons
         
