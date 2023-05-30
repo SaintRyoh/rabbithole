@@ -26,6 +26,12 @@ function TaglistController.new(
     -- globe icon for global tag widget
     local icon_path             = awful.util.getdir("config") .. "themes/rabbithole/icons/rabbithole/global.svg"
     local global_icon           = wibox.widget.imagebox(icon_path)
+    global_icon:connect_signal("button::press", function(_, _, _, button)
+        if button == 3 then
+            local tag = awful.tag.add("Global")
+            workspaceManagerService:getGlobalWorkspace():addTag(tag)
+        end
+    end)
 
     local self                  = {}
     setmetatable(self, TaglistController)
@@ -120,6 +126,19 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     })
 
 
+    awful.tooltip({
+        objects = { tag_template },
+        timer_function = function()
+            return "Middle click to delete"
+        end,
+        timeout = 0.5,
+        delay_show = 3,
+        mode = 'outside',
+        preferred_positions = {'bottom'},
+        preferred_alignments = {'middle'}
+
+
+    })
     
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()

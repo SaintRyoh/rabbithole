@@ -31,11 +31,22 @@ local beautiful = require("beautiful")
 
 return setmetatable({}, {
     __constructor = function (settings)
-        bling.module.wallpaper.setup {
-            set_function = settings.wallpaper.set_function or bling.module.wallpaper.setters.simple,
-            wallpaper = settings.wallpaper.wallpaper or beautiful.wallpaper,
-            position = settings.wallpaper.position or "maximized",
-            ignore_aspect = settings.wallpaper.ignore_aspect or true,
-        }
+        local function set_wallpaper()
+            bling.module.wallpaper.setup {
+                screens = screen:count(), -- apply wallpaper across all screens
+                set_function = settings.wallpaper.set_function or bling.module.wallpaper.setters.simple,
+                wallpaper = settings.wallpaper.wallpaper or beautiful.wallpaper,
+                position = settings.wallpaper.position or "maximized",
+                ignore_aspect = settings.wallpaper.ignore_aspect or true,
+            }
+        end
+
+        -- Initial setup
+        set_wallpaper()
+
+        -- Reapply wallpaper when screens change
+        screen.connect_signal("added", function()
+            set_wallpaper()
+        end)
     end
 })

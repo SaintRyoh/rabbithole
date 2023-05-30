@@ -63,7 +63,7 @@ function WorkspaceMenuController:generate_menu()
     menu:add({ "Save Session", function ()
         self.model:saveSession()
         -- cant get this to work for somet reason
-        --naughty.notify({title="Session saved.", timeout=5})
+        naughty.notify({title="Session saved.", timeout=5})
     end})
     -- autohide menu, doesnt work for submenu items though. come back and fix this
     --menu.wibox:connect_signal("mouse::leave", function() menu:hide() end)
@@ -139,7 +139,6 @@ end
 
 function WorkspaceMenuController:remove_workspace(workspace)
     -- if the workspace if active don't delete it
-    -- Debugger.dbg()
     if workspace:getStatus() and not workspace:isEmpty() then
         naughty.notify({
             title="Switch to another workspace before removing it",
@@ -147,21 +146,21 @@ function WorkspaceMenuController:remove_workspace(workspace)
         })
         return
     end
-    -- Debugger.dbg()
 
     self.model:removeWorkspace(workspace)
 
     -- regenerate menu
     self:updateMenu()
     naughty.notify({
-        title="Removed",
+        title="Workspace " .. workspace.name .. " was removed.",
         timeout=5
     })
 
 end
 
 function WorkspaceMenuController:add_workspace()
-    self.model:addWorkspace()
+    local new_workspace = self.model:addWorkspace()
+    self:rename_workspace(new_workspace)
     self:updateMenu()
 end
 
