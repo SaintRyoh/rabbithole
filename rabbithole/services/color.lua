@@ -99,6 +99,18 @@ function ColorService.create_linear_gradient(color1, color2)
     }
 end
 
+function ColorService.create_linear_shadow(color1, color2, direction)
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, direction }, -- the direction controls the gradient direction
+        stops = {
+            { 0, color1 },
+            { 1, color2 },
+        }
+    }
+end
+
 -- Applies a 3D effect to a widget
 -- @param widget The widget to apply the 3D effect to
 -- @param color1 The first color for the radial gradient
