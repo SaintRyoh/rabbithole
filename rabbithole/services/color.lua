@@ -83,6 +83,34 @@ function ColorService:create_radial_gradient(color1, color2)
     }
 end
 
+-- Creates a linear gradient for a 3D effect
+-- @param color1 The first color in the gradient
+-- @param color2 The second color in the gradient
+-- @return A gears.color object representing the linear gradient
+function ColorService.create_linear_gradient(color1, color2)
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, 20 }, -- you can adjust this value to change the direction of the gradient
+        stops = {
+            { 0, color1 },
+            { 1, color2 },
+        }
+    }
+end
+
+function ColorService.create_linear_shadow(color1, color2, direction)
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, direction }, -- the direction controls the gradient direction
+        stops = {
+            { 0, color1 },
+            { 1, color2 },
+        }
+    }
+end
+
 -- Applies a 3D effect to a widget
 -- @param widget The widget to apply the 3D effect to
 -- @param color1 The first color for the radial gradient
@@ -106,38 +134,39 @@ end
 -- Function to create a widget background gradient with edges in a softer, almost white gradient
 -- @param start_color The color at the start of the gradient
 -- @param end_color The color at the end of the gradient
+-- @return A string object representing the widget with soft edges
 function ColorService:create_widget_soft(start_color, end_color)
-  return function(cr, width, height, x, y, widget)
-      local start_x, start_y = x, y
-      local end_x, end_y = x + width, y + height
-      local pat_top = gears.color.create_linear_pattern({ start_x, start_y }, { start_x, start_y + height/5 }, { end_color, start_color })
-      local pat_bottom = gears.color.create_linear_pattern({ start_x, end_y }, { start_x, end_y - height/5 }, { start_color, end_color })
-      local pat_left = gears.color.create_linear_pattern({ start_x, start_y }, { start_x + width/5, start_y }, { end_color, start_color })
-      local pat_right = gears.color.create_linear_pattern({ end_x, start_y }, { end_x - width/5, start_y }, { start_color, end_color })
-      local pat_center = gears.color.create_linear_pattern({ start_x, start_y + height/5 }, { start_x, end_y - height/5 }, { start_color, start_color })
+    return function(cr, width, height, x, y)
+            local start_x, start_y = x, y
+            local end_x, end_y = x + width, y + height
+            local pat_top = gears.color.create_linear_pattern({ start_x, start_y }, { start_x, start_y + height/5 }, { end_color, start_color })
+            local pat_bottom = gears.color.create_linear_pattern({ start_x, end_y }, { start_x, end_y - height/5 }, { start_color, end_color })
+            local pat_left = gears.color.create_linear_pattern({ start_x, start_y }, { start_x + width/5, start_y }, { end_color, start_color })
+            local pat_right = gears.color.create_linear_pattern({ end_x, start_y }, { end_x - width/5, start_y }, { start_color, end_color })
+            local pat_center = gears.color.create_linear_pattern({ start_x, start_y + height/5 }, { start_x, end_y - height/5 }, { start_color, start_color })
 
-      gears.shape.rectangle(cr, width, height)
+            gears.shape.rectangle(cr, width, height)
 
-      cr:set_source(pat_top)
-      cr:rectangle(start_x, start_y, width, height/5)
-      cr:fill()
+            cr:set_source(pat_top)
+            cr:rectangle(start_x, start_y, width, height/5)
+            cr:fill()
 
-      cr:set_source(pat_bottom)
-      cr:rectangle(start_x, end_y - height/5, width, height/5)
-      cr:fill()
+            cr:set_source(pat_bottom)
+            cr:rectangle(start_x, end_y - height/5, width, height/5)
+            cr:fill()
 
-      cr:set_source(pat_left)
-      cr:rectangle(start_x, start_y, width/5, height)
-      cr:fill()
+            cr:set_source(pat_left)
+            cr:rectangle(start_x, start_y, width/5, height)
+            cr:fill()
 
-      cr:set_source(pat_right)
-      cr:rectangle(end_x - width/5, start_y, width/5, height)
-      cr:fill()
+            cr:set_source(pat_right)
+            cr:rectangle(end_x - width/5, start_y, width/5, height)
+            cr:fill()
 
-      cr:set_source(pat_center)
-      cr:rectangle(start_x + width/5, start_y + height/5, width*3/5, height*3/5)
-      cr:fill()
-  end
+            cr:set_source(pat_center)
+            cr:rectangle(start_x + width/5, start_y + height/5, width*3/5, height*3/5)
+            cr:fill()
+    end
 end
 
 

@@ -17,6 +17,10 @@ return setmetatable({}, {
                         )
                     end
                 end),
+                -- middle click to kill client
+                awful.button({ }, 2, function(c)
+                    c:kill()
+                end),
                 awful.button({ }, 3, function(c)
                     rabbithole__components__menus__tasklist(c):toggle()
                 end),
