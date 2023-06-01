@@ -26,7 +26,7 @@
 --     }
 -- }
 
-local bling = require("sub/bling")
+local bling = require("sub.bling")
 local beautiful = require("beautiful")
 
 return setmetatable({}, {
