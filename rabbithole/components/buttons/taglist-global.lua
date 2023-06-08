@@ -31,7 +31,7 @@ return setmetatable({}, {
                     end
 
                 end),
-                awful.button({ }, 3, function(t)
+                awful.button({ "Mod4" }, 3, function(t)
                     taglistmenu:updateMenu(t)
                     taglistmenu.taglist_menu:toggle()
                 --    if client.focus then
@@ -54,5 +54,6 @@ return setmetatable({}, {
                 awful.button({ }, 5, function(t) workspaceManagerService:viewPrevTag() end)
         )
         return taglist_buttons
+        
     end
 })
