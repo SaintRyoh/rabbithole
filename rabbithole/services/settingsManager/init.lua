@@ -1,6 +1,5 @@
 local wibox = require("wibox")
 local gears = require("gears")
-local dir = require("pl.dir")
 
 local SettingsManager = {}
 SettingsManager.__index = SettingsManager
@@ -32,24 +31,34 @@ function SettingsManager.new(settings)
     self.tabs = {}
 
     -- Dynamically create tabs based on the modules in the "settingsManager" directory
-    local modules = dir.getallfiles(self.directory)
-    for _, module in ipairs(modules) do
-        if module:sub(-4) == ".lua" then
-            local filePath = module:sub(self.directory:len() + 1, -1)
-            local moduleName = filePath:sub(1, -5)
-            local tabButton = wibox.widget.textbox(moduleName)
-            tabButton:connect_signal("button::press", function()
-                self:showTab(moduleName)
-            end)
-            self.layout:add(tabButton)
+    local modules = self:loadModulesFromDirectory(self.directory)
+    for _, moduleName in ipairs(modules) do
+        local tabButton = wibox.widget.textbox(moduleName)
+        tabButton:connect_signal("button::press", function()
+            self:showTab(moduleName)
+        end)
+        self.layout:add(tabButton)
 
-            -- Load the module and save its content
-            local moduleContent = require("rabbithole.services.settingsManager." .. moduleName)
-            self.tabs[moduleName] = moduleContent
-        end
+        -- Load the module and save its content
+        local moduleContent = require("rabbithole.services.settingsManager." .. moduleName)
+        self.tabs[moduleName] = moduleContent
     end
 
     return self
+end
+
+-- Loads all Lua module names from a directory
+function SettingsManager:loadModulesFromDirectory(directory)
+    local modules = {}
+    local p = io.popen('ls "' .. directory .. '"')  -- Open directory look for files
+    for file in p:lines() do                         -- Loop through all files
+        if file:sub(-4) == ".lua" then
+            local moduleName = file:sub(1, -5)
+            table.insert(modules, moduleName)
+        end
+    end
+    p:close()
+    return modules
 end
 
 function SettingsManager:showTab(moduleName)
