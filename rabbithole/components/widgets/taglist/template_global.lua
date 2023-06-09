@@ -2,13 +2,13 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
-local editable_textbox = require("rabbithole.components.widgets.editable-textbox")
+
 return function (controller)
     return
     {
         id     = 'background_role',
         shape = function(cr, width, height)
-            gears.shape.rounded_rect(cr, width, height, 10)
+            gears.shape.rounded_rect(cr, width, height, dpi(10))
         end,
         widget = wibox.container.background,
         {
@@ -16,11 +16,6 @@ return function (controller)
             right = dpi(3),
             widget = wibox.container.margin,
             {
-                layout = wibox.layout.fixed.horizontal,
-                {
-                    widget = wibox.container.margin,
-                    left = dpi(2),
-                },
                 {
                     widget = wibox.container.margin,
                     top = dpi(4),
@@ -28,7 +23,7 @@ return function (controller)
                     {
                         widget = wibox.container.background,
                         shape = function(cr, width, height)
-                            gears.shape.rounded_rect(cr, width, height, 8)
+                            gears.shape.rounded_rect(cr, width, height, dpi(8))
                         end,
                         bg = beautiful.bg_normal,
                         {
