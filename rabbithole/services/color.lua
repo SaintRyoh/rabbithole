@@ -122,6 +122,10 @@ function ColorService.create_linear_gradient(color1, color2)
     }
 end
 
+-- Creates a shadow for a 3D effect
+-- @param color1 The first color in the gradient
+-- @param color2 The second color in the gradient
+-- @param direction The direction of the shadow
 function ColorService.create_linear_shadow(color1, color2, direction)
     return gears.color {
         type = "linear",
