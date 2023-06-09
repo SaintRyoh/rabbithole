@@ -2,7 +2,7 @@ local themes_path = require("gears.filesystem").get_configuration_dir() .. "them
 local gears = require("gears")
 --  custom local libs
 local make3d = require("rabbithole.services.color").create_widget_bg
-local test3d = require("rabbithole.services.color").create_widget_bg_3d_2color
+local true3d = require("rabbithole.services.color").create_widget_bg_3d_2color
 local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 -- Theme icons table
 local icons = require("themes.rabbithole.theme-icons")
@@ -34,8 +34,8 @@ theme.warning = colors['Yellow']['500']
 theme.danger = colors['Red']['500']
 
 -- Background colors for widgets. This is the bulk of the color you see.
-theme.bg_normal = test3d(theme.base_color, theme.secondary_color)
-theme.bg_focus = make3d(theme.tertiary_1, theme.tertiary_2)
+theme.bg_normal = true3d(theme.base_color, theme.secondary_color)
+theme.bg_focus = true3d(theme.tertiary_1, theme.tertiary_2)
 theme.bg_urgent = theme.info
 theme.bg_systray = theme.neutral 
 
@@ -44,8 +44,8 @@ theme.border_focus = theme.secondary_color
 theme.border_marked = theme.danger
 
 -- [[[ Titlebar variables
-theme.titlebar_bg_focus = make3d(theme.base_color, theme.secondary_color)
-theme.titlebar_bg_normal = make3d(theme.secondary_color, theme.base_color)
+theme.titlebar_bg_focus = true3d(theme.base_color, theme.secondary_color)
+theme.titlebar_bg_normal = true3d(theme.secondary_color, theme.base_color)
 -- ]]]
 
 -- [[[ Taglist variables
