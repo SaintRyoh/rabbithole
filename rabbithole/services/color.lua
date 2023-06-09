@@ -4,7 +4,7 @@ local color = require("sub.bling.helpers.color")
 local math = math
 -- use the lighten and darken functions from the nice submodule
 local darken, lighten = require("sub.nice.colors").darken, require("sub.nice.colors").lighten
-local max, min, pow, floor, random = math.max, math.min, math.pow, math.floor, math.random
+local max, min, floor, random = math.max, math.min, math.floor, math.random
 
 --[[ This is the color service for tesseract. Capable of manipulating colors
 in almost every conceivable way.
@@ -14,8 +14,7 @@ local ColorService = color
 ColorService.__index = ColorService
 
 function ColorService.new()
-    local self = {}
-    setmetatable(self, ColorService)
+    local self = setmetatable({ }, ColorService)
 
     return self
 end
@@ -64,6 +63,25 @@ function ColorService.create_widget_bg(color1, color2)
             { 0,   color1 },
             { 0.5, color2 },
             { 1,   color1 },
+        }
+    }
+end
+
+function ColorService.create_widget_bg_3d(color)
+    local color1 = color
+    local color2 = lighten(color, 30) -- using your lighten function
+    local color3 = darken(color, 30) -- using your darken function
+
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = {
+            { 0,   color3 },  -- start with the dark color
+            { 0.2, color2 },  -- switch to the light color fairly quickly
+            { 0.5, color1 },  -- transition to the base color at the middle
+            { 0.8, color2 },  -- switch back to the light color
+            { 1,   color3 },  -- finish with the dark color
         }
     }
 end
