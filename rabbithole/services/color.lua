@@ -13,7 +13,7 @@ in almost every conceivable way.
 local ColorService = color
 ColorService.__index = ColorService
 
-function ColorService.new()
+function ColorService.new() -- probably should be a singleton and inject colors from 'nice' here
     local self = setmetatable({ }, ColorService)
 
     return self
