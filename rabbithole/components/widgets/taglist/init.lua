@@ -102,7 +102,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     self:add_client_bubbles(tag_template, tag)
 
     local hover_timer = gears.timer {
-        timeout = 0.5,
+        timeout = 1.0,
         autostart = false,
         callback = function()
             self.tagPreview.show(tag, self.screen)
