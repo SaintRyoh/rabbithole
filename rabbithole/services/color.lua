@@ -7,7 +7,8 @@ local darken, lighten = require("sub.nice.colors").darken, require("sub.nice.col
 local max, min, floor, random = math.max, math.min, math.floor, math.random
 
 --[[ This is the color service for tesseract. Capable of manipulating colors
-in almost every conceivable way.
+in almost every conceivable way.Inherits and expands ipon the color service
+from bling.
 ]]
 
 local ColorService = color
@@ -67,8 +68,8 @@ function ColorService.create_widget_bg(color1, color2)
     }
 end
 
-function ColorService.create_widget_bg_3d(color)
-    local color1 = color
+function ColorService.create_widget_bg_3d(color1)
+    local color1 = color1
     local color2 = lighten(color, 30) -- using your lighten function
     local color3 = darken(color, 30) -- using your darken function
 
