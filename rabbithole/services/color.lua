@@ -56,18 +56,18 @@ end
 -- @param color2 The second color in the gradient
 -- @return A gears.color object representing the linear gradient background
 function ColorService.create_widget_bg(color1, color2)
-    local color2 = lighten(color1, 40)
+    local color2 = lighten(color2, 40)
     local color3 = darken(color1, 40)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(40) },
         stops = {
-            { 0,   color2 },  -- start with the lightened color
+            { 0,   color2 },  -- start with the lighter color
             { 0.2, color1 },  -- switch to the base color fairly quickly
             { 0.5, color3 },  -- transition to the darkened base color at the middle
             { 0.8, color1 },  -- switch to base color again
-            { 1,   color2 },  -- finish with the lightened color
+            { 1,   color2 },  -- finish with the lighter color
         }
     }
 end
@@ -97,16 +97,20 @@ end
 -- @return A gears.color object with both colors and lightening and darkening applied.
 function ColorService.create_widget_bg_3d_2color(color1, color2)
     local color3 = darken(color1, 30)
+    local color4 = lighten(color2, 30)
 
     return gears.color {
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(40) },
         stops = {
-            { 0,   color2 },  -- start with the 2nd (lighter) color
-            { 0.2, color1 },  -- switch to the base color fairly quickly
-            { 0.5, color3 },  -- transition to the darkened base color at the middle
-            { 0.8, color1 },  -- switch back to the base color
+            { 0,   color4 },  -- start with the 2nd (lighter) color, lightened
+            { 0.2, color2 },  -- switch to 2nd lighter color fairly quickly
+            { 0.5, color1 },  -- transition to the base color at the middle
+            { 0.8, color3 },  -- switch back to the base color darkened
+            { 1,   color4 },  -- finish with second lighter color
+            { 0.5, color1 },  -- transition to the base color at the middle
+            { 0.8, color3 },  -- switch back to the base color darkened
             { 1,   color2 },  -- finish with second lighter color
         }
     }
