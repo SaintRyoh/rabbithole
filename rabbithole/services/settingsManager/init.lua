@@ -1,5 +1,6 @@
 local wibox = require("wibox")
 local gears = require("gears")
+local awful = require("awful")
 
 local SettingsManager = {}
 SettingsManager.__index = SettingsManager
@@ -8,25 +9,26 @@ function SettingsManager.new(settings)
     local self = setmetatable({}, SettingsManager)
 
     self.settings = settings or {}
-    -- settings manager directory
     self.directory = gears.filesystem.get_configuration_dir() .. "rabbithole/services/settingsManager/"
     self.settings_file = gears.filesystem.get_configuration_dir() .. "settings.lua"
 
-    self.window = wibox({
-        width = 800,
-        height = 600,
-        ontop = true,
-        visible = false,
-    })
-
     self.layout = wibox.layout.fixed.vertical()
-    self.window:set_widget(self.layout)
 
-    -- Add a "titlebar" to the wibox
     local titlebar = wibox.widget.textbox("Settings Manager")
-    titlebar.font = "Sans Bold 14"
+    titlebar.font = "Ubuntu Bold 14"
     titlebar.align = "center"
     self.layout:add(titlebar)
+
+    self.window = awful.popup({
+        widget = self.layout,
+        ontop = true,
+        visible = false,
+        placement = awful.placement.centered, -- changed placement to centered
+        offset = { y = 5 },
+        shape = gears.shape.rounded_rect, -- added shape property
+        border_width = 2, -- added border_width property
+        border_color = "#ffffff" -- added border_color property
+    })
 
     self.tabs = {}
 
@@ -50,8 +52,8 @@ end
 -- Loads all Lua module names from a directory
 function SettingsManager:loadModulesFromDirectory(directory)
     local modules = {}
-    local p = io.popen('ls "' .. directory .. '"')  -- Open directory look for files
-    for file in p:lines() do                         -- Loop through all files
+    local p = io.popen('ls "' .. directory .. '"')
+    for file in p:lines() do
         if file:sub(-4) == ".lua" then
             local moduleName = file:sub(1, -5)
             table.insert(modules, moduleName)
