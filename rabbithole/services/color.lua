@@ -302,7 +302,7 @@ function ColorService:relative_luminance(color)
     local r, g, b = self:hex2rgb(color)
     local function from_sRGB(u)
         return u <= 0.0031308 and 25 * u / 323 or
-                   pow(((200 * u + 11) / 211), 12 / 5)
+                   ((200 * u + 11) / 211) ^ (12 / 5)
     end
     return 0.2126 * from_sRGB(r) + 0.7152 * from_sRGB(g) + 0.0722 * from_sRGB(b)
 end
