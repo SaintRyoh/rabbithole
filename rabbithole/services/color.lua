@@ -1,6 +1,6 @@
 local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
-local bling_color = require("sub.bling.helpers.color")
+local blcolor = require("sub.bling.helpers.color")
 local math = math
 -- use the lighten and darken functions from the nice submodule
 local darken, lighten = require("sub.nice.colors").darken, require("sub.nice.colors").lighten
@@ -11,7 +11,7 @@ in almost every conceivable way.Inherits and expands ipon the color service
 from bling.
 ]]
 
-local ColorService = bling_color
+local ColorService = blcolor
 ColorService.__index = ColorService
 
 function ColorService.new() -- probably should be a singleton and inject colors from 'nice' here
