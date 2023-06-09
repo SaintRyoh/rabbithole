@@ -73,19 +73,19 @@ function ColorService.create_widget_bg(color1, color2)
 end
 
 -- Create an extremely 3d gradient for a widget with a single color
--- This should loosly emulate the way 'nice' creates its titlebars
-function ColorService.create_widget_bg_3d(color1)
-    local color1 = color1
-    local color2 = lighten(color1, 40)
-    local color3 = darken(color1, 40)
+-- This should loosely emulate the way 'nice' creates its titlebars
+function ColorService.create_widget_bg_3d(color)
+    local color1 = lighten(color, 40)
+    local color2 = color
+    local color3 = darken(color, 40)
 
     return gears.color {
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(40) },
         stops = {
-            { 0,   color2 },
-            { 0.5, color1 },
+            { 0,   color1 },
+            { 0.5, color2 },
             { 1,   color3 },
         }
     }
@@ -96,7 +96,7 @@ end
 -- @param color2 The second color in the gradient
 -- @return A gears.color object with both colors and lightening and darkening applied.
 function ColorService.create_widget_bg_3d_2color(color1, color2)
-    local color3 = darken(color1, 45)
+    local color3 = darken(color1, 40)
     local color4 = lighten(color2, 30)
 
     return gears.color {
@@ -137,6 +137,23 @@ function ColorService.create_widget_bg_metallic(color1)
     }
 end
 
+
+-- Creates a linear gradient for a mildy 3D effect
+-- @param color1 The first color in the gradient
+-- @param color2 The second color in the gradient
+-- @return A gears.color object representing the linear gradient
+function ColorService.create_linear_gradient(color1, color2)
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, 20 }, -- you can adjust this value to change the direction of the gradient
+        stops = {
+            { 0, color1 },
+            { 1, color2 },
+        }
+    }
+end
+
 -- Creates a radial gradient for a 3D effect
 -- @param color1 The first color in the gradient
 -- @param color2 The second color in the gradient
@@ -147,22 +164,6 @@ function ColorService.create_radial_gradient(color1, color2)
         from = { 0, 0 },
         to = { 0, 0 },
         radius = dpi(20),
-        stops = {
-            { 0, color1 },
-            { 1, color2 },
-        }
-    }
-end
-
--- Creates a linear gradient for a 3D effect
--- @param color1 The first color in the gradient
--- @param color2 The second color in the gradient
--- @return A gears.color object representing the linear gradient
-function ColorService.create_linear_gradient(color1, color2)
-    return gears.color {
-        type = "linear",
-        from = { 0, 0 },
-        to = { 0, 20 }, -- you can adjust this value to change the direction of the gradient
         stops = {
             { 0, color1 },
             { 1, color2 },
