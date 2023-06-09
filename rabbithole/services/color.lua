@@ -96,7 +96,7 @@ end
 -- @param color2 The second color in the gradient
 -- @return A gears.color object with both colors and lightening and darkening applied.
 function ColorService.create_widget_bg_3d_2color(color1, color2)
-    local color3 = darken(color1, 30)
+    local color3 = darken(color1, 45)
     local color4 = lighten(color2, 30)
 
     return gears.color {
