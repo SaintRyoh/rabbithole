@@ -65,9 +65,9 @@ function ColorService.create_widget_bg(color1, color2)
         stops = {
             { 0,   color2l },  -- start with the lighter color
             { 0.2, color2 },  -- switch to the base color fairly quickly
-            { 0.5, color1 },  -- transition to the darkened base color at the middle
-            { 0.8, color1d },  -- switch to base color again
-            { 1,   color2 },  -- finish with the lighter color
+            --{ 0.5, color1 },  -- transition to the darkened base color at the middle
+            { 0.8, color1 },  -- switch to base color again
+            { 1,   color1d },  -- finish with the lighter color
         }
     }
 end
