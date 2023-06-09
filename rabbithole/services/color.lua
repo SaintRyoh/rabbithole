@@ -68,9 +68,12 @@ function ColorService.create_widget_bg(color1, color2)
     }
 end
 
+-- Creates a background for a widget using one color and a linear gradient with lightening and darkening
+-- @param color1 The color to use for the gradient
+-- @return A gears.color object representing the linear gradient background
 function ColorService.create_widget_bg_3d(color1)
-    local color2 = lighten(color1, 30) -- using your lighten function
-    local color3 = darken(color1, 30) -- using your darken function
+    local color2 = lighten(color1, 30)
+    local color3 = darken(color1, 30)
 
     return gears.color {
         type = "linear",
@@ -139,7 +142,7 @@ end
 -- @param shadow_offset The offset of the shadow
 function ColorService:apply_3d_effect(widget, color1, color2, shadow_radius, shadow_offset)
     local shadow = self:create_shadow(shadow_radius, shadow_offset)
-    local gradient = self:create_radial_gradient(color1, color2)
+    local gradient = self.create_radial_gradient(color1, color2)
 
     widget:set_bg(gradient)
     widget:set_shape(function(cr, w, h)
