@@ -2,6 +2,8 @@ local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
 local color = require("sub.bling.helpers.color")
 local math = math
+-- use the lighten and darken functions from the nice submodule
+local darken, lighten = require("sub.nice.colors").darken, require("sub.nice.colors").lighten
 local max, min, pow, floor, random = math.max, math.min, math.pow, math.floor, math.random
 
 --[[ This is the color service for tesseract. Capable of manipulating colors
