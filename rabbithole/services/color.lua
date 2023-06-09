@@ -68,6 +68,25 @@ function ColorService.create_widget_bg(color1, color2)
     }
 end
 
+-- Create a more 3d gradient that takes a color and lightens and darkens it
+-- This should loosly emulate the way 'nice' creates its titlebars
+function ColorService.create_widget_bg_test(color)
+    local color1 = color
+    local color2 = color1:lighten(0.1)
+    local color3 = color1:darken(0.1)
+
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = {
+            { 0,   color2 },
+            { 0.5, color1 },
+            { 1,   color3 },
+        }
+    }
+end
+
 -- Creates a background for a widget using one color and a linear gradient with lightening and darkening
 -- @param color1 The color to use for the gradient
 -- @return A gears.color object representing the linear gradient background
