@@ -174,15 +174,6 @@ end
 
 -- END GRADIENTS ]]]
 
--- Clips the input value to the specified interval
--- @param num The value to be clipped
--- @param min_num The lower bound of the interval
--- @param max_num The upper bound of the interval
--- @return The clipped value
-function ColorService:clip(num, min_num, max_num)
-    return max(min(num, max_num), min_num)
-end
-
 -- [[[ CONVERSIONS - For converting colors to other values (RGB, HSL, HEX)
 
 -- Converts a hex color to normalized rgba format
@@ -327,41 +318,6 @@ function ColorService:rotate_hue(color, angle)
     angle = self:clip(angle or 0, 0, 360)
     H = (H + angle) % 360
     return self:hsv2hex(H, S, V)
-end
-
--- Lightens a given hex color by the specified amount
--- @param color The hex color to be lightened
--- @param amount The amount by which the color should be lightened
--- @return The lightened hex color
-function ColorService:lighten(color, amount)
-    local r, g, b
-    r, g, b = self:hex2rgb(color)
-    r = 255 * r
-    g = 255 * g
-    b = 255 * b
-    r = r + floor(2.55 * amount)
-    g = g + floor(2.55 * amount)
-    b = b + floor(2.55 * amount)
-    r = r > 255 and 255 or r
-    g = g > 255 and 255 or g
-    b = b > 255 and 255 or b
-    return ("#%02x%02x%02x"):format(r, g, b)
-end
-
--- Darkens a given hex color by the specified amount
--- @param color The hex color to be darkened
--- @param amount The amount by which the color should be darkened
--- @return The darkened hex color
-function ColorService:darken(color, amount)
-    local r, g, b
-    r, g, b = self:hex2rgb(color)
-    r = 255 * r
-    g = 255 * g
-    b = 255 * b
-    r = max(0, r - floor(r * (amount / 100)))
-    g = max(0, g - floor(g * (amount / 100)))
-    b = max(0, b - floor(b * (amount / 100)))
-    return ("#%02x%02x%02x"):format(r, g, b)
 end
 
 -- Darkens an RGB color and returns it as a hex string
