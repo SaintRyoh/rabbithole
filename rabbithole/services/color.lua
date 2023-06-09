@@ -69,9 +69,8 @@ function ColorService.create_widget_bg(color1, color2)
 end
 
 function ColorService.create_widget_bg_3d(color1)
-    local color1 = color1
-    local color2 = lighten(color, 30) -- using your lighten function
-    local color3 = darken(color, 30) -- using your darken function
+    local color2 = lighten(color1, 30) -- using your lighten function
+    local color3 = darken(color1, 30) -- using your darken function
 
     return gears.color {
         type = "linear",
