@@ -57,7 +57,7 @@ end
 -- @return A gears.color object representing the linear gradient background
 function ColorService.create_widget_bg(color1, color2)
     local color2l = lighten(color2, 40)
-    local color1d = darken(color1, 40)
+    local color1d = darken(color1, 90)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
