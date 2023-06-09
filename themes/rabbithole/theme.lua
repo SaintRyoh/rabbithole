@@ -12,7 +12,7 @@ local shapes = require("themes.rabbithole.theme-shapes")
 local theme = {}
 
 -- Wallpaper 
-theme.wallpaper = themes_path .. "rabbithole/wallpapers/whitelion.jpg"
+theme.wallpaper = themes_path .. "rabbithole/wallpapers/japan.jpg"
 -- Base font and font colors
 theme.font = "Ubuntu 8"
 
