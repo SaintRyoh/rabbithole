@@ -91,7 +91,7 @@ end
 -- @param color1 The first color in the gradient
 -- @param color2 The second color in the gradient
 -- @return A table describing the radial gradient
-function ColorService:create_radial_gradient(color1, color2)
+function ColorService.create_radial_gradient(color1, color2)
     return {
         type = "radial",
         from = { 0, 0 },
@@ -156,7 +156,7 @@ end
 -- @param start_color The color at the start of the gradient
 -- @param end_color The color at the end of the gradient
 -- @return A string object representing the widget with soft edges
-function ColorService:create_widget_soft(start_color, end_color)
+function ColorService.create_widget_soft(start_color, end_color)
     return function(cr, width, height, x, y)
             local start_x, start_y = x, y
             local end_x, end_y = x + width, y + height
