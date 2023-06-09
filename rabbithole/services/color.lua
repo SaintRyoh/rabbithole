@@ -56,24 +56,28 @@ end
 -- @param color2 The second color in the gradient
 -- @return A gears.color object representing the linear gradient background
 function ColorService.create_widget_bg(color1, color2)
+    local color2 = lighten(color1, 40)
+    local color3 = darken(color1, 40)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(40) },
         stops = {
-            { 0,   color1 },
-            { 0.5, color2 },
-            { 1,   color1 },
+            { 0,   color2 },  -- start with the lightened color
+            { 0.2, color1 },  -- switch to the base color fairly quickly
+            { 0.5, color3 },  -- transition to the darkened base color at the middle
+            { 0.8, color1 },  -- switch to base color again
+            { 1,   color2 },  -- finish with the lightened color
         }
     }
 end
 
--- Create a more 3d gradient that takes a color and lightens and darkens it
+-- Create an extremely 3d gradient for a widget with a single color
 -- This should loosly emulate the way 'nice' creates its titlebars
-function ColorService.create_widget_bg_test(color)
-    local color1 = color
-    local color2 = lighten(color, 30)
-    local color3 = darken(color, 30)
+function ColorService.create_widget_bg_3d(color1)
+    local color1 = color1
+    local color2 = lighten(color1, 40)
+    local color3 = darken(color1, 40)
 
     return gears.color {
         type = "linear",
@@ -87,10 +91,31 @@ function ColorService.create_widget_bg_test(color)
     }
 end
 
--- Creates a background for a widget using one color and a linear gradient with lightening and darkening
+-- Created a 3d background widget that takes two colors and a gradient
+-- @param color1 The first color in the gradient
+-- @param color2 The second color in the gradient
+-- @return A gears.color object with both colors and lightening and darkening applied.
+function ColorService.create_widget_bg_3d_2color(color1, color2)
+    local color3 = darken(color1, 30)
+
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = {
+            { 0,   color2 },  -- start with the 2nd (lighter) color
+            { 0.2, color1 },  -- switch to the base color fairly quickly
+            { 0.5, color3 },  -- transition to the darkened base color at the middle
+            { 0.8, color1 },  -- switch back to the base color
+            { 1,   color2 },  -- finish with second lighter color
+        }
+    }
+end
+
+-- Creates a background for a widget using one color and gives a metallic appearance
 -- @param color1 The color to use for the gradient
 -- @return A gears.color object representing the linear gradient background
-function ColorService.create_widget_bg_3d(color1)
+function ColorService.create_widget_bg_metallic(color1)
     local color2 = lighten(color1, 30)
     local color3 = darken(color1, 30)
 
