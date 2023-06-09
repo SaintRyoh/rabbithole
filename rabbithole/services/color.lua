@@ -72,8 +72,8 @@ end
 -- This should loosly emulate the way 'nice' creates its titlebars
 function ColorService.create_widget_bg_test(color)
     local color1 = color
-    local color2 = color1:lighten(0.1)
-    local color3 = color1:darken(0.1)
+    local color2 = lighten(color, 30)
+    local color3 = darken(color, 30)
 
     return gears.color {
         type = "linear",
