@@ -4,50 +4,36 @@ local blcolor = require("sub.bling.helpers.color")
 local math = math
 local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 -- use the lighten and darken functions from the nice submodule
-local darken, lighten = require("sub.nice.colors").darken, require("sub.nice.colors").lighten
+local nice_colors = require("sub.nice.colors")
+local darken, lighten = nice_colors.darken, nice_colors.lighten
 local max, min, floor, random = math.max, math.min, math.floor, math.random
-
---[[ This is the color service for tesseract. Capable of manipulating colors
+ --[[ This is the color service for tesseract. Capable of manipulating colors
 in almost every conceivable way.Inherits and expands ipon the color service
 from bling.
 ]]
-
-local ColorService = blcolor
+ local ColorService = blcolor
 ColorService.__index = ColorService
-
-function ColorService.new() -- probably should be a singleton and inject colors from 'nice' here
+ function ColorService.new() -- probably should be a singleton and inject colors from 'nice' here
     local self = setmetatable({ }, ColorService)
-
-    return self
+     return self
 end
-
--- Blends two colors together based on a given percentage
+ -- Blends two colors together based on a given percentage
 -- @param color1 The first color in hex format
 -- @param color2 The second color in hex format
 -- @param percentage A number between 0 and 1 representing the blend percentage
 -- @return A hex string of the blended color
 function ColorService.blend_colors(color1, color2, percentage)
-    if percentage > 1 then
-        percentage = 1
-    end
-
-    if percentage < 0 then
-        percentage = 0
-    end
-
-    -- Convert the hex strings to RGB values
+    percentage = math.min(math.max(percentage, 0), 1)
+     -- Convert the hex strings to RGB values
     local r1, g1, b1 = tonumber(color1:sub(2, 3), 16), tonumber(color1:sub(4, 5), 16), tonumber(color1:sub(6, 7), 16)
     local r2, g2, b2 = tonumber(color2:sub(2, 3), 16), tonumber(color2:sub(4, 5), 16), tonumber(color2:sub(6, 7), 16)
-
-    -- Calculate the blended RGB values
+     -- Calculate the blended RGB values
     local r3 = math.floor((r2 * percentage) + (r1 * (1 - percentage)))
     local g3 = math.floor((g2 * percentage) + (g1 * (1 - percentage)))
     local b3 = math.floor((b2 * percentage) + (b1 * (1 - percentage)))
-
-    -- Convert the blended RGB values back to a hex string
+     -- Convert the blended RGB values back to a hex string
     local color3 = string.format("#%02X%02X%02X", r3, g3, b3)
-
-    return color3
+     return color3
 end
 
 -- [[[ GRADIENTS - These are used to add depth to widget appearance.
