@@ -9,19 +9,50 @@ return {
     terminal = "alacritty",
     browser = "firefox",
     editor = "nvim",
+    file_manager = "thunar",
+    music_player = "spotify",
+    video_player = "mpv",
+    screenshot_tool = "flameshot",
+    launcher = "rofi",
+    lock_screen = "i3lock-fancy",
+    power_menu = "rofi-power-menu",
+    volume_control = "pavucontrol",
+    brightness_control = "brightnessctl",
+    default_wallpaper = "/usr/share/backgrounds/wallpaper.jpg",
+    default_font = "Ubuntu 10",
+    default_icon_theme = "BeautyLine",
 
     -- AwesomeWM specific settings
     modkey = "Mod4",
     altkey = "Mod1",
-
-    -- Layouts
-    layouts = {
-        "tile", 
-        "float",
-        -- add more layout types as needed...
+    panel_position = "top",
+    panel_height = 30,
+    panel_bg = "#1e1e1e",
+    panel_fg = "#ffffff",
+    panel_font = "Sans Bold 10",
+    panel_icon_size = 16,
+    panel_spacing = 5,
+    panel_border_width = 0,
+    panel_border_color = "#000000",
+    panel_opacity = 0.8,
+    panel_autohide = true,
+    panel_hide_delay = 1,
+    panel_show_delay = 0.5,
+    panel_widgets = {
+        "launcher",
+        "tasklist",
+        "systray",
+        "clock",
+        -- add more widgets as needed...
     },
-
-    -- Tags (workspaces) names
+    tasklist_bg_normal = true3d(theme.neutral, theme.secondary_color),
+    tasklist_bg_focus = true3d(theme.primary_color, theme.secondary_color),
+    tasklist_fg_normal = "#ffffff",
+    tasklist_fg_focus = "#ffffff",
+    tasklist_font = "Sans Bold 10",
+    tasklist_plain_task_name = true,
+    tasklist_disable_icon = false,
+    tasklist_align = "center",
     tag_names = {
         "www",
         "dev",
@@ -30,11 +61,63 @@ return {
         "vbox",
         -- add more tag names as needed...
     },
+    tag_layouts = {
+        "tile",
+        "float",
+        -- add more layout types as needed...
+    },
+    tag_icons = {
+        "",
+        "",
+        "",
+        "",
+        "",
+        -- add more icons as needed...
+    },
+    default_layout = "tile",
+    default_layout_spacing = 5,
+    default_layout_margins = { dpi(10), dpi(10), dpi(10), dpi(10) },
+    default_layout_border_width = 0,
+    default_layout_border_color = "#000000",
+    default_layout_gaps = 5,
+    default_layout_master_width_factor = 0.6,
+    default_layout_master_fill_policy = "master_width_factor",
+    default_layout_useless_gap = 5,
+    default_layout_force_focus = true,
+    default_layout_honor_padding = true,
+    default_layout_honor_workarea = true,
+    default_layout_maximized = false,
+    default_layout_maximized_horizontal = false,
+    default_layout_maximized_vertical = false,
+    default_layout_fair = false,
+    default_layout_fair_nmaster = 3,
+    default_layout_fair_nmaster_ratio = 0.6,
+    default_layout_spiral = false,
+    default_layout_spiral_count = 4,
+    default_layout_spiral_factor = 0.6,
+    default_layout_dwindle = false,
+    default_layout_dwindle_factor = 0.6,
+    default_layout_centerworkarea = false,
+    default_layout_magnifier = false,
+    default_layout_magnifier_scale = 1.5,
+    default_layout_magnifier_enabled = true,
+    default_layout_magnifier_exclude_borders = true,
+    default_layout_useless_resize = true,
+    default_layout_useless_snapping = true,
+    default_layout_useless_gap_resize = true,
+    default_layout_useless_gap_snap = true,
+    default_layout_useless_gap = 5,
 
     -- Autostart applications
     autostart_apps = {
         "picom &",
+        "nm-applet &",
+        "blueman-applet &",
+        "redshift-gtk &",
+        "xfce4-power-manager &",
+        "udiskie &",
+        "dunst &",
+        "flameshot &",
+        -- add more autostart apps as needed...
     },
-
-
 }
