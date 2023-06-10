@@ -24,9 +24,12 @@ function _M.get(controller)
                 return awful.button({}, 1, function(event)
                     if bindings.menu.wibox.visible == true then
                         bindings.menu:hide()
+                        bindings.root.bg = beautiful.bg_normal
+                        bindings.workspace_name_container.bg = beautiful.bg_normal
                     else
                         bindings.rotator.direction = "west"
                         bindings.root.bg = beautiful.bg_focus
+                        bindings.workspace_name_container.bg = beautiful.bg_focus
                         bindings.menu:show({
                             coords = {
                                 x = event.x,
