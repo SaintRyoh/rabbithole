@@ -2,7 +2,7 @@ local themes_path = require("gears.filesystem").get_configuration_dir() .. "them
 local gears = require("gears")
 --  custom local libs
 local make3d = require("rabbithole.services.color").create_widget_bg
-local true3d = require("rabbithole.services.color").twoColorGradient3d
+local true3d = require("rabbithole.services.color").twoColorTrue3d
 local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 -- Theme icons table
 local icons = require("themes.rabbithole.theme-icons")

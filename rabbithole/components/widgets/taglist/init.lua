@@ -117,7 +117,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             if type(tag_template.bg) == "string" then
                 tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, pos)
             else
-                tag_template.bg = self.color.twoColorGradient3d(
+                tag_template.bg = self.color.twoColorTrue3d(
                     self.color.blend_colors(beautiful.base_color, beautiful.tertiary_1, pos), 
                     self.color.blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos)
                 )
