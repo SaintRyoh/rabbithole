@@ -119,7 +119,7 @@ end
 -- Creates a background for a widget using one color and gives a metallic appearance
 -- @param color1 The color to use for the gradient
 -- @return A gears.color object representing the linear gradient background
-function ColorService.create_widget_bg_metallic(color1)
+function ColorService.metallicTrue3d(color1)
     local color2 = lighten(color1, 30)
     local color3 = darken(color1, 30)
 
