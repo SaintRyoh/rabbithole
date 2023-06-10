@@ -24,7 +24,7 @@ function MiniBar.new(options)
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
-        border_width = dpi(1),
+        border_width = dpi(0.5),
         border_color = lighten(beautiful.base_color, 25),
     })
     minibar:struts{top = dpi(34)}
