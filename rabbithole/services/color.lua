@@ -1,19 +1,22 @@
 local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
-local color = require("sub.bling.helpers.color")
+local blcolor = require("sub.bling.helpers.color")
 local math = math
-local max, min, pow, floor, random = math.max, math.min, math.pow, math.floor, math.random
+local colors = require("rabbithole.services.tesseractThemeEngine.colors")
+-- use the lighten and darken functions from the nice submodule
+local darken, lighten = require("sub.nice.colors").darken, require("sub.nice.colors").lighten
+local max, min, floor, random = math.max, math.min, math.floor, math.random
 
 --[[ This is the color service for tesseract. Capable of manipulating colors
-in almost every conceivable way.
+in almost every conceivable way.Inherits and expands ipon the color service
+from bling.
 ]]
 
-local ColorService = color
+local ColorService = blcolor
 ColorService.__index = ColorService
 
-function ColorService.new()
-    local self = {}
-    setmetatable(self, ColorService)
+function ColorService.new() -- probably should be a singleton and inject colors from 'nice' here
+    local self = setmetatable({ }, ColorService)
 
     return self
 end
@@ -50,10 +53,33 @@ end
 -- [[[ GRADIENTS - These are used to add depth to widget appearance.
 
 -- Creates a background for a widget using two colors and a linear gradient
--- @param color1 The first color in the gradient
--- @param color2 The second color in the gradient
+-- @param base_color The first color in the gradient
+-- @param secondary_color The second color in the gradient
 -- @return A gears.color object representing the linear gradient background
-function ColorService.create_widget_bg(color1, color2)
+function ColorService.create_widget_bg(base_color, secondary_color)
+    local secondary_color_light = lighten(secondary_color, 40)
+    local base_color_dark = darken(base_color, 90)
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = {
+            { 0,   secondary_color_light },  -- start with the lighter color
+            { 0.2, secondary_color },  -- switch to the base color fairly quickly
+            { 0.5, base_color },  -- transition to the darkened base color at the middle
+            { 0.8, base_color_dark },  -- switch to base color again
+            { 1,   base_color_dark },  -- finish with the darker color
+        }
+    }
+end
+
+-- Create an extremely 3d gradient for a widget with a single color
+-- This should closely emulate the way 'nice' creates its titlebars (light top--dark bottom, single color)
+function ColorService.oneColorTrue3d(color)
+    local color1 = lighten(color, 40)
+    local color2 = color
+    local color3 = darken(color, 40)
+
     return gears.color {
         type = "linear",
         from = { 0, 0 },
@@ -61,7 +87,104 @@ function ColorService.create_widget_bg(color1, color2)
         stops = {
             { 0,   color1 },
             { 0.5, color2 },
-            { 1,   color1 },
+            { 1,   color3 },
+        }
+    }
+end
+
+-- Created a 3d background widget that takes two colors and creates a linear gradient
+-- @param base The first color in the gradient
+-- @param secondary The second color in the gradient
+-- @return A gears.color object representing the linear gradient background
+function ColorService.twoColorTrue3d(base, secondary)
+    local top_color = colors["White"]
+    local base_light = lighten(base, 30)
+    local bottom_color = darken(base, 45)
+
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(34) },
+        stops = {
+            { 0,   top_color },
+            { 0.1, secondary },
+            { 0.35, base_light },
+            { 0.8, base },
+            { 1,   bottom_color },
+        }
+    }
+end
+
+-- Created a 3d background widget that takes two colors and a gradient
+-- @param base The first color in the gradient
+-- @param secondary The second color in the gradient
+-- @param percentage The percentage of the gradient to show (0-1)
+-- @return A gears.color object with both colors and lightening and darkening applied.
+function ColorService.twoColorTrue3dFlat(base, secondary, percentage)
+    local bottom_color = darken(base, 50)
+    local top_color = lighten(secondary, 30)
+    local base_light = lighten(base, 30)
+
+    local stops = {
+        { 0,   top_color },
+        { 0.2, secondary },
+        { 0.35, base_light },
+        { 0.8, base },
+        { 1,   bottom_color },
+    }
+
+    if percentage <= 0 then
+        stops = {
+            { 0, base },
+            { 1, base }
+        }
+    elseif percentage <= 1 then
+        local stop_index = math.floor(percentage / 0.25) + 1
+        stops[stop_index][1] = percentage * 0.8
+    end
+
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = stops
+    }
+end
+
+-- Creates a background for a widget using one color and gives a metallic appearance
+-- @param color1 The color to use for the gradient
+-- @return A gears.color object representing the linear gradient background
+function ColorService.metallicTrue3d(color1)
+    local color2 = lighten(color1, 30)
+    local color3 = darken(color1, 30)
+
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = {
+            { 0,   color3 },  -- start with the dark color
+            { 0.2, color2 },  -- switch to the light color fairly quickly
+            { 0.5, color1 },  -- transition to the base color at the middle
+            { 0.8, color2 },  -- switch back to the light color
+            { 1,   color3 },  -- finish with the dark color
+        }
+    }
+end
+
+
+-- Creates a linear gradient for a mildy 3D effect
+-- @param color1 The first color in the gradient
+-- @param color2 The second color in the gradient
+-- @return A gears.color object representing the linear gradient
+function ColorService.twoColorLinearGradient(color1, color2)
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, 20 }, -- you can adjust this value to change the direction of the gradient
+        stops = {
+            { 0, color1 },
+            { 1, color2 },
         }
     }
 end
@@ -70,12 +193,28 @@ end
 -- @param color1 The first color in the gradient
 -- @param color2 The second color in the gradient
 -- @return A table describing the radial gradient
-function ColorService:create_radial_gradient(color1, color2)
+function ColorService.createRadialGradient(color1, color2)
     return {
         type = "radial",
         from = { 0, 0 },
         to = { 0, 0 },
         radius = dpi(20),
+        stops = {
+            { 0, color1 },
+            { 1, color2 },
+        }
+    }
+end
+
+-- Creates a shadow for a 3D effect
+-- @param color1 The first color in the gradient
+-- @param color2 The second color in the gradient
+-- @param direction The direction of the shadow
+function ColorService.create_linear_shadow(color1, color2, direction)
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, direction }, -- the direction controls the gradient direction
         stops = {
             { 0, color1 },
             { 1, color2 },
@@ -91,7 +230,7 @@ end
 -- @param shadow_offset The offset of the shadow
 function ColorService:apply_3d_effect(widget, color1, color2, shadow_radius, shadow_offset)
     local shadow = self:create_shadow(shadow_radius, shadow_offset)
-    local gradient = self:create_radial_gradient(color1, color2)
+    local gradient = self.create_radial_gradient(color1, color2)
 
     widget:set_bg(gradient)
     widget:set_shape(function(cr, w, h)
@@ -106,51 +245,43 @@ end
 -- Function to create a widget background gradient with edges in a softer, almost white gradient
 -- @param start_color The color at the start of the gradient
 -- @param end_color The color at the end of the gradient
-function ColorService:create_widget_soft(start_color, end_color)
-  return function(cr, width, height, x, y, widget)
-      local start_x, start_y = x, y
-      local end_x, end_y = x + width, y + height
-      local pat_top = gears.color.create_linear_pattern({ start_x, start_y }, { start_x, start_y + height/5 }, { end_color, start_color })
-      local pat_bottom = gears.color.create_linear_pattern({ start_x, end_y }, { start_x, end_y - height/5 }, { start_color, end_color })
-      local pat_left = gears.color.create_linear_pattern({ start_x, start_y }, { start_x + width/5, start_y }, { end_color, start_color })
-      local pat_right = gears.color.create_linear_pattern({ end_x, start_y }, { end_x - width/5, start_y }, { start_color, end_color })
-      local pat_center = gears.color.create_linear_pattern({ start_x, start_y + height/5 }, { start_x, end_y - height/5 }, { start_color, start_color })
+-- @return A string object representing the widget with soft edges
+function ColorService.create_widget_soft(start_color, end_color)
+    return function(cr, width, height, x, y)
+            local start_x, start_y = x, y
+            local end_x, end_y = x + width, y + height
+            local pat_top = gears.color.create_linear_pattern({ start_x, start_y }, { start_x, start_y + height/5 }, { end_color, start_color })
+            local pat_bottom = gears.color.create_linear_pattern({ start_x, end_y }, { start_x, end_y - height/5 }, { start_color, end_color })
+            local pat_left = gears.color.create_linear_pattern({ start_x, start_y }, { start_x + width/5, start_y }, { end_color, start_color })
+            local pat_right = gears.color.create_linear_pattern({ end_x, start_y }, { end_x - width/5, start_y }, { start_color, end_color })
+            local pat_center = gears.color.create_linear_pattern({ start_x, start_y + height/5 }, { start_x, end_y - height/5 }, { start_color, start_color })
 
-      gears.shape.rectangle(cr, width, height)
+            gears.shape.rectangle(cr, width, height)
 
-      cr:set_source(pat_top)
-      cr:rectangle(start_x, start_y, width, height/5)
-      cr:fill()
+            cr:set_source(pat_top)
+            cr:rectangle(start_x, start_y, width, height/5)
+            cr:fill()
 
-      cr:set_source(pat_bottom)
-      cr:rectangle(start_x, end_y - height/5, width, height/5)
-      cr:fill()
+            cr:set_source(pat_bottom)
+            cr:rectangle(start_x, end_y - height/5, width, height/5)
+            cr:fill()
 
-      cr:set_source(pat_left)
-      cr:rectangle(start_x, start_y, width/5, height)
-      cr:fill()
+            cr:set_source(pat_left)
+            cr:rectangle(start_x, start_y, width/5, height)
+            cr:fill()
 
-      cr:set_source(pat_right)
-      cr:rectangle(end_x - width/5, start_y, width/5, height)
-      cr:fill()
+            cr:set_source(pat_right)
+            cr:rectangle(end_x - width/5, start_y, width/5, height)
+            cr:fill()
 
-      cr:set_source(pat_center)
-      cr:rectangle(start_x + width/5, start_y + height/5, width*3/5, height*3/5)
-      cr:fill()
-  end
+            cr:set_source(pat_center)
+            cr:rectangle(start_x + width/5, start_y + height/5, width*3/5, height*3/5)
+            cr:fill()
+    end
 end
 
 
 -- END GRADIENTS ]]]
-
--- Clips the input value to the specified interval
--- @param num The value to be clipped
--- @param min_num The lower bound of the interval
--- @param max_num The upper bound of the interval
--- @return The clipped value
-function ColorService:clip(num, min_num, max_num)
-    return max(min(num, max_num), min_num)
-end
 
 -- [[[ CONVERSIONS - For converting colors to other values (RGB, HSL, HEX)
 
@@ -255,7 +386,7 @@ function ColorService:relative_luminance(color)
     local r, g, b = self:hex2rgb(color)
     local function from_sRGB(u)
         return u <= 0.0031308 and 25 * u / 323 or
-                   pow(((200 * u + 11) / 211), 12 / 5)
+                   ((200 * u + 11) / 211) ^ (12 / 5)
     end
     return 0.2126 * from_sRGB(r) + 0.7152 * from_sRGB(g) + 0.0722 * from_sRGB(b)
 end
@@ -296,41 +427,6 @@ function ColorService:rotate_hue(color, angle)
     angle = self:clip(angle or 0, 0, 360)
     H = (H + angle) % 360
     return self:hsv2hex(H, S, V)
-end
-
--- Lightens a given hex color by the specified amount
--- @param color The hex color to be lightened
--- @param amount The amount by which the color should be lightened
--- @return The lightened hex color
-function ColorService:lighten(color, amount)
-    local r, g, b
-    r, g, b = self:hex2rgb(color)
-    r = 255 * r
-    g = 255 * g
-    b = 255 * b
-    r = r + floor(2.55 * amount)
-    g = g + floor(2.55 * amount)
-    b = b + floor(2.55 * amount)
-    r = r > 255 and 255 or r
-    g = g > 255 and 255 or g
-    b = b > 255 and 255 or b
-    return ("#%02x%02x%02x"):format(r, g, b)
-end
-
--- Darkens a given hex color by the specified amount
--- @param color The hex color to be darkened
--- @param amount The amount by which the color should be darkened
--- @return The darkened hex color
-function ColorService:darken(color, amount)
-    local r, g, b
-    r, g, b = self:hex2rgb(color)
-    r = 255 * r
-    g = 255 * g
-    b = 255 * b
-    r = max(0, r - floor(r * (amount / 100)))
-    g = max(0, g - floor(g * (amount / 100)))
-    b = max(0, b - floor(b * (amount / 100)))
-    return ("#%02x%02x%02x"):format(r, g, b)
 end
 
 -- Darkens an RGB color and returns it as a hex string

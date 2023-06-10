@@ -93,7 +93,8 @@ function WorkspaceManagerService:saveSession()
     end
     file:write(serpent.dump(self.workspaceManagerModel))
     file:close()
-    --naughty.notify({title="Session saved.", timeout=3})
+    -- notify save was successful
+    naughty.notify({ title = "Session saved.", timeout = 3 })
 end
 
 -- method to load session
