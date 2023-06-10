@@ -96,7 +96,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         timeout = 1.0,
         autostart = false,
         callback = function()
-            self.tagPreview.show(tag, self.screen)
+            self.tagPreview:show(tag, self.screen)
         end
     }
 
@@ -136,7 +136,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     tag_template:connect_signal('mouse::leave', function()
         -- tag preview
         hover_timer:stop()
-        self.tagPreview.hide(self.screen)
+        self.tagPreview:hide(self.screen)
 
         -- animation
         if not tag.selected or tag.screen ~= awful.screen.focused() then
