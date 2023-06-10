@@ -27,7 +27,7 @@ function MiniBar.new(options)
         border_width = dpi(0.5),
         border_color = lighten(beautiful.base_color, 15),
     })
-    minibar:struts{top = dpi(34)}
+    minibar:struts{top = dpi(38)}
 
     return minibar
 end
