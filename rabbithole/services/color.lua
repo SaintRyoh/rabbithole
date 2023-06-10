@@ -53,29 +53,29 @@ end
 -- [[[ GRADIENTS - These are used to add depth to widget appearance.
 
 -- Creates a background for a widget using two colors and a linear gradient
--- @param color1 The first color in the gradient
--- @param color2 The second color in the gradient
+-- @param base_color The first color in the gradient
+-- @param secondary_color The second color in the gradient
 -- @return A gears.color object representing the linear gradient background
-function ColorService.create_widget_bg(color1, color2)
-    local color2l = lighten(color2, 40)
-    local color1d = darken(color1, 90)
+function ColorService.create_widget_bg(base_color, secondary_color)
+    local secondary_color_light = lighten(secondary_color, 40)
+    local base_color_dark = darken(base_color, 90)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(40) },
         stops = {
-            { 0,   color2l },  -- start with the lighter color
-            { 0.2, color2 },  -- switch to the base color fairly quickly
-            { 0.5, color1 },  -- transition to the darkened base color at the middle
-            { 0.8, color1d },  -- switch to base color again
-            { 1,   color1d },  -- finish with the lighter color
+            { 0,   secondary_color_light },  -- start with the lighter color
+            { 0.2, secondary_color },  -- switch to the base color fairly quickly
+            { 0.5, base_color },  -- transition to the darkened base color at the middle
+            { 0.8, base_color_dark },  -- switch to base color again
+            { 1,   base_color_dark },  -- finish with the darker color
         }
     }
 end
 
 -- Create an extremely 3d gradient for a widget with a single color
--- This should closely emulate the way 'nice' creates its titlebars
-function ColorService.create_widget_bg_3d(color)
+-- This should closely emulate the way 'nice' creates its titlebars (light top--dark bottom, single color)
+function ColorService.oneColorTrue3d(color)
     local color1 = lighten(color, 40)
     local color2 = color
     local color3 = darken(color, 40)
@@ -92,21 +92,21 @@ function ColorService.create_widget_bg_3d(color)
     }
 end
 
--- Created a 3d background widget that takes two colors and a gradient
+-- Created a 3d background widget that takes two colors and creates a linear gradient
 -- @param base The first color in the gradient
 -- @param secondary The second color in the gradient
--- @return A gears.color object with both colors and lightening and darkening applied.
+-- @return A gears.color object representing the linear gradient background
 function ColorService.twoColorTrue3d(base, secondary)
-    local bottom_color = darken(base, 45)
-    local top_color = lighten(secondary, 30)
+    local top_color = colors["White"]
     local base_light = lighten(base, 30)
+    local bottom_color = darken(base, 45)
 
     return gears.color {
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(34) },
         stops = {
-            { 0,   colors["White"] },
+            { 0,   top_color },
             { 0.1, secondary },
             { 0.35, base_light },
             { 0.8, base },
