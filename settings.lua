@@ -5,8 +5,8 @@ Returns a settings object to be used with the settingsManager service.
 
 return {
     -- General settings
-    theme = "dark",
-    terminal = "alacritty",
+    theme = "rabbithole",
+    terminal = "qterminal",
     browser = "firefox",
     editor = "nvim",
     file_manager = "thunar",
@@ -25,34 +25,7 @@ return {
     -- AwesomeWM specific settings
     modkey = "Mod4",
     altkey = "Mod1",
-    panel_position = "top",
-    panel_height = 30,
-    panel_bg = "#1e1e1e",
-    panel_fg = "#ffffff",
-    panel_font = "Sans Bold 10",
-    panel_icon_size = 16,
-    panel_spacing = 5,
-    panel_border_width = 0,
-    panel_border_color = "#000000",
-    panel_opacity = 0.8,
-    panel_autohide = true,
-    panel_hide_delay = 1,
-    panel_show_delay = 0.5,
-    panel_widgets = {
-        "launcher",
-        "tasklist",
-        "systray",
-        "clock",
-        -- add more widgets as needed...
-    },
-    tasklist_bg_normal = true3d(theme.neutral, theme.secondary_color),
-    tasklist_bg_focus = true3d(theme.primary_color, theme.secondary_color),
-    tasklist_fg_normal = "#ffffff",
-    tasklist_fg_focus = "#ffffff",
-    tasklist_font = "Sans Bold 10",
-    tasklist_plain_task_name = true,
-    tasklist_disable_icon = false,
-    tasklist_align = "center",
+    activities_menu_placement = "top",
     tag_names = {
         "www",
         "dev",
