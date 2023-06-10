@@ -4,7 +4,7 @@ local dpi = require("beautiful").xresources.apply_dpi
 local gears = require("gears")
 local beautiful = require("beautiful")
 local colors = require("rabbithole.services.tesseractThemeEngine.colors")
-local lighten = require("sub.nice.colors").lighten
+local darken = require("sub.nice.colors").darken
 
 local MiniBar = {}
 
@@ -25,7 +25,7 @@ function MiniBar.new(options)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
         border_width = dpi(0.5),
-        border_color = lighten(beautiful.base_color, 15),
+        border_color = darken(beautiful.base_color, 40),
     })
     minibar:struts{top = dpi(38)}
 
