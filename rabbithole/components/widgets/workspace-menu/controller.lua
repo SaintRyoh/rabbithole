@@ -10,12 +10,14 @@ local _M = {}
 local WorkspaceMenuController = { }
 WorkspaceMenuController.__index = WorkspaceMenuController
 
-function WorkspaceMenuController.new(workspaceManagerService, theme, rabbithole__services__modal)
+function WorkspaceMenuController.new(workspaceManagerService, theme, rabbithole__services__modal, animation, color)
     local self = { }
     setmetatable(self, WorkspaceMenuController)
 
     self.theme = theme
     self.model = workspaceManagerService
+    self.color = color
+    self.animation = animation
     self.bindings = viewHelper.load_template(require("rabbithole.components.widgets.workspace-menu.template"), self)
     self.view = {
         bindings = self.bindings
@@ -163,8 +165,8 @@ function WorkspaceMenuController:add_workspace()
 end
 
 
-function _M.get(workspaceManagerService, theme, modal)
-    return WorkspaceMenuController.new(workspaceManagerService, theme, modal)
+function _M.get(workspaceManagerService, theme, modal, animation, color)
+    return WorkspaceMenuController.new(workspaceManagerService, theme, modal, animation, color)
 end
 
-return setmetatable({}, { __call = function(_, workspaceManagerService, theme, modal) return _M.get(workspaceManagerService, theme, modal) end })
+return setmetatable({}, { __call = function(_, workspaceManagerService, theme, modal, animation, color) return _M.get(workspaceManagerService, theme, modal, animation, color) end })

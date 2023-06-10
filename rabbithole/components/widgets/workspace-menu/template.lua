@@ -6,6 +6,7 @@ local _M = {}
 
 function _M.get(controller)
     local Template = {}
+    local animation = nil
 
     Template.root = wibox.widget {
         widget = wibox.container.background,
@@ -13,10 +14,12 @@ function _M.get(controller)
         bind = "root",
         signals = {
             ["mouse::enter"] = function(widget, bindings)
-                widget.bg = beautiful.bg_focus
+                -- widget.bg = beautiful.bg_focus
+                animation.target = 1
             end,
             ["mouse::leave"] = function(widget, bindings)
-                widget.bg = beautiful.bg_normal
+                -- widget.bg = beautiful.bg_normal
+                animation.target = 0
             end
         },
         t_buttons = {
@@ -52,12 +55,13 @@ function _M.get(controller)
             -- Workspace name container
             {
                 widget = wibox.container.background,
-                bg = beautiful.bg_normal,
+                -- bg = beautiful.bg_normal,
                 {
                     widget = wibox.widget.textbox,
                     bind = "workspace_name",
                 },
-                bind = "workspace_name_container"
+                bind = "workspace_name_container",
+                id = "workspace_name_container"
             },
 
             {
@@ -77,6 +81,24 @@ function _M.get(controller)
             }
         },
     }
+
+    animation = controller.animation({
+        duration = 0.4,
+        rapid_set = true,
+        pos = 0,
+        subscribed = function(pos)
+            if type(Template.root.bg) == "string" then
+                Template.root.bg = controller.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, pos)
+                Template.root:get_children_by_id("workspace_name_container")[1].bg = Template.root.bg
+            else
+                Template.root.bg = controller.color.twoColorTrue3d(
+                    controller.color.blend_colors(beautiful.base_color, beautiful.tertiary_1, pos), 
+                    controller.color.blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos)
+                )
+                Template.root:get_children_by_id("workspace_name_container")[1].bg = Template.root.bg
+            end
+        end
+    })
 
     return Template
 end
