@@ -1,7 +1,7 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local __ = require("lodash")
-local naughty = require("naughty")
+local gears = require("gears")
 
 local PlusButton = {}
 PlusButton.__index = PlusButton
@@ -9,6 +9,13 @@ PlusButton.__index = PlusButton
 local template = wibox.widget {
     id = "background_role",
     widget  = wibox.container.background,
+    bg = beautiful.bg_normal,
+    fg = beautiful.fg_normal,
+    shape = function(cr, width, height)
+        gears.shape.rounded_rect(cr, width, height, beautiful.border_radius)
+    end,
+    border_width = beautiful.border_width,
+    border_color = beautiful.border_normal,
     {
         widget = wibox.container.margin,
         margins = 5,
