@@ -1,16 +1,40 @@
---[[ Settings file for Rabbithole
+--[[ Settings flat file for Rabbithole
 
-Creates a settings object to be used with the settingsManager service.
+Returns a settings object to be used with the settingsManager service.
 ]]
 
-local Settings = { }
-Settings.__index = Settings
+return {
+    -- General settings
+    theme = "dark",
+    terminal = "alacritty",
+    browser = "firefox",
+    editor = "nvim",
 
-function Settings.new(settings)
-    local self = setmetatable({ }, Settings)
-    -- TODO:
-    -- Define settings variables and their defaults
-    -- Create a default settings table (type: dictionary)
-    self.settings = { }
+    -- AwesomeWM specific settings
+    modkey = "Mod4",
+    altkey = "Mod1",
 
-end
+    -- Layouts
+    layouts = {
+        "tile", 
+        "float",
+        -- add more layout types as needed...
+    },
+
+    -- Tags (workspaces) names
+    tag_names = {
+        "www",
+        "dev",
+        "sys",
+        "doc",
+        "vbox",
+        -- add more tag names as needed...
+    },
+
+    -- Autostart applications
+    autostart_apps = {
+        "picom &",
+    },
+
+
+}
