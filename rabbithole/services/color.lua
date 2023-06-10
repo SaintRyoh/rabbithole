@@ -104,7 +104,7 @@ function ColorService.twoColorTrue3d(base, secondary)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
-        to = { 0, dpi(35) },
+        to = { 0, dpi(34) },
         stops = {
             { 0,   colors["White"] },
             { 0.1, secondary },

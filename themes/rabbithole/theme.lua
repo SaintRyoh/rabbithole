@@ -18,10 +18,10 @@ theme.fg_focus = colors['Black']
 theme.fg_urgent = colors['Black']
 
 -- The bulk of the theme boils down to these lines
-theme.base_color = colors['Blue']['200'] -- ~ 60% of theme color
+theme.base_color = colors['Blue']['400'] -- ~ 60% of theme color
 theme.secondary_color = colors['Periwinkle']['500'] -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
-theme.tertiary_1 = colors['Blue']['400'] -- ~ 10% of theme color
-theme.tertiary_2 = colors['Blue']['300'] -- ~ 10% of theme color
+theme.tertiary_1 = colors['Blue']['700'] -- ~ 10% of theme color
+theme.tertiary_2 = colors['Blue']['600'] -- ~ 10% of theme color
 theme.neutral = colors['Blue Grey']['900'] --  neutral color for widgets
 
 -- Errors, info, and CTAs (calls to action) variables
