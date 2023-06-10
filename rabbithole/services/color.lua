@@ -95,7 +95,7 @@ end
 -- @param color1 The first color in the gradient
 -- @param color2 The second color in the gradient
 -- @return A gears.color object with both colors and lightening and darkening applied.
-function ColorService.create_widget_bg_3d_2color(color1, color2)
+function ColorService.twoColorGradient3d(color1, color2)
     local color3 = darken(color1, 40)
     local color4 = lighten(color2, 30)
 
