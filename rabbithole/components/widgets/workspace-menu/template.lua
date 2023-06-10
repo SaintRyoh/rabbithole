@@ -1,9 +1,6 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local awful = require("awful")
-local naughty = require("naughty")
-local gears = require("gears")
-local __ = require("lodash")
 
 local _M = {}
 
@@ -41,47 +38,39 @@ function _M.get(controller)
             end
         },
         {
-            widget = wibox.container.margin,
-            margins = 3,
+            layout = wibox.layout.fixed.horizontal,
+            spacing = 5,
             {
-                layout = wibox.layout.fixed.horizontal,
+                widget = wibox.widget.imagebox,
+                bind = "workspace_icon",
+                resize = true,
+                forced_height = 30,
+            },
+            -- Workspace name container
+            {
+                widget = wibox.container.background,
+                bg = beautiful.bg_normal,
                 {
-                    widget = wibox.widget.imagebox,
-                    bind = "workspace_icon",
-                    resize = true,
-                    forced_height = 30,
+                    widget = wibox.widget.textbox,
+                    bind = "workspace_name",
                 },
-                {
-                    -- padding between icon and workspace name
-                    widget = wibox.container.margin,
-                    left = 5, -- Adjust this value for desired padding
-                },
-                -- Workspace name container
-                {
-                    widget = wibox.container.background,
-                    bg = beautiful.bg_normal,
-                    {
-                        widget = wibox.widget.textbox,
-                        bind = "workspace_name",
-                    },
-                    bind = "workspace_name_container"
-                },
+                bind = "workspace_name_container"
+            },
 
+            {
+                widget = wibox.container.rotate,
+                direction = "north",
                 {
-                    widget = wibox.container.rotate,
-                    direction = "north",
+                    widget = wibox.container.margin,
+                    margins = 3,
                     {
-                        widget = wibox.container.margin,
-                        margins = 3,
-                        {
-                            image = beautiful.menu_submenu_icon,
-                            resize = true,
-                            widget = wibox.widget.imagebox,
-                            bind = "open_close_indicator"
-                        }
-                    },
-                    bind = "rotator"
-                }
+                        image = beautiful.menu_submenu_icon,
+                        resize = true,
+                        widget = wibox.widget.imagebox,
+                        bind = "open_close_indicator"
+                    }
+                },
+                bind = "rotator"
             }
         },
     }
