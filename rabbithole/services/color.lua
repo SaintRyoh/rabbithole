@@ -73,7 +73,7 @@ function ColorService.create_widget_bg(color1, color2)
 end
 
 -- Create an extremely 3d gradient for a widget with a single color
--- This should loosely emulate the way 'nice' creates its titlebars
+-- This should closely emulate the way 'nice' creates its titlebars
 function ColorService.create_widget_bg_3d(color)
     local color1 = lighten(color, 40)
     local color2 = color
@@ -92,26 +92,24 @@ function ColorService.create_widget_bg_3d(color)
 end
 
 -- Created a 3d background widget that takes two colors and a gradient
--- @param color1 The first color in the gradient
--- @param color2 The second color in the gradient
+-- @param base The first color in the gradient
+-- @param secondary The second color in the gradient
 -- @return A gears.color object with both colors and lightening and darkening applied.
-function ColorService.twoColorTrue3d(color1, color2)
-    local color3 = darken(color1, 40)
-    local color4 = lighten(color2, 30)
+function ColorService.twoColorTrue3d(base, secondary)
+    local bottom_color = darken(base, 50)
+    local top_color = lighten(secondary, 30)
+    local base_light = lighten(base, 30)
 
     return gears.color {
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(40) },
         stops = {
-            { 0,   color4 },  -- start with the 2nd (lighter) color, lightened
-            { 0.2, color2 },  -- switch to 2nd lighter color fairly quickly
-            { 0.5, color1 },  -- transition to the base color at the middle
-            { 0.8, color3 },  -- switch back to the base color darkened
-            { 1,   color4 },  -- finish with second lighter color
-            { 0.5, color1 },  -- transition to the base color at the middle
-            { 0.8, color3 },  -- switch back to the base color darkened
-            { 1,   color2 },  -- finish with second lighter color
+            { 0,   top_color },
+            { 0.2, secondary },
+            { 0.35, base_light },
+            { 0.8, base },
+            { 1,   bottom_color },
         }
     }
 end
