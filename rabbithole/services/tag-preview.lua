@@ -22,25 +22,28 @@ function TagPreview.new()
         background_widget = wibox.widget {
             image = beautiful.wallpaper,
             horizontal_fit_policy = "fit",
-            vertical_fit_policy   = "fit",
+            vertical_fit_policy = "fit",
             widget = wibox.widget.imagebox
         }
     }
     return self
 end
- function TagPreview:show(tag, screen)
+
+function TagPreview:show(tag, screen)
     if #tag:clients() > 0 and not visible then
         awesome.emit_signal("bling::tag_preview::update", tag)
         awesome.emit_signal("bling::tag_preview::visibility", screen, true)
         visible = true
     end
 end
- function TagPreview:hide(screen)
+
+function TagPreview:hide(screen)
     if visible then
         awesome.emit_signal("bling::tag_preview::visibility", screen, false)
         visible = false
     end
 end
- return setmetatable(TagPreview, {
-    __call = TagPreview.new,
+
+return setmetatable(TagPreview, {
+    __call = TagPreview.new
 })
