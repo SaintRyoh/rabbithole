@@ -142,7 +142,7 @@ end
 -- @param color1 The first color in the gradient
 -- @param color2 The second color in the gradient
 -- @return A gears.color object representing the linear gradient
-function ColorService.create_linear_gradient(color1, color2)
+function ColorService.twoColorLinearGradient(color1, color2)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
