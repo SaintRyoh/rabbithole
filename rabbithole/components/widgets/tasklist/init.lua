@@ -40,8 +40,8 @@ function TaskListController:create_callback(task_template, c, _, _)
         rapid_set = true,
         pos = c == client.focus and 1 or 0,
         subscribed = (function (pos)
-            background.bg = self.color.create_widget_bg(
-                self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos), 
+            background.bg = self.color.create_widget_bg_3d_2color(
+                self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos),
                 self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_2, pos)
             )
         end)
