@@ -1,10 +1,7 @@
 local themes_path = require("gears.filesystem").get_configuration_dir() .. "themes/"
-local gears = require("gears")
---  custom local libs
-local make3d = require("rabbithole.services.color").create_widget_bg
-local test3d = require("rabbithole.services.color").create_linear_gradient
+local true3d = require("rabbithole.services.color").twoColorTrue3d
 local colors = require("rabbithole.services.tesseractThemeEngine.colors")
--- Theme icons table
+-- Theme resources
 local icons = require("themes.rabbithole.theme-icons")
 local table_utils = require("rabbithole.services.table-utils")
 local shapes = require("themes.rabbithole.theme-shapes")
@@ -12,7 +9,7 @@ local shapes = require("themes.rabbithole.theme-shapes")
 local theme = {}
 
 -- Wallpaper 
-theme.wallpaper = themes_path .. "rabbithole/wallpapers/whitelion.jpg"
+theme.wallpaper = themes_path .. "rabbithole/wallpapers/japan.jpg"
 -- Base font and font colors
 theme.font = "Ubuntu 8"
 
@@ -21,10 +18,10 @@ theme.fg_focus = colors['Black']
 theme.fg_urgent = colors['Black']
 
 -- The bulk of the theme boils down to these lines
-theme.base_color = colors['Blue']['200'] -- ~ 60% of theme color
+theme.base_color = colors['Blue']['400'] -- ~ 60% of theme color
 theme.secondary_color = colors['Periwinkle']['500'] -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
-theme.tertiary_1 = colors['Blue']['400'] -- ~ 10% of theme color
-theme.tertiary_2 = colors['Blue']['300'] -- ~ 10% of theme color
+theme.tertiary_1 = colors['Blue']['700'] -- ~ 10% of theme color
+theme.tertiary_2 = colors['Blue']['600'] -- ~ 10% of theme color
 theme.neutral = colors['Blue Grey']['900'] --  neutral color for widgets
 
 -- Errors, info, and CTAs (calls to action) variables
@@ -34,8 +31,8 @@ theme.warning = colors['Yellow']['500']
 theme.danger = colors['Red']['500']
 
 -- Background colors for widgets. This is the bulk of the color you see.
-theme.bg_normal = test3d(theme.base_color, theme.secondary_color)
-theme.bg_focus = make3d(theme.tertiary_1, theme.tertiary_2)
+theme.bg_normal = true3d(theme.base_color, theme.secondary_color)
+theme.bg_focus = true3d(theme.tertiary_1, theme.tertiary_2)
 theme.bg_urgent = theme.info
 theme.bg_systray = theme.neutral 
 
@@ -44,8 +41,8 @@ theme.border_focus = theme.secondary_color
 theme.border_marked = theme.danger
 
 -- [[[ Titlebar variables
-theme.titlebar_bg_focus = make3d(theme.base_color, theme.secondary_color)
-theme.titlebar_bg_normal = make3d(theme.secondary_color, theme.base_color)
+theme.titlebar_bg_focus = true3d(theme.base_color, theme.secondary_color)
+theme.titlebar_bg_normal = true3d(theme.secondary_color, theme.base_color)
 -- ]]]
 
 -- [[[ Taglist variables

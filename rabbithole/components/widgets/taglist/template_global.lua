@@ -2,7 +2,7 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
-local editable_textbox = require("rabbithole.components.widgets.editable-textbox")
+
 return function (controller)
     return
     {
@@ -12,19 +12,17 @@ return function (controller)
         end,
         widget = wibox.container.background,
         {
-            left  = dpi(3),
-            right = dpi(3),
+            top = dpi(1),
+            bottom = dpi(2),
+            left  = dpi(2),
+            right = dpi(2),
             widget = wibox.container.margin,
             {
                 layout = wibox.layout.fixed.horizontal,
                 {
                     widget = wibox.container.margin,
-                    left = dpi(2),
-                },
-                {
-                    widget = wibox.container.margin,
-                    top = dpi(4),
-                    bottom = dpi(4),
+                    top = dpi(2),
+                    bottom = dpi(2),
                     {
                         widget = wibox.container.background,
                         shape = function(cr, width, height)
@@ -39,7 +37,6 @@ return function (controller)
                                 layout = wibox.layout.fixed.horizontal,
                                 {
                                     id     = 'text_role',
-                                    -- widget = function () return editable_textbox.new():get_widget() end,
                                     widget = wibox.widget.textbox,
                                 },
                                 {
@@ -62,3 +59,4 @@ return function (controller)
         update_callback = function (tag_template, tag, index, objects) controller:update_tag_callback(tag_template, tag, index, objects) end,
     }
 end
+
