@@ -2,6 +2,7 @@ local gears = require("gears")
 local dpi = require("beautiful.xresources").apply_dpi
 local blcolor = require("sub.bling.helpers.color")
 local math = math
+local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 -- use the lighten and darken functions from the nice submodule
 local darken, lighten = require("sub.nice.colors").darken, require("sub.nice.colors").lighten
 local max, min, floor, random = math.max, math.min, math.floor, math.random
@@ -96,17 +97,17 @@ end
 -- @param secondary The second color in the gradient
 -- @return A gears.color object with both colors and lightening and darkening applied.
 function ColorService.twoColorTrue3d(base, secondary)
-    local bottom_color = darken(base, 50)
+    local bottom_color = darken(base, 45)
     local top_color = lighten(secondary, 30)
     local base_light = lighten(base, 30)
 
     return gears.color {
         type = "linear",
         from = { 0, 0 },
-        to = { 0, dpi(40) },
+        to = { 0, dpi(35) },
         stops = {
-            { 0,   top_color },
-            { 0.2, secondary },
+            { 0,   colors["White"] },
+            { 0.1, secondary },
             { 0.35, base_light },
             { 0.8, base },
             { 1,   bottom_color },
