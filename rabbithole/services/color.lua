@@ -115,6 +115,42 @@ function ColorService.twoColorTrue3d(base, secondary)
     }
 end
 
+-- Created a 3d background widget that takes two colors and a gradient
+-- @param base The first color in the gradient
+-- @param secondary The second color in the gradient
+-- @param percentage The percentage of the gradient to show (0-1)
+-- @return A gears.color object with both colors and lightening and darkening applied.
+function ColorService.twoColorTrue3dFlat(base, secondary, percentage)
+    local bottom_color = darken(base, 50)
+    local top_color = lighten(secondary, 30)
+    local base_light = lighten(base, 30)
+
+    local stops = {
+        { 0,   top_color },
+        { 0.2, secondary },
+        { 0.35, base_light },
+        { 0.8, base },
+        { 1,   bottom_color },
+    }
+
+    if percentage <= 0 then
+        stops = {
+            { 0, base },
+            { 1, base }
+        }
+    elseif percentage <= 1 then
+        local stop_index = math.floor(percentage / 0.25) + 1
+        stops[stop_index][1] = percentage * 0.8
+    end
+
+    return gears.color {
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, dpi(40) },
+        stops = stops
+    }
+end
+
 -- Creates a background for a widget using one color and gives a metallic appearance
 -- @param color1 The color to use for the gradient
 -- @return A gears.color object representing the linear gradient background
