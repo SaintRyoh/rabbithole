@@ -1,31 +1,24 @@
-local __                      = require("lodash")
-local awful                   = require("awful")
-local wibox                   = require("wibox")
-local get_update_function     = require("rabbithole.components.widgets.taglist.update_function")
-local local_taglist_template  = require("rabbithole.components.widgets.taglist.template_local")
+local __ = require("lodash")
+local awful = require("awful")
+local wibox = require("wibox")
+local get_update_function = require("rabbithole.components.widgets.taglist.update_function")
+local local_taglist_template = require("rabbithole.components.widgets.taglist.template_local")
 local global_taglist_template = require("rabbithole.components.widgets.taglist.template_global")
-local gears                  = require("gears")
-local beautiful             = require("beautiful")
-local math                  = require("math")
-
+local gears = require("gears")
+local beautiful = require("beautiful")
+local math = require("math")
 
 -- workspace menu controller
 local TaglistController = {}
 TaglistController.__index = TaglistController
 
-function TaglistController.new(
-    workspaceManagerService,
-    rabbithole__components__widgets__tasklist,
-    rabbithole__services__tag___preview,
-    rabbithole__services__animation,
-    rabbithole__services__color,
-    rabbithole__components__buttons__taglist,
-    rabbithole__components__buttons__taglist___global
-)
-    local plusButton            = require("rabbithole.components.widgets.taglist.plus_button")(workspaceManagerService)
+function TaglistController.new(workspaceManagerService, rabbithole__components__widgets__tasklist,
+    rabbithole__services__tag___preview, rabbithole__services__animation, rabbithole__services__color,
+    rabbithole__components__buttons__taglist, rabbithole__components__buttons__taglist___global)
+    local plusButton = require("rabbithole.components.widgets.taglist.plus_button")(workspaceManagerService)
     -- globe icon for global tag widget
-    local icon_path             = awful.util.getdir("config") .. "themes/rabbithole/icons/rabbithole/global.svg"
-    local global_icon           = wibox.widget.imagebox(icon_path)
+    local icon_path = awful.util.getdir("config") .. "themes/rabbithole/icons/rabbithole/global.svg"
+    local global_icon = wibox.widget.imagebox(icon_path)
     global_icon:connect_signal("button::press", function(_, _, _, button)
         if button == 3 then
             local tag = awful.tag.add("Global")
@@ -33,7 +26,7 @@ function TaglistController.new(
         end
     end)
 
-    local self                  = {}
+    local self = {}
     setmetatable(self, TaglistController)
     -- resources
     self.workspaceManagerService = workspaceManagerService
@@ -42,28 +35,27 @@ function TaglistController.new(
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
 
-    return function (s)
+    return function(s)
         self.screen = s
 
-
         local global_taglist = awful.widget.taglist {
-            screen          = s,
-            filter          = awful.widget.taglist.filter.all,
-            source          = function()
+            screen = s,
+            filter = awful.widget.taglist.filter.all,
+            source = function()
                 return workspaceManagerService:getAllGlobalTags()
             end,
-            buttons         = rabbithole__components__buttons__taglist___global,
+            buttons = rabbithole__components__buttons__taglist___global,
             update_function = get_update_function(s),
             widget_template = global_taglist_template(self)
         }
 
-
-
         local my_local_workspace_taglist = awful.widget.taglist {
-            screen          = s,
-            filter          = awful.widget.taglist.filter.all,
-            buttons         = rabbithole__components__buttons__taglist,
-            source          = function() return workspaceManagerService:getAllActiveTags() end,
+            screen = s,
+            filter = awful.widget.taglist.filter.all,
+            buttons = rabbithole__components__buttons__taglist,
+            source = function()
+                return workspaceManagerService:getAllActiveTags()
+            end,
             update_function = get_update_function(s),
             widget_template = local_taglist_template(self)
         }
@@ -96,8 +88,7 @@ function TaglistController:add_client_bubbles(tag_template, tag)
     end
 end
 
-
-function TaglistController:create_tag_callback(tag_template, tag, index, objects) --luacheck: no unused args
+function TaglistController:create_tag_callback(tag_template, tag, index, objects) -- luacheck: no unused args
     self:update_index(tag_template, index)
     self:add_client_bubbles(tag_template, tag)
 
@@ -113,21 +104,19 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         pos = tag.selected and 1 or 0,
         duration = 0.4,
         rapid_set = true,
-        subscribed = function (pos)
+        subscribed = function(pos)
             if type(tag_template.bg) == "string" then
                 tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, pos)
             else
-                tag_template.bg = self.color.twoColorTrue3d(
-                    self.color.blend_colors(beautiful.base_color, beautiful.tertiary_1, pos), 
-                    self.color.blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos)
-                )
+                tag_template.bg = self.color.twoColorTrue3d(self.color.blend_colors(beautiful.base_color,
+                    beautiful.tertiary_1, pos), self.color
+                    .blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos))
             end
         end
     })
 
-
     awful.tooltip({
-        objects = { tag_template },
+        objects = {tag_template},
         timer_function = function()
             return "Middle click to delete"
         end,
@@ -137,9 +126,8 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         preferred_positions = {'bottom'},
         preferred_alignments = {'middle'}
 
-
     })
-    
+
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
         animation.target = 1
@@ -150,7 +138,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         hover_timer:stop()
         self.tagPreview.hide(self.screen)
 
-        --animation
+        -- animation
         if not tag.selected or tag.screen ~= awful.screen.focused() then
             animation.target = 0
         end
