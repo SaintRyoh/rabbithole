@@ -158,7 +158,7 @@ end
 -- @param color1 The first color in the gradient
 -- @param color2 The second color in the gradient
 -- @return A table describing the radial gradient
-function ColorService.create_radial_gradient(color1, color2)
+function ColorService.createRadialGradient(color1, color2)
     return {
         type = "radial",
         from = { 0, 0 },
