@@ -1,10 +1,18 @@
 --[[ Settings flat file for Rabbithole
 
 Returns a settings object to be used with the settingsManager service.
+
+Theme table:
+    These are the only collors that need to be set for a custom theme.
+    The rest of the colors will be generated automatically. You can also
+    use a single color and pick a color theory and tesseract will generate an
+    Md3 and color theory compliant theme for you. Themes can also be generated
+    from the background image or URL. We thought of everything.
 ]]
 
 return {
     -- General settings
+
     theme = "rabbithole",
     terminal = "qterminal",
     browser = "firefox",
@@ -36,8 +44,8 @@ return {
         -- add more tag names as needed...
     },
     global_tag_names = {
+        "Brain2",
         "Chat",
-        "2Brain",
         -- add more global tag names as needed...
     },
     tag_layouts = {
@@ -57,10 +65,7 @@ return {
         "picom &",
         "nm-applet &",
         "blueman-applet &",
-        "redshift-gtk &",
         "xfce4-power-manager &",
-        "udiskie &",
-        "dunst &",
         "flameshot &",
         -- add more autostart apps as needed...
     },
