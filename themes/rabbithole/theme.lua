@@ -41,8 +41,9 @@ theme.border_focus = theme.secondary_color
 theme.border_marked = theme.danger
 
 -- [[[ Titlebar variables
-theme.titlebar_bg_focus = true3d(theme.base_color, theme.secondary_color)
-theme.titlebar_bg_normal = true3d(theme.secondary_color, theme.base_color)
+-- Re-enable if for whatever reason we get rid of the 'nice' submodule in the future.
+--theme.titlebar_bg_focus = true3d(theme.base_color, theme.secondary_color)
+--theme.titlebar_bg_normal = true3d(theme.secondary_color, theme.base_color)
 -- ]]]
 
 -- [[[ Taglist variables
