@@ -18,7 +18,7 @@ return {
     power_menu = "rofi-power-menu",
     volume_control = "pavucontrol",
     brightness_control = "brightnessctl",
-    default_wallpaper = "/usr/share/backgrounds/wallpaper.jpg",
+    wallpaper = "japan.jpg",
     default_font = "Ubuntu 10",
     default_icon_theme = "BeautyLine",
 
@@ -27,18 +27,25 @@ return {
     altkey = "Mod1",
     activities_menu_placement = "top",
     tag_names = {
-        "www",
-        "dev",
-        "sys",
-        "doc",
-        "vbox",
+        "Internet",
+        "Code",
+        "Terminal",
+        "Files",
         -- add more tag names as needed...
+    },
+    global_tag_names = {
+        "Chat",
+        "2ndBrain",
+        -- add more global tag names as needed...
     },
     tag_layouts = {
         "tile",
         "float",
         -- add more layout types as needed...
     },
+    -- NOTE: The order of these icons should match the order of the tag names above
+    -- If you don't want to use icons, just set this to nil
+    -- 
     tag_icons = {
         "",
         "",
