@@ -19,7 +19,7 @@ return {
     volume_control = "pavucontrol",
     brightness_control = "brightnessctl",
     wallpaper = "japan.jpg",
-    default_font = "Ubuntu 10",
+    default_font = "Ubuntu 8",
     default_icon_theme = "BeautyLine",
 
     -- AwesomeWM specific settings
@@ -49,11 +49,7 @@ return {
     -- If you don't want to use icons, just set this to nil
 
     tag_icons = {
-        "",
-        "",
-        "",
-        "",
-        "",
+        "path/to/icon.svg",
         -- add more icons as needed...
     },
     -- Autostart applications
