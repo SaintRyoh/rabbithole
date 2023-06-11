@@ -26,6 +26,8 @@ return {
     modkey = "Mod4",
     altkey = "Mod1",
     activities_menu_placement = "top",
+    -- NOTE: The order of these icons should match the order of the tag names below
+    -- If you don't want to use tag names, just set this to nil
     tag_names = {
         "Internet",
         "Code",
@@ -35,7 +37,7 @@ return {
     },
     global_tag_names = {
         "Chat",
-        "2ndBrain",
+        "2Brain",
         -- add more global tag names as needed...
     },
     tag_layouts = {
@@ -45,7 +47,7 @@ return {
     },
     -- NOTE: The order of these icons should match the order of the tag names above
     -- If you don't want to use icons, just set this to nil
-    -- 
+
     tag_icons = {
         "",
         "",
@@ -54,40 +56,6 @@ return {
         "",
         -- add more icons as needed...
     },
-    default_layout = "tile",
-    default_layout_spacing = 5,
-    default_layout_margins = { dpi(10), dpi(10), dpi(10), dpi(10) },
-    default_layout_border_width = 0,
-    default_layout_border_color = "#000000",
-    default_layout_gaps = 5,
-    default_layout_master_width_factor = 0.6,
-    default_layout_master_fill_policy = "master_width_factor",
-    default_layout_useless_gap = 5,
-    default_layout_force_focus = true,
-    default_layout_honor_padding = true,
-    default_layout_honor_workarea = true,
-    default_layout_maximized = false,
-    default_layout_maximized_horizontal = false,
-    default_layout_maximized_vertical = false,
-    default_layout_fair = false,
-    default_layout_fair_nmaster = 3,
-    default_layout_fair_nmaster_ratio = 0.6,
-    default_layout_spiral = false,
-    default_layout_spiral_count = 4,
-    default_layout_spiral_factor = 0.6,
-    default_layout_dwindle = false,
-    default_layout_dwindle_factor = 0.6,
-    default_layout_centerworkarea = false,
-    default_layout_magnifier = false,
-    default_layout_magnifier_scale = 1.5,
-    default_layout_magnifier_enabled = true,
-    default_layout_magnifier_exclude_borders = true,
-    default_layout_useless_resize = true,
-    default_layout_useless_snapping = true,
-    default_layout_useless_gap_resize = true,
-    default_layout_useless_gap_snap = true,
-    default_layout_useless_gap = 5,
-
     -- Autostart applications
     autostart_apps = {
         "picom &",
