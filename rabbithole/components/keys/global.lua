@@ -18,9 +18,10 @@ local _M = {}
 return setmetatable({}, {
     __constructor = function(workspaceManagerService, settings, rabbithole__components__menus__main)
         -- Resource Configuration
-        local modkey = settings.modkey
+        local modkey = settings.modkey or "Mod4"
+        local altkey = settings.modkey or "Mod1"
         local mainmenu = rabbithole__components__menus__main
-        local terminal = settings.terminal
+        local terminal = settings.terminal or "xterm"
         local globalkeys = gears.table.join(
             awful.key({ modkey, }, "s", hotkeys_popup.show_help,
                 { description = "show help", group = "awesome" }),
@@ -182,7 +183,7 @@ return setmetatable({}, {
                 { description = "show the menubar", group = "launcher" }),
 
             -- Screen brightness up & down with xbacklight
-            awful.key({}, "XF86MonBrightnessUp",
+            awful.key({ }, "XF86MonBrightnessUp",
                 function() awful.util.spawn("xbacklight -inc 10", false) end,
                 { description = "increase brightness", group = "hotkeys" }),
             awful.key({}, "XF86MonBrightnessDown",
