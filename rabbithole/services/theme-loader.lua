@@ -1,6 +1,7 @@
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local nice = require("sub.nice")
+local dpi = require("beautiful.xresources").apply_dpi
 
 return setmetatable({}, {
     __constructor = function (
@@ -15,7 +16,7 @@ return setmetatable({}, {
         if theme_table then
             beautiful.init(theme_table)
             nice{
-                titlebar_height =  34, -- keep the same size as the wibar for consistency
+                titlebar_height =  dpi(34), -- keep the same size as the wibar for consistency
                 titlebar_radius = 13,
                 titlebar_font = beautiful.font,
                 button_size = 20,
