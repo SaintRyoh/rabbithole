@@ -14,7 +14,7 @@ Theme table:
 local Settings = { }
 Settings.__index = Settings
 
-function Settings:new()
+function Settings.new()
     local self = setmetatable({}, Settings)
 
     self.settings = {
