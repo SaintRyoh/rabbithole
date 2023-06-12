@@ -1,15 +1,12 @@
 --[[ Table of the redunant spiderweb of theme variables that gives Rabbithole
 it's consistent look and feel.
 ]]
-
-
--- Turned this into a function to prevent any circular references.
-
+   -- Turned this into a function to prevent any circular references.
 local function apply_redundancies(theme)
     -- [[[ Backgrounds and borders
     theme.bg_urgent = theme.info
-    theme.bg_systray = theme.neutral 
-    
+    theme.bg_systray = theme.neutral
+
     theme.border_normal = theme.base_color
     theme.border_focus = theme.secondary_color
     theme.border_marked = theme.danger
