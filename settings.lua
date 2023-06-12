@@ -9,12 +9,37 @@ Theme table:
     Md3 and color theory compliant theme for you. Themes can also be generated
     from the background image or URL. We thought of everything.
 ]]
+local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 
 return {
-    -- General settings
+    --[[ For color_scheme, you can use any of the color schemes listed here:
+    polychromatic, monochromatic, analogous, complementary, split_complementary, triadic, 
+    tetradic, clash, five_tone, six_tone, neutral, and custom
+    ]]
     theme = {
-        generate_theme = false,
-        theme_name = "rabbithole", -- set to nil if you want to use the default theme
+        generate_theme = true, -- this will generate a theme using the tesseractThemeEngine
+        theme_name = "rabbithole",
+        wallpaper = "rabbithole/wallpapers/japan.jpg",
+        font = "Ubuntu 8",
+        white = colors["White"],
+        black = colors["Black"],
+        fg_normal = colors["Black"],
+        fg_focus = colors["Black"],
+        fg_urgent = colors["Black"],
+        base_color = colors["Blue"]["400"],
+        secondary_color = colors["Periwinkle"]["500"],
+        tertiary_1 = colors["Blue"]["700"],
+        tertiary_2 = colors["Blue"]["600"],
+        neutral = colors["Blue Grey"]["900"],
+        success = colors["Green"]["500"],
+        info = colors["Blue"]["500"],
+        warning = colors["Yellow"]["500"],
+        danger = colors["Red"]["500"],
+        -- Adjusted these settings to use colors from colors module
+        bg_normal = colors["Blue"]["400"] .. "," .. colors["Periwinkle"]["500"],
+        bg_focus = colors["Blue"]["700"] .. "," .. colors["Blue"]["600"],
+        icons = "themes.rabbithole.theme-icons",
+        shapes = "themes.rabbithole.theme-shapes",
     },
     terminal = "qterminal",
     browser = "firefox",
@@ -35,19 +60,9 @@ return {
     modkey = "Mod4",
     altkey = "Mod1",
     activities_menu_placement = "top",
-    -- NOTE: The order of these icons should match the order of the tag names below
-    -- If you don't want to use tag names, just set this to nil
-    tag_names = {"Internet", "Code", "Terminal", "Files" -- add more tag names as needed...
-    },
-    global_tag_names = {"Brain2", "Chat" -- add more global tag names as needed...
-    },
-    tag_layouts = {"tile", "float" -- add more layout types as needed...
-    },
-    -- NOTE: The order of these icons should match the order of the tag names above
-    -- If you don't want to use icons, just set this to nil
-    tag_icons = {"path/to/icon.svg" -- add more icons as needed...
-    },
-    -- Autostart applications
-    autostart_apps = {"picom &", "nm-applet &", "blueman-applet &", "xfce4-power-manager &", "flameshot &" -- add more autostart apps as needed...
-    }
+    tag_names = {"Internet", "Code", "Terminal", "Files"},
+    global_tag_names = {"Brain2", "Chat"},
+    tag_layouts = {"tile", "float"},
+    tag_icons = {"path/to/icon.svg"},
+    autostart_apps = {"picom &", "nm-applet &", "blueman-applet &", "xfce4-power-manager &", "flameshot &"},
 }
