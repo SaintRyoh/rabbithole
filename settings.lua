@@ -12,8 +12,12 @@ Theme table:
 
 return {
     -- General settings
+    theme = {
+        generate_theme = false,
+        theme_name = "rabbithole", -- set to nil if you want to use the default theme
 
-    theme = "rabbithole",
+        "rabbithole",
+    },
     terminal = "qterminal",
     browser = "firefox",
     editor = "nvim",
@@ -36,37 +40,18 @@ return {
     activities_menu_placement = "top",
     -- NOTE: The order of these icons should match the order of the tag names below
     -- If you don't want to use tag names, just set this to nil
-    tag_names = {
-        "Internet",
-        "Code",
-        "Terminal",
-        "Files",
-        -- add more tag names as needed...
+    tag_names = {"Internet", "Code", "Terminal", "Files" -- add more tag names as needed...
     },
-    global_tag_names = {
-        "Brain2",
-        "Chat",
-        -- add more global tag names as needed...
+    global_tag_names = {"Brain2", "Chat" -- add more global tag names as needed...
     },
-    tag_layouts = {
-        "tile",
-        "float",
-        -- add more layout types as needed...
+    tag_layouts = {"tile", "float" -- add more layout types as needed...
     },
     -- NOTE: The order of these icons should match the order of the tag names above
     -- If you don't want to use icons, just set this to nil
 
-    tag_icons = {
-        "path/to/icon.svg",
-        -- add more icons as needed...
+    tag_icons = {"path/to/icon.svg" -- add more icons as needed...
     },
     -- Autostart applications
-    autostart_apps = {
-        "picom &",
-        "nm-applet &",
-        "blueman-applet &",
-        "xfce4-power-manager &",
-        "flameshot &",
-        -- add more autostart apps as needed...
-    },
+    autostart_apps = {"picom &", "nm-applet &", "blueman-applet &", "xfce4-power-manager &", "flameshot &" -- add more autostart apps as needed...
+    }
 }
