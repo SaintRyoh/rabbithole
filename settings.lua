@@ -3,7 +3,7 @@
 Returns a settings object to be used with the settingsManager service.
 
 Theme table:
-    These are the only collors that need to be set for a custom theme.
+    These are the only colors that need to be set for a custom theme.
     The rest of the colors will be generated automatically. You can also
     use a single color and pick a color theory and tesseract will generate an
     Md3 and color theory compliant theme for you. Themes can also be generated
