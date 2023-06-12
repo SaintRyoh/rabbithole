@@ -2,7 +2,19 @@
 it's consistent look and feel.
 ]]
 
+
+-- Turned this into a function to prevent any circular references.
+
 local function apply_redundancies(theme)
+    -- [[[ Backgrounds and borders
+    theme.bg_urgent = theme.info
+    theme.bg_systray = theme.neutral 
+    
+    theme.border_normal = theme.base_color
+    theme.border_focus = theme.secondary_color
+    theme.border_marked = theme.danger
+    -- ]]]
+
     -- [[[ Taglist variables
     theme.taglist_bg_normal = theme.bg_normal
     theme.taglist_bg_empty = theme.taglist_bg_normal

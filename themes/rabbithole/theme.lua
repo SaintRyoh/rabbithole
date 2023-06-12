@@ -7,7 +7,7 @@ local table_utils = require("rabbithole.services.table-utils")
 local shapes = require("themes.rabbithole.theme-shapes")
 local add_redundancies = require("themes.rabbithole.theme-redundant")
 
-local theme = {}
+local theme = { }
 
 -- Wallpaper 
 theme.wallpaper = themes_path .. "rabbithole/wallpapers/japan.jpg"
@@ -55,6 +55,5 @@ theme.border_marked = theme.danger
 -- Merge tables
 theme = table_utils.merge(theme, icons, shapes)
 add_redundancies(theme)
-
 
 return theme
