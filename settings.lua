@@ -19,20 +19,26 @@ return {
     Default settinngs mimic the default theme.lua. Generated with tesseract.
     ]]
     theme = {
-        generate_theme = true, -- this will generate a theme using the tesseractThemeEngine
+        -- [[[ Tesseract theme generation settings
+        generate_theme = false, -- this will generate a theme using the tesseractThemeEngine when true
+        color_scheme = "monochromatic", -- this is the color theory used to generate the theme
+        -- ]]]
         theme_name = "rabbithole",
+        theme_dir = "themes/rabbithole/theme.lua",
         wallpaper = "rabbithole/wallpapers/japan.jpg",
-        font = "Ubuntu 8",
-        white = colors["White"],
-        black = colors["Black"],
-        fg_normal = colors["Black"],
-        fg_focus = colors["Black"],
-        fg_urgent = colors["Black"],
+        -- [[[ Theme colors--These are the most important settings.
         base_color = colors["Blue"]["400"],
         secondary_color = colors["Periwinkle"]["500"],
         tertiary_1 = colors["Blue"]["700"],
         tertiary_2 = colors["Blue"]["600"],
         neutral = colors["Blue Grey"]["900"],
+        -- ]]]
+        -- [[[ Fonts
+        font = "Ubuntu 8",
+        fg_normal = colors["Black"],
+        fg_focus = colors["Black"],
+        fg_urgent = colors["Black"],
+        -- ]]]
         -- The following should be left as defaults, but you can change if desired.
         --neutral = colors["Blue Grey"]["900"],
         --success = colors["Green"]["500"],
