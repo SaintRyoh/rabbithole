@@ -5,6 +5,7 @@ local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 local icons = require("themes.rabbithole.theme-icons")
 local table_utils = require("rabbithole.services.table-utils")
 local shapes = require("themes.rabbithole.theme-shapes")
+local add_redundancies = require("themes.rabbithole.theme-redundant")
 
 local theme = {}
 
@@ -13,9 +14,14 @@ theme.wallpaper = themes_path .. "rabbithole/wallpapers/japan.jpg"
 -- Base font and font colors
 theme.font = "Ubuntu 8"
 
-theme.fg_normal = colors['Black'] -- font colors
-theme.fg_focus = colors['Black']
-theme.fg_urgent = colors['Black']
+-- White and black are always needed.
+theme.white = colors['White']
+theme.black = colors['Black']
+
+-- TODO: Add font color calculator for tesseract and plug that in here.
+theme.fg_normal = theme.black -- font colors
+theme.fg_focus = theme.black
+theme.fg_urgent = theme.black
 
 -- The bulk of the theme boils down to these lines
 theme.base_color = colors['Blue']['400'] -- ~ 60% of theme color
@@ -46,31 +52,9 @@ theme.border_marked = theme.danger
 --theme.titlebar_bg_normal = true3d(theme.secondary_color, theme.base_color)
 -- ]]]
 
--- [[[ Taglist variables
-theme.taglist_bg_normal = theme.bg_normal
-theme.taglist_bg_empty = theme.taglist_bg_normal
-theme.taglist_bg_focus = theme.bg_focus
-theme.taglist_fg_focus = theme.fg_focus
-theme.taglist_fg_empty = theme.fg_focus
-theme.taglist_container_bg = theme.bg_normal
--- ]]]
-
--- [[[ Tasklist variables
-theme.tasklist_bg_normal = theme.neutral
-theme.tasklist_bg_focus = theme.bg_focus
-theme.tasklist_shape_border_color = theme.tasklist_bg_normal
-theme.tasklist_shape_border_color_minimized = theme.taglist_bg_neutral
--- ]]]
-theme.notification_bg = theme.neutral
-theme.notification_fg = colors['White']
-theme.notification_border_color = theme.base_color
-
--- [[[ BLING theme variables
-theme.tag_preview_client_border_color = theme.base_color
-theme.tag_preview_widget_border_color = theme.neutral
--- ]]]
-
 -- Merge tables
 theme = table_utils.merge(theme, icons, shapes)
+add_redundancies(theme)
+
 
 return theme
