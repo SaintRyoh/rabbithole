@@ -14,7 +14,9 @@ local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 return {
     --[[ For color_scheme, you can use any of the color schemes listed here:
     polychromatic, monochromatic, analogous, complementary, split_complementary, triadic, 
-    tetradic, clash, five_tone, six_tone, neutral, and custom
+    tetradic, clash, five_tone, six_tone, neutral, and custom.
+
+    Default settinngs mimic the default theme.lua. Generated with tesseract.
     ]]
     theme = {
         generate_theme = true, -- this will generate a theme using the tesseractThemeEngine
@@ -31,15 +33,12 @@ return {
         tertiary_1 = colors["Blue"]["700"],
         tertiary_2 = colors["Blue"]["600"],
         neutral = colors["Blue Grey"]["900"],
-        success = colors["Green"]["500"],
-        info = colors["Blue"]["500"],
-        warning = colors["Yellow"]["500"],
-        danger = colors["Red"]["500"],
-        -- Adjusted these settings to use colors from colors module
-        bg_normal = colors["Blue"]["400"] .. "," .. colors["Periwinkle"]["500"],
-        bg_focus = colors["Blue"]["700"] .. "," .. colors["Blue"]["600"],
-        icons = "themes.rabbithole.theme-icons",
-        shapes = "themes.rabbithole.theme-shapes",
+        -- The following should be left as defaults, but you can change if desired.
+        --neutral = colors["Blue Grey"]["900"],
+        --success = colors["Green"]["500"],
+        --info = colors["Blue"]["500"],
+        --warning = colors["Yellow"]["500"],
+        --danger = colors["Red"]["500"],
     },
     terminal = "qterminal",
     browser = "firefox",
