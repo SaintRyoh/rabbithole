@@ -73,7 +73,8 @@ return {
         taglist_placement = "top-center",
         systray_placement = "top-right",
     },
-    -- Workspace Templates
+    -- Workspace Template - Order matters here. The first layout will be the default.
+    -- NOT CONNECTED YET
     tag_names = {"Internet", "Code", "Terminal", "Files"},
     global_tag_names = {"Brain2", "Chat"},
     workspace_names = {"1", "2", "3", "4", "5", "6", "7", "8", "9"},
