@@ -57,7 +57,7 @@ return {
         video_player = "mpv" or "smplayer",
         screenshot_tool = "flameshot" or "scrot",
         launcher_cmd = "rofi -show drun -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
-        window_switcher = "rofi -show window -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
+        window_switcher_cmd = "rofi -show window -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
         lock_screen = "i3lock-fancy",
         power_menu = "rofi-power-menu",
         volume_control = "pavucontrol" or "volumeicon",
