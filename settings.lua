@@ -69,12 +69,16 @@ return {
         altkey = "Mod1",
         icon_theme = "BeautyLine",
     },
-    -- UI placement
+    -- UI Elements
     -- NOTE: NOT CONNECTED YET
-    ui_placement = {
+    ui = {
+        -- Placement
         activities_placement = "top-left",
         taglist_placement = "top-center",
         systray_placement = "top-right",
+        -- Tag widget options
+        tag_icons_on = false,
+        tag_labels_on = true,
     },
     -- Rabbitholes Environment Settings - Order matters here. The first layout will be the default.
     -- NOTE: NOT CONNECTED YET
