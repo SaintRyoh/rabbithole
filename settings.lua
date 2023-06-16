@@ -47,7 +47,7 @@ return {
         --danger = colors["Red"]["500"],
     },
     default_programs = {
-        -- Rabbithole's recommened programs. These are used in the default keybindings.
+        -- Rabbithole's recommened programs. These are used in the keybindings.
         terminal = "qterminal" or "xterm",
         browser = "firefox",
         editor = os.getenv("EDITOR") or "nvim",
@@ -66,7 +66,7 @@ return {
         wallpaper = "rabbithole/wallpapers/japan.jpg",
         modkey = "Mod4",
         altkey = "Mod1",
-        default_icon_theme = "BeautyLine",
+        icon_theme = "BeautyLine",
     },
     -- UI placement
     -- NOTE: NOT CONNECTED YET

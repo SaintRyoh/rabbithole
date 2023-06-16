@@ -34,10 +34,10 @@ return setmetatable({}, {
         local function set_wallpaper()
             bling.module.wallpaper.setup {
                 screens = screen:count(), -- apply wallpaper across all screens
-                set_function = settings.wallpaper.set_function or bling.module.wallpaper.setters.simple,
-                wallpaper = settings.wallpaper.wallpaper or beautiful.wallpaper,
-                position = settings.wallpaper.position or "maximized",
-                ignore_aspect = settings.wallpaper.ignore_aspect or true,
+                set_function = settings.core_settings.wallpaper.set_function or bling.module.wallpaper.setters.simple,
+                wallpaper = settings.core_settings.wallpaper.wallpaper or beautiful.wallpaper,
+                position = settings.core_settings.wallpaper.position or "maximized",
+                ignore_aspect = settings.core_settings.wallpaper.ignore_aspect or true,
             }
         end
 
