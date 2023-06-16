@@ -128,7 +128,17 @@ return setmetatable({}, {
                     c.round_corners = true
                 end
             },
-
+            -- Clients with custom titlebars.
+            {
+                rule_any = {
+                    class = {
+                        "whatsapp-for-linux"
+                    }
+                },
+                properties = {
+                    titlebars_enabled = false
+                }
+            },
         }
         return rules
     end
