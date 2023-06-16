@@ -34,6 +34,7 @@ check_and_install rofi
 
 # Clone the Rofi themes collection if it doesn't exist
 if [ ! -d "$HOME/.local/share/rofi/themes" ]; then
+    mkdir -p "$HOME/.local/share/rofi/themes"
     git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
 fi
 
@@ -55,3 +56,7 @@ if [ ! -d "$HOME/.config/picom" ]; then
     mkdir -p "$HOME/.config/picom"
 fi
 cp "$PROJECT_DIR/picom.conf" "$HOME/.config/picom/picom.conf"
+
+# Set the default rofi theme
+echo "rofi.theme: $HOME/.local/share/rofi/themes/themes/rounded-nord-dark.rasi" >> "$HOME/.Xresources"
+xrdb -merge "$HOME/.Xresources"
