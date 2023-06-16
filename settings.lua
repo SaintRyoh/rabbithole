@@ -66,7 +66,7 @@ return {
         wallpaper = "rabbithole/wallpapers/japan.jpg",
         modkey = "Mod4",
         altkey = "Mod1",
-        default_icon_theme = "BeautyLine",
+        icon_theme = "BeautyLine",
     },
     -- UI placement
     -- NOTE: NOT CONNECTED YET
