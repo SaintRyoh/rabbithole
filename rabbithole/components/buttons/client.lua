@@ -6,8 +6,8 @@ local awful = require("awful")
 
 return setmetatable({}, {
     __constructor = function (settings)
-        
-    local modkey = settings.modkey
+
+    local modkey = settings.core_settings.modkey
     local clientbuttons = gears.table.join(
             awful.button({ }, 1, function (c)
                 c:emit_signal("request::activate", "mouse_click", {raise = true})

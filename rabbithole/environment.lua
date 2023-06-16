@@ -4,7 +4,7 @@ return setmetatable({}, {
        rabbithole__ui__default, 
        rabbithole__services__global,
        rabbithole__services__sloppy___focus,
-       rabbithole__services__bling___tag___preview
+       rabbithole__services__tag___preview
     )
         return
     end,
