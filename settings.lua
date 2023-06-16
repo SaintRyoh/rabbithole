@@ -20,14 +20,15 @@ return {
     ]]
     theme = {
         -- [[[ Tesseract theme generation settings
+        use_default = true, -- temporary fix
         generate_theme = false, -- this will generate a theme using the tesseractThemeEngine when true
         color_scheme = "monochromatic", -- this is the color theory used to generate the theme
         -- ]]]
-        theme_name = "rabbithole",
-        theme_dir = "themes/rabbithole/theme.lua",
+        theme_name = "rabbithole", -- TODO: used loater for logic in saving themes
+        theme_template = "themes/rabbithole/theme.lua",
         wallpaper = "rabbithole/wallpapers/japan.jpg",
-        -- [[[ Theme colors--These are the most important settings.
-        base_color = colors["Blue"]["400"],
+        -- [[[ Theme colors--These are the most important settings. 
+        base_color = colors["Blue"]["400"], -- If you're generating a theme, you only need to pass a base_color
         secondary_color = colors["Periwinkle"]["500"],
         tertiary_1 = colors["Blue"]["700"],
         tertiary_2 = colors["Blue"]["600"],

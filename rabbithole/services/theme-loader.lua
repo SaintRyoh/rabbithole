@@ -8,10 +8,21 @@ return setmetatable({}, {
         settings,
         rabbithole__services__tesseractThemeEngine
     )
-        local theme_table
-        local theme_source = settings.theme.theme_dir
-        -- TODO: still need to add logic here to pass the theme arguments from settings to tesseract
-        theme_table = rabbithole__services__tesseractThemeEngine:generate_theme(theme_source)
+        local tesseract_engine = rabbithole__services__tesseractThemeEngine
+        
+        local theme_table = settings.theme
+        local theme_template = settings.theme.theme_template
+
+        -- generate theme if toggled in settings
+        if settings.theme.generate_theme then
+            theme_table = tesseract_engine:generate_theme(nil, theme_table.base_color, theme_table.color_scheme)
+
+        elseif settings.theme.use_default then -- not implemented yet, cause it works without it
+            theme_table = theme_template
+        else
+            theme_table = tesseract_engine:generate_theme(theme_template)
+            theme_table = settings.theme
+        end
 
         if theme_table then
             beautiful.init(theme_table)
@@ -41,7 +52,7 @@ return setmetatable({}, {
                 }
             }
         else
-            naughty.notify({title = "Error", text = "Failed to generate theme."})
+            naughty.notify({title = "Error", text = "Failed to initialize theme. Reverting back to default."})
         end
 
         return beautiful.get()
