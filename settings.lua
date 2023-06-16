@@ -48,7 +48,7 @@ return {
     },
     default_programs = {
         -- Rabbithole's recommened programs. These are used in the default keybindings.
-        terminal = "qterminal",
+        terminal = "qterminal" or "xterm",
         browser = "firefox",
         editor = os.getenv("EDITOR") or "nvim",
         editor_cmd = "qterminal -e nvim",

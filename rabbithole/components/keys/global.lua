@@ -21,7 +21,7 @@ return setmetatable({}, {
         local modkey = settings.core_settings.modkey or "Mod4"
         local altkey = settings.core_settings.altkey or "Mod1"
         local mainmenu = rabbithole__components__menus__main
-        local terminal = settings.terminal or "xterm"
+        local terminal = settings.core_settings.terminal
         local globalkeys = gears.table.join(
             awful.key({ modkey, }, "s", hotkeys_popup.show_help,
                 { description = "show help", group = "awesome" }),
