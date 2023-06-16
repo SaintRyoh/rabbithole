@@ -8,7 +8,7 @@ return setmetatable({}, {
         rabbithole__ui__default__left,
         rabbithole__ui__default__center,
         rabbithole__ui__default__right
-        --rabbithole__ui__default__titlebar
+        --rabbithole__ui__default__titlebar  -- Using nice as titlebars for now, but standard titlebars are still available if desired
     )
         awful.screen.connect_for_each_screen(function(s)
             -- if workspaceManagerService.session_restored ~= true then

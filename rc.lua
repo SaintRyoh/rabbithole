@@ -1,9 +1,7 @@
--- setup paths, includes things like lua_modules
 require("paths")
 require("error-handling")
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
-local gears = require("gears.filesystem")
 
 -- if AWM_DEBUG set in environment then require debug
 -- Debugger = nil
@@ -15,29 +13,16 @@ local gears = require("gears.filesystem")
 RC = {
     diModule = require("sub.lua-di.lua-di.DependencyInjectionModule")(function (config) 
 
-        -- eventually only Services and Settings should be
-
         -- Make workspaceManagerService a singleton
         config.bindings.types.workspaceManagerService = "workspaceManagerService"
         config.singletons.workspaceManagerService = true
         config.providers.workspaceManagerService = function()
             return RC.diModule.getInstance("rabbithole.services.workspaceManagerService") 
         end
-
-
-        -- Make theme a singleton (so we only call beautiful.init once)
+        
+        config.bindings.values.settings = require("settings")
         config.bindings.types.theme = "rabbithole.services.theme-loader"
-        config.singletons.theme = true
-
-
-        config.bindings.values.settings = {
-            theme_dir = "themes/rabbithole/theme.lua",
-            modkey = "Mod4",
-            terminal = "qterminal",
-            editor = os.getenv("EDITOR") or "nvim",
-            editor_cmd = "qterminal -e nvim",
-            wallpaper = { }
-        }
+        config.singletons.theme = true -- change theme from a singleton when we implement a live theme-switcher
 
         config.enableAutoConfiguration()
 
