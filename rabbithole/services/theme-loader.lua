@@ -10,7 +10,7 @@ return setmetatable({}, {
     )
         local theme_table
         local theme_source = settings.theme.theme_dir
-
+        -- TODO: still need to add logic here to pass the theme arguments from settings to tesseract
         theme_table = rabbithole__services__tesseractThemeEngine:generate_theme(theme_source)
 
         if theme_table then
