@@ -49,17 +49,18 @@ return {
     default_programs = {
         -- Rabbithole's recommened programs. These are used in the keybindings.
         terminal = "qterminal" or "xterm",
-        browser = "firefox",
+        browser = "firefox" or "chrome" or "chromium",
         editor = os.getenv("EDITOR") or "nvim",
         editor_cmd = "qterminal -e nvim",
-        file_manager = "nemo" or "pcmanfm-qt",
+        file_manager = "nemo" or "pcmanfm-qt" or "thunar",
         music_player = "spotify" or "mpd",
-        video_player = "mpv",
-        screenshot_tool = "flameshot",
-        launcher_cmd = "rofi",
+        video_player = "mpv" or "smplayer",
+        screenshot_tool = "flameshot" or "scrot",
+        launcher_cmd = "rofi -show drun -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
+        window_switcher = "rofi -show window -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
         lock_screen = "i3lock-fancy",
         power_menu = "rofi-power-menu",
-        volume_control = "pavucontrol",
+        volume_control = "pavucontrol" or "volumeicon",
         brightness_control = "brightnessctl",
     },
     core_settings = {
@@ -82,5 +83,11 @@ return {
     workspace_names = {"1", "2", "3", "4", "5", "6", "7", "8", "9"},
     tag_layouts = {"tile", "float"},
     tag_icons = {"path/to/icon.svg"},
-    autostart_apps = {"picom &", "nm-applet &", "blueman-applet &", "xfce4-power-manager &", "flameshot &"},
+    autostart_apps = {
+        "picom &",
+        "nm-applet &",
+        "blueman-applet &",
+        "xfce4-power-manager &",
+        "flameshot &"
+    },
 }
