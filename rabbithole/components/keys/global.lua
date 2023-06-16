@@ -18,8 +18,8 @@ local _M = {}
 return setmetatable({}, {
     __constructor = function(workspaceManagerService, settings, rabbithole__components__menus__main)
         -- Resource Configuration
-        local modkey = settings.modkey or "Mod4"
-        local altkey = settings.modkey or "Mod1"
+        local modkey = settings.core_settings.modkey or "Mod4"
+        local altkey = settings.core_settings.altkey or "Mod1"
         local mainmenu = rabbithole__components__menus__main
         local terminal = settings.terminal or "xterm"
         local globalkeys = gears.table.join(
