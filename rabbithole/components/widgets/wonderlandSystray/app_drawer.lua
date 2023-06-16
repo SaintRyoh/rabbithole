@@ -73,13 +73,14 @@ function appDrawer:toggle()
         self.promptbox:run(
             { prompt = "Search: " },
             function(...)
+                local args = { ... }
                 local result = awful.spawn.easy_async_with_shell(
                     "sh -c 'IFS=:; find $PATH -maxdepth 1 -executable -name \"*\"(e)'",
                     function(stdout, stderr, reason, exit_code)
                         if exit_code == 0 then
                             local app_name = nil
                             for line in stdout:gmatch("[^\r\n]+") do
-                                if line:match(".*" .. (...) .. ".*") then
+                                if line:match(".*" .. table.unpack(args) .. ".*") then
                                     app_name = line
                                     break
                                 end
