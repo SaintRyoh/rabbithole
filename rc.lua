@@ -25,7 +25,7 @@ RC = {
         end
 
 
-        -- Make theme a singleton (so we only call beautiful.init once)
+        -- Make theme a singleton (so we only call beautiful.init once) (this will need to be changed when we add theme switching)
         config.bindings.types.theme = "rabbithole.services.theme-loader"
         config.singletons.theme = true
 

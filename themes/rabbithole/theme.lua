@@ -1,5 +1,6 @@
 local themes_path = require("gears.filesystem").get_configuration_dir() .. "themes/"
 local true3d = require("rabbithole.services.color").twoColorTrue3d
+-- colors is used for manually setting colors
 local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 -- Theme resources
 local icons = require("themes.rabbithole.theme-icons")
@@ -39,12 +40,6 @@ theme.danger = colors['Red']['500']
 -- Background colors for widgets. This is the bulk of the color you see.
 theme.bg_normal = true3d(theme.base_color, theme.secondary_color)
 theme.bg_focus = true3d(theme.tertiary_1, theme.tertiary_2)
-theme.bg_urgent = theme.info
-theme.bg_systray = theme.neutral 
-
-theme.border_normal = theme.base_color
-theme.border_focus = theme.secondary_color
-theme.border_marked = theme.danger
 
 -- [[[ Titlebar variables
 -- Re-enable if for whatever reason we get rid of the 'nice' submodule in the future.
