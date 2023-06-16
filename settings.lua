@@ -48,11 +48,12 @@ return {
     },
     default_programs = {
         -- Rabbithole's recommened programs. These are used in the default keybindings.
-        terminal = "qterminal",
+        terminal = "qterminal" or "xterm",
         browser = "firefox",
-        editor = "nvim",
-        file_manager = "nemo",
-        music_player = "spotify",
+        editor = os.getenv("EDITOR") or "nvim",
+        editor_cmd = "qterminal -e nvim",
+        file_manager = "nemo" or "pcmanfm-qt",
+        music_player = "spotify" or "mpd",
         video_player = "mpv",
         screenshot_tool = "flameshot",
         launcher_cmd = "rofi",
@@ -68,13 +69,14 @@ return {
         default_icon_theme = "BeautyLine",
     },
     -- UI placement
+    -- NOTE: NOT CONNECTED YET
     ui_placement = {
         activities_placement = "top-left",
         taglist_placement = "top-center",
         systray_placement = "top-right",
     },
-    -- Workspace Template - Order matters here. The first layout will be the default.
-    -- NOT CONNECTED YET
+    -- Rabbitholes Environment Settings - Order matters here. The first layout will be the default.
+    -- NOTE: NOT CONNECTED YET
     tag_names = {"Internet", "Code", "Terminal", "Files"},
     global_tag_names = {"Brain2", "Chat"},
     workspace_names = {"1", "2", "3", "4", "5", "6", "7", "8", "9"},

@@ -9,7 +9,7 @@ return setmetatable({}, {
         rabbithole__services__tesseractThemeEngine
     )
         local theme_table
-        local theme_source = settings.theme_dir
+        local theme_source = settings.theme.theme_dir
 
         theme_table = rabbithole__services__tesseractThemeEngine:generate_theme(theme_source)
 

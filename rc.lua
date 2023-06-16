@@ -19,18 +19,10 @@ RC = {
         config.providers.workspaceManagerService = function()
             return RC.diModule.getInstance("rabbithole.services.workspaceManagerService") 
         end
-
+        
+        config.bindings.values.settings = require("settings")
         config.bindings.types.theme = "rabbithole.services.theme-loader"
         config.singletons.theme = true -- change theme from a singleton when we implement a live theme-switcher
-
-        config.bindings.values.settings = {
-            theme_dir = "themes/rabbithole/theme.lua",
-            modkey = "Mod4",
-            terminal = "qterminal",
-            editor = os.getenv("EDITOR") or "nvim",
-            editor_cmd = "qterminal -e nvim",
-            wallpaper = { }
-        }
 
         config.enableAutoConfiguration()
 
