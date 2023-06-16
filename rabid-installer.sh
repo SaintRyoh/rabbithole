@@ -1,17 +1,22 @@
 #!/bin/bash
 # rabid-installer.sh By The Rabbithole Project
-# This script must be run with root privelages 
+# This script must be run with root privelages.
+# This script should work with any Linux distribution that uses apt, pacman or 
+# emerge as a package manager.
 
 # Set the project directory
 PROJECT_DIR="$(dirname "$(readlink -f "$0")")"
 
-# Check which package manager is installed (assuming Ubuntu and Arch only)
+# Check which package manager is installed
+
 if command -v apt >/dev/null 2>&1; then
     PACKAGE_MANAGER="apt"
 elif command -v pacman >/dev/null 2>&1; then
     PACKAGE_MANAGER="pacman"
+elif command -v emerge >/dev/null 2>&1; then
+    PACKAGE_MANAGER="emerge"
 else
-    echo "Neither apt nor pacman is available on your system. Exiting."
+    echo "No recognized package manager is available on your system. Exiting."
     exit 1
 fi
 
@@ -21,8 +26,10 @@ check_and_install() {
         echo "Installing $1..."
         if [ $PACKAGE_MANAGER == "apt" ]; then
             sudo apt install "$1" -y
-        else
+        elif [ $PACKAGE_MANAGER == "pacman" ]; then
             sudo pacman -S "$1" --noconfirm
+        elif [ $PACKAGE_MANAGER == "emerge" ]; then
+            sudo emerge --ask "$1"
         fi
     fi
 }
