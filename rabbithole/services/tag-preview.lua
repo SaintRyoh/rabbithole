@@ -10,6 +10,7 @@ local visible = false
 
 function TagPreview.new()
     local self = setmetatable({}, TagPreview)
+
     bling.widget.tag_preview.enable {
         show_client_content = true,
         scale = 0.25,
@@ -26,6 +27,7 @@ function TagPreview.new()
             widget = wibox.widget.imagebox
         }
     }
+
     return self
 end
 
@@ -44,6 +46,4 @@ function TagPreview:hide(screen)
     end
 end
 
-return setmetatable(TagPreview, {
-    __call = TagPreview.new
-})
+return TagPreview

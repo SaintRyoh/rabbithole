@@ -12,9 +12,15 @@ local math = require("math")
 local TaglistController = {}
 TaglistController.__index = TaglistController
 
-function TaglistController.new(workspaceManagerService, rabbithole__components__widgets__tasklist,
-    rabbithole__services__tag___preview, rabbithole__services__animation, rabbithole__services__color,
-    rabbithole__components__buttons__taglist, rabbithole__components__buttons__taglist___global)
+function TaglistController.new(
+    workspaceManagerService, 
+    rabbithole__components__widgets__tasklist,
+    rabbithole__services__tag___preview, 
+    rabbithole__services__animation, 
+    rabbithole__services__color,
+    rabbithole__components__buttons__taglist, 
+    rabbithole__components__buttons__taglist___global
+)
     local plusButton = require("rabbithole.components.widgets.taglist.plus_button")(workspaceManagerService)
     -- globe icon for global tag widget
     local icon_path = awful.util.getdir("config") .. "themes/rabbithole/icons/rabbithole/global.svg"
