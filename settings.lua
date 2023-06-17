@@ -21,7 +21,7 @@ return {
     ]]
     theme = {
         -- [[[ Tesseract theme generation settings
-        use_default = false, -- temporary fix
+        use_default = false, -- toggling uses the default template only
         generate_theme = false, -- this will generate a theme using the tesseractThemeEngine when true
         color_scheme = "monochromatic", -- this is the color theory used to generate the theme
         -- ]]]
