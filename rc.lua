@@ -1,6 +1,5 @@
 require("paths")
 require("error-handling")
-require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
 
 -- if AWM_DEBUG set in environment then require debug
