@@ -30,7 +30,7 @@ return setmetatable({}, {
         if theme_table then
             beautiful.init(theme_table)
             nice{
-                titlebar_height = dpi(20), -- keep the same size as the wibar for consistency
+                titlebar_height = dpi(24), -- keep the same size as the wibar for consistency
                 titlebar_radius = dpi(10),
                 titlebar_font = beautiful.font,
                 button_size = dpi(10),
