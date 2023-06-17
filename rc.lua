@@ -1,12 +1,11 @@
 require("paths")
 require("error-handling")
-require("awful.hotkeys_popup.keys")
 
 -- if AWM_DEBUG set in environment then require debug
--- Debugger = nil
--- if os.getenv("AWM_DEBUG") == '1' then
+Debugger = nil
+if os.getenv("AWM_DEBUG") == '1' or true then
     Debugger = require("awm-debug")
--- end
+end
 
 -- global namespace, on top before require any modules
 RC = {
