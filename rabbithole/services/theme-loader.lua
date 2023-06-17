@@ -17,18 +17,13 @@ return setmetatable({}, {
         -- generate theme if toggled in settings
         if settings.theme.generate_theme then
             theme_table = tesseract_engine:generate_theme(nil, theme_table.base_color, theme_table.color_scheme)
-        --elseif settings.theme.use_default then -- not implemented yet, cause it works without it
-        --    theme_table = config_dir .. theme_template
+        elseif settings.theme.use_default then
+            theme_table = config_dir .. theme_template
         else
-            -- Generate the theme from the template
             theme_table = tesseract_engine:generate_theme(theme_template)
-            -- Now, override the theme with user's settings
+            -- Override theme_template with user settings
             for key, value in pairs(settings.theme) do
-                if theme_table[key] == "wallpaper" then
-                    theme_table[key] = config_dir .. value
-                else
-                    theme_table[key] = value
-                end
+                theme_table[key] = value
             end
         end
 
