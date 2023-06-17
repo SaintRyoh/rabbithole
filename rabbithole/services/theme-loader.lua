@@ -2,6 +2,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local nice = require("sub.nice")
 local dpi = require("beautiful.xresources").apply_dpi
+local config_dir = require("gears.filesystem").get_configuration_dir()
 
 return setmetatable({}, {
     __constructor = function (
@@ -18,9 +19,9 @@ return setmetatable({}, {
             theme_table = tesseract_engine:generate_theme(nil, theme_table.base_color, theme_table.color_scheme)
 
         elseif settings.theme.use_default then -- not implemented yet, cause it works without it
-            theme_table = theme_template
+            theme_table = config_dir .. theme_template
         else
-            theme_table = tesseract_engine:generate_theme(theme_template)
+            theme_table = tesseract_engine:generate_theme(config_dir .. theme_template)
             theme_table = settings.theme
         end
 
