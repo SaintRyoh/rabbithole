@@ -1,35 +1,24 @@
--- Standard awesome library
 local awful     = require("awful")
--- Theme handling library
-local beautiful = require("beautiful")
 local gears     = require("gears")
-
-local _M = {}
 
 -- reading
 -- https://awesomewm.org/apidoc/libraries/awful.rules.html
 
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 return setmetatable({}, {
     __constructor = function(
         rabbithole__components__keys__client, 
         rabbithole__components__buttons__client
     )
-        local clientkeys = rabbithole__components__keys__client
-        local clientbuttons = rabbithole__components__buttons__client
         local rules = {
 
             -- All clients will match this rule.
             { 
                 rule = { },
                 properties = {
-                    -- border_width = beautiful.border_width,
-                    -- border_color = beautiful.border_normal,
                     focus     = awful.client.focus.filter,
-                    raise     = true,
-                    keys      = clientkeys,
-                    buttons   = clientbuttons,
+                    raise     = false,
+                    keys      = rabbithole__components__keys__client,
+                    buttons   = rabbithole__components__buttons__client,
                     screen    = awful.screen.preferred,
                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
                 }
@@ -128,12 +117,11 @@ return setmetatable({}, {
                     c.round_corners = true
                 end
             },
+
             -- Clients with custom titlebars.
             {
-                rule_any = {
-                    class = {
-                        "whatsapp-for-linux"
-                    }
+                rule = {
+                    requests_no_titlebar = true
                 },
                 properties = {
                     titlebars_enabled = false
