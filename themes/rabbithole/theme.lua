@@ -26,7 +26,7 @@ local add_redundancies = require("themes.rabbithole.theme-redundant")
 local theme = { }
 
 -- Wallpaper 
-theme.wallpaper = themes_path .. "rabbithole/wallpapers/japan.jpg"
+theme.wallpaper = themes_path .. "/rabbithole/wallpapers/rabbithole_logo4.png"
 -- Base font and font colors
 theme.font = "Ubuntu 8"
 
