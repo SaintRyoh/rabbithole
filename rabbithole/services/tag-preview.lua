@@ -1,4 +1,4 @@
-local bling = require("sub/bling")
+local bling = require("sub.bling")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
 local dpi = require("beautiful.xresources").apply_dpi
