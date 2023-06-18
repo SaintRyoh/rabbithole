@@ -13,10 +13,8 @@ function UserInterface.new(
     --rabbithole__ui__default__titlebar  -- Using nice as titlebars for now, but standard titlebars are still available if desired
 )
     awful.screen.connect_for_each_screen(function(s)
-        -- if workspaceManagerService.session_restored ~= true then
+
         workspaceManagerService:assignWorkspaceTagsToScreens()
-        --     workspaceManagerService.session_restored = true
-        -- end
 
         -- initialize left and right bars for first screen only, and taglist widget for all screens
         if s.index == 1 then
