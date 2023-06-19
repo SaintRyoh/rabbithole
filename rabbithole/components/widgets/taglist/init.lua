@@ -99,7 +99,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     self:add_client_bubbles(tag_template, tag)
 
     local hover_timer = gears.timer {
-        timeout = 1.0,
+        timeout = 1.5,
         autostart = false,
         callback = function()
             self.tagPreview:show(tag, self.screen)
@@ -108,7 +108,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     local animation = self.animation({
         pos = tag.selected and 1 or 0,
-        duration = 0.4,
+        duration = 0.35,
         rapid_set = true,
         subscribed = function(pos)
             if type(tag_template.bg) == "string" then
