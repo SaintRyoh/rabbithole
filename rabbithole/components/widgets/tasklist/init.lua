@@ -1,6 +1,5 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
-local bling = require("sub.bling")
 local view = require("rabbithole.components.widgets.tasklist.view")
 
 local TaskListController = {}
@@ -17,7 +16,6 @@ function TaskListController.new(
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
     self.icon = rabbithole__services__icon___handler
-    self.bling = bling
 
     -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
@@ -50,14 +48,10 @@ function TaskListController:create_callback(task_template, c, _, _)
         end)
     })
 
-    local blink_animation = self.bling.tabbed.misc.blink({duration = 0.8, callback = function(val)
-        background.opacity = val
-    end})
 
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
-        blink_animation:stop()
     end)
 
     task_template:connect_signal('mouse::leave', function()
@@ -65,22 +59,16 @@ function TaskListController:create_callback(task_template, c, _, _)
         if c ~= client.focus then 
             animation.target = 0
         end
-        if c.urgent then
-            blink_animation:start()
-        end
+
         return true
     end)
 
     task_template:connect_signal('button::press', function()
         animation.target = 0
-        blink_animation:stop()
     end)
 
     task_template:connect_signal('button::release', function()
         animation.target = 1
-        if c.urgent then
-            blink_animation:start()
-        end
     end)
 
     awful.tooltip({
@@ -90,17 +78,6 @@ function TaskListController:create_callback(task_template, c, _, _)
         end,
     })
 
-    c:connect_signal("property::urgent", function()
-        if c.urgent then
-            blink_animation:start()
-        else
-            blink_animation:stop()
-        end
-    end)
-
-    if c.urgent then
-        blink_animation:start()
-    end
 end
 
 return TaskListController
