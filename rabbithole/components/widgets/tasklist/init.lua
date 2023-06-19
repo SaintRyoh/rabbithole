@@ -1,5 +1,6 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+local bling = require("sub.bling")
 local view = require("rabbithole.components.widgets.tasklist.view")
 
 local TaskListController = {}
@@ -16,6 +17,7 @@ function TaskListController.new(
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
     self.icon = rabbithole__services__icon___handler
+    self.bling = bling
 
     -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
@@ -47,11 +49,10 @@ function TaskListController:create_callback(task_template, c, _, _)
             )
         end)
     })
-    
-    local blink_animation = self.animation.blink({
-        duration = 0.8,
-        autostart = false
-    })
+
+    local blink_animation = self.bling.tabbed.misc.blink({duration = 0.8, callback = function(val)
+        background.opacity = val
+    end})
 
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
@@ -100,7 +101,6 @@ function TaskListController:create_callback(task_template, c, _, _)
     if c.urgent then
         blink_animation:start()
     end
-
 end
 
 return TaskListController
