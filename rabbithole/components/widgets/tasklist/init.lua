@@ -1,7 +1,7 @@
 local awful = require("awful")
-local gears = require("gears")
 local beautiful = require("beautiful")
 local view = require("rabbithole.components.widgets.tasklist.view")
+
 local TaskListController = {}
 TaskListController.__index = TaskListController
 
@@ -47,11 +47,16 @@ function TaskListController:create_callback(task_template, c, _, _)
             )
         end)
     })
-
+    
+    local blink_animation = self.animation.blink({
+        duration = 0.8,
+        autostart = false
+    })
 
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
+        blink_animation:stop()
     end)
 
     task_template:connect_signal('mouse::leave', function()
@@ -59,16 +64,22 @@ function TaskListController:create_callback(task_template, c, _, _)
         if c ~= client.focus then 
             animation.target = 0
         end
-
+        if c.urgent then
+            blink_animation:start()
+        end
         return true
     end)
 
     task_template:connect_signal('button::press', function()
         animation.target = 0
+        blink_animation:stop()
     end)
 
     task_template:connect_signal('button::release', function()
         animation.target = 1
+        if c.urgent then
+            blink_animation:start()
+        end
     end)
 
     awful.tooltip({
@@ -77,6 +88,18 @@ function TaskListController:create_callback(task_template, c, _, _)
             return c.name
         end,
     })
+
+    c:connect_signal("property::urgent", function()
+        if c.urgent then
+            blink_animation:start()
+        else
+            blink_animation:stop()
+        end
+    end)
+
+    if c.urgent then
+        blink_animation:start()
+    end
 
 end
 
