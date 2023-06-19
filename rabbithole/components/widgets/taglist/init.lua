@@ -124,7 +124,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     awful.tooltip({
         objects = {tag_template},
         timer_function = function()
-            return "Middle click to delete"
+            return "Tip: middle-click deletes tags/clients"
         end,
         timeout = 0.5,
         delay_show = 3,
