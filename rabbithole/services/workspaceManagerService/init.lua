@@ -25,9 +25,9 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     self.restore = {}
 
 
-    -- capi.screen.connect_signal("removed", function (s)
-    --     self:screenDisconnectUpdate(s)
-    -- end)
+    capi.screen.connect_signal("removed", function (s)
+        self:screenDisconnectUpdate(s)
+    end)
 
 
     -- load sesison
@@ -139,12 +139,12 @@ function WorkspaceManagerService:loadSession()
             return
         end
 
-        properties.tag = tag_client.tag,
+        properties.tag = tag_client.tag
 
-            __.push(callbacks, function(cl)
-                tag_client.tag.activated = true
-                cl:move_to_tag(tag_client.tag)
-            end)
+        __.push(callbacks, function(cl)
+            tag_client.tag.activated = true
+            cl:move_to_tag(tag_client.tag)
+        end)
     end)
 end
 

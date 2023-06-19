@@ -6,7 +6,7 @@ local awful = require("awful")
 
 return setmetatable({}, {
     __constructor = function (settings)
-        
+
     local modkey = settings.core_settings.modkey
     local clientbuttons = gears.table.join(
             awful.button({ }, 1, function (c)

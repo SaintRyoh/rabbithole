@@ -21,7 +21,9 @@ return setmetatable({}, {
         local modkey = settings.core_settings.modkey or "Mod4"
         local altkey = settings.core_settings.altkey or "Mod1"
         local mainmenu = rabbithole__components__menus__main
-        local terminal = settings.core_settings.terminal
+        local terminal = settings.default_programs.terminal
+        local launcher = settings.default_programs.launcher_cmd
+        local window_switcher = settings.default_programs.window_switcher_cmd
         local globalkeys = gears.table.join(
             awful.key({ modkey, }, "s", hotkeys_popup.show_help,
                 { description = "show help", group = "awesome" }),
@@ -220,6 +222,18 @@ return setmetatable({}, {
                         end
                     end,
                     { description = "toggle tag #" .. i, group = "tag" }
+                ),
+                -- switch to global tag by index
+                awful.key({ modkey, altkey }, tostring(i),
+                    function()
+                        local global_tag = awful.screen.focused().tags[i]
+                        if global_tag then
+                            sharedtags.viewtoggle(global_tag, awful.screen.focused())
+                        else
+                            naughty.notify({ title = "No global tag #" .. i, preset = naughty.config.presets.critical })
+                        end
+                    end,
+                    { description = "switch to global tag #" .. i, group = "tag" }
                 ),
                 awful.key({ modkey, "Shift" }, tostring(i),
                     function() 

@@ -11,7 +11,7 @@ local rubato = require("sub.rubato")
 function AnimationService.new(settings)
     local self = setmetatable({}, AnimationService)
 
-    self.settings = settings
+    self.settings = settings --TODO: this needs to use the settings flat file
 
     return function (args)
         return rubato.timed(gears.table.crush(self.settings.animation or {}, args))
