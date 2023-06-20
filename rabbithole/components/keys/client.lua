@@ -54,6 +54,5 @@ return setmetatable({}, {
                 )
 
                 return clientkeys
-                
         end
 })

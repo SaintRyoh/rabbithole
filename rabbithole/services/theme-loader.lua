@@ -33,7 +33,7 @@ return setmetatable({}, {
                 titlebar_height = dpi(24),
                 titlebar_radius = dpi(10),
                 titlebar_font = beautiful.font,
-                button_size = dpi(10),
+                button_size = dpi(12),
                 minimize_color = "#5125e5",
                 maximize_color = "#30ff48",
                 close_color = "#de1167",
