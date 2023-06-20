@@ -1,12 +1,12 @@
 local lodash = require("lodash")
 local gears = require("gears")
 
-local workspace = { }
-workspace.__index = workspace
+local Workspace = { }
+Workspace.__index = Workspace
 
-function workspace:new(name, tags, activated)
+function Workspace:new(name, tags, activated)
     self = {}
-    setmetatable(self, workspace)
+    setmetatable(self, Workspace)
 
     self.name = name or nil
     self.tags = tags or {}
@@ -20,45 +20,43 @@ function workspace:new(name, tags, activated)
     return self
 end
 
-function workspace:addTag(tag)
+function Workspace:addTag(tag)
     lodash.push(self.tags, tag)
 end
 
-function workspace:addTags(tags)
+function Workspace:addTags(tags)
     self.tags = gears.table.join(self.tags, tags)
 end
 
-function workspace:removeTag(_tag)
+function Workspace:removeTag(_tag)
     lodash.remove(self.tags, function(tag) return tag == _tag end)
 end
 
-function workspace:removeAllTagsInWorkspace()
+function Workspace:removeAllTagsInWorkspace()
     self.tags = {}
 end
 
 -- has tag
-function workspace:hasTag(tag)
+function Workspace:hasTag(tag)
     return lodash.find(self.tags, function(_tag) return _tag == tag end) ~= nil
 end
 
-function workspace:unselectAllTags()
+function Workspace:unselectAllTags()
     lodash.forEach(self.tags, function (tag)
         tag.selected = false
     end)
 end
 
-function workspace:numberOfTags()
+function Workspace:numberOfTags()
     return #self.tags
 end
 
-function workspace:getAllTags()
+function Workspace:getAllTags()
     return self.tags
 end
 
-function workspace:setStatus(status)
-    -- If we're about to deactivate a workspace backup the selected tags
+function Workspace:setStatus(status)
     if status == false then
-        -- For some reason lodash.filter() didn't work
         lodash.forEach(self.tags, function(tag)
             if tag.selected == true then
                 table.insert(self.last_selected_tags, tag)
@@ -73,39 +71,50 @@ function workspace:setStatus(status)
     self.activated = status
 end
 
--- get selected tags
-function workspace:getSelectedTags()
+function Workspace:getSelectedTags()
     return lodash.filter(self.tags, function(tag) return tag.selected end)
 end
 
---set global backup
-function workspace:setGlobalBackup(global_tags)
+function Workspace:setGlobalBackup(global_tags)
     self.global_selected_backup = global_tags
 end
 
--- re-select all the tags that were selected before the workspace was activated
-function workspace:restoreGlobalBackup()
+function Workspace:restoreGlobalBackup()
     lodash.forEach(self.global_selected_backup, function(tag) tag.selected = true end)
 end
 
-
-function workspace:getStatus()
-    return self.activated --lodash.every(self.tags, function (tag) return tag.activated end)
+function Workspace:getStatus()
+    return self.activated
 end
 
-function workspace:isEmpty()
+function Workspace:isEmpty()
     return lodash.isEmpty(self.tags)
 end
 
-function workspace:toggleStatus()
+function Workspace:toggleStatus()
     self:setStatus(not self:getStatus())
 end
 
-function workspace:equals(otherWorkspace)
+function Workspace:equals(otherWorkspace)
     return self.id == otherWorkspace.id
 end
 
-function workspace:__serialize()
+function Workspace:getName(default)
+    if self.name then
+        return self.name
+    elseif #self.tags > 0 then
+        -- split the tag name on the first dot using gsub, return the first part of the split
+        return string.gsub(lodash.first(self.tags).name, "%..*", "")
+    else 
+        return default or nil
+    end
+end
+
+function Workspace:addLastSelectedTag(tag)
+    lodash.push(self.last_selected_tags, tag)
+end
+
+function Workspace:__serialize()
     local function serializeClients(clients)
         return lodash.map(clients, function(client)
             return {
@@ -137,21 +146,4 @@ function workspace:__serialize()
     }
 end
 
-function workspace:getName(default)
-    if self.name then
-        return self.name
-    elseif #self.tags > 0 then
-        -- split the tag name on the first dot using gsub
-        -- return the first part of the split
-        return string.gsub(lodash.first(self.tags).name, "%..*", "")
-    else 
-        return default or nil
-    end
-end
-
--- function for adding a tag to last selected tags
-function workspace:addLastSelectedTag(tag)
-    lodash.push(self.last_selected_tags, tag)
-end
-
-return workspace
+return Workspace
