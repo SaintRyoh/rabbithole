@@ -1,7 +1,7 @@
 # Rabbithole—The Meta-Window Manager
 _Enter the Rabbithole._
 
-![Rabbithole in action placeholder](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo4.png)
+![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo4.png)
 
 A _revolutionary_ window manager that takes productivity to a _whole new dimension_ (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
 
@@ -11,23 +11,23 @@ Built on the robust **Awesome WM framework**, Rabbithole embraces the philosophy
 
 <placeholder>
 
-Rabbithole is the _first meta-window manager_ because it goes beyond traditional window management—it is a philosophy on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about _redefining_ how they can be used to enhance your workflow.
+Rabbithole is the _first **meta-window manager**_ because it goes beyond traditional window management—it is a _philosophy_ on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about _redefining_ how they can be used to enhance your **workflow**.
 
 ## Features
 
-- **Dynamic Display Management**: Disconnect and reconnect screens on-the-fly, without interrupting your flow. Switch from your multi-monitor setup at work to your home's single screen setup seamlessly.
+- **Dynamic Display Management**: Disconnect and reconnect screens _on-the-fly_, without interrupting your flow. **Switch workspaces** from your _multi-monitor_ setup to a _single monitor_ setup seamlessly.
 
-- **Aesthetically Pleasing Experience**: A polished experience that feels more like a Desktop Environment (DE) than a Window Manager (WM). We believe aesthetics matter, even outside full desktop environments.
+- **Aesthetically Pleasing Experience**: A polished experience that feels more like a Desktop Environment (DE) than a Window Manager (WM). We believe **aesthetics matter**, even outside full desktop environments.
 
-- **Streamlined Navigation**: Choose between fully keyboard-driven or mouse-driven navigation. Switching between applications, workspaces, and displays is a breeze with our intuitive controls.
+- **Streamlined Navigation**: Choose between fully **keyboard-driven** or **mouse-driven** navigation. Switching between applications, workspaces, and displays is a breeze with our **intuitive** controls.
 
-- **Personalization**: With Rabbithole's own Tesseract Theme Engine, add a primary color, select a color theory, and generate your unique and beautiful themes, adhering to Material Design 3 standards and color theory rules.
+- **Personalization**: With Rabbithole's own **Tesseract Theme Engine**, add a _primary color_, select a _color theory_, and generate your unique and beautiful themes, adhering to **Material Design 3** standards and color theory rules.
 
-- **Workspaces**: Different workspaces or "Activities" for different projects. Think of these as a second dimension on top of "tags", or virtual desktops. Separate your workspaces, projects, and flows into different virtual spaces while maintaining global access to applications you need across all workspaces—Email, Discord, Signal, always accessible.
+- **Workspaces**: Different workspaces or _"Activities"_ for different projects. Think of this as a second dimension on top of "tags", or virtual desktops. Separate your workspaces, projects, and flows into different virtual spaces while maintaining global access to applications you need across all workspaces—Email, Discord, Signal, always accessible.
 
 - **Centralized Settings**: A neat and centralized settings file that controls everything from theme, to keybindings, to default programs.
 
-- **Quick Program Launch**: Pre-configured rofi lets you launch programs or switch windows/workspaces at lightning speed with its fuzzy search algorithm.
+- **Quick Program Launch**: Pre-configured **rofi** lets you launch programs or switch windows/workspaces at lightning speed with its fuzzy search algorithm.
 
 <img placeholder>
 
