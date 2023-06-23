@@ -45,6 +45,7 @@ Rabbithole is ideal for users who:
 git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
 ./installer.sh
+```
 
 ## Contributing
 
