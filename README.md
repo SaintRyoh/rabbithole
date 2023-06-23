@@ -1,5 +1,4 @@
 # Rabbithole—The Meta-Window Manager
-
 ## Enter the Rabbithole.
 A revolutionary window manager that takes productivity to a whole new dimension (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
 
