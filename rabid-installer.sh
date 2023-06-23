@@ -21,7 +21,6 @@ else
     exit 1
 fi
 
-# Function to check if a package is installed and install it if necessary
 check_and_install() {
     if ! command -v "$1" >/dev/null 2>&1; then
         echo "Installing $1..."
@@ -48,20 +47,17 @@ if [ ! -d "$HOME/.local/share/rofi/themes" ]; then
     git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
 fi
 
-# Download the Ubuntu font if it doesn't exist
 if [ ! -d "/usr/share/fonts/ubuntu-font-family" ]; then
     sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
     sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
     sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family"
 fi
 
-# Copy over the config files
 if [ ! -d "$HOME/.config/awesome" ]; then
     mkdir -p "$HOME/.config/awesome"
 fi
 cp -R "$PROJECT_DIR/rabbithole/configs/." "$HOME/.config/awesome/"
 
-# Copy the custom picom.conf file
 if [ ! -d "$HOME/.config/picom" ]; then
     mkdir -p "$HOME/.config/picom"
 fi
