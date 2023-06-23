@@ -52,12 +52,12 @@ git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
 ./installer.sh
 ```
-Contributing
+### Contributing
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
 
 What is our vision, you ask?
-The Vision of Rabbithole (Planned Features)
+### The Vision of Rabbithole (Planned Features)
 
 <Vision image placeholder>
 
