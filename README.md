@@ -3,7 +3,9 @@
 Enter the Rabbithole, a revolutionary window manager that takes productivity to a whole new dimension (quite literally). Rabbithole is not just another desktop tool—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
 
 Built on the robust Awesome WM framework, Rabbithole embraces the philosophy of dynamic workspaces. It allows you to nest virtual workspaces and add or remove displays on-the-fly. With Rabbithole, you don't adjust to your workspace, your workspace adjusts to you.
+## What is a Meta-Window Manager?
 
+We call Rabbithole a meta-window manager because it goes beyond traditional window management—it is a philosophy on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about redefining how they can be used to enhance your workflow.
 ## Features
 
 - **Dynamic Display Management**: Disconnect and reconnect screens on-the-fly, without interrupting your flow. Switch from your multi-monitor setup at work to your home's single screen setup seamlessly.
@@ -34,9 +36,7 @@ Rabbithole is ideal for users who:
 
 - Desire a streamlined, intuitive workspace that boosts productivity without sacrificing user experience.
 
-## What is a Meta-Window Manager?
 
-We call Rabbithole a meta-window manager because it goes beyond traditional window management—it is a philosophy on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about redefining how they can be used to enhance your workflow.
 
 ## Installation
 
