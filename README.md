@@ -45,3 +45,20 @@ Rabbithole is ideal for users who:
 git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
 ./installer.sh
+
+## Contributing
+
+We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming. We are looking for others who fit our vision!
+
+What is our vision, you ask?
+## The Vision of Rabbithole (Planned Features)
+
+Rabbithole is more than just software—it's a journey into the future of digital spaces, and we have the roadmap charted out. 
+
+With our current version 1.x, we have crafted a promising open beta as our proof-of-concept, which is our first step into this grand adventure. Our intention is not only to showcase the potential of Rabbithole, but also to invite the community into the development process. We are eager to know your thoughts, ideas, and feedback as we strive to fill a distinct, yet unexplored niche that caters to users like us.
+
+As we move towards version 2.x, we have already identified a host of enhancements and features we want to incorporate. We love Awesome WM, but its incompatibility with Wayland and the bugs laden within picom have motivated us to push the boundaries, because we have pushed AWM near its limitations. Even though X isn't disappearing anytime soon, we are setting our sights towards the future of Virtual Reality (VR) and Augmented Reality (AR) interfaces. We have a few options in front of us. But this will likely require programming an entirely new framework from the ground up, or continuing where others have left off. We are open to ideas.
+
+Our grand vision is to morph Rabbithole into an AI-powered virtual interface that offers full compatibility with all of your devices. Be it your mobile, PC, or VR/AR headsets, we aim to provide a seamless, unified, and immersive experience across all platforms.
+
+We see Rabbithole as the ultimate bridge that connects the islands of mobile and desktop computing, culminating in a singular, coherent user experience. Join us in our journey to make this vision a reality.
