@@ -1,11 +1,11 @@
 # Rabbithole—The Meta-Window Manager
 
-Enter the Rabbithole, a revolutionary window manager that takes productivity to a whole new dimension (quite literally). Rabbithole is not just another desktop tool—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
+Enter the Rabbithole, a revolutionary window manager that takes productivity to a whole new dimension (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
 
 Built on the robust Awesome WM framework, Rabbithole embraces the philosophy of dynamic workspaces. It allows you to nest virtual workspaces and add or remove displays on-the-fly. With Rabbithole, you don't adjust to your workspace, your workspace adjusts to you.
 ## What is a Meta-Window Manager?
 
-We call Rabbithole a meta-window manager because it goes beyond traditional window management—it is a philosophy on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about redefining how they can be used to enhance your workflow.
+Rabbithole is the first meta-window manager because it goes beyond traditional window management—it is a philosophy on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about redefining how they can be used to enhance your workflow.
 ## Features
 
 - **Dynamic Display Management**: Disconnect and reconnect screens on-the-fly, without interrupting your flow. Switch from your multi-monitor setup at work to your home's single screen setup seamlessly.
@@ -28,7 +28,7 @@ Rabbithole is ideal for users who:
 
 - Appreciate the power of window managers but don't want to deal with the hassle of customizing from scratch.
 
-- Seek an aesthetically pleasing workspace, but are tired of the rigid, uninspired designs of traditional window managers.
+- Seek an aesthetically pleasing workspace, but are tired of the rigid, or dated appearance of traditional window managers.
 
 - Want their computer interface to be more than a tool—an extension of their minds, a second brain.
 
