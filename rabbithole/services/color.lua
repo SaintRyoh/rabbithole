@@ -7,13 +7,17 @@ local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 local nice_colors = require("sub.nice.colors")
 local darken, lighten = nice_colors.darken, nice_colors.lighten
 local max, min, floor, random = math.max, math.min, math.floor, math.random
- --[[ This is the color service for tesseract. Capable of manipulating colors
-in almost every conceivable way.Inherits and expands ipon the color service
-from bling.
+
+--[[ This is the color service for Tesseract. 
+
+Capable of manipulating colors in almost every conceivable way.Inherits 
+and expands upon the color service from bling.
 ]]
- local ColorService = blcolor
+
+local ColorService = blcolor
 ColorService.__index = ColorService
- function ColorService.new() -- probably should be a singleton and inject colors from 'nice' here
+
+function ColorService.new()
     local self = setmetatable({ }, ColorService)
      return self
 end

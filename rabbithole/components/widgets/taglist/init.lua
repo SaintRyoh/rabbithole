@@ -12,9 +12,15 @@ local math = require("math")
 local TaglistController = {}
 TaglistController.__index = TaglistController
 
-function TaglistController.new(workspaceManagerService, rabbithole__components__widgets__tasklist,
-    rabbithole__services__tag___preview, rabbithole__services__animation, rabbithole__services__color,
-    rabbithole__components__buttons__taglist, rabbithole__components__buttons__taglist___global)
+function TaglistController.new(
+    workspaceManagerService, 
+    rabbithole__components__widgets__tasklist,
+    rabbithole__services__tag___preview, 
+    rabbithole__services__animation, 
+    rabbithole__services__color,
+    rabbithole__components__buttons__taglist, 
+    rabbithole__components__buttons__taglist___global
+)
     local plusButton = require("rabbithole.components.widgets.taglist.plus_button")(workspaceManagerService)
     -- globe icon for global tag widget
     local icon_path = awful.util.getdir("config") .. "themes/rabbithole/icons/rabbithole/global.svg"
@@ -93,7 +99,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     self:add_client_bubbles(tag_template, tag)
 
     local hover_timer = gears.timer {
-        timeout = 1.0,
+        timeout = 1.5,
         autostart = false,
         callback = function()
             self.tagPreview:show(tag, self.screen)
@@ -102,7 +108,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     local animation = self.animation({
         pos = tag.selected and 1 or 0,
-        duration = 0.4,
+        duration = 0.35,
         rapid_set = true,
         subscribed = function(pos)
             if type(tag_template.bg) == "string" then
@@ -118,7 +124,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     awful.tooltip({
         objects = {tag_template},
         timer_function = function()
-            return "Middle click to delete"
+            return "Tip: middle-click deletes tags/clients"
         end,
         timeout = 0.5,
         delay_show = 3,

@@ -1,5 +1,9 @@
 local awful = require("awful")
 local wibox = require("wibox")
+local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
+local gears = require("gears")
+local screen = awful.screen.focused()
 
 local DateWidget = {}
 
@@ -11,7 +15,11 @@ local calendar_widget = awful.widget.calendar_popup.month({
     long_weekdays = true,
 })
 
-DateWidget.widget:connect_signal('mouse::enter', function () calendar_widget:toggle() end)
-DateWidget.widget:connect_signal('mouse::leave', function () calendar_widget:toggle() end)
+calendar_widget:attach(DateWidget.widget, "tr", { on_hover = true })
+
+-- Override the placement method
+calendar_widget.placement_fn = function(w)
+    awful.placement.top_right(w, { margins = { top = dpi(34) }, parent = screen })
+end
 
 return DateWidget

@@ -1,5 +1,6 @@
 local awful = require("awful")
 local wibox = require("wibox")
+local config_dir = require("gears.filesystem").get_configuration_dir()
 
 -- Create an imagebox widget
 local myicon = wibox.widget.imagebox()
@@ -18,7 +19,7 @@ local mybutton = wibox.widget {
 -- Add mouse click event to the button
 mybutton:buttons(awful.util.table.join(
     awful.button({ }, 1, function ()
-        awful.spawn("/path/to/your/script.sh")
+        awful.spawn(config_dir .. "rabbothole/services/widgetScripts/text-to-ocr.sh")
     end)
 ))
 

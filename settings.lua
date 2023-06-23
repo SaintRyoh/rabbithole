@@ -10,6 +10,7 @@ Theme table:
     from the background image or URL. We thought of everything.
 ]]
 local colors = require("rabbithole.services.tesseractThemeEngine.colors")
+local config_dir = require("gears.filesystem").get_configuration_dir()
 
 return {
     --[[ For color_scheme, you can use any of the color schemes listed here:
@@ -20,13 +21,13 @@ return {
     ]]
     theme = {
         -- [[[ Tesseract theme generation settings
-        use_default = true, -- temporary fix
+        use_default = false, -- toggling uses the default template only
         generate_theme = false, -- this will generate a theme using the tesseractThemeEngine when true
         color_scheme = "monochromatic", -- this is the color theory used to generate the theme
         -- ]]]
         theme_name = "rabbithole", -- TODO: used loater for logic in saving themes
-        theme_template = "themes/rabbithole/theme.lua",
-        wallpaper = "rabbithole/wallpapers/japan.jpg",
+        theme_template = "/themes/rabbithole/theme.lua",
+        wallpaper = config_dir .. "/themes/rabbithole/wallpapers/rabbithole_logo4.png",
         -- [[[ Theme colors--These are the most important settings. 
         base_color = colors["Blue"]["400"], -- If you're generating a theme, you only need to pass a base_color
         secondary_color = colors["Periwinkle"]["500"],

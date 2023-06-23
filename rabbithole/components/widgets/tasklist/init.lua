@@ -1,7 +1,7 @@
 local awful = require("awful")
-local gears = require("gears")
 local beautiful = require("beautiful")
 local view = require("rabbithole.components.widgets.tasklist.view")
+
 local TaskListController = {}
 TaskListController.__index = TaskListController
 

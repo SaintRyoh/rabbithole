@@ -1,30 +1,49 @@
 require("paths")
 require("error-handling")
-require("awful.autofocus")
-require("awful.hotkeys_popup.keys")
 
 -- if AWM_DEBUG set in environment then require debug
--- Debugger = nil
--- if os.getenv("AWM_DEBUG") == '1' then
+Debugger = nil
+if os.getenv("AWM_DEBUG") == '1' or true then
     Debugger = require("awm-debug")
--- end
+end
 
 -- global namespace, on top before require any modules
 RC = {
-    diModule = require("sub.lua-di.lua-di.DependencyInjectionModule")(function(config)
 
-        -- Make workspaceManagerService a singleton
+    -- Reading:
+    -- https://github.com/djfdyuruiry/lua-di
+    diModule = require("sub.lua-di.lua-di.DependencyInjectionModule")
+    (function(config)
+
+        -- Only Register:
+        --   Singletons (i.e. types that need to be instantiated only once)
+        --   Values
+        --   Providers
+
+        -- Otherwise you should be using the auto configuration
+        config.enableAutoConfiguration()
+
+
+        --
+        -- Singletons
+        -- Note: Singletons must be instantiated by a provider
+
         config.bindings.types.workspaceManagerService = "workspaceManagerService"
         config.singletons.workspaceManagerService = true
         config.providers.workspaceManagerService = function()
             return RC.diModule.getInstance("rabbithole.services.workspaceManagerService")
         end
 
-        config.bindings.values.settings = require("settings")
+
         config.bindings.types.theme = "rabbithole.services.theme-loader"
         config.singletons.theme = true -- change theme from a singleton when we implement a live theme-switcher
 
-        config.enableAutoConfiguration()
+
+        --
+        -- Values
+        config.bindings.values.settings = require("settings")
+
+
 
     end)
 }
