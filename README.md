@@ -59,7 +59,7 @@ Rabbithole is ideal for users who:
 ```shell
 git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
-./installer.sh
+./rabid-installer.sh
 ```
 
 ### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
