@@ -1,7 +1,7 @@
 # Rabbithole—The Meta-Window Manager
 _Enter the Rabbithole._
 
-![Rabbithole in action placeholder](https://via.placeholder.com/800)
+![Rabbithole in action placeholder](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo4.png)
 
 A _revolutionary_ window manager that takes productivity to a _whole new dimension_ (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
 
@@ -9,7 +9,7 @@ Built on the robust **Awesome WM framework**, Rabbithole embraces the philosophy
 
 ## What is a Meta-Window Manager?
 
-![What is a Meta-Window Manager placeholder](https://via.placeholder.com/800)
+<placeholder>
 
 Rabbithole is the _first meta-window manager_ because it goes beyond traditional window management—it is a philosophy on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about _redefining_ how they can be used to enhance your workflow.
 
@@ -29,7 +29,7 @@ Rabbithole is the _first meta-window manager_ because it goes beyond traditional
 
 - **Quick Program Launch**: Pre-configured rofi lets you launch programs or switch windows/workspaces at lightning speed with its fuzzy search algorithm.
 
-![Feature illustration placeholder](https://via.placeholder.com/800)
+<img placeholder>
 
 ## Ideal For
 
