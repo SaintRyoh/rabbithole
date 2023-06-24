@@ -2,7 +2,7 @@
 
 _Enter the Rabbithole._
 
-[![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo4.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo4.png)
+[![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo.png)
 
 A _revolutionary_ window manager that takes productivity to a _**whole new dimension**_ (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
 
@@ -61,7 +61,18 @@ git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
 ./rabid-installer.sh
 ```
-
+You can also simply copy or symlink the config to your Awesome WM configuration directory:
+```shell
+cp -R rabbithole ~/.config/awesome
+```
+-OR-
+```
+ln -s ~/path/of/rabbithole ~/.config/awesome
+```
+1. Then just start up lxqt, open lxqt-config -> Session Settings
+2. In Basic Settings, select "awesome" as your window manager
+3. Stop amd uncheck all services, besides PolKit, Power Management, and Picom
+4. Restart lxqt to begin using Rabbithole
 ### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
 
 ### Contributing
