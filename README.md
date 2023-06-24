@@ -61,7 +61,13 @@ git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
 ./rabid-installer.sh
 ```
-
+You can also simply copy or link the config to your Awesome WM configuration directory:
+```shell
+cp -R rabbithole ~/.config/awesome
+```
+-OR-
+```
+ln -s ~/path/of/rabbithole ~/.config/awesome
 ### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
 
 ### Contributing
