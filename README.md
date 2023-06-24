@@ -61,7 +61,7 @@ git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
 ./rabid-installer.sh
 ```
-You can also simply copy or link the config to your Awesome WM configuration directory:
+You can also simply copy or symlink the config to your Awesome WM configuration directory:
 ```shell
 cp -R rabbithole ~/.config/awesome
 ```
@@ -69,6 +69,10 @@ cp -R rabbithole ~/.config/awesome
 ```
 ln -s ~/path/of/rabbithole ~/.config/awesome
 ```
+1. Then just start up lxqt, open lxqt-config -> Session Settings
+2. In Basic Settings, select "awesome" as your window manager
+3. Stop amd uncheck all services, besides PolKit, Power Management, and Picom
+4. Restart lxqt to begin using Rabbithole
 ### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
 
 ### Contributing
