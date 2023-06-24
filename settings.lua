@@ -27,7 +27,7 @@ return {
         -- ]]]
         theme_name = "rabbithole", -- TODO: used loater for logic in saving themes
         theme_template = "/themes/rabbithole/theme.lua",
-        wallpaper = config_dir .. "/themes/rabbithole/wallpapers/rabbithole_logo4.png",
+        wallpaper = config_dir .. "/themes/rabbithole/wallpapers/rabbithole_logo.png",
         -- [[[ Theme colors--These are the most important settings. 
         base_color = colors["Blue"]["400"], -- If you're generating a theme, you only need to pass a base_color
         secondary_color = colors["Periwinkle"]["500"],
