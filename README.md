@@ -68,6 +68,7 @@ cp -R rabbithole ~/.config/awesome
 -OR-
 ```
 ln -s ~/path/of/rabbithole ~/.config/awesome
+```
 ### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
 
 ### Contributing
