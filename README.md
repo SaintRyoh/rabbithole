@@ -2,7 +2,7 @@
 
 _Enter the Rabbithole._
 
-[![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo4.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo.png)
+[![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo.png)
 
 ## Table of Contents
 - [What is a Meta-Window Manager?](#what-is-a-meta-window-manager)
