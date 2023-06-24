@@ -2,7 +2,15 @@
 
 _Enter the Rabbithole._
 
-[![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo.png)
+[![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo4.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo.png)
+
+## Table of Contents
+- [What is a Meta-Window Manager?](#what-is-a-meta-window-manager)
+- [Features](#features)
+- [Ideal For](#ideal-for)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
 
 A _revolutionary_ window manager that takes productivity to a _**whole new dimension**_ (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
 
@@ -61,7 +69,7 @@ git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
 ./rabid-installer.sh
 ```
-You can also simply copy or symlink the config to your Awesome WM configuration directory:
+You can also simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
 ```shell
 cp -R rabbithole ~/.config/awesome
 ```
@@ -69,10 +77,97 @@ cp -R rabbithole ~/.config/awesome
 ```
 ln -s ~/path/of/rabbithole ~/.config/awesome
 ```
-1. Then just start up lxqt, open lxqt-config -> Session Settings
-2. In Basic Settings, select "awesome" as your window manager
-3. Stop amd uncheck all services, besides PolKit, Power Management, and Picom
-4. Restart lxqt to begin using Rabbithole
+1. Start up lxqt from your display-manager
+2. Open lxqt-config -> Session Settings
+3. In Basic Settings, select "awesome" as your window manager
+4. Stop amd uncheck all services, besides PolicyKit, Power Management, and Picom
+5. Restart lxqt to begin using Rabbithole
+## Manual Installation
+Make sure the dependencies are installed:
+1. Void Linux:
+
+For Void Linux, use the xbps-install package manager:
+
+Install Awesome WM:
+```
+bash
+
+sudo xbps-install -Su awesome
+```
+Install Picom:
+```
+bash
+
+sudo xbps-install -Su picom
+```
+Install Rofi:
+```
+bash
+
+sudo xbps-install -Su rofi
+```
+2. Arch Linux and Manjaro:
+
+For Arch Linux and Manjaro, use the pacman package manager:
+
+Install Awesome WM:
+```
+bash
+
+sudo pacman -Syu awesome
+```
+Install Picom:
+```
+bash
+
+sudo pacman -Syu picom
+```
+Install Rofi:
+```
+bash
+
+sudo pacman -Syu rofi
+```
+3. Gentoo:
+
+For Gentoo, use the emerge package manager:
+
+Install Awesome WM:
+```
+bash
+
+sudo emerge --ask x11-wm/awesome
+```
+Install Picom:
+```
+bash
+
+sudo emerge --ask x11-misc/picom
+```
+Install Rofi:
+```
+bash
+
+sudo emerge --ask x11-misc/rofi
+```
+Rofi themes collection and Ubuntu Font Family installation remain the same across distributions:
+
+Clone the Rofi themes collection:
+```
+bash
+
+mkdir -p "$HOME/.local/share/rofi/themes"
+git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
+```
+Install the Ubuntu Font Family:
+```
+bash
+
+sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
+sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
+sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ub
+```
+Repeat the same final 4 steps in the automated installation procedure.
 ### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
 
 ### Contributing
