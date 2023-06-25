@@ -10,11 +10,11 @@ return setmetatable({}, {
         rabbithole__services__tesseractThemeEngine
     )
         local tesseract_engine = rabbithole__services__tesseractThemeEngine
-        
+
         local theme_table = settings.theme
         local theme_template = settings.theme.theme_template
 
-        -- generate theme if toggled in settings
+        -- Generate theme if toggled in settings
         if settings.theme.generate_theme then
             theme_table = tesseract_engine:generate_theme(nil, theme_table.base_color, theme_table.color_scheme)
         elseif settings.theme.use_default then
