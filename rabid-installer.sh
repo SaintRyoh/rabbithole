@@ -36,10 +36,11 @@ check_and_install() {
     fi
 }
 
-# Check and install Awesome WM, Picom and Rofi
+# Check and install Awesome WM, Picom, Rofi, and Git
 check_and_install awesome
 check_and_install picom
 check_and_install rofi
+check_and_install git
 
 # Clone the Rofi themes collection if it doesn't exist
 if [ ! -d "$HOME/.local/share/rofi/themes" ]; then
@@ -51,6 +52,11 @@ if [ ! -d "/usr/share/fonts/ubuntu-font-family" ]; then
     sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
     sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
     sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family"
+fi
+
+if [ ! -d "/usr/share/icons/BeautyLine" ]; then
+    sudo git clone https://github.com/NOYB/icons.git /usr/share/icons/BeautyLine
+    sudo gtk-update-icon-cache /usr/share/icons/BeautyLine
 fi
 
 if [ ! -d "$HOME/.config/awesome" ]; then
