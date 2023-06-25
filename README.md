@@ -62,46 +62,26 @@ Rabbithole is ideal for users who:
 
 ## Installation
 ```shell
-git clone https://github.com/SaintRyoh/rabbithole
-cd rabbithole && git submodule update --init
+git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
 ./rabid-installer.sh
 ```
-You can also simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
-```shell
-cp -R rabbithole ~/.config/awesome
-```
-Or make a symlink
-```
-ln -s ~/path/of/rabbithole ~/.config/awesome
-```
-
-### Post-Installation
-Note: We plan on removing LxQt as a dependency when the systray is complete.
-1. Start up lxqt from your display-manager in the session menu before logging in.
-![Display Manager](docs/install_images/1_session-screen.png)
-2. Open lxqt-config -> Session Settings.
-3. In Basic Settings, select "awesome" as your window manager.
-4. Stop and uncheck all services, besides PolicyKit, Power Management, and Picom.
-![LxQt Settings](docs/install_images/2_lxqt-session.png)
-5. Make sure autorandr is on. Also make sure Network, and whatever else you need is still checked off, and disable whatever you don't need.
-![lxqt-settings](docs/install_images/3_autostart-lxqt.png)
-6. Restart lxqt to begin using Rabbithole!
+Rabbithole should be fully installed! Just log out and log back in, then select Rabbithole from your display manager.
 
 ## Manual Installation
-Make sure the dependencies are installed (lxqt, awesome, rofi, ttf-ubuntu-font-family, rofi-themes-collectionr:
+Make sure the dependencies are installed (awesome, rofi, ttf-ubuntu-font-family, rofi-themes-collectionr:
 1. Void Linux:
 
 ```
 bash
 
-sudo xbps-install -Su awesome picom rofi lxqt
+sudo xbps-install -Su awesome picom rofi
 ```
 
 2. Arch-based:
 ```
 bash
 
-sudo pacman -Syu lxqt awesome picom rofi ttf-ubuntu-font-family
+sudo pacman -Syu awesome picom rofi ttf-ubuntu-font-family
 ```
 3. Gentoo:
 ```
@@ -119,7 +99,7 @@ bash
 mkdir -p "$HOME/.local/share/rofi/themes"
 git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
 ```
-#### Install the Ubuntu Font Family Manually (not necessary on Arch:
+#### Install the Ubuntu Font Family Manually (not necessary on Arch or Ubuntu):
 ```
 bash
 
@@ -131,8 +111,16 @@ sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts
 git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/BeautyLine" ```
 #### Update icon cache:
 ```gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine```
-Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
 
+#### Finally, copy the config over
+Copy or symlink rabbithole to your Awesome WM configuration directory after initializing the submodules, don't forget to cd up one level again:
+```shell
+cd .. && cp -R rabbithole ~/.config/awesome
+```
+Or make a symlink
+```
+ln -s ~/path/of/rabbithole ~/.config/awesome
+```
 ### [Contributing](README.md#contributing)
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
