@@ -25,13 +25,11 @@ A _revolutionary_ window manager that takes productivity to a _**whole new dimen
 
 Built on the robust **Awesome WM framework**, Rabbithole embraces the philosophy of dynamic workspaces. It allows you to nest virtual workspaces and add or remove displays on-the-fly. With Rabbithole, you don't adjust to your workspace, your workspace adjusts to _you_.
 
-## [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#what-is-a-meta-window-manager)
-
 ## What is a Meta-Window Manager?
 
 Rabbithole is the _first **meta-window manager**_ because it goes beyond traditional window management—it is a _philosophy_ on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about _redefining_ how they can be used to enhance your **workflow**.
 
-## [Features](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#features)
+## Features
 
 - **Dynamic Display Management**: Disconnect and reconnect screens _on-the-fly_, without interrupting your flow. **Switch workspaces** from your _multi-monitor_ setup to a _single monitor_ setup seamlessly.
     
@@ -46,11 +44,6 @@ Rabbithole is the _first **meta-window manager**_ because it goes beyond traditi
 - **Centralized Settings**: A neat and centralized settings file that controls everything from theme, to keybindings, to default programs.
     
 - **Quick Program Launch**: Pre-configured **rofi** lets you launch programs or switch windows/workspaces at lightning speed with its fuzzy search algorithm.
-    
-
-[](https://github.com/SaintRyoh/rabbithole/edit/master/README.md)
-
-## [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#ideal-for)
 
 ## Ideal For
 
@@ -66,8 +59,7 @@ Rabbithole is ideal for users who:
     
 - Desire a streamlined, intuitive workspace that boosts productivity without sacrificing user experience.
 
-## [Installation](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#installation)
-
+## Installation
 ```shell
 git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
@@ -104,7 +96,6 @@ bash
 sudo xbps-install -Su awesome picom rofi lxqt
 ```
 
-```
 2. Arch-based:
 ```
 bash
@@ -135,15 +126,15 @@ sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
 sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
 sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
 ```
-Repeat the same [post installation steps]((https://github.com/SaintRyoh/rabbithole/edit/master/README.md#Post-Installation)) in the automated installation procedure.
+Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
 
-### [Contributing](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
+### [Contributing](README.md#contributing)
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
 
 What is our vision, you ask?
 
-### [The Vision of Rabbithole (Planned Features)](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#the-vision-of-rabbithole-planned-features)
+### [The Vision of Rabbithole (Planned Features)](https://github.com/SaintRyoh/rabbithole/tree/master/README.md#the-vision-of-rabbithole-planned-features)
 
 Rabbithole is more than just software—it's a journey into the future of digital spaces, and we have the roadmap charted out. It's a long one.
 
