@@ -133,13 +133,13 @@ git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/B
 ```gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine```
 Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
 
-### [Contributing](README.md#contributing)
+### Contributing
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
 
 What is our vision, you ask?
 
-### [The Vision of Rabbithole (Planned Features)](https://github.com/SaintRyoh/rabbithole/tree/master/README.md#the-vision-of-rabbithole-planned-features)
+### The Vision of Rabbithole (Planned Features)
 
 Rabbithole is more than just software—it's a journey into the future of digital spaces, and we have the roadmap charted out. It's a long one.
 
