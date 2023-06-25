@@ -4,7 +4,7 @@ _Enter the Rabbithole._
 
 [![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo.png)
 ### LOOKING FOR BETA TESTERS
-We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](https://github.com/SaintRyoh/rabbithole/CONTRIBUTORS.md) to Rabbithole!
+We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](CONTRIBUTORS.md) to Rabbithole!
 ### Testers - Signal Group Chat Support
 Download [Signal](https://signal.org/download/) or [Signal Desktop](https://signal.org/download/) to Join Support! You can also sometimes find us on the HaxMe discord!
 ```
