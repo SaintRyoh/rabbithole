@@ -61,8 +61,7 @@ Rabbithole is ideal for users who:
 - Desire a streamlined, intuitive workspace that boosts productivity without sacrificing user experience.
 
 ## Installation
-```shell
-git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
+```git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
 ./rabid-installer.sh
 ```
 Rabbithole should be fully installed! Just log out and log back in, then select Rabbithole from your display manager.
@@ -72,21 +71,15 @@ Make sure the dependencies are installed (awesome, rofi, ttf-ubuntu-font-family,
 1. Void Linux:
 
 ```
-bash
-
 sudo xbps-install -Su awesome picom rofi
 ```
 
 2. Arch-based:
 ```
-bash
-
 sudo pacman -Syu awesome picom rofi ttf-ubuntu-font-family
 ```
 3. Gentoo:
 ```
-bash
-
 sudo emerge --ask x11-wm/awesome x11-misc/picom x11-misc/rofi
 ```
 
@@ -94,15 +87,11 @@ Rofi themes collection and Ubuntu Font Family installation remain the same acros
 
 #### Clone the Rofi themes collection:
 ```
-bash
-
 mkdir -p "$HOME/.local/share/rofi/themes"
 git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
 ```
-#### Install the Ubuntu Font Family Manually (not necessary on Arch or Ubuntu):
+#### Install the Ubuntu Font Family Manually (skip step if on Arch-based or Ubuntu):
 ```
-bash
-
 sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
 sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
 sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
@@ -114,20 +103,20 @@ git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/B
 
 #### Finally, copy the config over
 Copy or symlink rabbithole to your Awesome WM configuration directory after initializing the submodules, don't forget to cd up one level again:
-```shell
+```
 cd .. && cp -R rabbithole ~/.config/awesome
 ```
 Or make a symlink
 ```
 ln -s ~/path/of/rabbithole ~/.config/awesome
 ```
-### [Contributing](README.md#contributing)
+### Contributing
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
 
 What is our vision, you ask?
 
-### [The Vision of Rabbithole (Planned Features)](https://github.com/SaintRyoh/rabbithole/tree/master/README.md#the-vision-of-rabbithole-planned-features)
+### The Vision of Rabbithole (Planned Features)
 
 Rabbithole is more than just software—it's a journey into the future of digital spaces, and we have the roadmap charted out. It's a long one.
 
