@@ -16,3 +16,6 @@
 [submodule "sub/nice"]
 	path = sub/nice
 	url = https://github.com/SaintRyoh/awesome-wm-nice
+[submodule "sub/bling"]
+	path = sub/bling
+	url = https://github.com/SaintRyoh/bling
