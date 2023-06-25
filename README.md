@@ -3,7 +3,8 @@
 _Enter the Rabbithole._
 
 [![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo.png)
-
+### LOOKING FOR BETA TESTERS
+We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a contributor to Rabbithole!
 ## Table of Contents
 - [What is a Meta-Window Manager?](#what-is-a-meta-window-manager)
 - [Features](#features)
