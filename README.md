@@ -81,7 +81,7 @@ ln -s ~/path/of/rabbithole ~/.config/awesome
 1. Start up lxqt from your display-manager
 2. Open lxqt-config -> Session Settings
 3. In Basic Settings, select "awesome" as your window manager
-4. Stop amd uncheck all services, besides PolicyKit, Power Management, and Picom
+4. Stop and uncheck all services, besides PolicyKit, Power Management, and Picom
 5. Restart lxqt to begin using Rabbithole
 ## Manual Installation
 Make sure the dependencies are installed:
