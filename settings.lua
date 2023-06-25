@@ -90,10 +90,12 @@ return {
     tag_layouts = {"tile", "float"},
     tag_icons = {"path/to/icon.svg"},
     autostart_apps = {
-        "picom &",
-        "nm-applet &",
-        "blueman-applet &",
-        "xfce4-power-manager &",
-        "flameshot &"
+        "picom",
+        "nm-applet",
+        "blueman-applet",
+        "xfce4-power-manager",
+        "flameshot",
+        "autorandr",
+        "volumeicon:"
     },
 }
