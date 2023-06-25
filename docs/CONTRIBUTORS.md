@@ -3,7 +3,7 @@
 The following people have contributed to the `rabbithole` project in the form of testing and feedback:
 
 
-- [Damien Darko](https://github.com/morbidlyocheese)
+- [morbidlyocheese](https://github.com/morbidlyocheese)
 
 ## Thank you so much everyone!
 

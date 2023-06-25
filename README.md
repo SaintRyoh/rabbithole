@@ -5,6 +5,7 @@ _Enter the Rabbithole._
 ![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
 
 ### LOOKING FOR BETA TESTERS
+
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
 ### Testers - Signal Group Chat Support
