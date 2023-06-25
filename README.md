@@ -2,19 +2,33 @@
 
 _Enter the Rabbithole._
 
-[![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo.png)
+![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
+
+### LOOKING FOR BETA TESTERS
+
+We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
+
+### Testers - Signal Group Chat Support
+Download [Signal](https://signal.org/download/) or [Signal Desktop](https://signal.org/download/) to Join Support! You can also join support on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432). Sometimes you can find the creators on the [HaxMe](https://discord.gg/PwMuxBNZ) Discord as well. Come say hello!
+```
+https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
+```
+## Table of Contents
+- [What is a Meta-Window Manager?](#what-is-a-meta-window-manager)
+- [Features](#features)
+- [Ideal For](#ideal-for)
+- [Installation](#installation)
+- [Post Installation](#post-installation)
+- [Contributing](#contributing)
+- [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
 
 A _revolutionary_ window manager that takes productivity to a _**whole new dimension**_ (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
 
 Built on the robust **Awesome WM framework**, Rabbithole embraces the philosophy of dynamic workspaces. It allows you to nest virtual workspaces and add or remove displays on-the-fly. With Rabbithole, you don't adjust to your workspace, your workspace adjusts to _you_.
 
-## [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#what-is-a-meta-window-manager)
-
 ## What is a Meta-Window Manager?
 
 Rabbithole is the _first **meta-window manager**_ because it goes beyond traditional window management—it is a _philosophy_ on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about _redefining_ how they can be used to enhance your **workflow**.
-
-## [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#features)
 
 ## Features
 
@@ -31,11 +45,6 @@ Rabbithole is the _first **meta-window manager**_ because it goes beyond traditi
 - **Centralized Settings**: A neat and centralized settings file that controls everything from theme, to keybindings, to default programs.
     
 - **Quick Program Launch**: Pre-configured **rofi** lets you launch programs or switch windows/workspaces at lightning speed with its fuzzy search algorithm.
-    
-
-[](https://github.com/SaintRyoh/rabbithole/edit/master/README.md)
-
-## [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#ideal-for)
 
 ## Ideal For
 
@@ -50,40 +59,83 @@ Rabbithole is ideal for users who:
 - Frequently switch between different monitor setups and need a workspace that can adjust on-the-fly.
     
 - Desire a streamlined, intuitive workspace that boosts productivity without sacrificing user experience.
-    
-
-## [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#installation)
 
 ## Installation
-
 ```shell
 git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
 ./rabid-installer.sh
 ```
-You can also simply copy or symlink the config to your Awesome WM configuration directory:
+You can also simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
 ```shell
 cp -R rabbithole ~/.config/awesome
 ```
--OR-
+Or make a symlink
 ```
 ln -s ~/path/of/rabbithole ~/.config/awesome
 ```
-1. Then just start up lxqt, open lxqt-config -> Session Settings
-2. In Basic Settings, select "awesome" as your window manager
-3. Stop amd uncheck all services, besides PolKit, Power Management, and Picom
-4. Restart lxqt to begin using Rabbithole
-### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
 
-### Contributing
+### Post-Installation
+Note: We plan on removing LxQt as a dependency when the systray is complete.
+1. Start up lxqt from your display-manager in the session menu before logging in.
+![Display Manager](docs/install_images/1_session-screen.png)
+2. Open lxqt-config -> Session Settings.
+3. In Basic Settings, select "awesome" as your window manager.
+4. Stop and uncheck all services, besides PolicyKit, Power Management, and Picom.
+![LxQt Settings](docs/install_images/2_lxqt-session.png)
+5. Make sure autorandr is on. Also make sure Network, and whatever else you need is still checked off, and disable whatever you don't need.
+![lxqt-settings](docs/install_images/3_autostart-lxqt.png)
+6. Restart lxqt to begin using Rabbithole!
+
+## Manual Installation
+Make sure the dependencies are installed (lxqt, awesome, rofi, ttf-ubuntu-font-family, rofi-themes-collection):
+1. Void Linux:
+
+```
+bash
+
+sudo xbps-install -Su awesome picom rofi lxqt
+```
+
+2. Arch-based:
+```
+bash
+
+sudo pacman -Syu lxqt awesome picom rofi ttf-ubuntu-font-family
+```
+3. Gentoo:
+```
+bash
+
+sudo emerge --ask x11-wm/awesome x11-misc/picom x11-misc/rofi
+```
+
+Rofi themes collection and Ubuntu Font Family installation remain the same across distributions:
+
+#### Clone the Rofi themes collection:
+```
+bash
+
+mkdir -p "$HOME/.local/share/rofi/themes"
+git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
+```
+#### Install the Ubuntu Font Family Manually:
+```
+bash
+
+sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
+sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
+sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
+```
+Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
+
+### [Contributing](README.md#contributing)
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
 
 What is our vision, you ask?
 
-### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#the-vision-of-rabbithole-planned-features)
-
-### The Vision of Rabbithole (Planned Features)
+### [The Vision of Rabbithole (Planned Features)](https://github.com/SaintRyoh/rabbithole/tree/master/README.md#the-vision-of-rabbithole-planned-features)
 
 Rabbithole is more than just software—it's a journey into the future of digital spaces, and we have the roadmap charted out. It's a long one.
 

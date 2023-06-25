@@ -2,8 +2,8 @@ name: Check Awesome WM Configuration
 
 on:
   push:
-    branches-ignore:
-      - master
+    branches:
+      - develop
   workflow_dispatch:
 
 jobs:
