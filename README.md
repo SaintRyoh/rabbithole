@@ -88,7 +88,7 @@ Note: We plan on removing LxQt as a dependency when the systray is complete.
 6. Restart lxqt to begin using Rabbithole!
 
 ## Manual Installation
-Make sure the dependencies are installed (lxqt, awesome, rofi, ttf-ubuntu-font-family, rofi-themes-collection):
+Make sure the dependencies are installed (lxqt, awesome, rofi, ttf-ubuntu-font-family, rofi-themes-collectionr:
 1. Void Linux:
 
 ```
@@ -127,6 +127,9 @@ sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
 sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
 sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
 ```
+#### Install BeautyLine Icon Pack
+git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/BeautyLine"
+``` 
 Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
 
 ### [Contributing](README.md#contributing)
