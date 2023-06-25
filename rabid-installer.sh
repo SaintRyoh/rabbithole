@@ -69,6 +69,12 @@ if [ ! -d "$HOME/.config/picom" ]; then
 fi
 cp "$PROJECT_DIR/picom.conf" "$HOME/.config/picom/picom.conf"
 
+# Install autorandr to /usr/bin/
+sudo cp "$PROJECT_DIR/installer/autorandr" /usr/bin/
+
+# Copy rabbithole.desktop to /usr/share/xsessions/
+sudo cp "$PROJECT_DIR/installer/rabbithole.desktop" /usr/share/xsessions/
+
 # Set the default rofi theme
 echo "rofi.theme: $HOME/.local/share/rofi/themes/themes/rounded-nord-dark.rasi" >> "$HOME/.Xresources"
 xrdb -merge "$HOME/.Xresources"
