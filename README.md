@@ -128,8 +128,9 @@ sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubu
 sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
 ```
 #### Install BeautyLine Icon Pack
-git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/BeautyLine"
-``` 
+git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/BeautyLine" ```
+#### Update icon cache:
+```gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine```
 Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
 
 ### [Contributing](README.md#contributing)
