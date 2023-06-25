@@ -60,7 +60,7 @@ return {
         screenshot_tool = "flameshot" or "scrot",
         launcher_cmd = "rofi -show drun -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
         window_switcher_cmd = "rofi -show window -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
-        lock_screen = "i3lock-fancy",
+        --lock_screen = "i3lock-fancy",
         power_menu = "rofi-power-menu",
         volume_control = "pavucontrol" or "volumeicon",
         brightness_control = "brightnessctl",
@@ -73,29 +73,35 @@ return {
     },
     -- UI Elements
     -- NOTE: NOT CONNECTED YET
-    ui = {
-        -- Placement
-        activities_placement = "top-left",
-        taglist_placement = "top-center",
-        systray_placement = "top-right",
-        -- Tag widget options
-        tag_icons_on = false,
-        tag_labels_on = true,
-    },
+    --ui = {
+    --    -- Placement
+    --    activities_placement = "top-left",
+    --    taglist_placement = "top-center",
+    --    systray_placement = "top-right",
+    --    -- Tag widget options
+    --    tag_icons_on = false,
+    --    tag_labels_on = true,
+    --},
     -- Rabbitholes Environment Settings - Order matters here. The first layout will be the default.
     -- NOTE: NOT CONNECTED YET
-    tag_names = {"Internet", "Code", "Terminal", "Files"},
-    global_tag_names = {"Brain2", "Chat"},
-    workspace_names = {"1", "2", "3", "4", "5", "6", "7", "8", "9"},
-    tag_layouts = {"tile", "float"},
-    tag_icons = {"path/to/icon.svg"},
-    autostart_apps = {
+    --tag_names = {"Internet", "Code", "Terminal", "Files"},
+    --global_tag_names = {"Brain2", "Chat"},
+    --workspace_names = {"1", "2", "3", "4", "5", "6", "7", "8", "9"},
+    --tag_layouts = {"tile", "float"},
+    --tag_icons = {"path/to/icon.svg"},
+
+    -- These are required for a functioning systray and compositing effects
+    daemons = {
         "picom",
         "nm-applet",
         "blueman-applet",
         "xfce4-power-manager",
+        "autorandr -c --default default",
         "flameshot",
-        "autorandr",
-        "volumeicon:"
+    },
+    autostart_apps = {
+        "volumeicon",
+        "/opt/piavpn/bin/pia-client %u --quiet",
+        "syncthingtray qt-widgets-gui --single-instance --wait"
     },
 }
