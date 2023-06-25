@@ -1,6 +1,7 @@
 local awful = require("awful")
 local gears = require("gears")
 local __ = require("lodash")
+local autorandr = require("scripts.autorandr-dbus") -- listens for udev changes in the display and runs autorandr -c
 
 return setmetatable({}, {
     __constructor = function (
@@ -18,7 +19,6 @@ return setmetatable({}, {
 
         -- Set default layout list
         awful.layout.layouts = rabbithole__components__layouts__default
-
         -- Set default client rules
         awful.rules.rules = gears.table.join(
             awful.rules.rules,
