@@ -2,11 +2,14 @@
 
 _Enter the Rabbithole._
 
-[![Rabbithole Logo](https://github.com/SaintRyoh/rabbithole/raw/master/themes/rabbithole/wallpapers/rabbithole_logo.png)](https://github.com/SaintRyoh/rabbithole/blob/master/themes/rabbithole/wallpapers/rabbithole_logo.png)
+![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
+
 ### LOOKING FOR BETA TESTERS
-We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](CONTRIBUTORS.md) to Rabbithole!
-### Testers - Discord or Signal Group Chat Support
-Download [Signal](https://signal.org/download/) or [Signal Desktop](https://signal.org/download/) to Join Support! You can also sometimes find us on the HaxMe and [Rabbithole Discord](https://discord.gg/AK3UpCFd)!
+
+We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
+
+### Testers - Signal Group Chat Support
+Download [Signal](https://signal.org/download/) or [Signal Desktop](https://signal.org/download/) to Join Support! You can also join support on [Rabbithole Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) and sometimes on the [HaxMe](https://discord.gg/PwMuxBNZ) Discord.
 ```
 https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
 ```
@@ -28,9 +31,7 @@ Built on the robust **Awesome WM framework**, Rabbithole embraces the philosophy
 
 Rabbithole is the _first **meta-window manager**_ because it goes beyond traditional window management—it is a _philosophy_ on how we believe windows should be managed. Rabbithole is not just about managing windows; it's about _redefining_ how they can be used to enhance your **workflow**.
 
-## [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#features)
-
-## Features
+## [Features](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#features)
 
 - **Dynamic Display Management**: Disconnect and reconnect screens _on-the-fly_, without interrupting your flow. **Switch workspaces** from your _multi-monitor_ setup to a _single monitor_ setup seamlessly.
     
@@ -64,11 +65,8 @@ Rabbithole is ideal for users who:
 - Frequently switch between different monitor setups and need a workspace that can adjust on-the-fly.
     
 - Desire a streamlined, intuitive workspace that boosts productivity without sacrificing user experience.
-    
 
-## [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#installation)
-
-## Installation
+## [Installation](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#installation)
 
 ```shell
 git clone https://github.com/SaintRyoh/rabbithole
@@ -79,112 +77,72 @@ You can also simply copy or symlink the config to your Awesome WM configuration 
 ```shell
 cp -R rabbithole ~/.config/awesome
 ```
--OR-
+Or make a symlink
 ```
 ln -s ~/path/of/rabbithole ~/.config/awesome
 ```
+
+### [Post-Installation](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#Post-Installation)
+Note: We plan on removing LxQt as a dependency when the systray is complete.
 1. Start up lxqt from your display-manager
+[![Display Manager](docs/install_images/1_session-screen.png)
 2. Open lxqt-config -> Session Settings
 3. In Basic Settings, select "awesome" as your window manager
 4. Stop and uncheck all services, besides PolicyKit, Power Management, and Picom
-5. Restart lxqt to begin using Rabbithole
+[![LxQt Settings](docs/install_images/2_lxqt-session.png)
+5. 
+6. Restart lxqt to begin using Rabbithole!
+
 ## Manual Installation
-Make sure the dependencies are installed:
+Make sure the dependencies are installed (lxqt, awesome, rofi, ttf-ubuntu-font-family, rofi-themes-collection):
 1. Void Linux:
 
-For Void Linux, use the xbps-install package manager:
-
-Install Awesome WM:
 ```
 bash
 
-sudo xbps-install -Su awesome
+sudo xbps-install -Su awesome picom rofi lxqt
 ```
-Install Picom:
+
+```
+2. Arch-based:
 ```
 bash
 
-sudo xbps-install -Su picom
-```
-Install Rofi:
-```
-bash
-
-sudo xbps-install -Su rofi
-```
-2. Arch Linux and Manjaro:
-
-For Arch Linux and Manjaro, use the pacman package manager:
-
-Install Awesome WM:
-```
-bash
-
-sudo pacman -Syu awesome
-```
-Install Picom:
-```
-bash
-
-sudo pacman -Syu picom
-```
-Install Rofi:
-```
-bash
-
-sudo pacman -Syu rofi
+sudo pacman -Syu lxqt awesome picom rofi ttf-ubuntu-font-family
 ```
 3. Gentoo:
-
-For Gentoo, use the emerge package manager:
-
-Install Awesome WM:
 ```
 bash
 
-sudo emerge --ask x11-wm/awesome
+sudo emerge --ask x11-wm/awesome x11-misc/picom x11-misc/rofi
 ```
-Install Picom:
-```
-bash
 
-sudo emerge --ask x11-misc/picom
-```
-Install Rofi:
-```
-bash
-
-sudo emerge --ask x11-misc/rofi
-```
 Rofi themes collection and Ubuntu Font Family installation remain the same across distributions:
 
-Clone the Rofi themes collection:
+#### Clone the Rofi themes collection:
 ```
 bash
 
 mkdir -p "$HOME/.local/share/rofi/themes"
 git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
 ```
-Install the Ubuntu Font Family:
+#### Install the Ubuntu Font Family Manually:
 ```
 bash
 
 sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
 sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
-sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ub
+sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
 ```
-Repeat the same final 4 steps in the automated installation procedure.
-### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
+Repeat the same [post installation steps]((https://github.com/SaintRyoh/rabbithole/edit/master/README.md#Post-Installation)) in the automated installation procedure.
 
-### Contributing
+### [Contributing](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#contributing)
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
 
 What is our vision, you ask?
 
-### [](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#the-vision-of-rabbithole-planned-features)
-
-### The Vision of Rabbithole (Planned Features)
+### [The Vision of Rabbithole (Planned Features)](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#the-vision-of-rabbithole-planned-features)
 
 Rabbithole is more than just software—it's a journey into the future of digital spaces, and we have the roadmap charted out. It's a long one.
 
