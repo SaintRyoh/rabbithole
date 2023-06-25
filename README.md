@@ -119,7 +119,7 @@ bash
 mkdir -p "$HOME/.local/share/rofi/themes"
 git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
 ```
-#### Install the Ubuntu Font Family Manually:
+#### Install the Ubuntu Font Family Manually (not necessary on Arch:
 ```
 bash
 
