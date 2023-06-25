@@ -18,6 +18,7 @@ https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBj
 - [Features](#features)
 - [Ideal For](#ideal-for)
 - [Installation](#installation)
+-     [Post Installation](#post-installation)
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
 
@@ -74,7 +75,7 @@ Or make a symlink
 ln -s ~/path/of/rabbithole ~/.config/awesome
 ```
 
-### [Post-Installation](https://github.com/SaintRyoh/rabbithole/edit/master/README.md#Post-Installation)
+### Post-Installation
 Note: We plan on removing LxQt as a dependency when the systray is complete.
 1. Start up lxqt from your display-manager
 ![Display Manager](docs/install_images/1_session-screen.png)
