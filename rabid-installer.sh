@@ -78,3 +78,5 @@ sudo cp "$PROJECT_DIR/installer/rabbithole.desktop" /usr/share/xsessions/
 # Set the default rofi theme
 echo "rofi.theme: $HOME/.local/share/rofi/themes/themes/rounded-nord-dark.rasi" >> "$HOME/.Xresources"
 xrdb -merge "$HOME/.Xresources"
+# Copy rabbithole's configuration into $HOME/.config/awesome
+cp -R "$PROJECT_DIR" "$HOME/.config/awesome"
