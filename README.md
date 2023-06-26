@@ -95,7 +95,9 @@ linux-wifi-hotspot
 ## Tutorial
 Here are instructions on how to get Rabbithole up-and-running.
 
-### Automated Installation (Recommended)
+### Automated Installer (Recommended)
+The automated installer will not only install all of the dependencies, but it will copy all custom Rabbithole configurations (picom, rofi, etc.) to their appropriate locations. If you already have a copy of Rabbithole installed, the installer will not delete your settings.lua. So if you messed up your installation, you should _rm -rf ~/.config/awesome_ before proceeding.
+
 ```shell 
 git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
 chmod +x rabid-installer.sh
@@ -103,10 +105,28 @@ chmod +x rabid-installer.sh
 ```
 **Note:** We need beta testers for systems other than Arch-based so we can make sure the installer works. Please contact us!
 
-Or if you don't want to use the installer script, a full DE-like install for Arch (yay must be installed) is :
+### Manual Installation
+If you don't want to use the installer script, a full DE-like install would look like the following for Arch (yay must be installed):
+```shell 
+git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
+```
+#### Install Dependencies
 ```
 yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
+Install the [dependencies](#installation) for your distro:
+1. Void Linux:
+
+```bash
+sudo xbps-install -Su awesome picom rofi lxqt ttf-ubuntu-font-family
+```
+
+2. Gentoo:
+```bash
+sudo emerge --ask x11-wm/awesome x11-misc/picom x11-misc/rofi
+```
+
+#### Configure
 You can then simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
 ```shell
 cp -R rabbithole/* ~/.config/awesome
@@ -115,23 +135,19 @@ Or make a symlink
 ```
 ln -s rabbithole ~/.config/awesome
 ```
-
-### Manual Installation
-Install the [dependecies](#installation) for your distro:
-1. Void Linux:
-
-```bash
-sudo xbps-install -Su awesome picom rofi lxqt ttf-ubuntu-font-family
+You will also want to copy the configuration for picom and settings to their appropriate places.
+```picom
+cp rabbithole/installer/picom.conf ~/.config/picom.conf
 ```
-
-2. Arch-based:
-```bash
-yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
+Then copy settings.lua for **core**:
 ```
-3. Gentoo:
-```bash
-sudo emerge --ask x11-wm/awesome x11-misc/picom x11-misc/rofi
+cp rabbithole/installer/settings-core.lua ~/.config/awesome/settings.lua
 ```
+Or the full **DE-like** installation:
+```
+cp rabbithole/installer/settings-full.lua ~/.config/awesome/settings.lua
+```
+Then, manually edit the settings.lua if you destire to use other software.
 
 Rofi themes collection and Ubuntu Font Family installation remain the same across distributions:
 
@@ -148,10 +164,12 @@ sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts
 ```
 #### Install BeautyLine Icon Pack
 ```
-git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/BeautyLine" ```
+git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/BeautyLine"
+```
 #### Update icon cache:
 ```
-gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine```
+gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine
+```
 Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
 
 ### Contributing
@@ -170,7 +188,7 @@ As we finish up the remainder of unfinished features for v1 (and the bugs that u
 
 Our grand vision is to morph Rabbithole into an AI-powered virtual interface that offers full compatibility with all of your devices. Be it your mobile, PC, or VR/AR headsets, we aim to provide a seamless, unified, and immersive experience across all platforms.
 
-About the "Building A Second Brain" and "Getting Things Done" concepts that fit into Rabbithole's philosophy:
+#### About the "Building A Second Brain" and "Getting Things Done" concepts that fit into Rabbithole's philosophy:
 
 _"Building a Second Brain"_ and _"Getting Things Done"_ (GTD) are two significant productivity philosophies that Rabbithole integrates at its core.
 
