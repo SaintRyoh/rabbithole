@@ -3,7 +3,6 @@ local wibox = require("wibox")
 local dpi = require("beautiful").xresources.apply_dpi
 local gears = require("gears")
 local beautiful = require("beautiful")
-local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 local darken = require("sub.nice.colors").darken
 
 local MiniBar = {}
