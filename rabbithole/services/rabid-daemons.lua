@@ -27,14 +27,14 @@ function RabidDaemons:run_once(cmd)
         findme = cmd:sub(0, firstspace-1)
     end
     -- Run pgrep, capture the output into data
-    awful.spawn.with_line_callback("pgrep -u $USER -x " .. findme,
-        {
-            stdout = function(line)
-                if line == '' then
-                    awful.spawn.with_shell(cmd)
-                end
+    awful.spawn.easy_async("pgrep -u $USER -x " .. findme,
+        function(stdout, stderr, reason, exit_code)
+            -- Only start the command if pgrep didn't find a process
+            -- (i.e., if the exit code was non-zero)
+            if exit_code ~= 0 then
+                awful.spawn.with_shell(cmd)
             end
-        }
+        end
     )
 end
 
