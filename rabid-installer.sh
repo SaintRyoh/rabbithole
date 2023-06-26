@@ -63,20 +63,47 @@ echo "1. Core (For Advanced Users)"
 echo "2. DE-Like (Recommended)"
 read -p "Enter your choice (1-2): " INSTALL_TYPE
 
+# Check if a package is installed
+check_if_installed() {
+    if [ $PACKAGE_MANAGER == "apt" ]; then
+        dpkg -s "$1" >/dev/null 2>&1 && echo "Package $1 is already installed" || check_and_install "$1"
+    elif [ $PACKAGE_MANAGER == "pacman" ] || [ $PACKAGE_MANAGER == "yay" ]; then
+        pacman -Q "$1" >/dev/null 2>&1 && echo "Package $1 is already installed" || check_and_install "$1"
+    elif [ $PACKAGE_MANAGER == "emerge" ]; then
+        emerge -pq "$1" >/dev/null 2>&1 && echo "Package $1 is already installed" || check_and_install "$1"
+    elif [ $PACKAGE_MANAGER == "xbps" ]; then
+        xbps-query -R "$1" >/dev/null 2>&1 && echo "Package $1 is already installed" || check_and_install "$1"
+    fi
+}
+
+# Use check_if_installed instead of check_and_install in the script
 if [ "$INSTALL_TYPE" = "1" ]; then
   for pkg in "${CORE_DEPENDENCIES[@]}"; do
-      check_and_install "$pkg"
+      check_if_installed "$pkg"
   done
 elif [ "$INSTALL_TYPE" = "2" ]; then
   for pkg in "${CORE_DEPENDENCIES[@]}"; do
-      check_and_install "$pkg"
+      check_if_installed "$pkg"
   done
   for pkg in "${DE_LIKE_DEPENDENCIES[@]}"; do
-      check_and_install "$pkg"
+      check_if_installed "$pkg"
   done
-else
-    echo "Invalid option. Exiting."
-    exit 1
+fi
+
+# Check the user's installation choice and copy the corresponding settings file.
+# But check first if the user has an existing configuration.
+if [ "$INSTALL_TYPE" = "1" ]; then
+    if [ ! -f "$HOME/.config/awesome/settings.lua" ]; then
+        cp "$PROJECT_DIR/installer/settings-core.lua" "$HOME/.config/awesome/settings.lua"
+    else
+        echo "An existing configuration file has been found at ~/.config/awesome/settings.lua. The file was not overwritten."
+    fi
+elif [ "$INSTALL_TYPE" = "2" ]; then
+    if [ ! -f "$HOME/.config/awesome/settings.lua" ]; then
+        cp "$PROJECT_DIR/installer/settings-full.lua" "$HOME/.config/awesome/settings.lua"
+    else
+        echo "An existing configuration file has been found at ~/.config/awesome/settings.lua. The file was not overwritten."
+    fi
 fi
 
 # If the package manager is not 'yay', download the rofi themes and ubuntu fonts
