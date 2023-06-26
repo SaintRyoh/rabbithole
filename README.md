@@ -20,7 +20,7 @@ https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBj
 - [Ideal For](#ideal-for)
 - [Installation](#installation)
     - [Prerequisites](#prerequisites)
-    - [Dependencies](#core-packages-only)
+    - [Dependencies](#core-packages-only-advanced-users)
     - [Tutorial](#tutorial)
     - [Automated Installer](#automated-installer-recommended)
 - [Post Installation](#post-installation)
@@ -109,10 +109,9 @@ linux-wifi-hotspot
 
 ## Tutorial
 Here are instructions on how to get Rabbithole up-and-running.
-**Note:** If you wish to use Rabbithole as a drop-in window manager, please see the [LxQt tutorial](docs/README-lxqt-installation.md) and then proceed to [Post Installation](#post-installation)
+**Note:** If you wish to use Rabbithole as a drop-in window manager replacement for a Desktop Environment, please see the [LxQt tutorial](docs/README-lxqt-installation.md) and then proceed to [Install Rabbithole](#3-install-rabbithole)
 
 ### Automated Installer (Recommended)
-
 
 The automated installer will not only install all of the dependencies, but it will copy all custom Rabbithole configurations (picom, rofi, etc.) to their appropriate locations. If you already have a copy of Rabbithole installed, the installer will not delete your settings.lua. So if you messed up your installation, you should _rm -rf ~/.config/awesome_ before proceeding.
 
