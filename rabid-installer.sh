@@ -139,4 +139,4 @@ xrdb -merge "$HOME/.Xresources"
 # Copy picom.conf into $HOME/.config/picom/
 cp "$PROJECT_DIR/installer/picom.conf" "$HOME/.config/picom/picom.conf"
 
-cp -R "$PROJECT_DIR/*" "$HOME/.config/awesome"
+cp -R "$PROJECT_DIR" "$HOME/.config/awesome"
