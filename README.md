@@ -128,7 +128,7 @@ sudo xbps-install -Su awesome picom rofi lxqt ttf-ubuntu-font-family
 
 2. Arch-based:
 ```bash
-yay -Syu lxqt awesome picom rofi ttf-ubuntu-font-family
+yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
 3. Gentoo:
 ```bash
