@@ -80,6 +80,7 @@ fi
 # But check first if the user has an existing configuration.
 if [ "$INSTALL_TYPE" = "1" ]; then
     if [ ! -f "$HOME/.config/awesome/settings.lua" ]; then
+        mkdir -p "$HOME/.config/awesome"
         cp "$PROJECT_DIR/installer/settings-core.lua" "$HOME/.config/awesome/settings.lua"
     else
         echo "An existing configuration file has been found at ~/.config/awesome/settings.lua. The file was not overwritten."
@@ -132,4 +133,4 @@ sudo cp "$PROJECT_DIR/installer/rabbithole.desktop" /usr/share/xsessions/
 echo "rofi.theme: $HOME/.local/share/rofi/themes/themes/rounded-nord-dark.rasi" >> "$HOME/.Xresources"
 xrdb -merge "$HOME/.Xresources"
 # Copy rabbithole's configuration into $HOME/.config/awesome
-cp -R "$PROJECT_DIR" "$HOME/.config/awesome"
+cp -R "$PROJECT_DIR/"* "$HOME/.config/awesome"
