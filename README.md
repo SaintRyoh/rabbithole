@@ -1,6 +1,6 @@
 # Rabbithole—The Meta-Window Manager
 ### LOOKING FOR BETA TESTERS
-
+### **AUTOMATED INSTALLER WORKING FOR ARCH - NEED TESTERS**
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
 ### Signal Group Chat & Discord Support
@@ -122,6 +122,8 @@ git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submod
 chmod +x rabid-installer.sh
 ./rabid-installer.sh
 ```
+Then select Rabbithole from your display manager (login screen)!
+![Rabbithole](docs/install_images/1-select-rabbithole.jpeg)
 **Note:** We need beta testers for systems other than Arch-based so we can make sure the installer works. Please contact us!
 
 ### Manual Installation
