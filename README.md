@@ -19,6 +19,8 @@ https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBj
 - [Features](#features)
 - [Ideal For](#ideal-for)
 - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+
 - [Post Installation](#post-installation)
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
@@ -63,9 +65,19 @@ Rabbithole is ideal for users who:
 
 ## Installation
 
-### Core Packages Only (For Advanced Users)
+### Prerequisites
 
-These are the dependencies you need if you are going to manually install all of your systray programs. Only recommended for experienced users who want to build their environment themselves. You will have to edit the config in ~/.config/awesome/settings.lua with your preferred software before running Rabbithole.
+Rabbithole is designed for use on Linux operating systems. To use Rabbithole, you should:
+
+- Have a working Linux installation. Rabbithole has been [tested](#looking-for-beta-testers) and is known to work on: Arch (as well as distros based on the aforementioned ones).
+- Be comfortable using the command line, as some aspects of the installation process may require it.
+- Have **git** installed to clone the Rabbithole repository. If you don't have git installed, you can install it with your distribution's package manager. For example, on
+- Ubuntu, you can install git with the following command: sudo apt install git
+- For the DE-Like Experience, yay should be installed on Arch based distros for the easiest time.
+
+### Core Packages Only (Advanced Users)
+
+These are the dependencies you need if you are going to manually install all of your systray programs and really know what you are doing when it comes to window managers. Only recommended for experienced users who want to build their environment themselves. You will have to edit the config in ~/.config/awesome/settings.lua with your preferred software before running Rabbithole. We still recommened you install our picom config on [post installation](#post-installation).
 ```
 awesome
 rofi
@@ -92,10 +104,14 @@ blueman-git
 flameshot
 linux-wifi-hotspot
 ```
+
 ## Tutorial
 Here are instructions on how to get Rabbithole up-and-running.
+**Note:** If you wish to use Rabbithole as a drop-in window manager, please see the [LxQt tutorial](docs/README-lxqt-installation.md) and then proceed to [Post Installation](#3post-installation)
 
-### 1. Automated Installer (Recommended)
+### Automated Installer (Recommended)
+
+
 The automated installer will not only install all of the dependencies, but it will copy all custom Rabbithole configurations (picom, rofi, etc.) to their appropriate locations. If you already have a copy of Rabbithole installed, the installer will not delete your settings.lua. So if you messed up your installation, you should _rm -rf ~/.config/awesome_ before proceeding.
 
 ```shell 
@@ -105,8 +121,9 @@ chmod +x rabid-installer.sh
 ```
 **Note:** We need beta testers for systems other than Arch-based so we can make sure the installer works. Please contact us!
 
-#### 1) Manual Installation
-If you don't want to use the installer script, a full DE-like install for Arch would look like the following (yay must be installed):
+### Manual Installation
+If you don't want to use the installer script and prefer doing things by hand, a full DE-like install for Arch will be shown below (yay must be installed).
+#### 1) Clone Repo & Initialize Submodules
 ```shell 
 git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
 ```
@@ -114,20 +131,9 @@ git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submod
 ```
 yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
-Install the [dependencies](#installation) for other distros:
-1. Void Linux:
-
-```bash
-sudo xbps-install -Su awesome picom rofi lxqt ttf-ubuntu-font-family
-```
-
-2. Gentoo:
-```bash
-sudo emerge --ask x11-wm/awesome x11-misc/picom x11-misc/rofi
-```
-
-#### 3) Configure
-You can then simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
+Installing Rabbithole for other distros works as well, or you can use our [automated-installer](#automated-installer) and let us know if it works or not, so we can get it running on all major distros. The installer supports; Debian, Arch, Void, & Gentoo (as well as distros based on the aforementioned ones).
+#### 3) Install Rabbitole
+Simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
 ```shell
 cp -R rabbithole/* ~/.config/awesome
 ```
@@ -135,8 +141,9 @@ Or make a symlink
 ```
 ln -s rabbithole ~/.config/awesome
 ```
-#### 4) Picom & settings.lua
-You will also want to copy the configuration for picom and settings to their appropriate places.
+### Post Installation
+#### 4) Configuration
+Next, you will need to copy the configuration for picom and Rabbithole's settings to their appropriate places.
 ```picom
 cp rabbithole/installer/picom.conf ~/.config/picom.conf
 ```
