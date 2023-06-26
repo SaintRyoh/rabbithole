@@ -120,9 +120,7 @@ ln -s rabbithole ~/.config/awesome
 Install the [dependecies](#installation) for your distro:
 1. Void Linux:
 
-```
-bash
-
+```bash
 sudo xbps-install -Su awesome picom rofi lxqt ttf-ubuntu-font-family
 ```
 
@@ -144,7 +142,6 @@ git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/s
 ```
 #### Install the Ubuntu Font Family Manually (not necessary on Arch or Ubuntu):
 ```bash
-
 sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
 sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
 sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
