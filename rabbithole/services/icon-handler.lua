@@ -3,7 +3,7 @@ local gears = require('gears')
 local __ = require('lodash')
 local io = require('io')
 
-IconHandler = {}
+local IconHandler = {}
 IconHandler.__index = IconHandler
 
 function IconHandler.new(settings)

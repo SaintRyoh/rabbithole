@@ -1,15 +1,14 @@
 local awful = require("awful")
 local gears = require("gears")
-local __ = require("lodash")
-local autorandr = require("scripts.autorandr-dbus") -- listens for udev changes in the display and runs autorandr -c
+--local autorandr = require("scripts.autorandr-dbus") -- listens for udev changes in the display and runs autorandr -c
 
 return setmetatable({}, {
     __constructor = function (
-        settings,
         rabbithole__components__buttons__global,
         rabbithole__components__keys__global,
         rabbithole__components__layouts__default,
-        rabbithole__components__rules__client___default
+        rabbithole__components__rules__client___default,
+        rabbithole__services__rabid___daemons
     )
         -- Set what happens when you click on the desktop
         root.buttons(rabbithole__components__buttons__global)
@@ -25,17 +24,6 @@ return setmetatable({}, {
             rabbithole__components__rules__client___default
         )
 
-        -- Spawn clients in the daemons settings
-        if settings.daemons then
-            __.forEach(settings.daemons, function(daemon)
-                awful.spawn.with_shell(daemon)
-            end)
-        end
-        -- Autostart applications
-        if settings.autostart_apps then
-            __.forEach(settings.autostart_apps, function(app)
-                awful.spawn.with_shell(app)
-            end)
-        end
+        rabbithole__services__rabid___daemons:run()
     end
 })
