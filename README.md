@@ -61,10 +61,46 @@ Rabbithole is ideal for users who:
 - Desire a streamlined, intuitive workspace that boosts productivity without sacrificing user experience.
 
 ## Installation
-```git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
-./rabid-installer.sh
+
+### Core (For Advanced Users)
+
+These are the dependencies you need if you are going to manually install all of your systray programs. Only recommended for experienced users who want to build their environment themselves. You will have to alter rabbithole/settings.lua with your preferred software before running Rabbithole.
 ```
-Rabbithole should be fully installed! Just log out and log back in, then select Rabbithole from your display manager.
+awesome
+rofi
+rofi-themes-collection-git
+picom
+autorandr
+ttf-ubuntu-font-family
+beautyline
+```
+### DE-Like (Recommended)
+
+Core dependencies, plus:
+```
+volumeicon
+lxqt-policykit
+lxqt-powermanagement
+network-manager-applet
+blueman-git
+flameshot
+linux-wifi-hotspot
+```
+### Tutorial
+A full DE-like install on Arch would go like this:
+```shell 
+git clone https://github.com/SaintRyoh/rabbithole
+cd rabbithole && git submodule update --init
+yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
+```
+You can also simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
+```shell
+cp -R rabbithole ~/.config/awesome
+```
+Or make a symlink
+```
+ln -s rabbithole ~/.config/awesome
+```
 
 ## Manual Installation
 Make sure the dependencies are installed (awesome, rofi, ttf-ubuntu-font-family, rofi-themes-collectionr:
@@ -101,15 +137,6 @@ git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/B
 #### Update icon cache:
 ```gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine```
 
-#### Finally, copy the config over
-Copy or symlink rabbithole to your Awesome WM configuration directory after initializing the submodules, don't forget to cd up one level again:
-```
-cd .. && cp -R rabbithole ~/.config/awesome
-```
-Or make a symlink
-```
-ln -s ~/path/of/rabbithole ~/.config/awesome
-```
 ### Contributing
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
