@@ -1,5 +1,5 @@
 ## LxQt-Installation
-Note: We plan on removing LxQt as a dependency when the systray is complete.
+
 1. Start up lxqt from your display-manager in the session menu before logging in.
 ![Display Manager](install_images/1_session-screen.png)
 2. Open lxqt-config -> Session Settings.
