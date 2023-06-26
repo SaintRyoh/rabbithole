@@ -1,9 +1,4 @@
 # Rabbithole—The Meta-Window Manager
-
-_Enter the Rabbithole._
-
-![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
-
 ### LOOKING FOR BETA TESTERS
 
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
@@ -13,6 +8,12 @@ Download [Signal](https://signal.org/download/) or [Signal Desktop](https://sign
 ```
 https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
 ```
+
+## _Enter the Rabbithole._
+
+![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
+
+
 ## Table of Contents
 - [What is a Meta-Window Manager?](#what-is-a-meta-window-manager)
 - [Features](#features)
