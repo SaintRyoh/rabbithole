@@ -1,18 +1,19 @@
 # Rabbithole—The Meta-Window Manager
-
-_Enter the Rabbithole._
-
-![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
-
 ### LOOKING FOR BETA TESTERS
 
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
-### Testers - Signal Group Chat Support
+### Signal Group Chat & Discord Support
 Download [Signal](https://signal.org/download/) or [Signal Desktop](https://signal.org/download/) to Join Support! You can also join support on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432). Sometimes you can find the creators on the [HaxMe](https://discord.gg/PwMuxBNZ) Discord as well. Come say hello!
 ```
 https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
 ```
+
+## _Enter the Rabbithole._
+
+![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
+
+
 ## Table of Contents
 - [What is a Meta-Window Manager?](#what-is-a-meta-window-manager)
 - [Features](#features)
@@ -62,9 +63,9 @@ Rabbithole is ideal for users who:
 
 ## Installation
 
-### Core (For Advanced Users)
+### Core Packages Only (For Advanced Users)
 
-These are the dependencies you need if you are going to manually install all of your systray programs. Only recommended for experienced users who want to build their environment themselves. You will have to alter rabbithole/settings.lua with your preferred software before running Rabbithole.
+These are the dependencies you need if you are going to manually install all of your systray programs. Only recommended for experienced users who want to build their environment themselves. You will have to edit the config in ~/.config/awesome/settings.lua with your preferred software before running Rabbithole.
 ```
 awesome
 rofi
@@ -74,10 +75,15 @@ autorandr
 ttf-ubuntu-font-family
 beautyline
 ```
-### DE-Like (Recommended)
-
-Core dependencies, plus:
+### DE-Like Experience Packages (Recommended)
 ```
+awesome
+rofi
+rofi-themes-collection-git
+picom
+autorandr
+ttf-ubuntu-font-family
+beautyline
 volumeicon
 lxqt-policykit
 lxqt-powermanagement
@@ -86,56 +92,67 @@ blueman-git
 flameshot
 linux-wifi-hotspot
 ```
-### Tutorial
-A full DE-like install on Arch would go like this:
+## Tutorial
+Here are instructions on how to get Rabbithole up-and-running.
+
+### Automated Installation (Recommended)
 ```shell 
-git clone https://github.com/SaintRyoh/rabbithole
-cd rabbithole && git submodule update --init
+git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
+chmod +x rabid-installer.sh
+./rabid-installer.sh
+```
+**Note:** We need beta testers for systems other than Arch-based so we can make sure the installer works. Please contact us!
+
+Or if you don't want to use the installer script, a full DE-like install for Arch (yay must be installed) is :
+```
 yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
-You can also simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
+You can then simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
 ```shell
-cp -R rabbithole ~/.config/awesome
+cp -R rabbithole/* ~/.config/awesome
 ```
 Or make a symlink
 ```
 ln -s rabbithole ~/.config/awesome
 ```
 
-## Manual Installation
-Make sure the dependencies are installed (awesome, rofi, ttf-ubuntu-font-family, rofi-themes-collectionr:
+### Manual Installation
+Install the [dependecies](#installation) for your distro:
 1. Void Linux:
 
-```
-sudo xbps-install -Su awesome picom rofi
+```bash
+sudo xbps-install -Su awesome picom rofi lxqt ttf-ubuntu-font-family
 ```
 
 2. Arch-based:
-```
-sudo pacman -Syu awesome picom rofi ttf-ubuntu-font-family
+```bash
+yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
 3. Gentoo:
-```
+```bash
 sudo emerge --ask x11-wm/awesome x11-misc/picom x11-misc/rofi
 ```
 
 Rofi themes collection and Ubuntu Font Family installation remain the same across distributions:
 
 #### Clone the Rofi themes collection:
-```
+```bash
 mkdir -p "$HOME/.local/share/rofi/themes"
 git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
 ```
-#### Install the Ubuntu Font Family Manually (skip step if on Arch-based or Ubuntu):
-```
+#### Install the Ubuntu Font Family Manually (not necessary on Arch or Ubuntu):
+```bash
 sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
 sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
 sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
 ```
 #### Install BeautyLine Icon Pack
+```
 git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/BeautyLine" ```
 #### Update icon cache:
-```gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine```
+```
+gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine```
+Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
 
 ### Contributing
 
