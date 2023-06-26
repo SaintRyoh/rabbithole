@@ -7,6 +7,8 @@
 # Core dependencies
 CORE_DEPENDENCIES=(
   awesome
+  rofi
+  picom
   ttf-ubuntu-font-family
   beautyline
 )
