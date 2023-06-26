@@ -8,6 +8,9 @@ Download [Signal](https://signal.org/download/) or [Signal Desktop](https://sign
 ```
 https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
 ```
+
+**HINT:** Hit the windows key + s to see Rabbithole's help and keybindings page.
+
 ### Upcoming Features (Based on User Feedback)
 - [ ] Toggleable menubars with options to hide/show on mouse movement
 - [ ] YouTube tutorial video (install, usage, etc.)
