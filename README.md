@@ -61,6 +61,31 @@ Rabbithole is ideal for users who:
 - Desire a streamlined, intuitive workspace that boosts productivity without sacrificing user experience.
 
 ## Installation
+
+### Core (For Advanced Users)
+
+These are the dependencies you need if you are going to manually install all of your systray programs. Only recommended for experienced users who want to build their environment themselves. You will have to alter rabbithole/settings.lua with your preferred software before running Rabbithole.
+
+awesome
+rofi
+rofi-themes-collection-git
+picom
+autorandr
+ttf-ubuntu-font-family
+beautyline
+
+### DE-Like (Recommended)
+
+Core dependencies, plus:
+
+volumeicon
+lxqt-policykit
+lxqt-powermanagement
+network-manager-applet
+blueman-git
+flameshot
+linux-wifi-hotspot
+### Tutorial
 ```shell
 git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
@@ -72,7 +97,7 @@ cp -R rabbithole ~/.config/awesome
 ```
 Or make a symlink
 ```
-ln -s ~/path/of/rabbithole ~/.config/awesome
+ln -s rabbithole ~/.config/awesome
 ```
 
 ### Post-Installation
