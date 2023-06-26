@@ -65,7 +65,7 @@ Rabbithole is ideal for users who:
 ### Core (For Advanced Users)
 
 These are the dependencies you need if you are going to manually install all of your systray programs. Only recommended for experienced users who want to build their environment themselves. You will have to alter rabbithole/settings.lua with your preferred software before running Rabbithole.
-
+```
 awesome
 rofi
 rofi-themes-collection-git
@@ -73,11 +73,11 @@ picom
 autorandr
 ttf-ubuntu-font-family
 beautyline
-
+```
 ### DE-Like (Recommended)
 
 Core dependencies, plus:
-
+```
 volumeicon
 lxqt-policykit
 lxqt-powermanagement
@@ -85,11 +85,13 @@ network-manager-applet
 blueman-git
 flameshot
 linux-wifi-hotspot
+```
 ### Tutorial
-```shell
+A full DE-like install on Arch would go like this:
+```shell 
 git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
-./rabid-installer.sh
+yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
 You can also simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
 ```shell
