@@ -20,7 +20,9 @@ https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBj
 - [Ideal For](#ideal-for)
 - [Installation](#installation)
     - [Prerequisites](#prerequisites)
-
+    - [Dependencies](#core-packages-only)
+    - [Tutorial](#tutorial)
+    - [Automated Installer](#automated-installer-recommended)
 - [Post Installation](#post-installation)
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
@@ -107,7 +109,7 @@ linux-wifi-hotspot
 
 ## Tutorial
 Here are instructions on how to get Rabbithole up-and-running.
-**Note:** If you wish to use Rabbithole as a drop-in window manager, please see the [LxQt tutorial](docs/README-lxqt-installation.md) and then proceed to [Post Installation](#3post-installation)
+**Note:** If you wish to use Rabbithole as a drop-in window manager, please see the [LxQt tutorial](docs/README-lxqt-installation.md) and then proceed to [Post Installation](#post-installation)
 
 ### Automated Installer (Recommended)
 
