@@ -117,7 +117,6 @@ fi
 if [ ! -d "$HOME/.config/awesome" ]; then
     mkdir -p "$HOME/.config/awesome"
 fi
-cp -R "$PROJECT_DIR/configs/." "$HOME/.config/awesome/"
 
 if [ ! -d "$HOME/.config/picom" ]; then
     mkdir -p "$HOME/.config/picom"
