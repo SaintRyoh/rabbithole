@@ -64,7 +64,7 @@ Rabbithole is ideal for users who:
 
 ### Core Packages Only (For Advanced Users)
 
-These are the dependencies you need if you are going to manually install all of your systray programs. Only recommended for experienced users who want to build their environment themselves. You will have to alter rabbithole/settings.lua with your preferred software before running Rabbithole.
+These are the dependencies you need if you are going to manually install all of your systray programs. Only recommended for experienced users who want to build their environment themselves. You will have to edit the config in ~/.config/awesome/settings.lua with your preferred software before running Rabbithole.
 ```
 awesome
 rofi
@@ -92,15 +92,17 @@ flameshot
 linux-wifi-hotspot
 ```
 ### Tutorial
+Here are instruction on how to get Rabbithole up-and-running.
+
+#### Automated Install Script
 ```shell 
-git clone https://github.com/SaintRyoh/rabbithole
-cd rabbithole && git submodule update --init
+git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
 chmod +x rabid-installer.sh
 ./rabid-installer.sh
 ```
-**Note:** We need beta testers for systems other than Arch so we can make sure the installer works. Please contact us!
+**Note:** We need beta testers for systems other than Arch-based so we can make sure the installer works. Please contact us!
 
-Or if you don't want to use the installer script, a full DE-like install or Arch is (yay required):
+Or if you don't want to use the installer script, a full DE-like install for Arch (yay must be installed) is :
 ```
 yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
