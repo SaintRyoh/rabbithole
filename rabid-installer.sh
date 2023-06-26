@@ -8,6 +8,7 @@ CORE_DEPENDENCIES=(
   awesome
   rofi
   rofi-themes-collection-git
+  autorandr
   picom
   ttf-ubuntu-font-family
   beautyline
@@ -128,10 +129,6 @@ if [ $PACKAGE_MANAGER != "yay" ]; then
         sudo gtk-update-icon-cache /usr/share/icons/BeautyLine
     fi
 fi
-
-# Install autorandr to /usr/bin/
-echo "Installing autorandr..."
-sudo cp "$PROJECT_DIR/installer/autorandr" /usr/bin/
 
 # Copy rabbithole.desktop to /usr/share/xsessions/
 echo "Copying rabbithole.desktop to /usr/share/xsessions/..."
