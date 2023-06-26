@@ -122,6 +122,8 @@ git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submod
 chmod +x rabid-installer.sh
 ./rabid-installer.sh
 ```
+Then select Rabbithole from your session manager!
+![Rabbithole](docs/install_images/1-select-rabbithole.jpeg)
 **Note:** We need beta testers for systems other than Arch-based so we can make sure the installer works. Please contact us!
 
 ### Manual Installation
