@@ -114,7 +114,7 @@ git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submod
 ```
 yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
-Install the [dependecies](#installation) for your distro:
+Install the [dependencies](#installation) for your distro:
 1. Void Linux:
 
 ```bash
