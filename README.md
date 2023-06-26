@@ -92,10 +92,10 @@ blueman-git
 flameshot
 linux-wifi-hotspot
 ```
-### Tutorial
-Here are instruction on how to get Rabbithole up-and-running.
+## Tutorial
+Here are instructions on how to get Rabbithole up-and-running.
 
-#### Automated Install Script
+### Automated Installation (Recommended)
 ```shell 
 git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
 chmod +x rabid-installer.sh
@@ -116,19 +116,7 @@ Or make a symlink
 ln -s rabbithole ~/.config/awesome
 ```
 
-### Post-Installation
-Note: We plan on removing LxQt as a dependency when the systray is complete.
-1. Start up lxqt from your display-manager in the session menu before logging in.
-![Display Manager](docs/install_images/1_session-screen.png)
-2. Open lxqt-config -> Session Settings.
-3. In Basic Settings, select "awesome" as your window manager.
-4. Stop and uncheck all services, besides PolicyKit, Power Management, and Picom.
-![LxQt Settings](docs/install_images/2_lxqt-session.png)
-5. Make sure autorandr is on. Also make sure Network, and whatever else you need is still checked off, and disable whatever you don't need.
-![lxqt-settings](docs/install_images/3_autostart-lxqt.png)
-6. Restart lxqt to begin using Rabbithole!
-
-## Manual Installation
+### Manual Installation
 Install the [dependecies](#installation) for your distro:
 1. Void Linux:
 
@@ -139,39 +127,34 @@ sudo xbps-install -Su awesome picom rofi lxqt ttf-ubuntu-font-family
 ```
 
 2. Arch-based:
-```
-bash
-
+```bash
 yay -Syu lxqt awesome picom rofi ttf-ubuntu-font-family
 ```
 3. Gentoo:
-```
-bash
-
+```bash
 sudo emerge --ask x11-wm/awesome x11-misc/picom x11-misc/rofi
 ```
 
 Rofi themes collection and Ubuntu Font Family installation remain the same across distributions:
 
 #### Clone the Rofi themes collection:
-```
-bash
-
+```bash
 mkdir -p "$HOME/.local/share/rofi/themes"
 git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
 ```
-#### Install the Ubuntu Font Family Manually (not necessary on Arch:
-```
-bash
+#### Install the Ubuntu Font Family Manually (not necessary on Arch or Ubuntu):
+```bash
 
 sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
 sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
 sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
 ```
 #### Install BeautyLine Icon Pack
+```
 git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/BeautyLine" ```
 #### Update icon cache:
-```gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine```
+```
+gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine```
 Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
 
 ### Contributing
