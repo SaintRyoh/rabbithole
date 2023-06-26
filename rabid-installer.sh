@@ -65,15 +65,26 @@ read -p "Enter your choice (1-2): " INSTALL_TYPE
 # Use check_if_installed instead of check_and_install in the script
 if [ "$INSTALL_TYPE" = "1" ]; then
   for pkg in "${CORE_DEPENDENCIES[@]}"; do
+      echo "Checking and installing $pkg..."
       check_and_install "$pkg"
   done
 elif [ "$INSTALL_TYPE" = "2" ]; then
   for pkg in "${CORE_DEPENDENCIES[@]}"; do
+      echo "Checking and installing $pkg..."
       check_and_install "$pkg"
   done
   for pkg in "${DE_LIKE_DEPENDENCIES[@]}"; do
+      echo "Checking and installing $pkg..."
       check_and_install "$pkg"
   done
+fi
+
+if [ ! -d "$HOME/.config/awesome" ]; then
+    mkdir -p "$HOME/.config/awesome"
+fi
+
+if [ ! -d "$HOME/.config/picom" ]; then
+    mkdir -p "$HOME/.config/picom"
 fi
 
 # Check the user's installation choice and copy the corresponding settings file.
@@ -97,12 +108,14 @@ fi
 if [ $PACKAGE_MANAGER != "yay" ]; then
     # Clone the Rofi themes collection if it doesn't exist
     if [ ! -d "$HOME/.local/share/rofi/themes" ]; then
+        echo "Downloading Rofi themes collection..."
         mkdir -p "$HOME/.local/share/rofi/themes"
         git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
     fi
 
     # Download and extract Ubuntu Font Family if it doesn't exist
     if [ ! -d "/usr/share/fonts/ubuntu-font-family" ]; then
+        echo "Downloading Ubuntu Font Family..."
         sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
         sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
         sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family"
@@ -110,26 +123,22 @@ if [ $PACKAGE_MANAGER != "yay" ]; then
     
     # Install BeautyLine icons if they don't exist
     if [ ! -d "/usr/share/icons/BeautyLine" ]; then
+        echo "Downloading BeautyLine icons..."
         sudo git clone https://github.com/NOYB/icons.git /usr/share/icons/BeautyLine
         sudo gtk-update-icon-cache /usr/share/icons/BeautyLine
     fi
 fi
 
-if [ ! -d "$HOME/.config/awesome" ]; then
-    mkdir -p "$HOME/.config/awesome"
-fi
-
-if [ ! -d "$HOME/.config/picom" ]; then
-    mkdir -p "$HOME/.config/picom"
-fi
-
 # Install autorandr to /usr/bin/
+echo "Installing autorandr..."
 sudo cp "$PROJECT_DIR/installer/autorandr" /usr/bin/
 
 # Copy rabbithole.desktop to /usr/share/xsessions/
+echo "Copying rabbithole.desktop to /usr/share/xsessions/..."
 sudo cp "$PROJECT_DIR/installer/rabbithole.desktop" /usr/share/xsessions/
 
 # Set the default rofi theme
+echo "Setting the default rofi theme..."
 echo "rofi.theme: $HOME/.local/share/rofi/themes/themes/rounded-nord-dark.rasi" >> "$HOME/.Xresources"
 xrdb -merge "$HOME/.Xresources"
 
@@ -137,6 +146,8 @@ xrdb -merge "$HOME/.Xresources"
 #rsync -av "$PROJECT_DIR/" "$HOME/.config/awesome"
 
 # Copy picom.conf into $HOME/.config/picom/
+echo "Copying picom.conf to $HOME/.config/picom/..."
 cp "$PROJECT_DIR/installer/picom.conf" "$HOME/.config/picom/picom.conf"
 
-cp -R "$PROJECT_DIR" "$HOME/.config/awesome"
+echo "Copying Rabbithole's configuration files to $HOME/.config/awesome/..."
+cp -R "$PROJECT_DIR/"* "$HOME/.config/awesome"
