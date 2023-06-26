@@ -1,6 +1,6 @@
 # Rabbithole—The Meta-Window Manager
 ### LOOKING FOR BETA TESTERS
-### **AUTOMATED INSTALLER WORKING FOR ARCH - NEED TESTERS**
+#### Automated Installer Working for ARCH - Please Help Us Test On Other Distros**
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
 ### Signal Group Chat & Discord Support
