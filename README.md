@@ -10,6 +10,8 @@ https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBj
 ```
 
 **HINT:** Hit the windows key + s to see Rabbithole's help and keybindings page.
+i3 users will notice the keytbindings are very familiar.
+Newcomers, hit **Win+d** to start your program launcher. Your computer is at your fingertips.
 
 ### Upcoming Features (Based on User Feedback)
 - [ ] Toggleable menubars with options to hide/show on mouse movement
