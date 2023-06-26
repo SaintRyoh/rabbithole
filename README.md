@@ -172,7 +172,7 @@ As we finish up the remainder of unfinished features for v1 (and the bugs that u
 
 Our grand vision is to morph Rabbithole into an AI-powered virtual interface that offers full compatibility with all of your devices. Be it your mobile, PC, or VR/AR headsets, we aim to provide a seamless, unified, and immersive experience across all platforms.
 
-About the "Building A Second Brain" and "Getting Things Done" concepts that fit into Rabbithole's philosophy:
+#### About the "Building A Second Brain" and "Getting Things Done" concepts that fit into Rabbithole's philosophy:
 
 _"Building a Second Brain"_ and _"Getting Things Done"_ (GTD) are two significant productivity philosophies that Rabbithole integrates at its core.
 
