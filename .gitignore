@@ -7,8 +7,10 @@ rabbithole/session.lua
 rabbithole/session.lua.bak
 
 rabbithole/session.dat
-
 rabbithole/session.dat.bak
+
 rabbithole/unused_modules/
 
 rabbithole/services/sessionManager/sessionManagerService.lua~HEAD
+
+settings.lua

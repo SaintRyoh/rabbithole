@@ -27,8 +27,10 @@ function UserInterface.new(
         local resolution = s.geometry.width * s.geometry.height
         local dpi
 
-        if resolution >= 1920 * 1080 then
+        if resolution > 1920 * 1080 then
             dpi = 144 -- or whatever value you want for high DPI screens
+        elseif resolution > 1366 * 768 then
+            dpi = 110 -- or whatever value you want for medium DPI screens (1080p laptops)
         else
             dpi = 96 --or whatever dpi value you want for low DPI screens
         end

@@ -1,0 +1,17 @@
+--local dbus = require("dbus")
+--
+--local function monitor_status_changed()
+--    os.execute("autorandr --change")
+--end
+--
+--dbus.request_name("session", "org.freedesktop.DBus")
+--dbus.add_match("session", "interface='org.freedesktop.DBus',member='NameOwnerChanged'")
+--dbus.connect_signal("org.freedesktop.DBus", function(...)
+--    local data = {...}
+--    local dbus_interface = data[1]
+--    local member = data[2]
+--    if member == "NameOwnerChanged" then
+--        monitor_status_changed()
+--    end
+--end)
+--

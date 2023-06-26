@@ -1,0 +1,6 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Rabbithole
+Comment=Rabbithole Window Manager
+Exec=/usr/bin/awesome
+Type=XSession

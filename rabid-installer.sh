@@ -15,7 +15,7 @@ CORE_DEPENDENCIES=(
 
 # DE-Like dependencies
 DE_LIKE_DEPENDENCIES=(
-  volumeicon
+  pnmixer
   lxqt-policykit
   lxqt-powermanagement
   network-manager-applet
