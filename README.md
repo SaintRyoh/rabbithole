@@ -23,6 +23,7 @@ https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBj
     - [Dependencies](#core-packages-only-advanced-users)
     - [Tutorial](#tutorial)
     - [Automated Installer](#automated-installer-recommended)
+    - [Manual Installation](#manual-installation)
 - [Post Installation](#post-installation)
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
@@ -79,7 +80,7 @@ Rabbithole is designed for use on Linux operating systems. To use Rabbithole, yo
 
 ### Core Packages Only (Advanced Users)
 
-These are the dependencies you need if you are going to manually install all of your systray programs and really know what you are doing when it comes to window managers. Only recommended for experienced users who want to build their environment themselves. You will have to edit the config in ~/.config/awesome/settings.lua with your preferred software before running Rabbithole. We still recommened you install our picom config on [post installation](#post-installation).
+These are the dependencies you need if you are going to manually install all of your systray programs and really know what you are doing when it comes to window managers. Only recommended for experienced users who want to build their environment themselves. You will still have to go through [post installation](#post-installation) to configure Rabbithole properly.
 ```
 awesome
 rofi
@@ -114,6 +115,7 @@ Here are instructions on how to get Rabbithole up-and-running.
 ### Automated Installer (Recommended)
 
 The automated installer will not only install all of the dependencies, but it will copy all custom Rabbithole configurations (picom, rofi, etc.) to their appropriate locations. If you already have a copy of Rabbithole installed, the installer will not delete your settings.lua. So if you messed up your installation, you should _rm -rf ~/.config/awesome_ before proceeding.
+**Note:** Running the automated installer means you can skip the rest of the tutorial. Dive straight into selecting Rabbithole from your login screen and boot it up!
 
 ```shell 
 git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
@@ -133,7 +135,9 @@ git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submod
 yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
 Installing Rabbithole for other distros works as well, or you can use our [automated-installer](#automated-installer) and let us know if it works or not, so we can get it running on all major distros. The installer supports; Debian, Arch, Void, & Gentoo (as well as distros based on the aforementioned ones).
+
 #### 3) Install Rabbitole
+
 Simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
 ```shell
 cp -R rabbithole/* ~/.config/awesome
@@ -143,6 +147,7 @@ Or make a symlink
 ln -s rabbithole ~/.config/awesome
 ```
 ### Post Installation
+After Rabbithole is now installed, we sill must configure everything.
 #### 4) Configuration
 Next, you will need to copy the configuration for picom and Rabbithole's settings to their appropriate places.
 ```picom
