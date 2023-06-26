@@ -62,7 +62,7 @@ Rabbithole is ideal for users who:
 
 ## Installation
 
-### Core (For Advanced Users)
+### Core Packages Only (For Advanced Users)
 
 These are the dependencies you need if you are going to manually install all of your systray programs. Only recommended for experienced users who want to build their environment themselves. You will have to alter rabbithole/settings.lua with your preferred software before running Rabbithole.
 ```
@@ -74,10 +74,15 @@ autorandr
 ttf-ubuntu-font-family
 beautyline
 ```
-### DE-Like (Recommended)
-
-Core dependencies, plus:
+### DE-Like Experience Packages (Recommended)
 ```
+awesome
+rofi
+rofi-themes-collection-git
+picom
+autorandr
+ttf-ubuntu-font-family
+beautyline
 volumeicon
 lxqt-policykit
 lxqt-powermanagement
@@ -87,15 +92,21 @@ flameshot
 linux-wifi-hotspot
 ```
 ### Tutorial
-A full DE-like install on Arch would go like this:
 ```shell 
 git clone https://github.com/SaintRyoh/rabbithole
 cd rabbithole && git submodule update --init
+chmod +x rabid-installer.sh
+./rabid-installer.sh
+```
+**Note:** We need beta testers for systems other than Arch so we can make sure the installer works. Please contact us!
+
+Or if you don't want to use the installer script, a full DE-like install or Arch is (yay required):
+```
 yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
 ```
-You can also simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
+You can then simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
 ```shell
-cp -R rabbithole ~/.config/awesome
+cp -R rabbithole/* ~/.config/awesome
 ```
 Or make a symlink
 ```
@@ -115,20 +126,20 @@ Note: We plan on removing LxQt as a dependency when the systray is complete.
 6. Restart lxqt to begin using Rabbithole!
 
 ## Manual Installation
-Make sure the dependencies are installed (lxqt, awesome, rofi, ttf-ubuntu-font-family, rofi-themes-collectionr:
+Install the [dependecies](#installation) for your distro:
 1. Void Linux:
 
 ```
 bash
 
-sudo xbps-install -Su awesome picom rofi lxqt
+sudo xbps-install -Su awesome picom rofi lxqt ttf-ubuntu-font-family
 ```
 
 2. Arch-based:
 ```
 bash
 
-sudo pacman -Syu lxqt awesome picom rofi ttf-ubuntu-font-family
+yay -Syu lxqt awesome picom rofi ttf-ubuntu-font-family
 ```
 3. Gentoo:
 ```
