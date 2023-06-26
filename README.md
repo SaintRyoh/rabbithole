@@ -8,7 +8,7 @@ _Enter the Rabbithole._
 
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
-### Testers - Signal Group Chat Support
+### Signal Group Chat & Discord Support
 Download [Signal](https://signal.org/download/) or [Signal Desktop](https://signal.org/download/) to Join Support! You can also join support on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432). Sometimes you can find the creators on the [HaxMe](https://discord.gg/PwMuxBNZ) Discord as well. Come say hello!
 ```
 https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
