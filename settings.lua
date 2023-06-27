@@ -100,7 +100,7 @@ return {
         "flameshot",
     },
     autostart_apps = {
-        "pnmixer",
+        "volumeicon",
         "/opt/piavpn/bin/pia-client %u --quiet",
         "syncthingtray qt-widgets-gui --single-instance --wait"
     },

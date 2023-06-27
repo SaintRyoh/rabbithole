@@ -11,14 +11,14 @@ CORE_DEPENDENCIES=(
   autorandr
   picom
   ttf-ubuntu-font-family
+  lxqt-policykit
+  lxqt-powermanagement
   beautyline
 )
 
 # DE-Like dependencies
 DE_LIKE_DEPENDENCIES=(
-  pnmixer
-  lxqt-policykit
-  lxqt-powermanagement
+  volumeicon
   network-manager-applet
   blueman-git
   flameshot
