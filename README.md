@@ -85,9 +85,8 @@ Rabbithole is designed for use on Linux operating systems. To use Rabbithole, yo
 
 - Have a working Linux installation. Rabbithole has been [tested](#looking-for-beta-testers) and is known to work on: Arch (as well as distros based on the aforementioned ones).
 - Be comfortable using the command line, as some aspects of the installation process may require it.
-- Have **git** installed to clone the Rabbithole repository. If you don't have git installed, you can install it with your distribution's package manager. For example, on
-- Ubuntu, you can install git with the following command: sudo apt install git
-- For the DE-Like Experience, yay should be installed on Arch based distros for the easiest time.
+- Have **git** installed to clone the Rabbithole repository. If you don't have git installed, you can install it with your distribution's package manager. For example, on Ubuntu, you can install git with the following command: ```sudo apt install git```
+- For the DE-Like experience, yay or another AUR tool should be installed on Arch based distros for the easiest installation.
 
 ### Core Packages Only (Advanced Users)
 
