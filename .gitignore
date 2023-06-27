@@ -13,4 +13,4 @@ rabbithole/unused_modules/
 
 rabbithole/services/sessionManager/sessionManagerService.lua~HEAD
 
-settings.lua
+rabbithole/settings.lua
