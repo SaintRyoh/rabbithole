@@ -57,10 +57,8 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
             timeout = 0,
             position = "top_right",
             shape = gears.shape.rounded_rect,
-            destroy = function()
-                self:saveSession()
-            end
         })
+        self:saveSession()
     end
 
     -- make a timer to periodically save the session
