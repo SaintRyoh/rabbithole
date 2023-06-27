@@ -66,7 +66,6 @@ return {
         brightness_control = "brightnessctl",
     },
     core_settings = {
-        wallpaper = "rabbithole/wallpapers/japan.jpg",
         modkey = "Mod4",
         altkey = "Mod1",
         icon_theme = "BeautyLine",
