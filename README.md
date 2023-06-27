@@ -35,6 +35,7 @@ Newcomers, hit **Win+d** to start your program launcher. Your computer is at you
     - [Automated Installer](#automated-installer-recommended)
     - [Manual Installation](#manual-installation)
 - [Post Installation](#post-installation)
+- [Configuring Rabbithole](#configuring-rabbithole)
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
 
@@ -197,7 +198,9 @@ git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/B
 gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine
 ```
 Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
-
+## Configuring Rabbithole
+Rabbithole's configuration file is located in ```~/.config/awesome/settings.lua```
+Here you can add startup programs and daemons to the list under the appropraite tables. (Tutorials coming soon)
 ### Contributing
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
