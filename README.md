@@ -18,7 +18,7 @@ Newcomers, hit **Win+d** to start your program launcher. Your computer is at you
 - [ ] YouTube tutorial video (install, usage, etc.)
 - [ ] Easier settings management (settings manager app)
 - [ ] More customizable settings.lua (size/location of widget bars)
-- [ ] Fixing session.dat bug on first run
+- [x] Fixing session.dat bug on first run
 ## _Enter the Rabbithole._
 
 ![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
