@@ -199,7 +199,7 @@ gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine
 ```
 Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
 ## Configuring Rabbithole
-Rabbithole's configuration file is located in ```~/.config/awesome/settings.lua```
+Rabbithole's configuration file is located in ```~/.config/awesome/settings.lua```. When you want to change anything about Rabbithole, this is the place you go. You should never have to modify Rabbithole's source code. As new features are added, they will have their options added to settings.lua.
 Here you can add startup programs and daemons to the list under the appropraite tables. (Tutorials coming soon)
 ### Contributing
 
