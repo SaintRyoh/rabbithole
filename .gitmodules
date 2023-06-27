@@ -12,7 +12,7 @@
 	url = https://github.com/andOrlando/rubato
 [submodule "sub/freedesktop"]
 	path = sub/freedesktop
-	url = https://github.com/fenrirlycan/rabbithole-freedesktop
+	url = https://github.com/LycanDarko666/rabbithole-freedesktop
 [submodule "sub/nice"]
 	path = sub/nice
 	url = https://github.com/SaintRyoh/awesome-wm-nice

@@ -21,13 +21,8 @@ function RabidDaemons.new(settings)
 end
 
 function RabidDaemons:run_once(cmd)
-    local findme = cmd
-    local firstspace = cmd:find(" ")
-    if firstspace then
-        findme = cmd:sub(0, firstspace-1)
-    end
     -- Run pgrep, capture the output into data
-    awful.spawn.easy_async("pgrep -u $USER -x " .. findme,
+    awful.spawn.easy_async_with_shell("pgrep -u $USER -f -x '" .. cmd .. "'",
         function(stdout, stderr, reason, exit_code)
             -- Only start the command if pgrep didn't find a process
             -- (i.e., if the exit code was non-zero)

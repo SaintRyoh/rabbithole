@@ -80,6 +80,6 @@ return {
         "nm-applet",
         "blueman-applet",
         "flameshot",
-        "pnmixer"
+        "volumeicon"
     },
 }

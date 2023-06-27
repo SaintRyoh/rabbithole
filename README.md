@@ -1,6 +1,6 @@
 # Rabbithole—The Meta-Window Manager
 ### LOOKING FOR BETA TESTERS
-### **AUTOMATED INSTALLER WORKING FOR ARCH - NEED TESTERS**
+#### Automated Installer Working for ARCH - Please Help Us Test On Other Distros**
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
 ### Signal Group Chat & Discord Support
@@ -9,6 +9,16 @@ Download [Signal](https://signal.org/download/) or [Signal Desktop](https://sign
 https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
 ```
 
+**HINT:** Hit the windows key + s to see Rabbithole's help and keybindings page.
+i3 users will notice the keybindings are very familiar.
+Newcomers, hit **Win+d** to start your program launcher. Your computer is at your fingertips.
+
+### Upcoming Features (Based on User Feedback)
+- [ ] Toggleable menubars with options to hide/show on mouse movement
+- [ ] YouTube tutorial video (install, usage, etc.)
+- [ ] Easier settings management (settings manager app)
+- [ ] More customizable settings.lua (size/location of widget bars)
+- [ ] Fixing session.dat bug on first run
 ## _Enter the Rabbithole._
 
 ![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
@@ -25,6 +35,7 @@ https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBj
     - [Automated Installer](#automated-installer-recommended)
     - [Manual Installation](#manual-installation)
 - [Post Installation](#post-installation)
+- [Configuring Rabbithole](#configuring-rabbithole)
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
 
@@ -74,9 +85,8 @@ Rabbithole is designed for use on Linux operating systems. To use Rabbithole, yo
 
 - Have a working Linux installation. Rabbithole has been [tested](#looking-for-beta-testers) and is known to work on: Arch (as well as distros based on the aforementioned ones).
 - Be comfortable using the command line, as some aspects of the installation process may require it.
-- Have **git** installed to clone the Rabbithole repository. If you don't have git installed, you can install it with your distribution's package manager. For example, on
-- Ubuntu, you can install git with the following command: sudo apt install git
-- For the DE-Like Experience, yay should be installed on Arch based distros for the easiest time.
+- Have **git** installed to clone the Rabbithole repository. If you don't have git installed, you can install it with your distribution's package manager. For example, on Ubuntu, you can install git with the following command: ```sudo apt install git```
+- For the DE-Like experience, yay or another AUR tool should be installed on Arch based distros for the easiest installation.
 
 ### Core Packages Only (Advanced Users)
 
@@ -187,7 +197,9 @@ git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/B
 gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine
 ```
 Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
-
+## Configuring Rabbithole
+Rabbithole's configuration file is located in ```~/.config/awesome/settings.lua```. When you want to change anything about Rabbithole, this is the place you go. You should never have to modify Rabbithole's source code. As new features are added, they will have their options added to settings.lua.
+Here you can add startup programs and daemons to the list under the appropraite tables. (Tutorials coming soon)
 ### Contributing
 
 We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!

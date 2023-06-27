@@ -31,7 +31,7 @@ return setmetatable({}, {
                     end
 
                 end),
-                awful.button({ "Mod4" }, 3, function(t)
+                awful.button({ }, 3, function(t)
                     taglistmenu:updateMenu(t)
                     taglistmenu.taglist_menu:toggle()
                 --    if client.focus then
@@ -41,7 +41,7 @@ return setmetatable({}, {
                 awful.button({ "Ctrl" }, 1, function(t)
                     sharedtags.viewtoggle(t, t.screen)
                 end ),
-                awful.button({ }, 2, function(t)
+                awful.button({ "Mod4" }, 2, function(t)
                     modal.confirm({
                         title = "Delete tag",
                         text = "Are you sure you want to delete this tag?",
