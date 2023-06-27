@@ -24,30 +24,43 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
 
     self.restore = {}
 
-
     capi.screen.connect_signal("removed", function (s)
         self:screenDisconnectUpdate(s)
     end)
 
-
     -- load sesison
     self.path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat"
 
-    local status, err = pcall(function()
-        self:loadSession()
-    end)
+    if gears.filesystem.file_readable(self.path) then
+        local status, err = pcall(function()
+            self:loadSession()
+        end)
 
-    if not status then
-        -- self:backupSessionFile(self.path)
-        naughty.notify({
-            title = "Error loading session",
-            text = err,
-            timeout = 0
-        })
+        if not status then
+            naughty.notify({
+                title = "Error loading session",
+                text = err,
+                timeout = 0
+            })
+            self:newSession()
+            self.session_restored = false
+        else
+            self.session_restored = true
+        end
+    else
+        -- If session.dat does not exist, create a new session
         self:newSession()
         self.session_restored = false
-    else
-        self.session_restored = true
+        naughty.notify({
+            title = "Welcome to Rabbithole.",
+            text = "This is your first time using Rabbithole.\nA new session has been created for you.\nMake sure to save your session from the \nworkspace menu (top-left) before exiting \nto preserve your tags and workspaces.",
+            timeout = 0,
+            position = "top_right",
+            shape = gears.shape.rounded_rect,
+            destroy = function()
+                self:saveSession()
+            end
+        })
     end
 
     -- make a timer to periodically save the session
@@ -58,7 +71,6 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
             self:saveSession()
         end
     })
-
 
     -- observer
     self.subscribers = {}
