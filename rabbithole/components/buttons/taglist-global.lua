@@ -8,6 +8,7 @@ local modal = require("rabbithole.services.modal.modal")
 
 return setmetatable({}, {
     __constructor = function (
+        settings,
         workspaceManagerService,
         rabbithole__components__menus__taglist___global
     )
@@ -41,7 +42,7 @@ return setmetatable({}, {
                 awful.button({ "Ctrl" }, 1, function(t)
                     sharedtags.viewtoggle(t, t.screen)
                 end ),
-                awful.button({ "Mod4" }, 2, function(t)
+                awful.button({ settings.core_settings.modkey }, 2, function(t)
                     modal.confirm({
                         title = "Delete tag",
                         text = "Are you sure you want to delete this tag?",
@@ -54,6 +55,6 @@ return setmetatable({}, {
                 awful.button({ }, 5, function(t) workspaceManagerService:viewPrevTag() end)
         )
         return taglist_buttons
-        
+
     end
 })
