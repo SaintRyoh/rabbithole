@@ -37,7 +37,7 @@ function ColorService.blend_colors(color1, color2, percentage)
     local b3 = math.floor((b2 * percentage) + (b1 * (1 - percentage)))
      -- Convert the blended RGB values back to a hex string
     local color3 = string.format("#%02X%02X%02X", r3, g3, b3)
-     return color3
+    return color3
 end
 
 -- [[[ GRADIENTS - These are used to add depth to widget appearance.

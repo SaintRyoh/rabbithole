@@ -1,3 +1,5 @@
+-- Skeleton file for future notification center service
+
 local Notification = { }
 Notification.__index = Notification
 
