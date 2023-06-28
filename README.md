@@ -3,11 +3,9 @@
 #### Automated Installer Working for ARCH - Please Help Us Test On Other Distros**
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
-### Signal Group Chat & Discord Support
-Download [Signal](https://signal.org/download/) or [Signal Desktop](https://signal.org/download/) to Join Support! You can also join support on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432). Sometimes you can find [the creators](docs/AUTHORS.md) on the [HaxMe](https://discord.gg/PwMuxBNZ) Discord as well. Come say hello!
-```
-https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
-```
+### Discord Support
+Join  our group on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) for **live support** and to talk to the developers! We're happy to help with anything you need, we are looking for feature requests, feedback, or even helo with customizing your installation! We also love to talk about philosophy, AI, and the future of computing. Come join us!
+
 
 ### **USAGE TUTORIAL:** The Windows key on your keyboard has magical powers.
 i3 users will notice the keybindings are very familiar.
