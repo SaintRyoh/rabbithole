@@ -9,16 +9,26 @@ Download [Signal](https://signal.org/download/) or [Signal Desktop](https://sign
 https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
 ```
 
-**HINT:** Hit the windows key + s to see Rabbithole's help and keybindings page.
+### **USAGE TUTORIAL:** The Windows key on your keyboard has magical powers.
 i3 users will notice the keybindings are very familiar.
-Newcomers, hit **Win+d** to start your program launcher. Your computer is at your fingertips.
+
+- **Hit ```Win + s``` to see Rabbithole's help and keybindings page.**
+- ```Win + d``` will open the program launcher.
+- ```Win + Tab``` will open your window/task switcher.
+- ```Win + f``` will fullscreen your workspace switcher.
+- ```Win + q``` will kill the focused app.
+#### **Mouse**
+- Right-click tasks to move them between local or global tags and workspaces.
+- Middle click tasks/clients to kill them
+- Ctrl + Left-click to view multiple tags (virtual desktops) on a single screen
+- Win + Right-click on tags to delete, renamme, or move to a different workspace
 
 ### Upcoming Features (Based on User Feedback)
 - [ ] Toggleable menubars with options to hide/show on mouse movement
 - [ ] YouTube tutorial video (install, usage, etc.)
 - [ ] Easier settings management (settings manager app)
 - [ ] More customizable settings.lua (size/location of widget bars)
-- [x] Fixed session.dat bug on first run
+- [x] Fixed session.dat bug
 ## _Enter the Rabbithole._
 
 ![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
