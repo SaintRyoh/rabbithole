@@ -32,7 +32,7 @@ return setmetatable({}, {
                     end
 
                 end),
-                awful.button({ }, 3, function(t)
+                awful.button({ settings.core_settings.modkey }, 3, function(t)
                     taglistmenu:updateMenu(t)
                     taglistmenu.taglist_menu:toggle()
                 --    if client.focus then
