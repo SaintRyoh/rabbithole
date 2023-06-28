@@ -30,7 +30,10 @@ local function apply_redundancies(theme)
     theme.notification_bg = theme.neutral
     theme.notification_fg = theme.white
     theme.notification_border_color = theme.base_color
-
+    
+    -- [[[ Hotkeys popup variables
+    theme.hotkeys_bg = theme.bg_normal
+    -- ]]]
     -- [[[ BLING theme variables
     theme.tag_preview_client_border_color = theme.base_color
     theme.tag_preview_widget_border_color = theme.neutral
