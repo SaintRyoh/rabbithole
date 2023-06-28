@@ -21,7 +21,7 @@ return setmetatable({}, {
                 awful.button({ }, 2, function(c)
                     c:kill()
                 end),
-                awful.button({ "Mod4" }, 3, function(c)
+                awful.button({ }, 3, function(c)
                     rabbithole__components__menus__tasklist(c):toggle()
                 end),
                 awful.button({ }, 4, function ()
