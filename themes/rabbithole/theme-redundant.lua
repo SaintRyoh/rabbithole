@@ -1,4 +1,4 @@
---[[ Table of the redunant spiderweb of theme variables that gives Rabbithole
+--[[ Table of the redunant spiderweb algorithm of theme variables which gives Rabbithole
 it's consistent look and feel.
 ]]
 
