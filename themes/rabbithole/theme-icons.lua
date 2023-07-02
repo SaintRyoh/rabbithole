@@ -5,7 +5,7 @@ local recolor = require("gears.color").recolor_image
 local icons = {}
 
 icons.rabbit_icon = themes_path .. "rabbithole/icons/rabbit-menu.svg"
---icons.menu_submenu_icon = themes_path .. "default/submenu.png -- we no longer have an icon for this. idk if we need to"
+icons.menu_submenu_icon = themes_path .. "default/submenu.png -- we no longer have an icon for this. idk if we need to"
 
 -- [[[ Layouts
 icons.layout_tile = themes_path .. "rabbithole/layouts/tile.svg"

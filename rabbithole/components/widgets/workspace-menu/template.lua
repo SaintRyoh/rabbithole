@@ -28,11 +28,9 @@ function _M.get(controller)
                     if bindings.menu.wibox.visible == true then
                         bindings.menu:hide()
                         bindings.root.bg = beautiful.bg_normal
-                        bindings.workspace_name_container.bg = beautiful.bg_normal
                     else
                         bindings.rotator.direction = "west"
                         bindings.root.bg = beautiful.bg_focus
-                        bindings.workspace_name_container.bg = beautiful.bg_focus
                         bindings.menu:show({
                             coords = {
                                 x = event.x,
@@ -52,18 +50,6 @@ function _M.get(controller)
                 resize = true,
                 forced_height = 30,
             },
-            -- Workspace name container
-            {
-                widget = wibox.container.background,
-                -- bg = beautiful.bg_normal,
-                {
-                    widget = wibox.widget.textbox,
-                    bind = "workspace_name",
-                },
-                bind = "workspace_name_container",
-                id = "workspace_name_container"
-            },
-
             {
                 widget = wibox.container.rotate,
                 direction = "north",
@@ -89,13 +75,11 @@ function _M.get(controller)
         subscribed = function(pos)
             if type(Template.root.bg) == "string" then
                 Template.root.bg = controller.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, pos)
-                Template.root:get_children_by_id("workspace_name_container")[1].bg = Template.root.bg
             else
                 Template.root.bg = controller.color.twoColorTrue3d(
                     controller.color.blend_colors(beautiful.base_color, beautiful.tertiary_1, pos), 
                     controller.color.blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos)
                 )
-                Template.root:get_children_by_id("workspace_name_container")[1].bg = Template.root.bg
             end
         end
     })

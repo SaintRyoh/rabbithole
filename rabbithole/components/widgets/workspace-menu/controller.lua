@@ -30,12 +30,12 @@ function WorkspaceMenuController.new(workspaceManagerService, theme, rabbithole_
 
     self.view.bindings.root:connect_signal("mouse::enter", function()
         self.view.bindings.root.bg = theme.bg_focus
-        self.view.bindings.workspace_name_container.bg = theme.bg_focus
+        --self.view.bindings.workspace_name_container.bg = theme.bg_focus
     end)
 
     self.view.bindings.root:connect_signal("mouse::leave", function()
         self.view.bindings.root.bg = theme.bg_normal
-        self.view.bindings.workspace_name_container.bg = theme.bg_normal
+        --self.view.bindings.workspace_name_container.bg = theme.bg_normal
     end)
 
     return self
@@ -85,7 +85,7 @@ end
 
 -- set the text of the widget
 function WorkspaceMenuController:set_text(text)
-    self.view.bindings.workspace_name.text = text
+    --self.view.bindings.workspace_name.text = text
     self:set_icon(text)
 end
 
