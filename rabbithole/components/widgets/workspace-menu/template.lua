@@ -41,9 +41,6 @@ function _M.get(controller)
                 end)
             end
         },
-        {
-            layout = wibox.layout.fixed.horizontal,
-            spacing = 5,
             {
                 widget = wibox.widget.imagebox,
                 bind = "workspace_icon",
@@ -65,7 +62,6 @@ function _M.get(controller)
                 },
                 bind = "rotator"
             }
-        },
     }
 
     animation = controller.animation({
