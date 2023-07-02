@@ -86,7 +86,7 @@ end
 -- @param base The first color in the gradient
 -- @param secondary The second color in the gradient
 -- @return A gears.color object representing the linear gradient background
-function ColorService.twoColorTrue3d(base, secondary)
+function ColorService.twoColorTrue3d(base, secondary, height)
     local top_color = colors["White"]
     local base_light = lighten(base, 30)
     local bottom_color = darken(base, 45)
@@ -448,4 +448,3 @@ function ColorService:create_shadow(radius, offset)
 end
 
 return ColorService
-

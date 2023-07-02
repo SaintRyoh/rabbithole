@@ -20,7 +20,7 @@ local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 -- Theme resources
 local icons = require("themes.rabbithole.theme-icons")
 local table_utils = require("rabbithole.services.table-utils")
-local shapes = require("themes.rabbithole.theme-shapes")
+local ui = require("themes.rabbithole.theme-ui")
 local add_redundancies = require("themes.rabbithole.theme-redundant")
 
 local theme = { }
@@ -63,7 +63,7 @@ theme.bg_focus = true3d(theme.tertiary_1, theme.tertiary_2)
 -- ]]]
 
 -- Merge tables
-theme = table_utils.merge(theme, icons, shapes)
+theme = table_utils.merge(theme, icons, ui)
 add_redundancies(theme)
 
 return theme
