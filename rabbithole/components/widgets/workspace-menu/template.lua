@@ -53,7 +53,7 @@ function _M.get(controller)
                 bind = "rotator",
                 {
                     widget = wibox.container.margin,
-                    margins = 3,
+                    margins = 0,
                     {
                         image = beautiful.menu_submenu_icon,
                         resize = true,
