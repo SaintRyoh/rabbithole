@@ -1,24 +1,22 @@
-local wibox = require("wibox")
-local beautiful = require("beautiful")
 local awful = require("awful")
+local wibox = require("wibox")
 
 local _M = {}
 
 function _M.get(controller)
+    local beautiful = require("beautiful")
     local Template = {}
     local animation = nil
 
     Template.root = wibox.widget {
         widget = wibox.container.background,
-        bg = beautiful.bg_normal,
+        bg = beautiful.secondary_color,
         bind = "root",
         signals = {
-            ["mouse::enter"] = function(widget, bindings)
-                -- widget.bg = beautiful.bg_focus
+            ["mouse::enter"] = function(widget)
                 animation.target = 1
             end,
-            ["mouse::leave"] = function(widget, bindings)
-                -- widget.bg = beautiful.bg_normal
+            ["mouse::leave"] = function(widget)
                 animation.target = 0
             end
         },
@@ -41,6 +39,8 @@ function _M.get(controller)
                 end)
             end
         },
+        {
+            layout = wibox.layout.fixed.horizontal,
             {
                 widget = wibox.widget.imagebox,
                 bind = "workspace_icon",
@@ -50,6 +50,7 @@ function _M.get(controller)
             {
                 widget = wibox.container.rotate,
                 direction = "north",
+                bind = "rotator",
                 {
                     widget = wibox.container.margin,
                     margins = 3,
@@ -60,8 +61,8 @@ function _M.get(controller)
                         bind = "open_close_indicator"
                     }
                 },
-                bind = "rotator"
             }
+        },
     }
 
     animation = controller.animation({
