@@ -9,6 +9,7 @@ theme_ui.border_width = dpi(3)
 -- Standard menu options
 theme_ui.menu_height = dpi(15)
 theme_ui.menu_width = dpi(120)
+theme_ui.menu_shape = gears.shape.rounded_rect
 -- Workspace menu
 theme_ui.ws_menu_height = dpi(34)
 theme_ui.ws_menu_width = dpi(120)
