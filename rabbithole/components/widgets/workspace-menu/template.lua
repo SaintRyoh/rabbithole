@@ -1,9 +1,9 @@
 local awful = require("awful")
 local wibox = require("wibox")
 
-local _M = {}
+local WorkspaceMenuTemplate = {}
 
-function _M.get(controller)
+function WorkspaceMenuTemplate.get(controller)
     local beautiful = require("beautiful")
     local Template = {}
     local animation = nil
@@ -84,4 +84,4 @@ function _M.get(controller)
     return Template
 end
 
-return setmetatable({}, { __call = function(_, controller) return _M.get(controller) end })
+return setmetatable({}, { __call = function(_, controller) return WorkspaceMenuTemplate.get(controller) end })
