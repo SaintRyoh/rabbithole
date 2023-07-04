@@ -36,7 +36,7 @@ function TaskListController:create_callback(task_template, c, _, _)
     local background = task_template:get_children_by_id('background_role')[1]
 
     local animation = self.animation({
-        duration = 0.4,
+        duration = 0.35,
         rapid_set = true,
         pos = c == client.focus and 1 or 0,
         subscribed = (function (pos)

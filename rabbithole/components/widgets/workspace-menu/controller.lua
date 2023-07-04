@@ -69,7 +69,7 @@ end
 
 function WorkspaceMenuController:set_icon(workspace_name)
     local config_dir = gears.filesystem.get_configuration_dir()
-    local svg_icon_path = config_dir .. "themes/rabbithole/icons/workspace-menu.png"
+    local svg_icon_path = config_dir .. "themes/rabbithole/icons/workspace_menu/workspace-menu.png"
     self.view.bindings.workspace_icon.image = svg_icon_path
 end
 
