@@ -108,7 +108,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     local animation = self.animation({
         pos = tag.selected and 1 or 0,
-        duration = 0.35,
+        duration = 0.25,
         rapid_set = true,
         subscribed = function(pos)
             if type(tag_template.bg) == "string" then
