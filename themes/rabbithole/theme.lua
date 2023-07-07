@@ -44,7 +44,7 @@ theme.base_color = colors['Blue']['400'] -- ~ 60% of theme color
 theme.secondary_color = colors['Periwinkle']['500'] -- ~ 30% of theme color. This can be a monochromatic color or a color theory scheme for interesting gradients
 theme.tertiary_1 = colors['Blue']['700'] -- ~ 10% of theme color
 theme.tertiary_2 = colors['Blue']['600'] -- ~ 10% of theme color
-theme.neutral = colors['Blue Grey']['900'] --  neutral color for widgets
+theme.neutral = colors['Blue Grey']['900'] --  neutral color for widget and bg containers
 
 -- Errors, info, and CTAs (calls to action) variables
 theme.success = colors['Green']['500']

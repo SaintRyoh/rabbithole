@@ -1,5 +1,6 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+local gears = require("gears")
 local view = require("rabbithole.components.widgets.tasklist.view")
 
 local TaskListController = {}
@@ -40,14 +41,16 @@ function TaskListController:create_callback(task_template, c, _, _)
         rapid_set = true,
         pos = c == client.focus and 1 or 0,
         subscribed = (function (pos)
-            background.bg = self.color.twoColorTrue3dFlat(
-                self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos),
-                self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_2, pos),
-                pos
-            )
+            if pos == 0 then
+                background.bg = beautiful.tasklist_bg_normal
+            else
+                background.bg = self.color.create_widget_bg(
+                    self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos),
+                    self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos)
+                )
+            end
         end)
     })
-
 
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
@@ -56,10 +59,11 @@ function TaskListController:create_callback(task_template, c, _, _)
 
     task_template:connect_signal('mouse::leave', function()
         c:emit_signal('request::activate', 'mouse_leave', {raise = false})
-        if c ~= client.focus then 
-            animation.target = 0
-        end
-
+        gears.timer.start_new(0.1, function()
+            if c ~= client.focus then 
+                animation.target = 0
+            end
+        end)
         return true
     end)
 
