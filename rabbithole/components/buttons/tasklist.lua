@@ -1,5 +1,6 @@
 local awful = require("awful")
 local gears = require("gears")
+local dragndrop = require("rabbithole.components.buttons.dragndrop")
 
 return setmetatable({}, {
     __constructor = function (
@@ -24,13 +25,17 @@ return setmetatable({}, {
                 awful.button({ }, 3, function(c)
                     rabbithole__components__menus__tasklist(c):toggle()
                 end)
-                --awful.button({ }, 4, function ()
-                --    awful.client.focus.byidx(1)
-                --end),
-                --awful.button({ }, 5, function ()
-                --    awful.client.focus.byidx(-1)
-                --end)
         )
+
+        -- Enable drag and drop for each client
+        --for _, c in ipairs(client.get()) do
+        --    dragndrop.enableDrag(c)
+        --end
+--
+        ---- Enable drag and drop for new clients
+        --client.connect_signal("manage", function(c)
+        --    dragndrop.enableDrag(c)
+        --end)
 
         return tasklist_buttons
     end
