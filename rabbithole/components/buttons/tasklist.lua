@@ -9,15 +9,6 @@ return setmetatable({}, {
         local dragndrop = dragndrop.new()
         local tasklist_buttons = gears.table.join(
                 awful.button({ }, 1, function (c)
-                    if c == client.focus then
-                        c.minimized = true
-                    else
-                        c:emit_signal(
-                                "request::activate",
-                                "tasklist",
-                                {raise = true}
-                        )
-                    end
                     dragndrop:drag(c)
                 end),
                 -- middle click to kill client
@@ -26,9 +17,6 @@ return setmetatable({}, {
                 end),
                 awful.button({ }, 3, function(c)
                     rabbithole__components__menus__tasklist(c):toggle()
-                end),
-                awful.button({ }, 1, function (c)
-                    dragndrop:drop(c)
                 end)
         )
 
