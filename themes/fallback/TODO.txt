@@ -1,2 +1,0 @@
-This theme will be the fallback base theme for rabbithole, so if they mess up their custom config or encounter a bug, they will never see the default awesome setup, giving the impression
-of a full-fledged desktop environment
