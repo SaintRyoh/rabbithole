@@ -28,7 +28,7 @@ function DragonDrop:drag(c)
 end
 
 function DragonDrop:drop()
-    print("The mouse button has been released.")
+    print("The mouse button has been released.\n\n The tag ID is below")
     local tag_under_pointer = awful.screen.focused().selected_tag
     print(tag_under_pointer)
     if tag_under_pointer ~= self.og_tag then

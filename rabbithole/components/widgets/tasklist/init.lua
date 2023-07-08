@@ -10,13 +10,16 @@ function TaskListController.new(
     rabbithole__components__buttons__tasklist,
     rabbithole__services__animation,
     rabbithole__services__color,
-    rabbithole__services__icon___handler
+    rabbithole__services__icon___handler,
+    rabbithole__services__dragondrop
 )
     local self = setmetatable({}, TaskListController)
     self.tasklist_buttons = rabbithole__components__buttons__tasklist
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
     self.icon = rabbithole__services__icon___handler
+    self.dragndrop = rabbithole__services__dragondrop
+    self.hovered_tag = nil -- Add this line
 
     -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
@@ -55,6 +58,7 @@ function TaskListController:create_callback(task_template, c, _, _)
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
+        self.hovered_tag = self.tag -- Add this line
     end)
 
     task_template:connect_signal('mouse::leave', function()
@@ -64,6 +68,7 @@ function TaskListController:create_callback(task_template, c, _, _)
                 animation.target = 0
             end
         end)
+        self.hovered_tag = nil -- Add this line
         return true
     end)
 
@@ -73,6 +78,14 @@ function TaskListController:create_callback(task_template, c, _, _)
 
     task_template:connect_signal('button::release', function()
         animation.target = 1
+    end)
+
+    task_template:connect_signal("mouse::press", function(c)
+        self.dragondrop:drag(c)
+    end)
+
+    task_template:connect_signal("mouse::release", function(c)
+        self.dragondrop:drop()
     end)
 
     awful.tooltip({
@@ -85,3 +98,4 @@ function TaskListController:create_callback(task_template, c, _, _)
 end
 
 return TaskListController
+
