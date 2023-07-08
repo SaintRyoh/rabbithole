@@ -78,7 +78,7 @@ function TaskListController:create_callback(task_template, c, _, _)
     task_template:connect_signal('button::press', function()
         animation.target = 0
         -- Drag and drop tests
-        print("Mouse button held down. Source tag printed below.")
+        print("Mouse button held down.\nSource tag printed below (self.hovered_tag).")
         print(self.hovered_tag)
         print("printing client below")
         print(client) -- Use 'client' instead of 'c'
