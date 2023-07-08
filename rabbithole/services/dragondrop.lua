@@ -2,8 +2,6 @@
 -- It is used in rabbithole/components/buttons/tasklist.lua to allow you to
 -- drag clients between tags from the tasklist widget.
 
-local awful = require("awful")
-
 local DragonDrop = {}
 DragonDrop.__index = DragonDrop
 
@@ -11,7 +9,7 @@ function DragonDrop.new()
     local self = setmetatable({ }, DragonDrop)
 
     self.og_tag = nil
-    --self.client = nil
+    self.client = nil
     self.wibox = nil
     self.client = nil
     self.hovered_tag = nil
@@ -22,10 +20,12 @@ end
 function DragonDrop:drag(client, origin_tag, hovered_tag)
     self.client = client
     self.origin_tag = origin_tag
-    self.hovered_tag = hovered_tag  -- Update the hovered tag
+    self.hovered_tag = hovered_tag
 end
 
 function DragonDrop:drop(hovered_tag)
+    print("Inside drop of dragndrop module...\nPrinting hovered_tag passed to drop()")
+    print(hovered_tag)
     self.hovered_tag = hovered_tag
     print("Client selected")
     print(self.client)
