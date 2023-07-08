@@ -17,6 +17,7 @@ function TaskListController.new(
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
     self.icon = rabbithole__services__icon___handler
+    self.hovered_tag = nil -- Add this line
 
     -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
@@ -55,6 +56,7 @@ function TaskListController:create_callback(task_template, c, _, _)
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
+        self.hovered_tag = self.tag -- Add this line
     end)
 
     task_template:connect_signal('mouse::leave', function()
@@ -64,6 +66,7 @@ function TaskListController:create_callback(task_template, c, _, _)
                 animation.target = 0
             end
         end)
+        self.hovered_tag = nil -- Add this line
         return true
     end)
 
