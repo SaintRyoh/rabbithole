@@ -1,40 +1,42 @@
-local awful = require("awful")
-local wibox = require("wibox")
-local gears = require("gears")
+-- DragonDrop is a service that allows you to drag clients between tags.
+-- It is used in rabbithole/components/buttons/tasklist.lua to allow you to
+-- drag clients between tags in the tasklist.
 
+local awful = require("awful")
 local DragonDrop = {}
 DragonDrop.__index = DragonDrop
 
 function DragonDrop.new()
-    local self = setmetatable({}, DragonDrop)
+    local self = setmetatable({ }, DragonDrop)
 
-    self.icon_wibox = nil
+    self.og_tag = nil
+    self.client = nil
+    self.wibox = nil
 
     return self
 end
 
 function DragonDrop:drag(c)
-    local icon = wibox.widget.imagebox()
-    self.icon_wibox = wibox({ type = "normal", visible = false })
-    self.icon_wibox:set_widget(icon)
+    self.client = c
+    self.og_tag = c.first_tag
 
-    icon:set_image(c.icon)
-    self.icon_wibox.visible = true
+    print("The mouse button is being held.")
 
-    client.connect_signal("mouse::move", function ()
-        self.icon_wibox.x = mouse.coords().x
-        self.icon_wibox.y = mouse.coords().y
-    end)
+    -- Connect to the "button::release" signal on the root widget
+    self.wibox = mouse.current_widgets[1]
+    self.wibox:connect_signal("button::release", function() self:drop() end)
 end
 
-function DragonDrop:drop(c)
-    if self.icon_wibox then
-        self.icon_wibox.visible = false
-        local tag_under_pointer = mouse.object_under_pointer()
-        if tag_under_pointer and tag_under_pointer ~= c.first_tag then
-            c:move_to_tag(tag_under_pointer)
-        end
+function DragonDrop:drop()
+    print("The mouse button has been released.")
+    local tag_under_pointer = awful.screen.focused().selected_tag
+    print(tag_under_pointer)
+    if tag_under_pointer ~= self.og_tag then
+        self.client:move_to_tag(tag_under_pointer)
     end
+
+    -- Disconnect from the "button::release" signal
+    self.wibox:disconnect_signal("button::release", function() self:drop() end)
 end
 
 return DragonDrop
