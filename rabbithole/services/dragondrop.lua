@@ -1,6 +1,6 @@
 -- DragonDrop is a service that allows you to drag clients between tags.
 -- It is used in rabbithole/components/buttons/tasklist.lua to allow you to
--- drag clients between tags in the tasklist.
+-- drag clients between tags from the tasklist widget.
 
 local awful = require("awful")
 local DragonDrop = {}
@@ -24,7 +24,7 @@ function DragonDrop:drag(c)
 
     -- Connect to the "button::release" signal on the root widget
     self.wibox = mouse.current_widgets[1]
-    self.wibox:connect_signal("button::release", function() self:drop() end)
+    self.wibox:connect_signal("mouse::release", function() self:drop() end)
 end
 
 function DragonDrop:drop()
@@ -36,7 +36,7 @@ function DragonDrop:drop()
     end
 
     -- Disconnect from the "button::release" signal
-    self.wibox:disconnect_signal("button::release", function() self:drop() end)
+    self.wibox:disconnect_signal("mouse::release", function() self:drop() end)
 end
 
 return DragonDrop
