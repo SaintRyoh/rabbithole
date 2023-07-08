@@ -59,9 +59,9 @@ function TaskListController:create_callback(task_template, c, _, _)
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
-        local current_tag = awful.screen.focused().selected_tag
-        print(current_tag)
-        self.hovered_tag = current_tag
+        --local current_tag = awful.screen.focused().selected_tag
+        --print(current_tag)
+        --self.hovered_tag = current_tag
     end) 
 
     task_template:connect_signal('mouse::leave', function()
@@ -71,7 +71,7 @@ function TaskListController:create_callback(task_template, c, _, _)
                 animation.target = 0
             end
         end)
-        self.hovered_tag = nil
+        --self.hovered_tag = nil
         return true
     end)
 
@@ -82,14 +82,14 @@ function TaskListController:create_callback(task_template, c, _, _)
         -- Drag and drop tests
         print("Mouse button held down.\nSource tag printed below (self.hovered_tag).")
         print(self.hovered_tag)
-        print("printing client below")
+        print("printing client on button press below")
         print(client) -- Use 'client' instead of 'c'
-        self.dragndrop:drag(client, self.hovered_tag)
+        self.dragndrop:drag(client, self.tag)
     end)
 
     task_template:connect_signal('button::release', function()
-        print("The mouse is being released")
-        self.dragndrop:drop()
+        print("The mouse is being released in the tasklist")
+        self.dragndrop:drop(self.tag)
         animation.target = 1
     end)
 

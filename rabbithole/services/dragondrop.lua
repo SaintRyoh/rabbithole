@@ -31,7 +31,8 @@ function DragonDrop:drag(client, hovered_tag)
     --end)
 end
 
-function DragonDrop:drop()
+function DragonDrop:drop(hovered_tag)
+    self.hovered_tag = hovered_tag
     print("Tag under pointer below (screen.focused().selected_tag")
     local tag_under_pointer = awful.screen.focused().selected_tag
     print(tag_under_pointer)
