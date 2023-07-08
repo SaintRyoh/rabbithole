@@ -8,7 +8,12 @@ return setmetatable({ }, {
     )
         local tasklist_buttons = gears.table.join(
                 awful.button({ }, 1, function (c)
-                    dragndrop:drag(c)
+                    --if c.minimized then
+                    --    c.minimized = false
+                    --else
+                    --    c:emit_signal("request::activate", "tasklist", {raise = true})
+                    --end
+                    --dragndrop:drag(c)
                     --c:connect_signal("mouse::pressed", function() dragndrop:drag(c) end)
                     --c:connect_signal("mouse::released", function() dragndrop:drop() end)
                 end),

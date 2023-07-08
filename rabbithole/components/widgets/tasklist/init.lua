@@ -13,13 +13,14 @@ function TaskListController.new(
     rabbithole__services__icon___handler,
     rabbithole__services__dragondrop
 )
-    local self = setmetatable({}, TaskListController)
+    local self = setmetatable({ }, TaskListController)
+
     self.tasklist_buttons = rabbithole__components__buttons__tasklist
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
     self.icon = rabbithole__services__icon___handler
-    self.dragndrop = rabbithole__services__dragondrop
-    self.hovered_tag = nil -- Add this line
+    self.dragndrop = rabbithole__services__dragondrop.new()
+    self.hovered_tag = nil
 
     -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
@@ -58,7 +59,7 @@ function TaskListController:create_callback(task_template, c, _, _)
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
-        self.hovered_tag = self.tag -- Add this line
+        self.hovered_tag = self.tag
     end)
 
     task_template:connect_signal('mouse::leave', function()
@@ -68,24 +69,26 @@ function TaskListController:create_callback(task_template, c, _, _)
                 animation.target = 0
             end
         end)
-        self.hovered_tag = nil -- Add this line
+        self.hovered_tag = nil
         return true
     end)
 
+    local client = c -- Create a closure
+
     task_template:connect_signal('button::press', function()
         animation.target = 0
+        -- Drag and drop tests
+        print("Mouse button held down. Source tag printed below.")
+        print(self.hovered_tag)
+        print("printing client below")
+        print(client) -- Use 'client' instead of 'c'
+        self.dragndrop:drag(client, self.hovered_tag)
     end)
 
     task_template:connect_signal('button::release', function()
+        print("The mouse is being released")
+        self.dragndrop:drop()
         animation.target = 1
-    end)
-
-    task_template:connect_signal("mouse::press", function(c)
-        self.dragondrop:drag(c)
-    end)
-
-    task_template:connect_signal("mouse::release", function(c)
-        self.dragondrop:drop()
     end)
 
     awful.tooltip({
