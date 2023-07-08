@@ -59,9 +59,9 @@ function TaskListController:create_callback(task_template, c, _, _)
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
-        self.hovered_tag = self.dragndrop.hovered_tag
+        self.hovered_tag = self.tag  -- Update the hovered tag
         self.dragndrop.client = c
-    end) 
+    end)
 
     task_template:connect_signal('mouse::leave', function()
         c:emit_signal('request::activate', 'mouse_leave', {raise = false})
@@ -75,20 +75,24 @@ function TaskListController:create_callback(task_template, c, _, _)
     end)
 
     --local client = c -- Create a closure
-
     task_template:connect_signal('button::press', function()
         animation.target = 0
         -- Drag and drop tests
         print("Mouse button held down.\nOrigin tag printed below from inside tasklist.button::press.")
         print(awful.screen.focused().selected_tag)
         print("Printing origin client from tasklist:")
-        print(c) -- Use 'client' instead of 'c'
-        self.dragndrop:drag(c, awful.screen.focused().selected_tag)
+        print(c)
+        self.dragndrop:drag(c, awful.screen.focused().selected_tag)  -- Start dragging the client
     end)
-
+    
     task_template:connect_signal('button::release', function()
         print("The mouse is being released in the tasklist")
-        self.dragndrop:drop(self.dragndrop.hovered_tag)
+        local destination_tag = awful.tag.selected(self.screen)  -- Get the currently selected tag
+        if not destination_tag then
+            -- If no tag is selected, select the first tag as the default
+            destination_tag = self.screen.tags[1]
+        end
+        self.dragndrop:drop(destination_tag)  -- Drop the client on the currently selected tag
         animation.target = 1
     end)
 

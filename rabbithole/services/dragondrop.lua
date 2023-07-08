@@ -13,22 +13,16 @@ function DragonDrop.new()
     self.og_tag = nil
     --self.client = nil
     self.wibox = nil
+    self.client = nil
     self.hovered_tag = nil
 
     return self
 end
 
-function DragonDrop:drag(client, origin_tag)
+function DragonDrop:drag(client, origin_tag, hovered_tag)
     self.client = client
     self.origin_tag = origin_tag
-    self.hovered_tag = origin_tag
-
-    -- Connect to the "button::release" 
-    --self.wibox = mouse.current_widgets[1]
-    --print(self.wibox)
-    --self.wibox:connect_signal("button::release", function()
-    --    self:drop()
-    --end)
+    self.hovered_tag = hovered_tag  -- Update the hovered tag
 end
 
 function DragonDrop:drop(hovered_tag)
