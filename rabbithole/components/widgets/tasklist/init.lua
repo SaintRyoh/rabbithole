@@ -61,7 +61,7 @@ function TaskListController:create_callback(task_template, c, _, _)
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
         --local current_tag = awful.screen.focused().selected_tag
         --print(current_tag)
-        self.hovered_tag = awful.screen.focused().selected_tag
+        self.hovered_tag = self.dragndrop.hovered_tag
     end) 
 
     task_template:connect_signal('mouse::leave', function()
