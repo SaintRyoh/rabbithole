@@ -19,7 +19,8 @@ function TaskListController.new(
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
     self.icon = rabbithole__services__icon___handler
-    self.dragndrop = rabbithole__services__dragondrop.new()
+    self.dragndrop = rabbithole__services__dragondrop
+    self.client = nil
     self.hovered_tag = nil
 
     -- still need screen and tag before we can create the view so we return a function
@@ -56,11 +57,11 @@ function TaskListController:create_callback(task_template, c, _, _)
         end)
     })
 
+    --self.client = c -- Create a closure
+
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
-        self.hovered_tag = self.tag  -- Update the hovered tag
-        self.dragndrop.client = c
     end)
 
     task_template:connect_signal('mouse::leave', function()
@@ -70,7 +71,6 @@ function TaskListController:create_callback(task_template, c, _, _)
                 animation.target = 0
             end
         end)
-        --self.hovered_tag = nil
         return true
     end)
 
@@ -82,17 +82,17 @@ function TaskListController:create_callback(task_template, c, _, _)
         print(awful.screen.focused().selected_tag)
         print("Printing origin client from tasklist:")
         print(c)
-        self.dragndrop:drag(c, awful.screen.focused().selected_tag)  -- Start dragging the client
+        self.client = c
+        self.origin_tag = awful.screen.focused().selected_tag
+        self.hovered_tag = awful.screen.focused().selected_tag
+        self.dragndrop:drag(self.client, self.origin_tag, self.hovered_tag)  -- Start dragging the client
     end)
-    
+
     task_template:connect_signal('button::release', function()
-        print("The mouse is being released in the tasklist")
-        local destination_tag = awful.tag.selected(self.screen)  -- Get the currently selected tag
-        if not destination_tag then
-            -- If no tag is selected, select the first tag as the default
-            destination_tag = self.screen.tags[1]
-        end
-        self.dragndrop:drop(destination_tag)  -- Drop the client on the currently selected tag
+        print("Releasing mouse inside tasklist button::release. Printing dragndrop.client and self.hovered_tag...")
+        print(self.dragndrop.client)
+        print(self.hovered_tag)
+        self.dragndrop:drop(self.client, self.hovered_tag)  -- Drop the client on the currently selected tag
         animation.target = 1
     end)
 
