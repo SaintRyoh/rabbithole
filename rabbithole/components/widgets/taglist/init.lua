@@ -141,7 +141,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
         animation.target = 1
-        print("Inside Tag mouse::enter: hovered_tag set to 'tag' variable from hovering over taglist. Set in both taglist and dragndrop")
+        print("INSIDE TAGLIST mouse::enter:\nhovered_tag set to 'tag' variable from hovering over taglist. Set in both taglist and dragndrop")
         print(tag)
         self.hovered_tag = tag
         self.dragndrop.hovered_tag = tag
@@ -157,7 +157,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             animation.target = 0
         end
 
-        --self.hovered_tag = nil  -- clear the hovered tag
+        self.hovered_tag = nil  -- clear the hovered tag
     end)
 
     tag_template:connect_signal('button::press', function()
