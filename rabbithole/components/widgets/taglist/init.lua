@@ -166,7 +166,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     tag_template:connect_signal('button::release', function()
         animation.target = 1
-        self.dragndrop:drop(self.hovered_tag)
+        --self.dragndrop:drop(self.hovered_tag)
     end)
 end
 

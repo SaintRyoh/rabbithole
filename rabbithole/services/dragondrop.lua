@@ -18,10 +18,9 @@ function DragonDrop.new()
     return self
 end
 
-function DragonDrop:drag(client, hovered_tag)
+function DragonDrop:drag(client, origin_tag)
     self.client = client
-    self.hovered_tag = hovered_tag
-    self.og_tag = client.first_tag
+    self.origin_tag = origin_tag
 
     -- Connect to the "button::release" 
     --self.wibox = mouse.current_widgets[1]
@@ -34,12 +33,12 @@ end
 function DragonDrop:drop(hovered_tag)
     self.hovered_tag = hovered_tag
     print("Tag under pointer below (screen.focused().selected_tag")
-    local tag_under_pointer = awful.screen.focused().selected_tag
+    --local tag_under_pointer = awful.screen.focused().selected_tag
     print(tag_under_pointer)
     print("Client selected")
     print(self.client)
-    if tag_under_pointer ~= self.hovered_tag then
-        print("making sure the client matches above")
+    if hovered_tag ~= self.origin_tag then
+        print("Moving client below to hovered_tag")
         print(self.client)
         print("Printing self.hovered_tag")
         self.client:move_to_tag(self.hovered_tag)
