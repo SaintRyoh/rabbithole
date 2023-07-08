@@ -82,9 +82,9 @@ function TaskListController:create_callback(task_template, c, _, _)
         -- Drag and drop tests
         print("Mouse button held down.\nSource tag printed below (self.hovered_tag).")
         print(self.hovered_tag)
-        print("printing client on button press below")
+        print("printing source client from tasklist:")
         print(client) -- Use 'client' instead of 'c'
-        self.dragndrop:drag(client, self.tag)
+        self.dragndrop:drag(client, awful.screen.focused().selected_tag)
     end)
 
     task_template:connect_signal('button::release', function()
