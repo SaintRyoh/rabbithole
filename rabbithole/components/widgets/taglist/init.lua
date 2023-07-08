@@ -43,7 +43,7 @@ function TaglistController.new(
     self.color = rabbithole__services__color
     self.dragndrop = rabbithole__services__dragondrop
     -- properties
-    self.hovered_tag = nil
+    --self.hovered_tag = nil
 
     return function(s)
         self.screen = s
@@ -141,10 +141,10 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
         animation.target = 1
-        print("Settings tag from hovering over taglist as hovered_tag to both taglist and dragndrop")
-        print(tag)
-        self.hovered_tag = tag
-        self.dragndrop.hovered_tag = tag
+        --print("Settings tag from hovering over taglist as hovered_tag to both taglist and dragndrop")
+        --print(tag)
+        --self.hovered_tag = tag
+        --self.dragndrop.hovered_tag = tag
     end)
 
     tag_template:connect_signal('mouse::leave', function()
@@ -157,7 +157,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             animation.target = 0
         end
 
-        self.hovered_tag = nil  -- clear the hovered tag
+        --self.hovered_tag = nil  -- clear the hovered tag
     end)
 
     tag_template:connect_signal('button::press', function()
@@ -166,7 +166,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     tag_template:connect_signal('button::release', function()
         animation.target = 1
-        self.dragndrop:drop(self.hovered_tag)
+        --self.dragndrop:drop(self.hovered_tag)
     end)
 end
 

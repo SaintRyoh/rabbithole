@@ -11,7 +11,7 @@ function DragonDrop.new()
     local self = setmetatable({ }, DragonDrop)
 
     self.og_tag = nil
-    self.client = nil
+    --self.client = nil
     self.wibox = nil
     self.hovered_tag = nil
 
@@ -21,6 +21,7 @@ end
 function DragonDrop:drag(client, origin_tag)
     self.client = client
     self.origin_tag = origin_tag
+    self.hovered_tag = origin_tag
 
     -- Connect to the "button::release" 
     --self.wibox = mouse.current_widgets[1]
@@ -32,9 +33,6 @@ end
 
 function DragonDrop:drop(hovered_tag)
     self.hovered_tag = hovered_tag
-    print("Tag under pointer below (screen.focused().selected_tag")
-    --local tag_under_pointer = awful.screen.focused().selected_tag
-    print(tag_under_pointer)
     print("Client selected")
     print(self.client)
     if hovered_tag ~= self.origin_tag then
