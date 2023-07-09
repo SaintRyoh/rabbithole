@@ -13,12 +13,12 @@ local TaglistController = {}
 TaglistController.__index = TaglistController
 
 function TaglistController.new(
-    workspaceManagerService, 
+    workspaceManagerService,
+    dragondrop,
     rabbithole__components__widgets__tasklist,
     rabbithole__services__tag___preview,
     rabbithole__services__animation,
     rabbithole__services__color,
-    rabbithole__services__dragondrop,
     rabbithole__components__buttons__taglist,
     rabbithole__components__buttons__taglist___global
 )
@@ -41,7 +41,7 @@ function TaglistController.new(
     self.tagPreview = rabbithole__services__tag___preview
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
-    self.dragndrop = rabbithole__services__dragondrop
+    self.dragndrop = dragondrop
     -- properties
     self.client = nil
     self.hovered_tag = nil
@@ -142,8 +142,6 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
         animation.target = 1
-        print("INSIDE TAGLIST mouse::enter:\nhovered_tag and dragndrop.hovered tag set to 'tag' below:")
-        print(tag)
         self.hovered_tag = tag
         self.dragndrop.hovered_tag = tag
     end)
@@ -167,10 +165,8 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     tag_template:connect_signal('button::release', function()
         animation.target = 1
-        local client = self.dragndrop.client
-        print("INSIDE TAG BUTTON::RELEASE\nThis is what taglist things the client is from dragndrop.client singleton...")
-        print(client)
-        self.dragndrop:drop(client, self.hovered_tag)
+
+        self.dragndrop:drop(self.hovered_tag)
     end)
 end
 
