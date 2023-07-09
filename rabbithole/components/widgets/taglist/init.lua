@@ -168,7 +168,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     tag_template:connect_signal('button::release', function()
         animation.target = 1
         local client = self.dragndrop.client
-        print("This is what taglist things the client is...")
+        print("INSIDE TAG BUTTON::RELEASE\nThis is what taglist things the client is from dragndrop.client singleton...")
         print(client)
         self.dragndrop:drop(client, self.hovered_tag)
     end)
