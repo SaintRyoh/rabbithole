@@ -1,30 +1,37 @@
 # Rabbithole—The Meta-Window Manager
 ### LOOKING FOR BETA TESTERS
-#### Automated Installer Working for ARCH - Please Help Us Test On Other Distros**
+#### Automated Installer Working for Arch Linux - Please Help Us Test On Other Distros**
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
-### Signal Group Chat & Discord Support
-Download [Signal](https://signal.org/download/) or [Signal Desktop](https://signal.org/download/) to Join Support! You can also join support on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432). Sometimes you can find [the creators](docs/AUTHORS.md) on the [HaxMe](https://discord.gg/PwMuxBNZ) Discord as well. Come say hello!
-```
-https://signal.group/#CjQKIHyjLO9067HgV_M2AF3WvW1Ork7-c7R4I0V0N95RQ42kEhA7LqbgBjsKwCnspOEfA3_J
-```
+### Discord Support
+Join  our group on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) for **live support** and to talk to the developers! We're happy to help with anything you need, we are looking for feature requests, feedback, or even helo with customizing your installation! We also love to talk about philosophy, AI, and the future of computing. Come join us!
 
-**HINT:** Hit the windows key + s to see Rabbithole's help and keybindings page.
+
+### **Basic Usage Tutorial:** The Windows key on your keyboard has magical powers.
 i3 users will notice the keybindings are very familiar.
-Newcomers, hit **Win+d** to start your program launcher. Your computer is at your fingertips.
+
+- **Hit ```Win + s``` to see Rabbithole's help and keybindings page.**
+- ```Win + d``` will open the program launcher.
+- ```Win + Tab``` will open your window/task switcher.
+- ```Win + f``` will fullscreen your workspace switcher.
+- ```Win + q``` will kill the focused app.
+#### **Mouse**
+- Right-click tasks to move them between local or global tags and workspaces.
+- Middle click tasks/clients to kill them
+- Ctrl + Left-click to view multiple tags (virtual desktops) on a single screen
+- Win + Right-click on tags to delete, renamme, or move to a different workspace
 
 ### Upcoming Features (Based on User Feedback)
 - [ ] Toggleable menubars with options to hide/show on mouse movement
-- [ ] YouTube tutorial video (install, usage, etc.)
+- [x] (In Progress) YouTube tutorial video (install, usage, etc.)
 - [ ] Easier settings management (settings manager app)
 - [ ] More customizable settings.lua (size/location of widget bars)
-- [x] Fixed session.dat bug on first run
 ## _Enter the Rabbithole._
-
-![Rabbithole Logo](docs/install_images/Rabbithole_Screenshot.png)
-
+_Video demonstration when you click on the image below._
+[![Watch the video demo!](docs/install_images/Rabbithole_Screenshot.png)](https://youtu.be/ci8KCli6YFQ)
 
 ## Table of Contents
+- [About](#about)
 - [What is a Meta-Window Manager?](#what-is-a-meta-window-manager)
 - [Features](#features)
 - [Ideal For](#ideal-for)
@@ -39,6 +46,7 @@ Newcomers, hit **Win+d** to start your program launcher. Your computer is at you
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
 
+## About Rabbithole
 A _revolutionary_ window manager that takes productivity to a _**whole new dimension**_ (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
 
 Built on the robust **Awesome WM framework**, Rabbithole embraces the philosophy of dynamic workspaces. It allows you to nest virtual workspaces and add or remove displays on-the-fly. With Rabbithole, you don't adjust to your workspace, your workspace adjusts to _you_.
