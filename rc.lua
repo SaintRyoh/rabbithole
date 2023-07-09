@@ -38,7 +38,11 @@ RC = {
         config.bindings.types.theme = "rabbithole.services.theme-loader"
         config.singletons.theme = true -- change theme from a singleton when we implement a live theme-switcher
 
-
+        config.bindings.types.dragondrop = "dragondrop"
+        config.singletons.dragondrop = true
+        config.providers.dragondrop = function()
+            return RC.diModule.getInstance("rabbithole.services.dragondrop")
+        end
         --
         -- Values
         config.bindings.values.settings = require("settings")

@@ -25,8 +25,8 @@ function DragonDrop:drag(client, origin_tag)
     --print(self.hovered_tag)
 end
 
-function DragonDrop:drop(client, hovered_tag)
-    print("Inside drop() of dragndrop module...\nPrinting hovered_tag passed to drop()")
+function DragonDrop:drop(hovered_tag)
+    print("INSIDE DROP() of dragndrop module...\nPrinting hovered_tag passed to drop()")
     print(hovered_tag)
     self.hovered_tag = hovered_tag
     --self.client = client

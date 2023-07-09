@@ -141,13 +141,11 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
-        --animation.target = 1
-        --print("INSIDE TAGLIST mouse::enter:\nhovered_tag and dragndrop.hovered tag set to 'tag' below:")
-        --print(tag)
-        --self.hovered_tag = tag
+        animation.target = 1
+        print("INSIDE TAGLIST mouse::enter:\nhovered_tag and dragndrop.hovered tag set to 'tag' below:")
+        print(tag)
+        self.hovered_tag = tag
         self.dragndrop.hovered_tag = tag
-        --print("Printing selected client according to taglist controller below:")
-        --print(tag.selected_client)
     end)
 
     tag_template:connect_signal('mouse::leave', function()
@@ -160,7 +158,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             animation.target = 0
         end
 
-        self.hovered_tag = nil  -- clear the hovered tag so the mouse doesnt act weird
+        --self.hovered_tag = nil  -- clear the hovered tag so the mouse doesnt act weird
     end)
 
     tag_template:connect_signal('button::press', function()
@@ -169,12 +167,10 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     tag_template:connect_signal('button::release', function()
         animation.target = 1
-        --self.client = self.dragndrop.client
-        --print("INSIDE TAGLIST button::release:\nPrinting client, hovered_tag, and dragndrop.client below:")
-        --print(self.client)
-        --print(self.hovered_tag)
-        --print(self.dragndrop.client)
-        --self.dragndrop:drop(self.client, self.hovered_tag)
+        local client = self.dragndrop.client
+        print("This is what taglist things the client is...")
+        print(client)
+        self.dragndrop:drop(client, self.hovered_tag)
     end)
 end
 
