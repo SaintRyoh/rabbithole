@@ -11,7 +11,7 @@ function TaskListController.new(
     rabbithole__services__animation,
     rabbithole__services__color,
     rabbithole__services__icon___handler,
-    rabbithole__services__dragondrop
+    dragondrop
 )
     local self = setmetatable({ }, TaskListController)
 
@@ -19,7 +19,7 @@ function TaskListController.new(
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
     self.icon = rabbithole__services__icon___handler
-    self.dragndrop = rabbithole__services__dragondrop
+    self.dragndrop = dragondrop
     self.client = nil
     self.hovered_tag = nil
 
@@ -78,9 +78,8 @@ function TaskListController:create_callback(task_template, c, _, _)
         animation.target = 0
 
         self.client = client
-        print("Value of client being set in DnD")
-        print(self.client)
         self.origin_tag = awful.screen.focused().selected_tag
+
         self.dragndrop:drag(self.client, self.origin_tag)
     end)
 
