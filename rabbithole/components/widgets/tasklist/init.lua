@@ -75,6 +75,7 @@ function TaskListController:create_callback(task_template, c, _, _)
     end)
 
     local client = c -- Create a closure
+
     task_template:connect_signal('button::press', function()
         animation.target = 0
         -- Drag and drop tests
@@ -92,7 +93,7 @@ function TaskListController:create_callback(task_template, c, _, _)
         print(self.dragndrop.client)
         print(awful.screen.focused().selected_tag)
         self.client = self.dragndrop.client
-        self.hovered_tag = awful.screen.focused().selected_tag
+        self.hovered_tag = self.dragndrop.hovered_tag
         print(self.hovered_tag)
         self.dragndrop:drop(self.client, self.hovered_tag)  -- Drop the client on the currently selected tag
         animation.target = 1

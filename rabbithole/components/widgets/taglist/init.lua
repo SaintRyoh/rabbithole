@@ -145,7 +145,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         --print("INSIDE TAGLIST mouse::enter:\nhovered_tag and dragndrop.hovered tag set to 'tag' below:")
         --print(tag)
         --self.hovered_tag = tag
-        --self.dragndrop.hovered_tag = tag
+        self.dragndrop.hovered_tag = tag
         --print("Printing selected client according to taglist controller below:")
         --print(tag.selected_client)
     end)
