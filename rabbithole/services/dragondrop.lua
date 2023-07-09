@@ -15,14 +15,14 @@ function DragonDrop.new()
     return self
 end
 
-function DragonDrop:drag(client, origin_tag, hovered_tag)
+function DragonDrop:drag(client, origin_tag)
     self.client = client
     self.origin_tag = origin_tag
-    self.hovered_tag = hovered_tag
+    --self.hovered_tag = hovered_tag
     print("INSIDE DRAG FUNCTION:\nPrinting client, origin_tag, hovered_tag passed to function.")
     print(self.client)
     print(self.origin_tag)
-    print(self.hovered_tag)
+    --print(self.hovered_tag)
 end
 
 function DragonDrop:drop(client, hovered_tag)
