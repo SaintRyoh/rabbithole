@@ -23,9 +23,13 @@ function DragonDrop:drop(hovered_tag)
     self.hovered_tag = hovered_tag
 
     if self.hovered_tag ~= self.origin_tag then
-        self.client:move_to_tag(self.hovered_tag)
+        if self.client then
+            self.client:move_to_tag(self.hovered_tag)
+        end
     end
 
+    self.client = nil -- reset
+    self.hovered_tag = nil
 end
 
 return DragonDrop

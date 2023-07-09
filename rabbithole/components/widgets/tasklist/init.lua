@@ -84,9 +84,8 @@ function TaskListController:create_callback(task_template, c, _, _)
     end)
 
     task_template:connect_signal('button::release', function()
-        self.hovered_tag = self.dragndrop.hovered_tag
-        self.dragndrop:drop(self.hovered_tag)
         animation.target = 1
+
     end)
 
     awful.tooltip({
