@@ -156,7 +156,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             animation.target = 0
         end
 
-        --self.hovered_tag = nil  -- clear the hovered tag so the mouse doesnt act weird
+        self.hovered_tag = nil  -- clear the hovered tag so the mouse doesnt act weird
     end)
 
     tag_template:connect_signal('button::press', function()
