@@ -1,10 +1,11 @@
+-- Skeleton file for future notification center service
+
 local Notification = { }
 Notification.__index = Notification
 
 function Notification.new()
     local self = setmetatable({ }, Notification)
 
-    -- Notification properties
     self.title = "" or "Notification"
     self.message = "" or "This is a notification. About what? I don't know."
 
@@ -18,7 +19,5 @@ end
 function Notification:setMessage(message)
     self.message = message
 end
-
--- Define other necessary methods here...
 
 return Notification

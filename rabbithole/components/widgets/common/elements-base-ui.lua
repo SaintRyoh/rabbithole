@@ -3,6 +3,7 @@
 local wibox = require("wibox")
 local gears = require("gears")
 local class = require("src.modules.class")
+local awful = require("awful")
 
 --[[ Usage:
 

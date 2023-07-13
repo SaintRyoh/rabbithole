@@ -1,4 +1,7 @@
-local Widget = require("elements-base-ui") -- Make sure the path is correct
+local Widget = require("elements-base-ui") -- Make sure the path is correct0
+local gears = require("gears")
+local wibox = require("wibox")
+local awful = require("awful")
 local Animations = require("rabbithole.components.widgets.themeEngines.elements-animations") -- Make sure the path is correct
 
 --[[ Usage:

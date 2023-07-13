@@ -1,2 +1,0 @@
--- Put variables which alter rabbitholes UI here.
--- generate a skeleton for this file

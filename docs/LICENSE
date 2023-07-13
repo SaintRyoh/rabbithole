@@ -1,4 +1,4 @@
-Rabbithole Open Source License Version 1.0
+Rabbithole Open Source License Version 1.1
 
 1. DEFINITIONS
 
@@ -28,7 +28,9 @@ B. You must cause any modified files to carry prominent notices stating that You
 
 C. You must retain, in the Source form of any Work that You distribute, all copyright, patent, trademark, and attribution notices from the Source form of the Work.
 
-D. If the Work includes a "NOTICE" text file as part of its distribution, then any modifications or derivative works that You distribute must include a readable copy of the attribution notices contained within such NOTICE file.
+D. If the Work includes a "AUTHORS" text file as part of its distribution, then any modifications or derivative works that You distribute must include a readable copy of the attribution notices contained within such AUTHORS file.
+
+E. Notwithstanding the restrictions outlined in section 2.A, if You are an enterprise, Your use and modification of the Work is permitted provided You have purchased an Enterprise license from the Licensor. For the purposes of this License, an "enterprise" is any organization (including public and private companies, corporations, and non-profit organizations) with more than 5 employees or more than $1,000 in annual revenue.
 
 3. REQUIREMENTS
 
@@ -37,6 +39,8 @@ A. You may reproduce and distribute copies of the Work or any derivative works t
 B. You must ensure that all derivative works are also licensed under the same terms of this License and remain open source.
 
 C. If You distribute the Work or any derivative works of the Work, You must provide a copy of this License.
+
+D. If You are an enterprise as defined in section 2.E, You must provide proof of purchase of the Enterprise license upon request from the Licensor or any third party.
 
 4. DISCLAIMER
 
