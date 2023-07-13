@@ -2,7 +2,7 @@
 ### LOOKING FOR BETA TESTERS
 #### Automated Installer Working for Arch Linux - Please Help Us Test On Other Distros**
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
-
+- Rabbithole has been tested and works on Ubuntu if you install the packages manually! 
 ### Discord Support
 Join  our group on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) for **live support** and to talk to the developers! We're happy to help with anything you need, we are looking for feature requests, feedback, or even helo with customizing your installation! We also love to talk about philosophy, AI, and the future of computing. Come join us!
 
@@ -16,16 +16,22 @@ i3 users will notice the keybindings are very familiar.
 - ```Win + f``` will fullscreen your workspace switcher.
 - ```Win + q``` will kill the focused app.
 #### **Mouse**
+- Left click and hold on client icons in the tasklist to drag and drop clients from one tag to another
 - Right-click tasks to move them between local or global tags and workspaces.
 - Middle click tasks/clients to kill them
 - Ctrl + Left-click to view multiple tags (virtual desktops) on a single screen
 - Win + Right-click on tags to delete, renamme, or move to a different workspace
+### Latest features
+- Drag and drop clients between tags (still work in progress, but it works and is useful)
+- Removed workspace label (we think it's obvious which activity you are working on by the tag—The other menu took up too much room too)
 
 ### Upcoming Features (Based on User Feedback)
-- [ ] Toggleable menubars with options to hide/show on mouse movement
+- [x] Nearly have uniform experience on Arch and Ubuntu
+- [x] Toggleable menubars with options to hide/show on mouse movement
+- [x] Menu bars that can be dragged and snapped to corners of the screen without messing with settings
 - [x] (In Progress) YouTube tutorial video (install, usage, etc.)
-- [ ] Easier settings management (settings manager app)
-- [ ] More customizable settings.lua (size/location of widget bars)
+- [x] Easier settings management (settings manager app)
+- [x] More customizable settings.lua (size/location of widget bars)
 ## _Enter the Rabbithole._
 _Video demonstration when you click on the image below._
 [![Watch the video demo!](docs/install_images/Rabbithole_Screenshot.png)](https://youtu.be/ci8KCli6YFQ)
