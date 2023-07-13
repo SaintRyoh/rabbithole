@@ -37,7 +37,7 @@ function ColorService.blend_colors(color1, color2, percentage)
     local b3 = math.floor((b2 * percentage) + (b1 * (1 - percentage)))
      -- Convert the blended RGB values back to a hex string
     local color3 = string.format("#%02X%02X%02X", r3, g3, b3)
-     return color3
+    return color3
 end
 
 -- [[[ GRADIENTS - These are used to add depth to widget appearance.
@@ -52,7 +52,7 @@ function ColorService.create_widget_bg(base_color, secondary_color)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
-        to = { 0, dpi(40) },
+        to = { 0, 1000},
         stops = {
             { 0,   secondary_color_light },  -- start with the lighter color
             { 0.2, secondary_color },  -- switch to the base color fairly quickly
@@ -86,7 +86,7 @@ end
 -- @param base The first color in the gradient
 -- @param secondary The second color in the gradient
 -- @return A gears.color object representing the linear gradient background
-function ColorService.twoColorTrue3d(base, secondary)
+function ColorService.twoColorTrue3d(base, secondary, height)
     local top_color = colors["White"]
     local base_light = lighten(base, 30)
     local bottom_color = darken(base, 45)
@@ -448,4 +448,3 @@ function ColorService:create_shadow(radius, offset)
 end
 
 return ColorService
-

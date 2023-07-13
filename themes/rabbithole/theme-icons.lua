@@ -5,7 +5,8 @@ local recolor = require("gears.color").recolor_image
 local icons = {}
 
 icons.rabbit_icon = themes_path .. "rabbithole/icons/rabbit-menu.svg"
---icons.menu_submenu_icon = themes_path .. "default/submenu.png -- we no longer have an icon for this. idk if we need to"
+--icons.menu_submenu_icon = themes_path .. "default/submenu.png" -- we no longer have an icon for this. idk if we need to"
+icons.workspace_menu = themes_path .. "rabbithole/icons/workspace_menu/workspace_menu.png"
 
 -- [[[ Layouts
 icons.layout_tile = themes_path .. "rabbithole/layouts/tile.svg"
@@ -25,29 +26,30 @@ icons.layout_cornerne = themes_path .. "rabbithole/layouts/cornerne.png"
 icons.layout_cornersw = themes_path .. "rabbithole/layouts/cornersw.png"
 icons.layout_cornerse = themes_path .. "rabbithole/layouts/cornerse.png"
 -- ]]]
-icons.titlebar_close_button_focus = themes_path .. "rabbithole/titlebar/close_focus.svg"
-icons.titlebar_close_button_normal = recolor(themes_path .. "rabbithole/titlebar/close_normal.png", colors["Grey"][500])
-icons.titlebar_minimize_button_normal = themes_path .. "default/titlebar/minimize_normal.png"
-icons.titlebar_minimize_button_focus = themes_path .. "default/titlebar/minimize_focus.png"
-
-icons.titlebar_ontop_button_focus_active = themes_path .. "rabbithole/titlebar/ontop_focus_active.png"
-icons.titlebar_ontop_button_normal_active = themes_path .. "rabbithole/titlebar/ontop_normal_active.png"
-icons.titlebar_ontop_button_focus_inactive = themes_path .. "rabbithole/titlebar/ontop_focus_inactive.png"
-icons.titlebar_ontop_button_normal_inactive = themes_path .. "rabbithole/titlebar/ontop_normal_inactive.png"
-
-icons.titlebar_sticky_button_focus_active = themes_path .. "rabbithole/titlebar/sticky_focus_active.png"
-icons.titlebar_sticky_button_normal_active = themes_path .. "rabbithole/titlebar/sticky_normal_active.png"
-icons.titlebar_sticky_button_focus_inactive = themes_path .. "rabbithole/titlebar/sticky_focus_inactive.png"
-icons.titlebar_sticky_button_normal_inactive = themes_path .. "rabbithole/titlebar/sticky_normal_inactive.png"
-
-icons.titlebar_floating_button_focus_active = themes_path .. "rabbithole/titlebar/floating_focus_active.png"
-icons.titlebar_floating_button_normal_active = themes_path .. "rabbithole/titlebar/floating_normal_active.png"
-icons.titlebar_floating_button_focus_inactive = themes_path .. "rabbithole/titlebar/floating_focus_inactive.png"
-icons.titlebar_floating_button_normal_inactive = themes_path .. "rabbithole/titlebar/floating_normal_inactive.png"
-
-icons.titlebar_maximized_button_focus_active = themes_path .. "rabbithole/titlebar/maximize_focus.png"
-icons.titlebar_maximized_button_normal_active = recolor(themes_path .. "rabbithole/titlebar/maximize_focus.png", colors["Grey"][500])
-icons.titlebar_maximized_button_focus_inactive = themes_path .. "rabbithole/titlebar/maximize_focus.png"
-icons.titlebar_maximized_button_normal_inactive = recolor(themes_path .. "rabbithole/titlebar/maximize_focus.png", colors["Grey"][500])
+-- No longer used because of 'Nice' titlebars
+--icons.titlebar_close_button_focus = themes_path .. "rabbithole/titlebar/close_focus.svg"
+--icons.titlebar_close_button_normal = recolor(themes_path .. "rabbithole/titlebar/close_normal.png", colors["Grey"][500])
+--icons.titlebar_minimize_button_normal = themes_path .. "default/titlebar/minimize_normal.png"
+--icons.titlebar_minimize_button_focus = themes_path .. "default/titlebar/minimize_focus.png"
+--
+--icons.titlebar_ontop_button_focus_active = themes_path .. "rabbithole/titlebar/ontop_focus_active.png"
+--icons.titlebar_ontop_button_normal_active = themes_path .. "rabbithole/titlebar/ontop_normal_active.png"
+--icons.titlebar_ontop_button_focus_inactive = themes_path .. "rabbithole/titlebar/ontop_focus_inactive.png"
+--icons.titlebar_ontop_button_normal_inactive = themes_path .. "rabbithole/titlebar/ontop_normal_inactive.png"
+--
+--icons.titlebar_sticky_button_focus_active = themes_path .. "rabbithole/titlebar/sticky_focus_active.png"
+--icons.titlebar_sticky_button_normal_active = themes_path .. "rabbithole/titlebar/sticky_normal_active.png"
+--icons.titlebar_sticky_button_focus_inactive = themes_path .. "rabbithole/titlebar/sticky_focus_inactive.png"
+--icons.titlebar_sticky_button_normal_inactive = themes_path .. "rabbithole/titlebar/sticky_normal_inactive.png"
+--
+--icons.titlebar_floating_button_focus_active = themes_path .. "rabbithole/titlebar/floating_focus_active.png"
+--icons.titlebar_floating_button_normal_active = themes_path .. "rabbithole/titlebar/floating_normal_active.png"
+--icons.titlebar_floating_button_focus_inactive = themes_path .. "rabbithole/titlebar/floating_focus_inactive.png"
+--icons.titlebar_floating_button_normal_inactive = themes_path .. "rabbithole/titlebar/floating_normal_inactive.png"
+--
+--icons.titlebar_maximized_button_focus_active = themes_path .. "rabbithole/titlebar/maximize_focus.png"
+--icons.titlebar_maximized_button_normal_active = recolor(themes_path .. "rabbithole/titlebar/maximize_focus.png", colors["Grey"][500])
+--icons.titlebar_maximized_button_focus_inactive = themes_path .. "rabbithole/titlebar/maximize_focus.png"
+--icons.titlebar_maximized_button_normal_inactive = recolor(themes_path .. "rabbithole/titlebar/maximize_focus.png", colors["Grey"][500])
 
 return icons
