@@ -26,7 +26,7 @@ i3 users will notice the keybindings are very familiar.
 - Removed workspace label (we think it's obvious which activity you are working on by the tag—The other menu took up too much room too)
 
 ### Latest Features (Based on User Feedback)
-- [x] Install tested & working on Arch, Ubuntu, & Kali
+- [x] Install tested & working on Arch, Ubuntu, & Kali (also expected to work on distros based on these) (PopOS!))
 - [x] (In Progress) YouTube tutorial video (install, usage, etc.)
 
 ### Upcoming Features
