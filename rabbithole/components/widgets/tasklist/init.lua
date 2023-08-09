@@ -98,4 +98,3 @@ function TaskListController:create_callback(task_template, c, _, _)
 end
 
 return TaskListController
-
