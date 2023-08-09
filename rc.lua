@@ -3,7 +3,7 @@ require("error-handling")
 
 -- if AWM_DEBUG set in environment then require debug
 Debugger = nil
-if os.getenv("AWM_DEBUG") == '1' or true then
+if os.getenv("AWM_DEBUG") == '1' then
     Debugger = require("awm-debug")
 end
 

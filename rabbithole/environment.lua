@@ -1,4 +1,4 @@
--- Environments are made out of systems and UIs
+-- Environments are made out of services and UIs
 
 local Environment = {}
 Environment.__index = Environment

@@ -22,6 +22,7 @@ in
 
     shellHook = ''
       BASE_DIRECTORY=$(pwd)
+      AWM_DEBUG=1
       if [[ -f ./scripts/hook.sh ]]; then
           source ./scripts/hook.sh
       fi
