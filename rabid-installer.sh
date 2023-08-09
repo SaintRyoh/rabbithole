@@ -176,4 +176,4 @@ echo "Copying Rabbithole's configuration files to $HOME/.config/awesome/..."
 cp -R "$PROJECT_DIR/"* "$HOME/.config/awesome"
 
 echo "Done! You can now log out and log back in with Rabbithole."
-echo "Don't forget to set your rofi theme with the rofi theme seledtor when you log in!"
+echo "\n\nDon't forget to set your rofi theme with the rofi-theme-selector when you log in!"
