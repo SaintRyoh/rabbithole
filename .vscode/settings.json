@@ -6,5 +6,6 @@
         "awesome",
         "client",
         "mouse",
-    ]
+    ],
+    "vim.foldfix": true
 }
