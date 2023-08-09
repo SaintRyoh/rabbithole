@@ -471,15 +471,13 @@ function WorkspaceManagerService:viewPrevTag()
 end
 
 function WorkspaceManagerService:viewNextTag()
-    local screen = awful.screen.focused()
-    local tags = screen.tags
-    if screen.selected_tag then
-        local current_tag_index = screen.selected_tag.index
-        if current_tag_index < #tags then
-            sharedtags.viewonly(tags[current_tag_index + 1], screen)
-        else
-            sharedtags.viewonly(tags[1], screen)
-        end
+    local tags = self:getAllActiveTags()
+    local selected_tag = __.filter(tags, function(tag) return tag.selected end)[1]
+    local next_tag_index = __.findIndex(tags, function(tag) return tag == selected_tag end) + 1
+    if next_tag_index > #tags then
+        sharedtags.viewonly(tags[1], awful.screen.focused())
+    else
+        sharedtags.viewonly(tags[next_tag_index], awful.screen.focused())
     end
 end
 
