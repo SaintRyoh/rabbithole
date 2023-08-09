@@ -460,7 +460,7 @@ function WorkspaceManagerService:moveTagToGlobalWorkspace(tag)
 end
 
 function WorkspaceManagerService:viewPrevTag()
-    local tags = self:getAllActiveTags()
+    local tags = gears.table.join(self:getAllGlobalTags(), self:getAllActiveTags())
     local selected_tag = __.filter(tags, function(tag) return tag.selected end)[1]
     local prev_tag_index = __.findIndex(tags, function(tag) return tag == selected_tag end) - 1
     if prev_tag_index < 1 then
@@ -471,7 +471,7 @@ function WorkspaceManagerService:viewPrevTag()
 end
 
 function WorkspaceManagerService:viewNextTag()
-    local tags = self:getAllActiveTags()
+    local tags = gears.table.join(self:getAllGlobalTags(), self:getAllActiveTags())
     local selected_tag = __.filter(tags, function(tag) return tag.selected end)[1]
     local next_tag_index = __.findIndex(tags, function(tag) return tag == selected_tag end) + 1
     if next_tag_index > #tags then
