@@ -25,13 +25,18 @@ i3 users will notice the keybindings are very familiar.
 - Drag and drop clients between tags (still work in progress, but it works and is useful)
 - Removed workspace label (we think it's obvious which activity you are working on by the tag—The other menu took up too much room too)
 
-### Upcoming Features (Based on User Feedback)
-- [x] Nearly have uniform experience on Arch and Ubuntu
+### Latest Features (Based on User Feedback)
+- [x] Install tested & working on Arch, Ubuntu, & Kali
+- [x] (In Progress) YouTube tutorial video (install, usage, etc.)
+
+### Upcoming Features
 - [x] Toggleable menubars with options to hide/show on mouse movement
 - [x] Menu bars that can be dragged and snapped to corners of the screen without messing with settings
-- [x] (In Progress) YouTube tutorial video (install, usage, etc.)
 - [x] Easier settings management (settings manager app)
 - [x] More customizable settings.lua (size/location of widget bars)
+- [x] Minor Bugfixes
+- [x] Performance improvements
+
 ## _Enter the Rabbithole._
 _Video demonstration when you click on the image below._
 [![Watch the video demo!](docs/install_images/Rabbithole_Screenshot.png)](https://youtu.be/ci8KCli6YFQ)
@@ -97,7 +102,7 @@ Rabbithole is ideal for users who:
 
 Rabbithole is designed for use on Linux operating systems. To use Rabbithole, you should:
 
-- Have a working Linux installation. Rabbithole has been [tested](#looking-for-beta-testers) and is known to work on: Arch (as well as distros based on the aforementioned ones).
+- Have a working Linux installation. Rabbithole has been [tested](#looking-for-beta-testers) and is known to work on: Arch, Garuda, Ubuntu, Kali.
 - Be comfortable using the command line, as some aspects of the installation process may require it.
 - Have **git** installed to clone the Rabbithole repository. If you don't have git installed, you can install it with your distribution's package manager. For example, on Ubuntu, you can install git with the following command: ```sudo apt install git```
 - For the DE-Like experience, yay or another AUR tool should be installed on Arch based distros for the easiest installation.
