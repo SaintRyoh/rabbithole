@@ -1,8 +1,9 @@
 #!/bin/bash
 # rabid-installer.sh By The Rabbithole Project
 
-# This script must be run with root privileges.
-# This script should work with any Linux distribution that uses apt, pacman, xbps-install or emerge as a package manager. (Arch, Debian, Ubuntu, Gentoo, Void, etc.)
+# This script is a work in progress, but aims to work with any Linux distribution that uses apt, 
+# pacman, xbps-install or emerge as a package manager. (Arch, Debian, Ubuntu, Gentoo, Void, etc.)
+
 # Core dependencies
 CORE_DEPENDENCIES=(
   awesome
@@ -138,9 +139,6 @@ sudo cp "$PROJECT_DIR/installer/rabbithole.desktop" /usr/share/xsessions/
 echo "Setting the default rofi theme..."
 echo "rofi.theme: $HOME/.local/share/rofi/themes/themes/rounded-nord-dark.rasi" >> "$HOME/.Xresources"
 xrdb -merge "$HOME/.Xresources"
-
-# Copy rabbithole's configuration into $HOME/.config/awesome
-#rsync -av "$PROJECT_DIR/" "$HOME/.config/awesome"
 
 # Copy picom.conf into $HOME/.config/picom/
 echo "Copying picom.conf to $HOME/.config/picom/..."
