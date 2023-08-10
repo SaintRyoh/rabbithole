@@ -10,11 +10,10 @@ return setmetatable({}, {
         rabbithole__components__menus__main
     )
         local globalbuttons = gears.table.join(
-                awful.button({ }, 3, function () rabbithole__components__menus__main:toggle() end),
-                awful.button({ }, 4, awful.tag.viewnext),
-                awful.button({ }, 5, awful.tag.viewprev)
+                awful.button({ }, 3, function () rabbithole__components__menus__main:toggle() end)
+                --awful.button({ }, 4, awful.tag.viewnext),
+                --awful.button({ }, 5, awful.tag.viewprev)
         )
-
 
         return globalbuttons
     end

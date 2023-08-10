@@ -1,29 +1,9 @@
 #!/bin/bash
 # rabid-installer.sh By The Rabbithole Project
 
-# This script must be run with root privileges.
-# This script should work with any Linux distribution that uses apt, pacman, xbps-install or emerge as a package manager. (Arch, Debian, Ubuntu, Gentoo, Void, etc.)
-# Core dependencies
-CORE_DEPENDENCIES=(
-  awesome
-  rofi
-  rofi-themes-collection-git
-  autorandr
-  picom
-  ttf-ubuntu-font-family
-  lxqt-policykit
-  lxqt-powermanagement
-  beautyline
-)
-
-# DE-Like dependencies
-DE_LIKE_DEPENDENCIES=(
-  volumeicon
-  network-manager-applet
-  blueman-git
-  flameshot
-  linux-wifi-hotspot
-)
+# This script is a work in progress, eventually iy aims to work with any Linux distribution that 
+# uses apt, pacman, xbps-install or emerge as a package manager. (Arch, Debian, Ubuntu, 
+# Gentoo, Void, etc.)
 
 # Set the project directory
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -43,6 +23,53 @@ elif command -v xbps-install >/dev/null 2>&1; then
 else
     echo "No recognized package manager is available on your system. Exiting."
     exit 1
+fi
+
+# Core dependencies
+if [ $PACKAGE_MANAGER == "apt" ]; then
+    CORE_DEPENDENCIES=(
+        awesome
+        rofi
+        autorandr
+        picom
+        fonts-ubuntu
+        lxqt-policykit
+        lxqt-powermanagement
+        )
+    DE_LIKE_DEPENDENCIES=(
+        volumeicon-alsa
+        network-manager-gnome
+        blueman
+        flameshot
+        )
+
+    # Adding PPA for linux-wifi-hotspot
+    sudo apt install software-properties-common -y
+    sudo add-apt-repository ppa:lakinduakash/lwh
+    sudo apt update
+    sudo apt install linux-wifi-hotspot -y
+
+elif [ $PACKAGE_MANAGER == "yay" ]; then
+    CORE_DEPENDENCIES=(
+      awesome
+      rofi
+      rofi-themes-collection-git
+      autorandr
+      picom
+      ttf-ubuntu-font-family
+      lxqt-policykit
+      lxqt-powermanagement
+      beautyline
+    )
+    
+    # DE-Like dependencies
+    DE_LIKE_DEPENDENCIES=(
+      volumeicon
+      network-manager-applet
+      blueman
+      flameshot
+      linux-wifi-hotspot
+    )
 fi
 
 check_and_install() {
@@ -124,8 +151,8 @@ if [ $PACKAGE_MANAGER != "yay" ]; then
     
     # Install BeautyLine icons if they don't exist
     if [ ! -d "/usr/share/icons/BeautyLine" ]; then
-        echo "Downloading BeautyLine icons..."
-        sudo git clone https://github.com/NOYB/icons.git /usr/share/icons/BeautyLine
+        echo "Copying BeautyLine icons and updating font cache..."
+        sudo cp -R $PROJECT_DIR/installer/BeautyLine /usr/share/icons/BeautyLine
         sudo gtk-update-icon-cache /usr/share/icons/BeautyLine
     fi
 fi
@@ -133,18 +160,20 @@ fi
 # Copy rabbithole.desktop to /usr/share/xsessions/
 echo "Copying rabbithole.desktop to /usr/share/xsessions/..."
 sudo cp "$PROJECT_DIR/installer/rabbithole.desktop" /usr/share/xsessions/
+echo "Rabbithole should now be visible in your display manager."
 
 # Set the default rofi theme
-echo "Setting the default rofi theme..."
-echo "rofi.theme: $HOME/.local/share/rofi/themes/themes/rounded-nord-dark.rasi" >> "$HOME/.Xresources"
-xrdb -merge "$HOME/.Xresources"
-
-# Copy rabbithole's configuration into $HOME/.config/awesome
-#rsync -av "$PROJECT_DIR/" "$HOME/.config/awesome"
+#echo "Setting the default rofi theme..."
+#echo "rofi.theme: $HOME/.local/share/rofi/themes/themes/rounded-nord-dark.rasi" >> "$HOME/.Xresources"
+#xrdb -merge "$HOME/.Xresources"
 
 # Copy picom.conf into $HOME/.config/picom/
 echo "Copying picom.conf to $HOME/.config/picom/..."
 cp "$PROJECT_DIR/installer/picom.conf" "$HOME/.config/picom/picom.conf"
 
+# Copy the configuratioin files to $HOME/.config/awesome/
 echo "Copying Rabbithole's configuration files to $HOME/.config/awesome/..."
 cp -R "$PROJECT_DIR/"* "$HOME/.config/awesome"
+
+echo "Done! You can now log out and log back in with Rabbithole."
+echo "Don't forget to set your rofi theme with the rofi-theme-selector when you log in!"

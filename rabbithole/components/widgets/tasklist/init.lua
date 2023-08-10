@@ -1,5 +1,6 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+local gears = require("gears")
 local view = require("rabbithole.components.widgets.tasklist.view")
 
 local TaskListController = {}
@@ -9,13 +10,18 @@ function TaskListController.new(
     rabbithole__components__buttons__tasklist,
     rabbithole__services__animation,
     rabbithole__services__color,
-    rabbithole__services__icon___handler
+    rabbithole__services__icon___handler,
+    dragondrop
 )
-    local self = setmetatable({}, TaskListController)
+    local self = setmetatable({ }, TaskListController)
+
     self.tasklist_buttons = rabbithole__components__buttons__tasklist
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
     self.icon = rabbithole__services__icon___handler
+    self.dragndrop = dragondrop
+    self.client = nil
+    self.hovered_tag = nil
 
     -- still need screen and tag before we can create the view so we return a function
     return function (screen, tag)
@@ -36,18 +42,20 @@ function TaskListController:create_callback(task_template, c, _, _)
     local background = task_template:get_children_by_id('background_role')[1]
 
     local animation = self.animation({
-        duration = 0.4,
+        duration = 0.2,
         rapid_set = true,
         pos = c == client.focus and 1 or 0,
         subscribed = (function (pos)
-            background.bg = self.color.twoColorTrue3dFlat(
-                self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos),
-                self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_2, pos),
-                pos
-            )
+            if pos == 0 then
+                background.bg = beautiful.tasklist_bg_normal
+            else
+                background.bg = self.color.create_widget_bg(
+                    self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos),
+                    self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos)
+                )
+            end
         end)
     })
-
 
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
@@ -56,19 +64,28 @@ function TaskListController:create_callback(task_template, c, _, _)
 
     task_template:connect_signal('mouse::leave', function()
         c:emit_signal('request::activate', 'mouse_leave', {raise = false})
-        if c ~= client.focus then 
-            animation.target = 0
-        end
-
+        gears.timer.start_new(0.1, function()
+            if c ~= client.focus then 
+                animation.target = 0
+            end
+        end)
         return true
     end)
 
+    local client = c -- Create a closure
+
     task_template:connect_signal('button::press', function()
         animation.target = 0
+
+        self.client = client
+        self.origin_tag = awful.screen.focused().selected_tag
+
+        self.dragndrop:drag(self.client, self.origin_tag)
     end)
 
     task_template:connect_signal('button::release', function()
         animation.target = 1
+
     end)
 
     awful.tooltip({

@@ -6,17 +6,18 @@ return setmetatable({}, {
         rabbithole__components__menus__tasklist
     )
         local tasklist_buttons = gears.table.join(
-                awful.button({ }, 1, function (c)
-                    if c == client.focus then
-                        c.minimized = true
-                    else
-                        c:emit_signal(
-                                "request::activate",
-                                "tasklist",
-                                {raise = true}
-                        )
-                    end
-                end),
+                -- NOTE: i DONT THINK WE NEED THIS LOGIC ANYMORE BECAUSE OF THE DRAGONDROP MODULE LOGIC
+                --awful.button({ }, 1, function (c)
+                --    if c == client.focus then
+                --        c.minimized = true
+                --    else
+                --        c:emit_signal(
+                --                "request::activate",
+                --                "tasklist",
+                --                {raise = true}
+                --        )
+                --    end
+                --end),
                 -- middle click to kill client
                 awful.button({ }, 2, function(c)
                     c:kill()
@@ -24,12 +25,6 @@ return setmetatable({}, {
                 awful.button({ }, 3, function(c)
                     rabbithole__components__menus__tasklist(c):toggle()
                 end)
-                --awful.button({ }, 4, function ()
-                --    awful.client.focus.byidx(1)
-                --end),
-                --awful.button({ }, 5, function ()
-                --    awful.client.focus.byidx(-1)
-                --end)
         )
 
         return tasklist_buttons

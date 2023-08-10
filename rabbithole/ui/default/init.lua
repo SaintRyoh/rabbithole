@@ -30,9 +30,9 @@ function UserInterface.new(
         if resolution > 1920 * 1080 then
             dpi = 144 -- or whatever value you want for high DPI screens
         elseif resolution > 1366 * 768 then
-            dpi = 110 -- or whatever value you want for medium DPI screens (1080p laptops)
+            dpi = 141 -- or whatever value you want for medium DPI screens (1080p laptops)
         else
-            dpi = 96 --or whatever dpi value you want for low DPI screens
+            dpi = 110 --or whatever dpi value you want for low DPI screens
         end
 
         beautiful.xresources.set_dpi(dpi, s)

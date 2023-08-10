@@ -1,24 +1,22 @@
-local wibox = require("wibox")
-local beautiful = require("beautiful")
 local awful = require("awful")
+local wibox = require("wibox")
 
-local _M = {}
+local WorkspaceMenuTemplate = {}
 
-function _M.get(controller)
+function WorkspaceMenuTemplate.get(controller)
+    local beautiful = require("beautiful")
     local Template = {}
     local animation = nil
 
     Template.root = wibox.widget {
         widget = wibox.container.background,
-        bg = beautiful.bg_normal,
+        bg = beautiful.secondary_color,
         bind = "root",
         signals = {
-            ["mouse::enter"] = function(widget, bindings)
-                -- widget.bg = beautiful.bg_focus
+            ["mouse::enter"] = function(widget)
                 animation.target = 1
             end,
-            ["mouse::leave"] = function(widget, bindings)
-                -- widget.bg = beautiful.bg_normal
+            ["mouse::leave"] = function(widget)
                 animation.target = 0
             end
         },
@@ -28,11 +26,9 @@ function _M.get(controller)
                     if bindings.menu.wibox.visible == true then
                         bindings.menu:hide()
                         bindings.root.bg = beautiful.bg_normal
-                        bindings.workspace_name_container.bg = beautiful.bg_normal
                     else
                         bindings.rotator.direction = "west"
                         bindings.root.bg = beautiful.bg_focus
-                        bindings.workspace_name_container.bg = beautiful.bg_focus
                         bindings.menu:show({
                             coords = {
                                 x = event.x,
@@ -45,31 +41,19 @@ function _M.get(controller)
         },
         {
             layout = wibox.layout.fixed.horizontal,
-            spacing = 5,
             {
                 widget = wibox.widget.imagebox,
                 bind = "workspace_icon",
                 resize = true,
                 forced_height = 30,
             },
-            -- Workspace name container
-            {
-                widget = wibox.container.background,
-                -- bg = beautiful.bg_normal,
-                {
-                    widget = wibox.widget.textbox,
-                    bind = "workspace_name",
-                },
-                bind = "workspace_name_container",
-                id = "workspace_name_container"
-            },
-
             {
                 widget = wibox.container.rotate,
                 direction = "north",
+                bind = "rotator",
                 {
                     widget = wibox.container.margin,
-                    margins = 3,
+                    margins = 0,
                     {
                         image = beautiful.menu_submenu_icon,
                         resize = true,
@@ -77,7 +61,6 @@ function _M.get(controller)
                         bind = "open_close_indicator"
                     }
                 },
-                bind = "rotator"
             }
         },
     }
@@ -89,13 +72,11 @@ function _M.get(controller)
         subscribed = function(pos)
             if type(Template.root.bg) == "string" then
                 Template.root.bg = controller.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, pos)
-                Template.root:get_children_by_id("workspace_name_container")[1].bg = Template.root.bg
             else
                 Template.root.bg = controller.color.twoColorTrue3d(
                     controller.color.blend_colors(beautiful.base_color, beautiful.tertiary_1, pos), 
                     controller.color.blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos)
                 )
-                Template.root:get_children_by_id("workspace_name_container")[1].bg = Template.root.bg
             end
         end
     })
@@ -103,4 +84,4 @@ function _M.get(controller)
     return Template
 end
 
-return setmetatable({}, { __call = function(_, controller) return _M.get(controller) end })
+return setmetatable({}, { __call = function(_, controller) return WorkspaceMenuTemplate.get(controller) end })
