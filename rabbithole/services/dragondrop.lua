@@ -1,42 +1,42 @@
 -- DragonDrop is a service that allows you to drag clients between tags.
 -- It is used in rabbithole/components/buttons/tasklist.lua to allow you to
--- drag clients between tags in the tasklist.
+-- drag clients between tags from the tasklist widget.
 
-local awful = require("awful")
 local DragonDrop = {}
 DragonDrop.__index = DragonDrop
 
 function DragonDrop.new()
-    local self = setmetatable({ }, DragonDrop)
+    local self = setmetatable({}, DragonDrop)
 
-    self.og_tag = nil
     self.client = nil
-    self.wibox = nil
+    self.origin_tag = nil
+    self.initial_minimized_state = nil
 
     return self
 end
 
-function DragonDrop:drag(c)
-    self.client = c
-    self.og_tag = c.first_tag
-
-    print("The mouse button is being held.")
-
-    -- Connect to the "button::release" signal on the root widget
-    self.wibox = mouse.current_widgets[1]
-    self.wibox:connect_signal("button::release", function() self:drop() end)
+function DragonDrop:drag(client, origin_tag)
+    self.client = client
+    self.origin_tag = origin_tag
+    self.initial_minimized_state = client.minimized
 end
 
-function DragonDrop:drop()
-    print("The mouse button has been released.")
-    local tag_under_pointer = awful.screen.focused().selected_tag
-    print(tag_under_pointer)
-    if tag_under_pointer ~= self.og_tag then
-        self.client:move_to_tag(tag_under_pointer)
+function DragonDrop:drop(hovered_tag)
+    if self.client then
+        if hovered_tag == self.origin_tag then
+            if self.initial_minimized_state then
+                self.client.minimized = false
+            else
+                self.client.minimized = true
+            end
+        else
+            self.client:move_to_tag(hovered_tag)
+        end
     end
 
-    -- Disconnect from the "button::release" signal
-    self.wibox:disconnect_signal("button::release", function() self:drop() end)
+    self.client = nil
+    self.origin_tag = nil
+    self.initial_minimized_state = nil
 end
 
 return DragonDrop

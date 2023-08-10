@@ -10,13 +10,17 @@ function TaskListController.new(
     rabbithole__components__buttons__tasklist,
     rabbithole__services__animation,
     rabbithole__services__color,
-    rabbithole__services__icon___handler
+    rabbithole__services__icon___handler,
+    dragondrop
 )
-    local self = setmetatable({}, TaskListController)
+    local self = setmetatable({ }, TaskListController)
+
     self.tasklist_buttons = rabbithole__components__buttons__tasklist
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
     self.icon = rabbithole__services__icon___handler
+    self.dragndrop = dragondrop
+    self.client = nil
     self.hovered_tag = nil
 
     -- still need screen and tag before we can create the view so we return a function
@@ -56,7 +60,6 @@ function TaskListController:create_callback(task_template, c, _, _)
     task_template:connect_signal('mouse::enter', function()
         animation.target = 1
         c:emit_signal('request::activate', 'mouse_enter', {raise = false})
-        self.hovered_tag = self.tag
     end)
 
     task_template:connect_signal('mouse::leave', function()
@@ -66,16 +69,23 @@ function TaskListController:create_callback(task_template, c, _, _)
                 animation.target = 0
             end
         end)
-        self.hovered_tag = nil
         return true
     end)
 
+    local client = c -- Create a closure
+
     task_template:connect_signal('button::press', function()
         animation.target = 0
+
+        self.client = client
+        self.origin_tag = awful.screen.focused().selected_tag
+
+        self.dragndrop:drag(self.client, self.origin_tag)
     end)
 
     task_template:connect_signal('button::release', function()
         animation.target = 1
+
     end)
 
     awful.tooltip({

@@ -13,12 +13,13 @@ local TaglistController = {}
 TaglistController.__index = TaglistController
 
 function TaglistController.new(
-    workspaceManagerService, 
+    workspaceManagerService,
+    dragondrop,
     rabbithole__components__widgets__tasklist,
-    rabbithole__services__tag___preview, 
-    rabbithole__services__animation, 
+    rabbithole__services__tag___preview,
+    rabbithole__services__animation,
     rabbithole__services__color,
-    rabbithole__components__buttons__taglist, 
+    rabbithole__components__buttons__taglist,
     rabbithole__components__buttons__taglist___global
 )
     local plusButton = require("rabbithole.components.widgets.taglist.plus_button")(workspaceManagerService)
@@ -40,6 +41,10 @@ function TaglistController.new(
     self.tagPreview = rabbithole__services__tag___preview
     self.animation = rabbithole__services__animation
     self.color = rabbithole__services__color
+    self.dragndrop = dragondrop
+    -- properties
+    self.client = nil
+    self.hovered_tag = nil
 
     return function(s)
         self.screen = s
@@ -137,6 +142,8 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
         animation.target = 1
+        self.hovered_tag = tag
+        self.dragndrop.hovered_tag = tag
     end)
 
     tag_template:connect_signal('mouse::leave', function()
@@ -149,6 +156,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             animation.target = 0
         end
 
+        self.hovered_tag = nil  -- clear the hovered tag so the mouse doesnt act weird
     end)
 
     tag_template:connect_signal('button::press', function()
@@ -157,6 +165,8 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
 
     tag_template:connect_signal('button::release', function()
         animation.target = 1
+
+        self.dragndrop:drop(self.hovered_tag)
     end)
 end
 
