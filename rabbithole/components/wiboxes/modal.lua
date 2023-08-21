@@ -6,6 +6,7 @@ local gears = require("gears")
 -- send <<< 'require("rabbithole.components.wiboxes.modal").new({})'
 
 -- should be able to call setup() on this
+-- TODO custom theme variable for shape of modal
 
 local ModalFactory = {}
 ModalFactory.__index = ModalFactory
