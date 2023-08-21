@@ -25,10 +25,11 @@ function Modal.connect_widget_update_signal(modal, widget)
         modal.popup_widget.width = new_width.width
         modal.popup_widget.height = new_width.height
     end)
+    return modal
 end
 
 function Modal:empty(args)
-    Modal.connect_widget_update_signal(
+    return Modal.connect_widget_update_signal(
         self.modal_factory({ widget = args.widget }),
         args.widget
     )
@@ -48,7 +49,7 @@ function Modal:prompt(args)
         end
     }, args or {}))
 
-    -- keeping in mind the minimum dimensions we need to center this widget
+    -- keeping in mind the minimum dimensions, we need to center this widget
     self.active_modal = self:empty({
         widget = wibox.widget {
             {

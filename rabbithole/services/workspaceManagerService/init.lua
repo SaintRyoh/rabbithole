@@ -260,7 +260,7 @@ end
 
 -- Rename current tag
 function WorkspaceManagerService:renameTag(tag)
-    self.modal.prompt({
+    self.modal:prompt({
         prompt       = "Rename tag: ",
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
@@ -270,7 +270,7 @@ function WorkspaceManagerService:renameTag(tag)
                 self:refresh()
             end
         end
-    }):show()
+    })
 end
 
 ---- Move current tag
