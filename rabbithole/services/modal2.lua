@@ -1,7 +1,6 @@
 local wibox = require("wibox")
 local awful = require("awful")
 local gears = require("gears")
-local __ = require("lodash")
 
 local Modal = {}
 Modal.__index = Modal
@@ -26,18 +25,18 @@ function Modal.connect_widget_update_signal(modal, widget)
         modal.popup_widget.width = new_width.width
         modal.popup_widget.height = new_width.height
     end)
-    return modal
 end
 
 function Modal:empty(args)
-    return Modal.connect_widget_update_signal(
+    Modal.connect_widget_update_signal(
         self.modal_factory({ widget = args.widget }),
         args.widget
     )
 end
 
 function Modal:prompt(args)
-    --maybe make an auto-run prompt?
+    --maybe make an auto- :run() prompt? so i don't have to worry about 
+    -- calling it myself
     local prompt = awful.widget.prompt(gears.table.crush({
         id = "prompt_textbox",
         textbox = wibox.widget.textbox(),
