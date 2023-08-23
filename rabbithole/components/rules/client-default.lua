@@ -38,7 +38,26 @@ return setmetatable({}, {
                 ontop = true,
                 sticky = true
             }
-        }, -- Set window corner rounding to 5px
+        },
+        -- No titlebars for terminal (alacritty)
+        {
+            rule_any = {
+                class = {"Alacritty"}
+            },
+            properties = {
+                titlebars_enabled = false
+            }
+        },
+        -- No titlesbars for kitty terminal
+        {
+            rule_any = {
+                class = {"kitty"}
+            },
+            properties = {
+                titlebars_enabled = false
+            }
+        },
+        -- Set window corner rounding to 5px
         {
             rule_any = {
                 type = {"normal", "dialog"}

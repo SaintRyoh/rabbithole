@@ -1,0 +1,42 @@
+# Maintainer: Your Name <youremail@domain.com>
+
+pkgname=rabbithole
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="AUR package to install the Rabbithole WM and it's dependecies."
+arch=('x86_64')
+url="https://github.com/SaintRyoh/rabbithole"
+license=('GPL')
+depends=('git' 'bash' 'awesome' 'rofi' 'autorandr' 'picom' 'ttf-ubuntu-font-family' 'lxqt-policykit' 'lxqt-powermanagement' 'volumeicon' 'network-manager-applet' 'blueman' 'flameshot')
+makedepends=('yay')
+source=("$pkgname::git+https://github.com/SaintRyoh/rabbithole")
+
+prepare() {
+    cd "$pkgname"
+    git submodule update --init
+}
+
+package() {
+    # Clone your repo to the appropriate directory
+    cd "$srcdir"
+    cp -r "$pkgname" "$pkgdir/opt/$pkgname"
+    cd "$pkgdir/opt/$pkgname"
+    # Initialize submodules
+    git submodule update --init
+
+    # Ensure yay is installed
+    if ! command -v yay &> /dev/null; then
+        yay -S yay
+    fi
+
+    # Copying .desktop files, configurations, etc.
+    install -Dm644 "$pkgdir/opt/$pkgname/installer/rabbithole.desktop" "/usr/share/xsessions/rabbithole.desktop"
+    # ... add more copying or installation steps as required ...
+}
+
+post_install() {
+    # Post-installation messages or scripts
+    echo "Rabbithole should now be visible in your display manager."
+    echo "Done! You can now log out and log back in with Rabbithole."
+    echo "Don't forget to set your rofi theme with the rofi-theme-selector when you log in!"
+}
