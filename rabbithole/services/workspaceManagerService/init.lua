@@ -15,12 +15,12 @@ local capi = {
 local WorkspaceManagerService = {}
 WorkspaceManagerService.__index = WorkspaceManagerService
 
-function WorkspaceManagerService.new(rabbithole__services__modal)
+function WorkspaceManagerService.new(rabbithole__services__modal2)
     local self = {}
     setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel = workspaceManager:new()
-    self.modal = rabbithole__services__modal
+    self.modal = rabbithole__services__modal2
 
     self.restore = {}
 
@@ -241,7 +241,7 @@ end
 function WorkspaceManagerService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
     -- open modal prompt to get tag name
-    self.modal.prompt({
+    self.modal:prompt({
         prompt = "New Tag Name: ",
         exe_callback = function(name)
             if not name or #name == 0 then return end
@@ -251,7 +251,7 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
             sharedtags.viewonly(tag, awful.screen.focused())
             self:refresh()
         end
-    }):show()
+    })
 end
 
 function WorkspaceManagerService:createTag(index, tag_def)
@@ -260,7 +260,7 @@ end
 
 -- Rename current tag
 function WorkspaceManagerService:renameTag(tag)
-    self.modal.prompt({
+    self.modal:prompt({
         prompt       = "Rename tag: ",
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
@@ -270,7 +270,7 @@ function WorkspaceManagerService:renameTag(tag)
                 self:refresh()
             end
         end
-    }):show()
+    })
 end
 
 ---- Move current tag
