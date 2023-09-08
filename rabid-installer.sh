@@ -35,6 +35,9 @@ if [ $PACKAGE_MANAGER == "apt" ]; then
         fonts-ubuntu
         lxqt-policykit
         lxqt-powermanagement
+        imagemagick
+        scrot
+        tesseract-ocr
         )
     DE_LIKE_DEPENDENCIES=(
         volumeicon-alsa
@@ -51,15 +54,18 @@ if [ $PACKAGE_MANAGER == "apt" ]; then
 
 elif [ $PACKAGE_MANAGER == "yay" ]; then
     CORE_DEPENDENCIES=(
-      awesome
-      rofi
-      rofi-themes-collection-git
-      autorandr
-      picom
-      ttf-ubuntu-font-family
-      lxqt-policykit
-      lxqt-powermanagement
-      beautyline
+        awesome
+        rofi
+        rofi-themes-collection-git
+        autorandr
+        picom
+        ttf-ubuntu-font-family
+        lxqt-policykit
+        lxqt-powermanagement
+        beautyline
+        imagemagick
+        scrot
+        tesseract-ocr
     )
     
     # DE-Like dependencies
