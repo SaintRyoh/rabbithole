@@ -26,7 +26,7 @@ function UserInterface.new(
         rabbithole__ui__default__center(s)
 
         -- create dropdown terminal box for each screen
-        s.dropdown = dropdown({ app = "alacritty",argname = "--title %s",extra = "--class QuakeDD -e tmux", visible = true, height = 0.9, screen = s })
+        s.dropdown = dropdown({app="alacritty", argname="--title %s", extra="--class Dropdown -e tmux", visible=true, height=0.9, screen = s })
 
         -- set dpi of screens
         local resolution = s.geometry.width * s.geometry.height

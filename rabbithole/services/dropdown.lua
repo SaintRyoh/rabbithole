@@ -15,13 +15,13 @@ local screen       = screen
 local setmetatable = setmetatable
 
 -- Quake-like Dropdown application spawn
-local quake = {}
+local Dropdown = {}
 
 -- If you have a rule like "awful.client.setslave" for your terminals,
 -- ensure you use an exception for QuakeDD. Otherwise, you may
 -- run into problems with focus.
 
-function quake:display()
+function Dropdown:display()
     if self.followtag then self.screen = awful.screen.focused() end
 
     -- First, we locate the client
@@ -90,7 +90,7 @@ function quake:display()
     return client
 end
 
-function quake:compute_size()
+function Dropdown:compute_size()
     -- skip if we already have a geometry for this screen
     if not self.geometry[self.screen.index] then
         local geom
@@ -114,11 +114,11 @@ function quake:compute_size()
     return self.geometry[self.screen.index]
 end
 
-function quake:new(config)
+function Dropdown:new(config)
     local conf = config or {}
 
     conf.app        = conf.app       or "xterm"    -- application to spawn
-    conf.name       = conf.name      or "QuakeDD"  -- window name
+    conf.name       = conf.name      or "Dropdown"  -- window name
     conf.argname    = conf.argname   or "-name %s" -- how to specify window name
     conf.extra      = conf.extra     or ""         -- extra arguments
     conf.border     = conf.border    or 1          -- client border width
@@ -130,12 +130,12 @@ function quake:new(config)
 
     -- If width or height <= 1 this is a proportion of the workspace
     conf.height     = conf.height    or 0.25       -- height
-    conf.width      = conf.width     or 1          -- width
+    conf.width      = conf.width     or 0.75          -- width
     conf.vert       = conf.vert      or "top"      -- top, bottom or center
-    conf.horiz      = conf.horiz     or "left"     -- left, right or center
+    conf.horiz      = conf.horiz     or "center"     -- left, right or center
     conf.geometry   = {}                           -- internal use
 
-    local dropdown = setmetatable(conf, { __index = quake })
+    local dropdown = setmetatable(conf, { __index = Dropdown })
 
     capi.client.connect_signal("manage", function(c)
         if c.instance == dropdown.name and c.screen == dropdown.screen then
@@ -151,7 +151,7 @@ function quake:new(config)
     return dropdown
 end
 
-function quake:toggle()
+function Dropdown:toggle()
      if self.followtag then self.screen = awful.screen.focused() end
      local current_tag = self.screen.selected_tag
      if current_tag and self.last_tag ~= current_tag and self.visible then
@@ -165,4 +165,4 @@ function quake:toggle()
      end
 end
 
-return setmetatable(quake, { __call = function(_, ...) return quake:new(...) end })
+return setmetatable(Dropdown, { __call = function(_, ...) return Dropdown:new(...) end })
