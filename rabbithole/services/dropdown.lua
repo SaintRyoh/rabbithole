@@ -50,7 +50,7 @@ function quake:display()
 
     if not client then
         -- The client does not exist, we spawn it
-        cmd = string.format("%s %s %s", self.app,
+        local cmd = string.format("%s %s %s", self.app,
               string.format(self.argname, self.name), self.extra)
         awful.spawn(cmd, { tag = self.screen.selected_tag })
         return

@@ -1,7 +1,7 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local bling = require("sub.bling")
-local quake = require("rabbithole.services.quake")
+local dropdown = require("rabbithole.services.dropdown")
 
 
 local UserInterface = {}
@@ -26,7 +26,7 @@ function UserInterface.new(
         rabbithole__ui__default__center(s)
 
         -- create dropdown terminal box for each screen
-        s.quake = quake({ app = "alacritty",argname = "--title %s",extra = "--class QuakeDD -e tmux", visible = true, height = 0.9, screen = s })
+        s.dropdown = dropdown({ app = "alacritty",argname = "--title %s",extra = "--class QuakeDD -e tmux", visible = true, height = 0.9, screen = s })
 
         -- set dpi of screens
         local resolution = s.geometry.width * s.geometry.height
