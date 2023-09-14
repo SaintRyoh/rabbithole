@@ -132,7 +132,7 @@ return setmetatable({}, {
                 { description = "run lxqt-runner", group = "launcher" }),
             awful.key({ modkey }, "d",
                 function()
-                    os.execute("rofi -show drun -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons")
+                    os.execute(launcher)
                 end,
                 {
                     description = "run rofi",
@@ -141,7 +141,7 @@ return setmetatable({}, {
             -- press mod4 to open rofi window switcher
             awful.key({ modkey }, "Tab",
                 function()
-                    os.execute("rofi -show window -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons")
+                    os.execute(window_switcher)
                 end,
                 { description = "show window switcher", group = "launcher" }),
 
