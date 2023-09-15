@@ -13,6 +13,7 @@ local string       = string
 local pairs        = pairs
 local screen       = screen
 local setmetatable = setmetatable
+local gears = require("gears")
 
 -- Quake-like Dropdown application spawn
 local Dropdown = {}
@@ -70,6 +71,29 @@ function Dropdown:display()
 
     -- Additional user settings
     if self.settings then self.settings(client) end
+
+    -- Set the initial geometry
+    local target_geometry = self.geometry[self.screen.index] or self:compute_size()
+
+    if not self.visible then
+        -- if hiding, we reverse the process
+        for _ = target_geometry.height, 0, -10 do
+            gears.timer.delayed_call(function()
+                client:geometry({height = _})
+            end)
+        end
+        client.hidden = true
+    else
+        client:geometry({height = 1})
+        client.hidden = false
+        -- smoothly animate height from 1 to target
+        for _ = 1, target_geometry.height, 10 do
+            gears.timer.delayed_call(function()
+                client:geometry({height = _})
+            end)
+        end
+    end
+
 
     -- Toggle display
     if self.visible then
