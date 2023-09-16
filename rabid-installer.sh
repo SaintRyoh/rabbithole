@@ -35,6 +35,7 @@ if [ $PACKAGE_MANAGER == "apt" ]; then
         fonts-ubuntu
         lxqt-policykit
         lxqt-powermanagement
+        tmux
         )
     DE_LIKE_DEPENDENCIES=(
         volumeicon-alsa
@@ -60,6 +61,7 @@ elif [ $PACKAGE_MANAGER == "yay" ]; then
       lxqt-policykit
       lxqt-powermanagement
       beautyline
+      tmux
     )
     
     # DE-Like dependencies
