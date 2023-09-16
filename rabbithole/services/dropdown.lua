@@ -15,6 +15,12 @@ local screen       = screen
 local setmetatable = setmetatable
 local gears = require("gears")
 
+
+local function outCubic(t, b, c, d)
+    t = t / d - 1
+    return c * (t * t * t + 1) + b
+end
+
 -- Quake-like Dropdown application spawn
 local Dropdown = {}
 
@@ -75,25 +81,36 @@ function Dropdown:display()
     -- Set the initial geometry
     local target_geometry = self.geometry[self.screen.index] or self:compute_size()
 
+    -- Animation parameters
+    local anim_duration = 0.3  -- 300ms, adjust to your preference
+    local anim_steps = 30
+    local step_delay = anim_duration / anim_steps
+
     if not self.visible then
-        -- if hiding, we reverse the process
-        for _ = target_geometry.height, 0, -10 do
-            gears.timer.delayed_call(function()
-                client:geometry({height = _})
-            end)
-        end
-        client.hidden = true
+        -- Hiding animation, animate from full height to 0
+        local current_step = 0
+        gears.timer.start_new(step_delay, function()
+            local new_height = outCubic(current_step, target_geometry.height, -target_geometry.height, anim_steps)
+            client:geometry({y = target_geometry.y + target_geometry.height - math.ceil(new_height), height = math.ceil(new_height)})
+            current_step = current_step + 1
+            if current_step > anim_steps then
+                client.hidden = true
+            end
+            return current_step <= anim_steps
+        end)
     else
+        -- Showing animation, animate from 1 to full height
         client:geometry({height = 1})
         client.hidden = false
-        -- smoothly animate height from 1 to target
-        for _ = 1, target_geometry.height, 10 do
-            gears.timer.delayed_call(function()
-                client:geometry({height = _})
-            end)
-        end
-    end
 
+        local current_step = 0
+        gears.timer.start_new(step_delay, function()
+            local new_height = outCubic(current_step, 1, target_geometry.height - 1, anim_steps)
+            client:geometry({height = math.ceil(new_height)})
+            current_step = current_step + 1
+            return current_step <= anim_steps
+        end)
+    end
 
     -- Toggle display
     if self.visible then
