@@ -5,7 +5,7 @@
 
 # Maintainer: LycanDarko lycandarko (at) proton.me
 pkgname=rabbithole-git
-pkgver=0.6.0
+pkgver=
 pkgrel=1
 epoch=
 pkgdesc="Rabbithole The Meta-Window Manager. Built from the awesome window manager framework."
@@ -18,7 +18,7 @@ makedepends=(git)
 checkdepends=()
 optdepends=()
 provides=()
-conflicts=()
+conflicts=(awesome-git rofi-git)
 replaces=()
 backup=()
 options=()
@@ -29,8 +29,8 @@ md5sums=('SKIP')
 validpgpkeys=()
 
 pkgver() {
-	cd "$pkgname-$pkgve"
-	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
+  cd "$srcdir/$pkgname"
+  git describe --tags | sed 's/-/./g'
 }
 
 build() {
