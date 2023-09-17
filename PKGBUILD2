@@ -1,0 +1,45 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# Maintainer: LycanDarko lycandarko (at) proton.me
+pkgname=rabbithole-git
+pkgver=0.6.0
+pkgrel=1
+epoch=
+pkgdesc="Rabbithole The Meta-Window Manager. Built from the awesome window manager framework."
+arch=(x86_64 i686)
+url="https://github.com/SaintRyoh/rabbithole.git"
+license=('GPL')
+groups=()
+depends=(awesome rofi autorandr picom ttf-ubuntu-font-family lxqt-policykit lxqt-powermanagement tmux volumeicon network-manager-applet blueman flameshot rofi-themes-collection-git beautyline linux-wifi-hotspot)
+makedepends=(git)
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install=
+changelog=
+source=("git+$url")
+md5sums=('SKIP')
+validpgpkeys=()
+
+pkgver() {
+	cd "$pkgname-$pkgve"
+	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
+}
+
+build() {
+	cd "$pkgname-$pkgver"
+	./configure --prefix=/usr
+	make
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	make DESTDIR="$pkgdir/" install
+}
