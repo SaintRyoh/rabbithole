@@ -3,16 +3,17 @@ local gears = require("gears")
 local awful = require("awful")
 local sharedtags = require("sub.awesome-sharedtags")
 local __ = require("lodash")
-local modal = require("rabbithole.services.modal.modal")
 -- }}}
 
 return setmetatable({}, {
     __constructor = function (
         settings,
         workspaceManagerService,
-        rabbithole__components__menus__taglist___global
+        rabbithole__components__menus__taglist___global,
+        rabbithole__services__modal2
     )
         local taglistmenu = rabbithole__components__menus__taglist___global
+        local modal = rabbithole__services__modal2
         -- Create a wibox for each screen and add it
         local taglist_buttons = gears.table.join(
                 awful.button({ }, 1, function(t) -- clicked tag
@@ -43,13 +44,13 @@ return setmetatable({}, {
                     sharedtags.viewtoggle(t, t.screen)
                 end ),
                 awful.button({ settings.core_settings.modkey }, 2, function(t)
-                    modal.confirm({
+                    modal:confirm({
                         title = "Delete tag",
                         text = "Are you sure you want to delete this tag?",
                         yes_callback = function()
                             workspaceManagerService:deleteTagFromWorkspace(nil, t)
                         end
-                    }):show()
+                    })
                 end ),
                 awful.button({ }, 4, function(t) workspaceManagerService:viewNextTag() end),
                 awful.button({ }, 5, function(t) workspaceManagerService:viewPrevTag() end)
