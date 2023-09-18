@@ -1,16 +1,11 @@
-# This is an example PKGBUILD file. Use this as a start to creating your own,
-# and remove these comments. For more information, see 'man PKGBUILD'.
-# NOTE: Please fill out the license field for your package! If it is unknown,
-# then please put 'unknown'.
-
 # Maintainer: LycanDarko lycandarko (at) proton.me
-pkgname=rabbithole-git
-pkgver=
+pkgname="rabbithole-git"
+pkgver=1
 pkgrel=1
 epoch=
-pkgdesc="Rabbithole The Meta-Window Manager. Built from the awesome window manager framework."
+pkgdesc="Rabbithole meta-window manager. A extra-dimensional UI made for enhancing productivity, a second brain interface. Built from the awesome window manager framework."
 arch=(x86_64 i686)
-url="https://github.com/SaintRyoh/rabbithole.git"
+url="https://github.com/SaintRyoh/rabbithole"
 license=('GPL')
 groups=()
 depends=(awesome rofi autorandr picom ttf-ubuntu-font-family lxqt-policykit lxqt-powermanagement tmux volumeicon network-manager-applet blueman flameshot rofi-themes-collection-git beautyline linux-wifi-hotspot)
@@ -28,15 +23,20 @@ source=("git+$url")
 md5sums=('SKIP')
 validpgpkeys=()
 
-pkgver() {
-  cd "$srcdir/$pkgname"
-  git describe --tags | sed 's/-/./g'
+prepare() {
+	cd "$pkgname-$pkgver"
+	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
 }
 
 build() {
 	cd "$pkgname-$pkgver"
 	./configure --prefix=/usr
 	make
+}
+
+check() {
+	cd "$pkgname-$pkgver"
+	make -k check
 }
 
 package() {

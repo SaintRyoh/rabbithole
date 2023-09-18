@@ -99,7 +99,6 @@ function Dropdown:display()
             return current_step <= anim_steps
         end)
     else
-        -- Showing animation, animate from 1 to full height
         client:geometry({height = 1})
         client.hidden = false
 
@@ -112,7 +111,6 @@ function Dropdown:display()
         end)
     end
 
-    -- Toggle display
     if self.visible then
         client.hidden = false
         client:raise()
