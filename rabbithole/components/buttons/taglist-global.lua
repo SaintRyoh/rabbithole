@@ -10,10 +10,10 @@ return setmetatable({}, {
         settings,
         workspaceManagerService,
         rabbithole__components__menus__taglist___global,
-        rabbithole__services__modal2
+        rabbithole__services__modal
     )
         local taglistmenu = rabbithole__components__menus__taglist___global
-        local modal = rabbithole__services__modal2
+        local modal = rabbithole__services__modal
         -- Create a wibox for each screen and add it
         local taglist_buttons = gears.table.join(
                 awful.button({ }, 1, function(t) -- clicked tag

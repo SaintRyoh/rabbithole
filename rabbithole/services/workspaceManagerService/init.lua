@@ -15,12 +15,12 @@ local capi = {
 local WorkspaceManagerService = {}
 WorkspaceManagerService.__index = WorkspaceManagerService
 
-function WorkspaceManagerService.new(rabbithole__services__modal2)
+function WorkspaceManagerService.new(rabbithole__services__modal)
     local self = {}
     setmetatable(self, WorkspaceManagerService)
 
     self.workspaceManagerModel = workspaceManager:new()
-    self.modal = rabbithole__services__modal2
+    self.modal = rabbithole__services__modal
 
     self.restore = {}
 
