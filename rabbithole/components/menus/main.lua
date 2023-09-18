@@ -7,7 +7,7 @@ local freedesktop = require("sub.freedesktop")
 
 
 return setmetatable({}, {
-    __constructor = function (settings)
+    __constructor = function (settings, rabbithole__services__modal2)
         local M = {}  -- menu
         --local editor = settings.editor or "nano"
         local terminal = settings.terminal or "xfce4-terminal"
@@ -23,7 +23,10 @@ return setmetatable({}, {
             --{ "Settings Manager", function() settings_manager:show() end },
             { "Quit Rabbithole", function() awesome.quit() end },
             { "Reboot", "reboot" },
-            { "Shutdown", "shutdown now" }
+            { "Shutdown", "shutdown now" },
+            { "Test confirm modal", function ()
+                rabbithole__services__modal2:confirm()
+            end}
 
         }
 

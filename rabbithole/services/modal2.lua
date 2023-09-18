@@ -1,6 +1,9 @@
 local wibox = require("wibox")
 local awful = require("awful")
 local gears = require("gears")
+local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
+local buttons = require("sub.awesome-buttons.awesome-buttons")
 
 local Modal = {}
 Modal.__index = Modal
@@ -68,9 +71,51 @@ function Modal:prompt(args)
 end
 
 function Modal:confirm(args)
-    local modal = self.modal_factory.new(args)
-    modal.popup_widget.visible = true
-    return modal
+    args = args or {}
+    self.active_modal = self:empty({
+        widget = wibox.widget {
+            {
+                {
+                    markup = "<b>Confirm</b>",
+                    align = "center",  -- Center align title
+                    font = "Ubuntu 16",
+                    fg = beautiful.secondary_color,
+                    widget = wibox.widget.textbox
+                },
+                layout = wibox.layout.fixed.horizontal,
+            },
+            {
+                markup = "Are you sure?",
+                widget = wibox.widget.textbox
+            },
+            {
+                buttons.with_text({
+                    text = "Yes",
+                    color = beautiful.secondary_color,
+                    onclick = function()
+                        if args.yes_callback then
+                            args.yes_callback()
+                        end
+                        self.active_modal.visible = false
+                    end
+                }),
+                buttons.with_text({
+                    text = "No",
+                    color = beautiful.secondary_color,
+                    onclick = function()
+                        if args.no_callback then
+                            args.no_callback()
+                        end
+                        self.active_modal.visible = false
+                    end
+                }),
+                spacing = dpi(20),
+                layout = wibox.layout.fixed.horizontal
+            },
+            bg = beautiful.bg_neutral,
+            layout = wibox.layout.fixed.vertical
+        }
+    })
 end
 
 return Modal
