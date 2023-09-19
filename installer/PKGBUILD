@@ -14,14 +14,17 @@ checkdepends=()
 optdepends=()
 conflicts=(awesome-git)
 install=rabbithole.install
-changelog="docs/CHANGELOG.md"
 source=("rabbithole::git://github.com/SaintRyoh/rabbithole.git")
 md5sums=('SKIP')
-validpgpkeys=()
 
 prepare() {
-	cd "$pkgname-$pkgver"ya
-	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
+	cd "$pkgname"
+	git submodule update --init
+}
+
+pkgver() {
+  cd "$pkgname"
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
@@ -39,4 +42,3 @@ package() {
 	cd "$pkgname-$pkgver"
 	make DESTDIR="$pkgdir/" install
 }
-license
