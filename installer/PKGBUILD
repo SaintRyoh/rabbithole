@@ -1,5 +1,5 @@
 # Maintainer: LycanDarko lycandarko (at) proton.me
-pkgname="rabbithole-git"
+pkgname="rabbithole"
 pkgver=1
 pkgrel=1
 epoch=
@@ -13,17 +13,14 @@ makedepends=(git)
 checkdepends=()
 optdepends=()
 conflicts=(awesome-git)
-replaces=()
-backup=()
-options=()
-install=
-changelog=
-source=("git+$url")
+install=rabbithole.install
+changelog="docs/CHANGELOG.md"
+source=("rabbithole::git://github.com/SaintRyoh/rabbithole.git")
 md5sums=('SKIP')
 validpgpkeys=()
 
 prepare() {
-	cd "$pkgname-$pkgver"
+	cd "$pkgname-$pkgver"ya
 	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
 }
 
@@ -42,3 +39,4 @@ package() {
 	cd "$pkgname-$pkgver"
 	make DESTDIR="$pkgdir/" install
 }
+license
