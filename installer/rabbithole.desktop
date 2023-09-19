@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Rabbithole
-Comment=Rabbithole Window Manager
+Comment=Rabbithole Meta-Window Manager
 Exec=/usr/bin/awesome -c ~/.config/rabbithole/rc.lua
 Type=XSession
