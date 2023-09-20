@@ -1,6 +1,6 @@
 # Rabbithole—The Meta-Window Manager
 ### LOOKING FOR BETA TESTERS
-#### Automated Installer Working for Arch Linux - Please Help Us Test On Other Distros**
+~**Automated Installer Working for Arch Linux~ Now available in the AUR - Please Help Us Test On Other Distros**
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 - Rabbithole has been tested and works on Ubuntu if you install the packages manually! 
 ### Discord Support
@@ -27,6 +27,7 @@ i3 users will notice the keybindings are very familiar.
 
 ### Latest Features (Based on User Feedback)
 - [x] Install tested & working on Arch, Ubuntu, & Kali (also expected to work on distros based on these) (PopOS!))
+- [x] Rabbithole is now available in the AUR with `yay -S rabbithole`
 - [x] (In Progress) YouTube tutorial video (install, usage, etc.)
 
 ### Upcoming Features
@@ -97,6 +98,8 @@ Rabbithole is ideal for users who:
 - Desire a streamlined, intuitive workspace that boosts productivity without sacrificing user experience.
 
 ## Installation
+
+**Rabbithole is now available in the AUR** with `yay -S rabbithole`
 
 ### Prerequisites
 
