@@ -1,6 +1,8 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local bling = require("sub.bling")
+local dropdown = require("rabbithole.services.dropdown")
+
 
 local UserInterface = {}
 UserInterface.__index = UserInterface
@@ -9,7 +11,8 @@ function UserInterface.new(
     workspaceManagerService,
     rabbithole__ui__default__left,
     rabbithole__ui__default__center,
-    rabbithole__ui__default__right
+    rabbithole__ui__default__right,
+    settings
     --rabbithole__ui__default__titlebar  -- Using nice as titlebars for now, but standard titlebars are still available if desired
 )
     awful.screen.connect_for_each_screen(function(s)
@@ -22,6 +25,9 @@ function UserInterface.new(
             rabbithole__ui__default__right(s)
         end
         rabbithole__ui__default__center(s)
+
+        -- create dropdown terminal box for each screen
+        s.dropdown = dropdown({app=settings.default_programs.terminal, argname="--title %s", extra="--class Dropdown -e tmux", visible=true, height=0.9, screen = s })
 
         -- set dpi of screens
         local resolution = s.geometry.width * s.geometry.height
