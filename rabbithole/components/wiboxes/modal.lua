@@ -15,20 +15,20 @@ ModalFactory.__index = ModalFactory
 
 function ModalFactory.new()
 
-    return function (args)
-        return ModalFactory.empty(args)
+    return function (widget)
+        return ModalFactory.empty(widget)
     end
 
 end
 
-function ModalFactory.empty(args)
+function ModalFactory.empty(widget)
     return ModalFactory.connect_widget_update_signal(
-        ModalFactory.get_popup({ widget = args.widget, }),
-        args.widget
+        ModalFactory.get_popup(widget),
+        widget
     )
 end
 
-function ModalFactory.get_popup(args)
+function ModalFactory.get_popup(widget)
     return awful.popup({
         -- popup properties
         minimum_width = 10,
@@ -41,7 +41,7 @@ function ModalFactory.get_popup(args)
         -- This centers the widget horizontally and vertically
         widget = wibox.widget {
             {
-                args.widget or wibox.widget.textbox("No widget provided"),
+                widget or wibox.widget.textbox("No widget provided"),
                 layout = wibox.container.place,
                 valign = "center",
             },

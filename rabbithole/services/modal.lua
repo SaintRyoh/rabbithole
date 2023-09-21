@@ -38,12 +38,12 @@ function Modal:prompt(args)
     }, args or {}))
 
     -- keeping in mind the minimum dimensions, we need to center this widget
-    self.active_modal = self.modal_factory({
-        widget = wibox.widget {
+    self.active_modal = self.modal_factory(
+        wibox.widget {
             prompt,
             layout = wibox.layout.align.vertical,
         } 
-    })
+    )
       
     prompt:run()
 end
@@ -62,8 +62,8 @@ function Modal:confirm(args)
         cancel_text = "No",
     }, args or {})
 
-    self.active_modal = self.modal_factory({
-        widget = wibox.widget {
+    self.active_modal = self.modal_factory(
+        wibox.widget {
             {
                 {
                     markup = args.title,
@@ -106,7 +106,7 @@ function Modal:confirm(args)
             },
             layout = wibox.layout.fixed.vertical
         }
-    })
+    )
 end
 
 return Modal
