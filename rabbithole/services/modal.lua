@@ -33,7 +33,20 @@ end
 
 function Modal:empty(args)
     return Modal.connect_widget_update_signal(
-        self.modal_factory({ widget = args.widget }),
+        self.modal_factory({
+        widget = wibox.widget {
+            {
+                args.widget,
+                layout = wibox.container.place,
+                valign = "center",
+            },
+            layout = wibox.container.margin,
+            left = dpi(15),
+            right = dpi(15),
+            top = dpi(5),
+            bottom = dpi(5),
+        }
+        }),
         args.widget
     )
 end
@@ -55,14 +68,7 @@ function Modal:prompt(args)
     -- keeping in mind the minimum dimensions, we need to center this widget
     self.active_modal = self:empty({
         widget = wibox.widget {
-            {
-                prompt,
-                top = 10,
-                bottom = 10,
-                left = 10,
-                right = 10,
-                widget = wibox.container.margin,
-            },
+            prompt,
             layout = wibox.layout.align.vertical,
         } 
     })
@@ -76,58 +82,48 @@ function Modal:confirm(args)
         widget = wibox.widget {
             {
                 {
-                    {
-                        {
-                            markup = "<b>Confirm</b>",
-                            align = "center",  -- Center align title
-                            font = "Ubuntu 16",
-                            fg = beautiful.secondary_color,
-                            widget = wibox.widget.textbox
-                        },
-                        layout = wibox.layout.fixed.horizontal,
-                    },
-                    {
-                        align = "center",  
-                        font = "Ubuntu 8",
-                        markup = "Are you sure?",
-                        widget = wibox.widget.textbox
-                    },
-                    {
-                        buttons.with_text({
-                            text = "Yes",
-                            color = beautiful.secondary_color,
-                            onclick = function()
-                                if args.yes_callback then
-                                    args.yes_callback()
-                                end
-                                self.active_modal.visible = false
-                            end
-                        }),
-                        buttons.with_text({
-                            text = "No",
-                            color = beautiful.secondary_color,
-                            onclick = function()
-                                if args.no_callback then
-                                    args.no_callback()
-                                end
-                                self.active_modal.visible = false
-                            end
-                        }),
-                        spacing = dpi(20),
-                        layout = wibox.layout.fixed.horizontal
-                    },
-                    layout = wibox.layout.fixed.vertical
+                    markup = "<b>Confirm</b>",
+                    align = "center",  -- Center align title
+                    font = "Ubuntu 16",
+                    fg = beautiful.secondary_color,
+                    widget = wibox.widget.textbox
                 },
-                layout = wibox.container.place,
-                valign = "center",
+                layout = wibox.layout.fixed.horizontal,
             },
-            layout = wibox.container.margin,
-            left = dpi(35),
-            right = dpi(35),
-            top = dpi(10),
-            bottom = dpi(10),
-
-        }
+            {
+                align = "center",  
+                font = "Ubuntu 8",
+                markup = "Are you sure?",
+                widget = wibox.widget.textbox
+            },
+            {
+                buttons.with_text({
+                    text = "Yes",
+                    color = beautiful.secondary_color,
+                    onclick = function()
+                        if args.yes_callback then
+                            args.yes_callback()
+                        end
+                        self.active_modal.visible = false
+                    end
+                }),
+                buttons.with_text({
+                    text = "No",
+                    color = beautiful.secondary_color,
+                    onclick = function()
+                        if args.no_callback then
+                            args.no_callback()
+                        end
+                        self.active_modal.visible = false
+                    end
+                }),
+                spacing = dpi(20),
+                layout = wibox.layout.fixed.horizontal
+            },
+            layout = wibox.layout.fixed.vertical
+        },
+        layout = wibox.container.place,
+        valign = "center",
     })
 end
 
