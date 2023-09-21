@@ -22,35 +22,6 @@ function Modal.new(
 
 end
 
-function Modal.connect_widget_update_signal(modal, widget)
-    widget:connect_signal("widget::updated", function()
-        local new_width = widget:get_preferred_size()
-        modal.popup_widget.width = new_width.width
-        modal.popup_widget.height = new_width.height
-    end)
-    return modal
-end
-
-function Modal:empty(args)
-    return Modal.connect_widget_update_signal(
-        self.modal_factory({
-        widget = wibox.widget {
-            {
-                args.widget,
-                layout = wibox.container.place,
-                valign = "center",
-            },
-            layout = wibox.container.margin,
-            left = dpi(15),
-            right = dpi(15),
-            top = dpi(5),
-            bottom = dpi(5),
-        }
-        }),
-        args.widget
-    )
-end
-
 function Modal:prompt(args)
     --maybe make an auto- :run() prompt? so i don't have to worry about 
     -- calling it myself
@@ -66,7 +37,7 @@ function Modal:prompt(args)
     }, args or {}))
 
     -- keeping in mind the minimum dimensions, we need to center this widget
-    self.active_modal = self:empty({
+    self.active_modal = self.modal_factory({
         widget = wibox.widget {
             prompt,
             layout = wibox.layout.align.vertical,
@@ -78,7 +49,7 @@ end
 
 function Modal:confirm(args)
     args = args or {}
-    self.active_modal = self:empty({
+    self.active_modal = self.modal_factory({
         widget = wibox.widget {
             {
                 {
