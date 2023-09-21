@@ -26,15 +26,7 @@ return setmetatable({}, {
             { "Reboot", "reboot" },
             { "Shutdown", "shutdown now" },
             { "Test confirm modal", function ()
-                rabbithole__services__modal:confirm({
-                    text = "Are you sure you want to do this?",
-                    yes_callback = function()
-                        naughty.notify({ text = "yes" })
-                    end,
-                    no_callback = function()
-                        naughty.notify({ text = "no" })
-                    end
-                })
+                rabbithole__services__modal:confirm()
             end}
 
         }

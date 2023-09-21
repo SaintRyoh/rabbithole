@@ -4,6 +4,7 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local buttons = require("sub.awesome-buttons.awesome-buttons")
+local naughty = require("naughty")
 
 local Modal = {}
 Modal.__index = Modal
@@ -48,12 +49,24 @@ function Modal:prompt(args)
 end
 
 function Modal:confirm(args)
-    args = args or {}
+    args = gears.table.crush({
+        yes_callback = function()
+            naughty.notify({ text = "yes" })
+        end,
+        no_callback = function()
+            naughty.notify({ text = "no" })
+        end,
+        title = "<b>Confirm</b>",
+        message = "Are you sure?",
+        confirm_text = "Yes",
+        cancel_text = "No",
+    }, args or {})
+
     self.active_modal = self.modal_factory({
         widget = wibox.widget {
             {
                 {
-                    markup = "<b>Confirm</b>",
+                    markup = args.title,
                     align = "center",  -- Center align title
                     font = "Ubuntu 16",
                     fg = beautiful.secondary_color,
@@ -64,12 +77,12 @@ function Modal:confirm(args)
             {
                 align = "center",  
                 font = "Ubuntu 8",
-                markup = "Are you sure?",
+                markup = args.message,
                 widget = wibox.widget.textbox
             },
             {
                 buttons.with_text({
-                    text = "Yes",
+                    text = args.confirm_text,
                     color = beautiful.secondary_color,
                     onclick = function()
                         if args.yes_callback then
@@ -79,7 +92,7 @@ function Modal:confirm(args)
                     end
                 }),
                 buttons.with_text({
-                    text = "No",
+                    text = args.cancel_text,
                     color = beautiful.secondary_color,
                     onclick = function()
                         if args.no_callback then
@@ -92,9 +105,7 @@ function Modal:confirm(args)
                 layout = wibox.layout.fixed.horizontal
             },
             layout = wibox.layout.fixed.vertical
-        },
-        layout = wibox.container.place,
-        valign = "center",
+        }
     })
 end
 
