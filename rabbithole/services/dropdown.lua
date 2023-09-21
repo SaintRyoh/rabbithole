@@ -69,7 +69,8 @@ function Dropdown:display()
         })
         return
     end
-
+    
+    -- Dropdown rules
     client.floating = true
     client.border_width = self.border
     client.size_hints_honor = false
@@ -78,9 +79,10 @@ function Dropdown:display()
     client.ontop = true
     client.above = true
     client.skip_taskbar = true
+    client.titlebars_enabled = false
     -- force focus of the client
     capi.client.focus = client
-    client:raise()
+    --client:raise()
 
     if self.settings then
         self.settings(client)

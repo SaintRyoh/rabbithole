@@ -19,16 +19,6 @@ return setmetatable({}, {
                 placement = awful.placement.no_overlap + awful.placement.no_offscreen
             }
         },
-        -- Dropdown rule
-        {
-            rule = {
-                instance = "Dropdown"
-            },
-            properties = {
-                focus = true,
-                raise = true
-            }
-        },
         -- Dialogs
         {
             rule_any = {
