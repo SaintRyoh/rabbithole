@@ -7,8 +7,11 @@ local dpi = beautiful.xresources.apply_dpi
 -- testing:
 -- send <<< 'require("rabbithole.components.wiboxes.modal").new({})'
 
--- should be able to call setup() on this
--- TODO custom theme variable for shape of modal
+-- Theme variables:
+--  beautiful.rmodal_bg
+--  beautiful.rmodal_border_color 
+--  beautiful.rmodal_border_width 
+--  beautiful.rmodal_shape
 
 local ModalFactory = {}
 ModalFactory.__index = ModalFactory
@@ -37,6 +40,11 @@ function ModalFactory.get_popup(widget)
         visible = true,
         ontop = true,
         screen = awful.screen.focused(),
+        bg = beautiful.rmodal_bg or beautiful.bg_normal,
+        border_color = beautiful.rmodal_border_color or beautiful.border_normal,
+        border_width = beautiful.rmodal_border_width or beautiful.border_width,
+        shape = beautiful.rmodal_shape or gears.shape.rounded_rect,
+
 
         -- This centers the widget horizontally and vertically
         widget = wibox.widget {
