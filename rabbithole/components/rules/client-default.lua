@@ -6,9 +6,13 @@ local gears = require("gears")
 
 return setmetatable({}, {
     __constructor = function(rabbithole__components__keys__client, rabbithole__components__buttons__client)
-        local rules = { -- All clients will match this rule.
+        local rules = {
+         -- All clients will match this rule.
         {
-            rule = {},
+            rule_any = {
+                type = {"normal", "dialog"},
+                class = {"Dropdown"}
+            },
             properties = {
                 focus = awful.client.focus.filter,
                 raise = false,
