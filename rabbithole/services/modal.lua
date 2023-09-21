@@ -63,7 +63,7 @@ function Modal:prompt(args)
                 right = 10,
                 widget = wibox.container.margin,
             },
-            layout = wibox.layout.fixed.vertical,
+            layout = wibox.layout.align.vertical,
         } 
     })
       
@@ -76,44 +76,57 @@ function Modal:confirm(args)
         widget = wibox.widget {
             {
                 {
-                    markup = "<b>Confirm</b>",
-                    align = "center",  -- Center align title
-                    font = "Ubuntu 16",
-                    fg = beautiful.secondary_color,
-                    widget = wibox.widget.textbox
+                    {
+                        {
+                            markup = "<b>Confirm</b>",
+                            align = "center",  -- Center align title
+                            font = "Ubuntu 16",
+                            fg = beautiful.secondary_color,
+                            widget = wibox.widget.textbox
+                        },
+                        layout = wibox.layout.fixed.horizontal,
+                    },
+                    {
+                        align = "center",  
+                        font = "Ubuntu 8",
+                        markup = "Are you sure?",
+                        widget = wibox.widget.textbox
+                    },
+                    {
+                        buttons.with_text({
+                            text = "Yes",
+                            color = beautiful.secondary_color,
+                            onclick = function()
+                                if args.yes_callback then
+                                    args.yes_callback()
+                                end
+                                self.active_modal.visible = false
+                            end
+                        }),
+                        buttons.with_text({
+                            text = "No",
+                            color = beautiful.secondary_color,
+                            onclick = function()
+                                if args.no_callback then
+                                    args.no_callback()
+                                end
+                                self.active_modal.visible = false
+                            end
+                        }),
+                        spacing = dpi(20),
+                        layout = wibox.layout.fixed.horizontal
+                    },
+                    layout = wibox.layout.fixed.vertical
                 },
-                layout = wibox.layout.fixed.horizontal,
+                layout = wibox.container.place,
+                valign = "center",
             },
-            {
-                markup = "Are you sure?",
-                widget = wibox.widget.textbox
-            },
-            {
-                buttons.with_text({
-                    text = "Yes",
-                    color = beautiful.secondary_color,
-                    onclick = function()
-                        if args.yes_callback then
-                            args.yes_callback()
-                        end
-                        self.active_modal.visible = false
-                    end
-                }),
-                buttons.with_text({
-                    text = "No",
-                    color = beautiful.secondary_color,
-                    onclick = function()
-                        if args.no_callback then
-                            args.no_callback()
-                        end
-                        self.active_modal.visible = false
-                    end
-                }),
-                spacing = dpi(20),
-                layout = wibox.layout.fixed.horizontal
-            },
-            bg = beautiful.bg_neutral,
-            layout = wibox.layout.fixed.vertical
+            layout = wibox.container.margin,
+            left = dpi(35),
+            right = dpi(35),
+            top = dpi(10),
+            bottom = dpi(10),
+
         }
     })
 end

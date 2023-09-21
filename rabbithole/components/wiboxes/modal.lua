@@ -15,8 +15,8 @@ function ModalFactory.new()
 
     return function (args)
         return awful.popup(gears.table.crush({
-            minimum_width = 300,
-            minimum_height = 100,
+            minimum_width = 10,
+            minimum_height = 5,
             placement = awful.placement.centered,
             visible = true,
             ontop = true,
