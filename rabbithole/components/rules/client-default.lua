@@ -6,7 +6,8 @@ local gears = require("gears")
 
 return setmetatable({}, {
     __constructor = function(rabbithole__components__keys__client, rabbithole__components__buttons__client)
-        local rules = { -- All clients will match this rule.
+        local rules = {
+        -- All clients will match this rule.
         {
             rule = {},
             properties = {
@@ -17,7 +18,8 @@ return setmetatable({}, {
                 screen = awful.screen.preferred,
                 placement = awful.placement.no_overlap + awful.placement.no_offscreen
             }
-        }, -- Dialogs
+        },
+        -- Dialogs
         {
             rule_any = {
                 type = {"normal", "dialog"}
