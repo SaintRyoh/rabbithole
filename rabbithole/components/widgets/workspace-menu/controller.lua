@@ -113,33 +113,12 @@ function WorkspaceMenuController:set_menu(menu)
 end
 
 function WorkspaceMenuController:rename_workspace(workspace)
-    self.modal.prompt( {
-        prompt       = "New activity name: ",
-        exe_callback = function(new_name)
-            if not new_name or #new_name == 0 then return end
-            if not workspace then return end
-            workspace.name = new_name
-            self.model:updateSubscribers()
-        end
-    }):show()
+    self.model:renameWorkspace(workspace)
 end
 
 function WorkspaceMenuController:remove_workspace(workspace)
-    if workspace:getStatus() and not workspace:isEmpty() then
-        naughty.notify({
-            title="Switch to another workspace before removing it",
-            timeout=5
-        })
-        return
-    end
-
-    self.model:removeWorkspace(workspace)
-
+    self.model:removeWorkspaceWithConfirm(workspace)
     self:updateMenu()
-    naughty.notify({
-        title="Workspace " .. workspace.name .. " was removed.",
-        timeout=5
-    })
 end
 
 function WorkspaceMenuController:add_workspace()

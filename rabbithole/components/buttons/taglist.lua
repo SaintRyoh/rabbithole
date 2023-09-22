@@ -10,11 +10,9 @@ return setmetatable({}, {
     __constructor = function (
         settings,
         workspaceManagerService,
-        rabbithole__components__menus__taglist,
-        rabbithole__services__modal
+        rabbithole__components__menus__taglist
     )
         local taglistmenu = rabbithole__components__menus__taglist
-        local modal = rabbithole__services__modal
         -- Create a wibox for each screen and add it
         local taglist_buttons = gears.table.join(
                 awful.button({ }, 1, function(t) -- clicked tag
@@ -45,15 +43,7 @@ return setmetatable({}, {
                     sharedtags.viewtoggle(t, t.screen)
                 end ),
                 awful.button({ settings.core_settings.modkey }, 2, function(t)
-                    modal:confirm({
-                        title = "Delete Tag",
-                        text = "Are you sure you want to delete tag: " .. t.name .. "?",
-                        border_color = beautiful.secondary_color,
-                        border_width = 8,
-                        yes_callback = function()
-                            workspaceManagerService:deleteTagFromWorkspace(nil, t)
-                        end
-                    })
+                    workspaceManagerService:deleteTagFromWorkspaceWithConfirm(nil, t)
                 end ),
                 awful.button({ }, 4, function(t) workspaceManagerService:viewNextTag() end),
                 awful.button({ }, 5, function(t) workspaceManagerService:viewPrevTag() end)
