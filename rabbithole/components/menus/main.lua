@@ -4,10 +4,11 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Theme handling library
 local rabbit_icon = require("beautiful").rabbit_icon
 local freedesktop = require("sub.freedesktop")
+local naughty = require("naughty")
 
 
 return setmetatable({}, {
-    __constructor = function (settings)
+    __constructor = function (settings, rabbithole__services__modal)
         local M = {}  -- menu
         --local editor = settings.editor or "nano"
         local terminal = settings.terminal or "xfce4-terminal"
@@ -23,7 +24,10 @@ return setmetatable({}, {
             --{ "Settings Manager", function() settings_manager:show() end },
             { "Quit Rabbithole", function() awesome.quit() end },
             { "Reboot", "reboot" },
-            { "Shutdown", "shutdown now" }
+            { "Shutdown", "shutdown now" },
+            { "Test confirm modal", function ()
+                rabbithole__services__modal:confirm()
+            end}
 
         }
 

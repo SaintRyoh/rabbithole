@@ -241,7 +241,7 @@ end
 function WorkspaceManagerService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
     -- open modal prompt to get tag name
-    self.modal.prompt({
+    self.modal:prompt({
         prompt = "New Tag Name: ",
         exe_callback = function(name)
             if not name or #name == 0 then return end
@@ -251,7 +251,7 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
             sharedtags.viewonly(tag, awful.screen.focused())
             self:refresh()
         end
-    }):show()
+    })
 end
 
 function WorkspaceManagerService:createTag(index, tag_def)
@@ -260,7 +260,7 @@ end
 
 -- Rename current tag
 function WorkspaceManagerService:renameTag(tag)
-    self.modal.prompt({
+    self.modal:prompt({
         prompt       = "Rename tag: ",
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
@@ -270,7 +270,7 @@ function WorkspaceManagerService:renameTag(tag)
                 self:refresh()
             end
         end
-    }):show()
+    })
 end
 
 ---- Move current tag
@@ -287,6 +287,15 @@ function WorkspaceManagerService:moveTag(pos)
     end
 end
 
+function WorkspaceManagerService:deleteTagFromWorkspaceWithConfirm(workspace, tag)
+    self.modal:confirm({
+        title = "Delete Tag",
+        message = "Are you sure you want to delete tag: " .. tag.name .. "?",
+        yes_callback = function()
+            self:deleteTagFromWorkspace(workspace, tag)
+        end
+    })
+end
 -- Delete current tag
 -- Any rule set on the tag shall be broken
 function WorkspaceManagerService:deleteTagFromWorkspace(workspace, tag)
@@ -365,6 +374,13 @@ end
 -- }}}
 
 function WorkspaceManagerService:removeWorkspace(workspace)
+    if workspace:getStatus() and not workspace:isEmpty() then
+        naughty.notify({
+            title="Switch to another workspace before removing it",
+            timeout=5
+        })
+        return
+    end
     -- First Delete all the tags and their clients in the workspace
     __.forEach(workspace:getAllTags(),
         function(tag)
@@ -374,6 +390,34 @@ function WorkspaceManagerService:removeWorkspace(workspace)
     -- Then Delete workspace
     self.workspaceManagerModel:deleteWorkspace(workspace)
     self:updateSubscribers()
+
+    naughty.notify({
+        title="Workspace " .. workspace.name .. " was removed.",
+        timeout=5
+    })
+end
+
+function WorkspaceManagerService:removeWorkspaceWithConfirm(workspace)
+    self.modal:confirm({
+        title = "Delete Workspace",
+        message = "Are you sure you want to delete workspace: " .. workspace.name .. "?",
+        yes_callback = function()
+            self:removeWorkspace(workspace)
+        end
+    })
+end
+
+
+function WorkspaceManagerService:renameWorkspace(workspace)
+    self.modal:prompt( {
+        prompt       = "New activity name: ",
+        exe_callback = function(new_name)
+            if not new_name or #new_name == 0 then return end
+            if not workspace then return end
+            workspace.name = new_name
+            self:updateSubscribers()
+        end
+    })
 end
 
 function WorkspaceManagerService:addWorkspace(name)
