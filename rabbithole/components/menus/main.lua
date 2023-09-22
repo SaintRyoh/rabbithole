@@ -4,7 +4,6 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Theme handling library
 local rabbit_icon = require("beautiful").rabbit_icon
 local freedesktop = require("sub.freedesktop")
-local naughty = require("naughty")
 
 
 return setmetatable({}, {
@@ -24,11 +23,7 @@ return setmetatable({}, {
             --{ "Settings Manager", function() settings_manager:show() end },
             { "Quit Rabbithole", function() awesome.quit() end },
             { "Reboot", "reboot" },
-            { "Shutdown", "shutdown now" },
-            { "Test confirm modal", function ()
-                rabbithole__services__modal:confirm()
-            end}
-
+            { "Shutdown", "shutdown now" }
         }
 
         --M.favorite = {
