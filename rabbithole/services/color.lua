@@ -7,7 +7,7 @@ local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 local nice_colors = require("sub.nice.colors")
 local darken, lighten = nice_colors.darken, nice_colors.lighten
 local max, min, floor, random = math.max, math.min, math.floor, math.random
-
+local detect_orientation = require("rabbithole.services.widetect").orientation_is
 --[[ This is the color service for Tesseract. 
 
 Capable of manipulating colors in almost every conceivable way.Inherits 
@@ -17,10 +17,9 @@ and expands upon the color service from bling.
 local ColorService = blcolor
 ColorService.__index = ColorService
 
-function ColorService.new(rabbithole__services__widetect)
+function ColorService.new()
     local self = setmetatable({ }, ColorService)
 
-    self.detect_orientation = rabbithole__services__widetect.orientation_is
     return self
 end
 
@@ -113,7 +112,7 @@ function ColorService:smartGradient(base, secondary, height, width)
     local base_light = lighten(base, 30)
     local bottom_color = darken(base, 45)
 
-    local orientation = self.detect_orientation(height, width)
+    local orientation = detect_orientation(height, width)
 
     local gradientDirection
     if orientation == "horizontal" then

@@ -10,7 +10,7 @@ local MiniBar = {}
 function MiniBar.new(options,
     settings
     )
-    local minibar_size = dpi(34)
+    local minibar_size = dpi(34) or settings.minibar_size
     local colors = require("rabbithole.services.color") -- TODO: FOR SOME REASON DI DOESNT WOR0
 
     local minibar = awful.popup({

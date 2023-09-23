@@ -10,9 +10,9 @@ function WiDetect.new()
     return self
 end
 
-function WiDetect:orientation_is(obj)
-    local width = obj.width
-    local height = obj.height
+function WiDetect.orientation_is(height, width)
+    local width = width
+    local height = height
 
     if width and height then
         if width > height then
