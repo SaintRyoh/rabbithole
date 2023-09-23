@@ -5,14 +5,17 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 local darken = require("sub.nice.colors").darken
 
-local MiniBar = {}
+local minibar = {}
 
-function MiniBar.new(options,
-    settings
+function minibar.new(options,
+    settings,
+    rabbithole__services__color,
+    rabbithole__services__widetect
     )
-    local minibar_size = dpi(34) or settings.minibar_size
-    local colors = require("rabbithole.services.color") -- TODO: FOR SOME REASON DI DOESNT WOR0
 
+    local minibar_size = dpi(34) or settings.minibar_size
+    local colors = rabbithole__services__color
+    local widetect = rabbithole__services__widetect
     local minibar = awful.popup({
         screen = options.screen,
         widget = options.widget or wibox.container.background,
@@ -28,19 +31,19 @@ function MiniBar.new(options,
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
+        --bg = colors.twocolortrue3d(beautiful.base_color, beautiful.secondary_color, minibar_size),
         border_width = dpi(0.5),
         border_color = darken(beautiful.base_color, 20),
     })
-    minibar.bg = colors.twoColorTrue3d(beautiful.base_color, beautiful.secondary_color, minibar)
     minibar:struts{top = dpi(38)}
 
     return minibar
 end
 
-setmetatable(MiniBar, {
+setmetatable(minibar, {
     __call = function(self, options)
         return self.new(options)
     end
 })
 
-return MiniBar
+return minibar
