@@ -35,9 +35,7 @@ if [ $PACKAGE_MANAGER == "apt" ]; then
         fonts-ubuntu
         lxqt-policykit
         lxqt-powermanagement
-        imagemagick
-        scrot
-        tesseract-ocr
+        tmux
         )
     DE_LIKE_DEPENDENCIES=(
         volumeicon-alsa
@@ -54,18 +52,16 @@ if [ $PACKAGE_MANAGER == "apt" ]; then
 
 elif [ $PACKAGE_MANAGER == "yay" ]; then
     CORE_DEPENDENCIES=(
-        awesome
-        rofi
-        rofi-themes-collection-git
-        autorandr
-        picom
-        ttf-ubuntu-font-family
-        lxqt-policykit
-        lxqt-powermanagement
-        beautyline
-        imagemagick
-        scrot
-        tesseract-ocr
+      awesome
+      rofi
+      rofi-themes-collection-git
+      autorandr
+      picom
+      ttf-ubuntu-font-family
+      lxqt-policykit
+      lxqt-powermanagement
+      beautyline
+      tmux
     )
     
     # DE-Like dependencies
@@ -128,13 +124,17 @@ if [ "$INSTALL_TYPE" = "1" ]; then
         mkdir -p "$HOME/.config/awesome"
         cp "$PROJECT_DIR/installer/settings-core.lua" "$HOME/.config/awesome/settings.lua"
     else
-        echo "An existing configuration file has been found at ~/.config/awesome/settings.lua. The file was not overwritten."
+        echo "An existing configuration file has been found at ~/.config/awesome/settings.lua."
+        cp "$PROJECT_DIR/installer/settings-core.lua" "$HOME/.config/awesome/settings.lua.new"
+        echo "The new configuration has been copied to ~/.config/awesome/settings.lua.new."
     fi
 elif [ "$INSTALL_TYPE" = "2" ]; then
     if [ ! -f "$HOME/.config/awesome/settings.lua" ]; then
         cp "$PROJECT_DIR/installer/settings-full.lua" "$HOME/.config/awesome/settings.lua"
     else
-        echo "An existing configuration file has been found at ~/.config/awesome/settings.lua. The file was not overwritten."
+        echo "An existing configuration file has been found at ~/.config/awesome/settings.lua."
+        cp "$PROJECT_DIR/installer/settings-full.lua" "$HOME/.config/awesome/settings.lua.new"
+        echo "The new configuration has been copied to ~/.config/awesome/settings.lua.new."
     fi
 fi
 
@@ -167,11 +167,6 @@ fi
 echo "Copying rabbithole.desktop to /usr/share/xsessions/..."
 sudo cp "$PROJECT_DIR/installer/rabbithole.desktop" /usr/share/xsessions/
 echo "Rabbithole should now be visible in your display manager."
-
-# Set the default rofi theme
-#echo "Setting the default rofi theme..."
-#echo "rofi.theme: $HOME/.local/share/rofi/themes/themes/rounded-nord-dark.rasi" >> "$HOME/.Xresources"
-#xrdb -merge "$HOME/.Xresources"
 
 # Copy picom.conf into $HOME/.config/picom/
 echo "Copying picom.conf to $HOME/.config/picom/..."

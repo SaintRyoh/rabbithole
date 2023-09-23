@@ -4,7 +4,6 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local sharedtags = require("sub.awesome-sharedtags")
 local __ = require("lodash")
-local modal = require("rabbithole.services.modal.modal")
 -- }}}
 
 return setmetatable({}, {
@@ -44,15 +43,7 @@ return setmetatable({}, {
                     sharedtags.viewtoggle(t, t.screen)
                 end ),
                 awful.button({ settings.core_settings.modkey }, 2, function(t)
-                    modal.confirm({
-                        title = "Delete Tag",
-                        text = "Are you sure you want to delete tag: " .. t.name .. "?",
-                        border_color = beautiful.secondary_color,
-                        border_width = 8,
-                        yes_callback = function()
-                            workspaceManagerService:deleteTagFromWorkspace(nil, t)
-                        end
-                    }):show()
+                    workspaceManagerService:deleteTagFromWorkspaceWithConfirm(nil, t)
                 end ),
                 awful.button({ }, 4, function(t) workspaceManagerService:viewNextTag() end),
                 awful.button({ }, 5, function(t) workspaceManagerService:viewPrevTag() end)

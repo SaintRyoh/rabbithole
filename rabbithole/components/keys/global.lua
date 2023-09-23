@@ -155,7 +155,7 @@ return setmetatable({}, {
                 { description = "lua execute prompt", group = "awesome" }),
             
             -- quake style dropdown terminal bound to mod4 + \
-            awful.key({ modkey }, "\\", function () awful.screen.focused().quake:toggle() end, {description = "dropdown application", group = "launcher"}),
+            awful.key({ modkey }, "\\", function () awful.screen.focused().dropdown:toggle() end, {description = "dropdown application", group = "launcher"}),
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Resize
