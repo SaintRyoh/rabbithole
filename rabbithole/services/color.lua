@@ -17,10 +17,13 @@ and expands upon the color service from bling.
 local ColorService = blcolor
 ColorService.__index = ColorService
 
-function ColorService.new()
+function ColorService.new(rabbithole__services__widetect)
     local self = setmetatable({ }, ColorService)
-     return self
+
+    self.detect_orientation = rabbithole__services__widetect.orientation_is
+    return self
 end
+
  -- Blends two colors together based on a given percentage
 -- @param color1 The first color in hex format
 -- @param color2 The second color in hex format
@@ -52,7 +55,7 @@ function ColorService.create_widget_bg(base_color, secondary_color)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
-        to = { 0, 1400},
+        to = { 0, 1000},
         stops = {
             { 0,   secondary_color_light },  -- start with the lighter color
             { 0.2, secondary_color },  -- switch to the base color fairly quickly
@@ -95,6 +98,34 @@ function ColorService.twoColorTrue3d(base, secondary, height)
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(34) },
+        stops = {
+            { 0,   top_color },
+            { 0.1, secondary },
+            { 0.35, base_light },
+            { 0.8, base },
+            { 1,   bottom_color },
+        }
+    }
+end
+
+function ColorService:smartGradient(base, secondary, height, width)
+    local top_color = colors["White"]
+    local base_light = lighten(base, 30)
+    local bottom_color = darken(base, 45)
+
+    local orientation = self.detect_orientation(height, width)
+
+    local gradientDirection
+    if orientation == "horizontal" then
+        gradientDirection = { from = { 0, 0 }, to = { width, 0 } }
+    else -- assume vertical for any other return value
+        gradientDirection = { from = { 0, 0 }, to = { 0, height } }
+    end
+
+    return gears.color {
+        type = "linear",
+        from = gradientDirection.from,
+        to = gradientDirection.to,
         stops = {
             { 0,   top_color },
             { 0.1, secondary },
