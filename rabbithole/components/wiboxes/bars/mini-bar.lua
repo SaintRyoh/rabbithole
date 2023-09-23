@@ -10,7 +10,7 @@ local MiniBar = {}
 function MiniBar.new(options,
     settings
     )
-    local minibar_size = dpi(34) or settings.minibar_size
+    local minibar_size = dpi(34)
     local colors = require("rabbithole.services.color") -- TODO: FOR SOME REASON DI DOESNT WOR0
 
     local minibar = awful.popup({
@@ -18,8 +18,8 @@ function MiniBar.new(options,
         widget = options.widget or wibox.container.background,
         ontop = false,
         visible = true,
-        maximum_height = dpi(minibar_size),
-        minimum_height = dpi(minibar_size),
+        maximum_height = minibar_size,
+        minimum_height = minibar_size,
         placement = function(c)
             options.placement(c, {
                 margins = dpi(2)
@@ -31,7 +31,7 @@ function MiniBar.new(options,
         border_width = dpi(0.5),
         border_color = darken(beautiful.base_color, 20),
     })
-    minibar.bg = colors.twoColorTrue3d(beautiful.base_color, beautiful.secondary_color, minibar)
+    minibar.bg = colors:smartGradient(beautiful.base_color, beautiful.secondary_color, minibar.height, minibar.width)
     minibar:struts{top = dpi(38)}
 
     return minibar
