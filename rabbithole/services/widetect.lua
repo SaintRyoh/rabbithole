@@ -11,9 +11,6 @@ function WiDetect.new()
 end
 
 function WiDetect.orientation_is(height, width)
-    local width = width
-    local height = height
-
     if width and height then
         if width > height then
             return "horizontal"

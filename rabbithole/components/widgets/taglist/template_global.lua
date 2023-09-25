@@ -12,6 +12,7 @@ return function (controller)
         end,
         widget = wibox.container.background,
         {
+            -- padding. 1px in top to make a more 3d effect
             top = dpi(1),
             bottom = dpi(2),
             left  = dpi(2),
