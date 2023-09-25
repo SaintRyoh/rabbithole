@@ -7,7 +7,7 @@ local colors = require("rabbithole.services.tesseractThemeEngine.colors")
 local nice_colors = require("sub.nice.colors")
 local darken, lighten = nice_colors.darken, nice_colors.lighten
 local max, min, floor, random = math.max, math.min, math.floor, math.random
-
+local detect_orientation = require("rabbithole.services.widetect").orientation_is
 --[[ This is the color service for Tesseract. 
 
 Capable of manipulating colors in almost every conceivable way.Inherits 
@@ -19,8 +19,10 @@ ColorService.__index = ColorService
 
 function ColorService.new()
     local self = setmetatable({ }, ColorService)
-     return self
+
+    return self
 end
+
  -- Blends two colors together based on a given percentage
 -- @param color1 The first color in hex format
 -- @param color2 The second color in hex format
@@ -95,6 +97,34 @@ function ColorService.twoColorTrue3d(base, secondary, height)
         type = "linear",
         from = { 0, 0 },
         to = { 0, dpi(34) },
+        stops = {
+            { 0,   top_color },
+            { 0.1, secondary },
+            { 0.35, base_light },
+            { 0.8, base },
+            { 1,   bottom_color },
+        }
+    }
+end
+
+function ColorService:smartGradient(base, secondary, height, width)
+    local top_color = colors["White"]
+    local base_light = lighten(base, 30)
+    local bottom_color = darken(base, 45)
+
+    local orientation = detect_orientation(height, width)
+
+    local gradientDirection
+    if orientation == "horizontal" then
+        gradientDirection = { from = { 0, 0 }, to = { width, 0 } }
+    else -- assume vertical for any other return value
+        gradientDirection = { from = { 0, 0 }, to = { 0, height } }
+    end
+
+    return gears.color {
+        type = "linear",
+        from = gradientDirection.from,
+        to = gradientDirection.to,
         stops = {
             { 0,   top_color },
             { 0.1, secondary },

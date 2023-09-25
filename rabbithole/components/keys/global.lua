@@ -4,13 +4,11 @@ local awful = require("awful")
 local sharedtags = require("sub.awesome-sharedtags")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
-local __ = require("lodash")
 
 
+local _M = {} -- TO RYOH: Idk why this is here, if its not needed anymore, remove it.
 
-local _M = {}
-
--- reading
+-- documentation
 -- https://awesomewm.org/wiki/Global_Keybindings
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -25,8 +23,8 @@ return setmetatable({}, {
         local launcher = settings.default_programs.launcher_cmd
         local window_switcher = settings.default_programs.window_switcher_cmd
         local globalkeys = gears.table.join(
-            awful.key({ modkey, }, "s", hotkeys_popup.show_help,
-                { description = "show help", group = "awesome" }),
+            awful.key({ modkey, }, "h", hotkeys_popup.show_help,
+                { description = "Show help", group = "awesome" }),
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Dynamic tagging
@@ -97,22 +95,22 @@ return setmetatable({}, {
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Layout manipulation
-            awful.key({ modkey, }, "l", function() awful.tag.incmwfact(0.05) end,
-                { description = "increase master width factor", group = "layout" }),
-            awful.key({ modkey, }, "h", function() awful.tag.incmwfact(-0.05) end,
-                { description = "decrease master width factor", group = "layout" }),
-            awful.key({ modkey, "Shift" }, "h", function() awful.tag.incnmaster(1, nil, true) end,
-                { description = "increase the number of master clients", group = "layout" }),
-            awful.key({ modkey, "Shift" }, "l", function() awful.tag.incnmaster(-1, nil, true) end,
-                { description = "decrease the number of master clients", group = "layout" }),
-            awful.key({ modkey, "Control" }, "h", function() awful.tag.incncol(1, nil, true) end,
-                { description = "increase the number of columns", group = "layout" }),
-            awful.key({ modkey, "Control" }, "l", function() awful.tag.incncol(-1, nil, true) end,
-                { description = "decrease the number of columns", group = "layout" }),
-            awful.key({ modkey, }, "space", function() awful.layout.inc(1) end,
-                { description = "select next", group = "layout" }),
-            awful.key({ modkey, "Shift" }, "space", function() awful.layout.inc(-1) end,
-                { description = "select previous", group = "layout" }),
+            --awful.key({ modkey, }, "l", function() awful.tag.incmwfact(0.05) end,
+            --    { description = "increase master width factor", group = "layout" }),
+            --awful.key({ modkey, }, "h", function() awful.tag.incmwfact(-0.05) end,
+            --    { description = "decrease master width factor", group = "layout" }),
+            --awful.key({ modkey, "Shift" }, "h", function() awful.tag.incnmaster(1, nil, true) end,
+            --    { description = "increase the number of master clients", group = "layout" }),
+            --awful.key({ modkey, "Shift" }, "l", function() awful.tag.incnmaster(-1, nil, true) end,
+            --    { description = "decrease the number of master clients", group = "layout" }),
+            --awful.key({ modkey, "Control" }, "h", function() awful.tag.incncol(1, nil, true) end,
+            --    { description = "increase the number of columns", group = "layout" }),
+            --awful.key({ modkey, "Control" }, "l", function() awful.tag.incncol(-1, nil, true) end,
+            --    { description = "decrease the number of columns", group = "layout" }),
+            --awful.key({ modkey, }, "space", function() awful.layout.inc(1) end,
+            --    { description = "select next", group = "layout" }),
+            --awful.key({ modkey, "Shift" }, "space", function() awful.layout.inc(-1) end,
+            --    { description = "select previous", group = "layout" }),
 
             awful.key({ modkey, "Control" }, "n",
                 function()
@@ -196,7 +194,10 @@ return setmetatable({}, {
                 { description = "decrease brightness", group = "hotkeys" }),
             -- Keybinding to toggle titlebar visibility
             awful.key({ modkey }, "t", function() awful.titlebar.toggle(client.focus) end,
-                { description = "toggle titlebar", group = "client" })
+                { description = "toggle titlebar", group = "client" }),
+            -- ScrOCR Keybinding
+            awful.key({ modkey }, "s", function() os.execute("$HOME/.config/awesome/scripts/scrocr.sh &") end,
+                { description = "Convert OCR image to text and copy to clipboard", group = "Productivity tools" })
         )
         local function getWorkspaceAndTag(index)
             local workspace = workspaceManagerService:getActiveWorkspace()
