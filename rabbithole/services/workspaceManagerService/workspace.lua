@@ -120,6 +120,7 @@ function Workspace:__serialize()
             return {
                 name = client.name,
                 class = client.class,
+                role = client.role,
                 pid = client.pid
             }
         end)
