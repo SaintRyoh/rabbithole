@@ -17,8 +17,10 @@ and expands upon the color service from bling.
 local ColorService = blcolor
 ColorService.__index = ColorService
 
-function ColorService.new()
+function ColorService.new(settings)
     local self = setmetatable({ }, ColorService)
+
+    self.settings = settings
 
     return self
 end
@@ -111,6 +113,10 @@ function ColorService:smartGradient(base, secondary, height, width)
     local top_color = colors["White"]
     local base_light = lighten(base, 30)
     local bottom_color = darken(base, 45)
+
+    if not height then
+        height = self.settings.wibar_size or dpi(34)
+    end
 
     local orientation = detect_orientation(height, width)
 

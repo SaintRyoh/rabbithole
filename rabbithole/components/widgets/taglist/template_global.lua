@@ -29,7 +29,7 @@ return function (controller)
                         shape = function(cr, width, height)
                             gears.shape.rounded_rect(cr, width, height, 8)
                         end,
-                        bg = beautiful.bg_normal,
+                        bg = controller.color:smartGradient(beautiful.base_color, beautiful.secondary_color),
                         {
                             widget = wibox.container.margin,
                             left = dpi(2),
