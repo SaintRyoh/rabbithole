@@ -11,7 +11,7 @@ PlusButton.__index = PlusButton
 local template = wibox.widget {
     id = "background_role",
     widget  = wibox.container.background,
-    bg = beautiful.bg_normal,
+    bg = color:smartGradient(beautiful.base_color, beautiful.secondary_color),
     fg = beautiful.fg_normal,
     shape = function(cr, width, height)
         gears.shape.rounded_rect(cr, width, height, beautiful.border_radius)
