@@ -20,7 +20,7 @@ ColorService.__index = ColorService
 function ColorService.new(settings)
     local self = setmetatable({ }, ColorService)
 
-    self.settings = settings
+    --self.settings = settings -- THIS DOES NOT INJECT PROPERLY, COMES UP `nil`
 
     return self
 end
@@ -115,7 +115,7 @@ function ColorService:smartGradient(base, secondary, height, width)
     local bottom_color = darken(base, 45)
 
     if not height then
-        height = self.settings.wibar_size or dpi(34)
+        height = dpi(34)
     end
 
     local orientation = detect_orientation(height, width)
