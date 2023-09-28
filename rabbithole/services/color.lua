@@ -56,7 +56,7 @@ function ColorService.create_widget_bg(base_color, secondary_color)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
-        to = { 0, 1000},
+        to = { 0, dpi(28)},
         stops = {
             { 0,   secondary_color_light },  -- start with the lighter color
             { 0.2, secondary_color },  -- switch to the base color fairly quickly
