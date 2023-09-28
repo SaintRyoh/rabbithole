@@ -2,6 +2,8 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local __ = require("lodash")
 local gears = require("gears")
+local color = require("rabbithole.services.color")
+
 
 local PlusButton = {}
 PlusButton.__index = PlusButton
@@ -44,10 +46,10 @@ function PlusButton.new(workspaceManagerService)
 
     if bg then
         bg:connect_signal("mouse::enter", function()
-            bg.bg = beautiful.bg_focus
+            bg.bg = color:smartGradient(beautiful.tertiary_1, beautiful.tertiary_2, template.height, template.width)
         end)
         bg:connect_signal("mouse::leave", function()
-            bg.bg = beautiful.bg_normal
+            bg.bg = color:smartGradient(beautiful.base_color, beautiful.secondary_color, template.height, template.width)
         end)
         bg:connect_signal("button::press", function()
             workspaceManagerService:addTagToWorkspace()
