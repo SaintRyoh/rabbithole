@@ -13,15 +13,13 @@ function SessionManager.new(settings)
     local self = setmetatable({}, SessionManager)
 
     self.restore = {}
-    self.workspaceManagerModel = workspaceManager:new()
-
-    self.path = settings.session_manager or gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat"
+    self.settings = settings.session_manager or { path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat" }
 
     return self
 end
 
 -- rename session.lua to session.lua.bak
-function SessionManager:backupSessionFile(file_path)
+function SessionManager.backupSessionFile(file_path)
     if gears.filesystem.file_readable(file_path) then
         os.remove(file_path .. ".bak")
         os.rename(file_path, file_path .. ".bak")
@@ -29,32 +27,32 @@ function SessionManager:backupSessionFile(file_path)
 end
 
 function SessionManager:newSession()
-    self.workspaceManagerModel:deleteAllWorkspaces()
-    local workspace = self.workspaceManagerModel:createWorkspace("New Workspace")
-    workspace:setStatus(true)
-    return self.workspaceManagerModel
+    local workspaceManagerModel = workspaceManager:new()
+    workspaceManagerModel:createWorkspace("New Workspace"):setStatus(true)
+    return workspaceManagerModel
 end
 
-function SessionManager:saveSession()
-    local file, err = io.open(self.path, "w+")
+function SessionManager:saveSession(workspaceManagerModel)
+    local file, err = io.open(self.settings.path, "w+")
     if not file then
         error("Error saving session: " .. err)
     end
-    file:write(serpent.dump(self.workspaceManagerModel))
+    file:write(serpent.dump(workspaceManagerModel))
     file:close()
 end
 
 -- method to load session
 function SessionManager:loadSession()
+    local workspaceManagerModel = workspaceManager:new()
 
-    if not gears.filesystem.file_readable(self.path) then
+    if not gears.filesystem.file_readable(self.settings.path) then
         error([[ 
             Session file not found. 
             If this is your first time using rabbithole, you can ignore this error.
         ]])
     end
 
-    local file, err = io.open(self.path, "r+")
+    local file, err = io.open(self.settings.path, "r+")
 
     if not file then
         error(err)
@@ -71,10 +69,10 @@ function SessionManager:loadSession()
     end
 
     __.forEach(loadedModel.workspaces, function(workspace_model)
-        return self:restoreWorkspace(workspace_model)
+        return self:restoreWorkspace(workspaceManagerModel, workspace_model)
     end)
 
-    self:restoreWorkspace(loadedModel.global_workspace, true)
+    self:restoreWorkspace(workspaceManagerModel, loadedModel.global_workspace, true)
 
     awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
         if __.isEmpty(self.restore) then
@@ -95,18 +93,18 @@ function SessionManager:loadSession()
         end)
     end)
 
-    return self.workspaceManagerModel
+    return workspaceManagerModel
 end
 
 -- create workspace by definition
-function SessionManager:restoreWorkspace(definition, global)
+function SessionManager:restoreWorkspace(workspaceManagerModel, definition, global)
     global = global or false
 
     local workspace = nil
     if global then
-        workspace = self.workspaceManagerModel.global_workspace
+        workspace = workspaceManagerModel.global_workspace
     else
-        workspace = self.workspaceManagerModel:createWorkspace(definition.name)
+        workspace = workspaceManagerModel:createWorkspace(definition.name)
     end
 
     local function getLayoutByName(name)

@@ -53,7 +53,7 @@ end
 function WorkspaceManagerService:saveSession()
     -- use pcall 
     local status, err = pcall(function()
-        self.sessionManager:saveSession()
+        self.sessionManager:saveSession(self.workspaceManagerModel)
     end)
     if not status then
         naughty.notify({
