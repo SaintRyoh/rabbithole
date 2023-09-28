@@ -22,6 +22,8 @@ function workspaceManager:new()
 
     self.global_workspace = workspace:new('Global')
 
+    self.clients_to_restore = {}
+
     return self
 end
 

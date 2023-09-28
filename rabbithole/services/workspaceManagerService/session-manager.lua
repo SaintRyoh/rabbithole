@@ -12,7 +12,6 @@ SessionManager.__index = SessionManager
 function SessionManager.new(settings)
     local self = setmetatable({}, SessionManager)
 
-    self.restore = {}
     self.settings = settings.session_manager or { path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat" }
 
     return self
@@ -74,12 +73,13 @@ function SessionManager:loadSession()
 
     self:restoreWorkspace(workspaceManagerModel, loadedModel.global_workspace, true)
 
+
     awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
-        if __.isEmpty(self.restore) then
+        if __.isEmpty(workspaceManagerModel.clients_to_restore) then
             awful.rules.remove_rule_source("workspaceManagerService")
         end
 
-        local tag_client = __.first(__.remove(self.restore, function(r) return r.pid == c.pid end))
+        local tag_client = __.first(__.remove(workspaceManagerModel.clients_to_restore, function(r) return r.pid == c.pid end))
 
         if not tag_client or __.isEmpty(tag_client) then
             return
@@ -99,6 +99,7 @@ end
 -- create workspace by definition
 function SessionManager:restoreWorkspace(workspaceManagerModel, definition, global)
     global = global or false
+    workspaceManagerModel.clients_to_restore = {}
 
     local workspace = nil
     if global then
@@ -139,7 +140,7 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
             workspace.activated = true
         end
 
-        self.restore = gears.table.join(self.restore, __.map(tag_definition.clients, function(client)
+        workspaceManagerModel.clients_to_restore = gears.table.join(workspaceManagerModel.clients_to_restore, __.map(tag_definition.clients, function(client)
             return { tag = tag, pid = client.pid }
         end))
     end)
