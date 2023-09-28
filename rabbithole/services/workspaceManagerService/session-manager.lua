@@ -67,19 +67,20 @@ function SessionManager:loadSession()
         error("Error parsing session file")
     end
 
-    __.forEach(loadedModel.workspaces, function(workspace_model)
+    local restore = __.map(loadedModel.workspaces, function(workspace_model)
         return self:restoreWorkspace(workspaceManagerModel, workspace_model)
     end)
 
-    self:restoreWorkspace(workspaceManagerModel, loadedModel.global_workspace, true)
+    restore = gears.table.join(restore, self:restoreWorkspace(workspaceManagerModel, loadedModel.global_workspace, true))   
 
+    -- workspaceManagerModel.clients_to_restore = restore
 
     awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
-        if __.isEmpty(workspaceManagerModel.clients_to_restore) then
+        if __.isEmpty(restore) then
             awful.rules.remove_rule_source("workspaceManagerService")
         end
 
-        local tag_client = __.first(__.remove(workspaceManagerModel.clients_to_restore, function(r) return r.pid == c.pid end))
+        local tag_client = __.first(__.remove(restore, function(r) return r.pid == c.pid end))
 
         if not tag_client or __.isEmpty(tag_client) then
             return
@@ -99,7 +100,7 @@ end
 -- create workspace by definition
 function SessionManager:restoreWorkspace(workspaceManagerModel, definition, global)
     global = global or false
-    workspaceManagerModel.clients_to_restore = {}
+    local clients_to_restore = {}
 
     local workspace = nil
     if global then
@@ -140,10 +141,12 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
             workspace.activated = true
         end
 
-        workspaceManagerModel.clients_to_restore = gears.table.join(workspaceManagerModel.clients_to_restore, __.map(tag_definition.clients, function(client)
+        clients_to_restore = gears.table.join(clients_to_restore, __.map(tag_definition.clients, function(client)
             return { tag = tag, pid = client.pid }
         end))
     end)
+
+    return clients_to_restore
 end
 
 
