@@ -25,7 +25,7 @@ return function (controller)
                     shape = function(cr, width, height)
                         gears.shape.rounded_rect(cr, width, height, 8)
                     end,
-                    bg = beautiful.bg_normal,
+                    bg = controller.color:smartGradient(beautiful.base_color, beautiful.secondary_color),
                     {
                         layout = wibox.layout.fixed.horizontal,
                         {
@@ -47,9 +47,7 @@ return function (controller)
                 },
             },
         },
-
         create_callback = function (tag_template, tag, index, objects) controller:create_tag_callback(tag_template, tag, index, objects) end,
-
         update_callback = function (tag_template, tag, index, objects) controller:update_tag_callback(tag_template, tag, index, objects) end,
     }
 end

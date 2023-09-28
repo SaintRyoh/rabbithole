@@ -153,7 +153,7 @@ return setmetatable({}, {
                     }
                 end,
                 { description = "lua execute prompt", group = "awesome" }),
-            
+
             -- quake style dropdown terminal bound to mod4 + \
             awful.key({ modkey }, "\\", function () awful.screen.focused().dropdown:toggle() end, {description = "dropdown application", group = "launcher"}),
 
@@ -204,7 +204,7 @@ return setmetatable({}, {
             local tags = workspace:getAllTags()
             return workspace, tags[index]
         end
-        
+
         for i = 1, 9 do -- Lua's indexing starts at 1
             globalkeys = gears.table.join(globalkeys,
                 awful.key({ modkey }, tostring(i), 
@@ -261,7 +261,7 @@ return setmetatable({}, {
                 -- The swap function would still need to be addressed separately as mentioned earlier.
             )
         end
-        
+
         return globalkeys
     end,
 })

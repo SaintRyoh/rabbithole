@@ -17,8 +17,10 @@ and expands upon the color service from bling.
 local ColorService = blcolor
 ColorService.__index = ColorService
 
-function ColorService.new()
+function ColorService.new(settings)
     local self = setmetatable({ }, ColorService)
+
+    --self.settings = settings -- THIS DOES NOT INJECT PROPERLY, COMES UP `nil`
 
     return self
 end
@@ -54,7 +56,7 @@ function ColorService.create_widget_bg(base_color, secondary_color)
     return gears.color {
         type = "linear",
         from = { 0, 0 },
-        to = { 0, 1000},
+        to = { 0, dpi(100)},
         stops = {
             { 0,   secondary_color_light },  -- start with the lighter color
             { 0.2, secondary_color },  -- switch to the base color fairly quickly
@@ -111,6 +113,10 @@ function ColorService:smartGradient(base, secondary, height, width)
     local top_color = colors["White"]
     local base_light = lighten(base, 30)
     local bottom_color = darken(base, 45)
+
+    if not height then
+        height = dpi(34)
+    end
 
     local orientation = detect_orientation(height, width)
 
