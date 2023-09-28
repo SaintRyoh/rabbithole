@@ -50,8 +50,8 @@ function TaskListController:create_callback(task_template, c, _, _)
                 background.bg = beautiful.tasklist_bg_normal
             else
                 background.bg = self.color.create_widget_bg(
-                    self.color.blend_colors(self.color:smartGradient(beautiful.base_color, beautiful.secondary_color), beautiful.tertiary_1, pos),
-                    self.color.blend_colors(self.color:smartGradient(beautiful.base_color, beautiful.secondary_color), beautiful.tertiary_1, pos)
+                    self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos),
+                    self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos)
                 )
             end
         end)
