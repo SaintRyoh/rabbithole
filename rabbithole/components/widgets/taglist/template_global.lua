@@ -47,17 +47,14 @@ return function (controller)
                                         widget = wibox.layout.fixed.horizontal,
                                     }
                                 },
-
                             },
                         },
                     },
                 },
             },
         },
-
-        create_callback = function (tag_template, tag, index, objects) controller:create_tag_callback(tag_template, tag, index, objects) end,
-
-        update_callback = function (tag_template, tag, index, objects) controller:update_tag_callback(tag_template, tag, index, objects) end,
+        create_callback = function(tag_template, tag, index, objects) controller:create_tag_callback(tag_template, tag, index, objects) end,
+        update_callback = function(tag_template, tag, index, objects) controller:update_tag_callback(tag_template, tag, index, objects) end,
     }
 end
 
