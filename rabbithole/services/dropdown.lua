@@ -81,7 +81,7 @@ function Dropdown:display()
     client.skip_taskbar = true
     client.titlebars_enabled = false
     -- force focus of the client
-    capi.client.focus = client
+    client.focused = true
     --client:raise()
 
     if self.settings then

@@ -35,7 +35,7 @@ return function (controller)
                                 widget = wibox.widget.imagebox,
                                 forced_height = dpi( 24 ),
                             },
-                            -- id = "icon_margin_role",
+                            --id = "icon_margin_role",
                             widget = wibox.container.margin,
                             margins = dpi( 4 ),
                         },

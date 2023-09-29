@@ -72,11 +72,12 @@ function TaskListController:create_callback(task_template, c, _, _)
     local client = c -- Create a closure
 
     task_template:connect_signal('button::press', function(_, _, _, button)
-        if button == 2 then  -- middle mouse button click means kill clients, so return and do nothing
+        if button == 2 then  -- middle mouse button click kills clients, so return and do nothing
             return
         end
+
         animation.target = 0
-    
+        -- dragondrop logic
         self.client = client
         self.origin_tag = awful.screen.focused().selected_tag
         self.dragndrop:drag(self.client, self.origin_tag)

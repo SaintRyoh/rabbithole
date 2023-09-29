@@ -135,7 +135,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     awful.tooltip({
         objects = {tag_template},
         timer_function = function()
-            return "Tip: Win + middle-click deletes tags, middle-click kills clients"
+            return "Tip: Win + middle-click deletes tags & middle-click kills clients"
         end,
         timeout = 0.5,
         delay_show = 3,
@@ -148,6 +148,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
         animation.target = 1
+        -- dragondrop logic
         self.hovered_tag = tag
         self.dragndrop.hovered_tag = tag
     end)
