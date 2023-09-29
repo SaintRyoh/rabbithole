@@ -49,7 +49,7 @@ function TaskListController:create_callback(task_template, c, _, _)
             if pos == 0 then
                 background.bg = beautiful.tasklist_bg_normal
             else
-                background.bg = self.color.create_widget_bg(self.color.blend_colors(beautiful.base_color,
+                background.bg = self.color.twoColorTrue3d(self.color.blend_colors(beautiful.base_color,
                 beautiful.tertiary_1, pos), self.color
                 .blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos))
             end
@@ -63,7 +63,7 @@ function TaskListController:create_callback(task_template, c, _, _)
 
     task_template:connect_signal('mouse::leave', function()
         c:emit_signal('request::activate', 'mouse_leave', {raise = false})
-        if c ~= client.focus then 
+        if c ~= client.focus then
             animation.target = 0
         end
         return true
@@ -75,9 +75,12 @@ function TaskListController:create_callback(task_template, c, _, _)
         animation.target = 0
 
         self.client = client
-        self.origin_tag = awful.screen.focused().selected_tag
+        -- dragondrop logic
+        if mouse.is_left_mouse_button_pressed then
+            self.origin_tag = awful.screen.focused().selected_tag
+            self.dragndrop:drag(self.client, self.origin_tag)
+        end
 
-        self.dragndrop:drag(self.client, self.origin_tag)
     end)
 
     task_template:connect_signal('button::release', function()
