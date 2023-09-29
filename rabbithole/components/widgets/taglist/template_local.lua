@@ -10,7 +10,7 @@ return function (controller)
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
-        bg = beautiful.bg_normal,
+        --bg = beautiful.bg_normal,
         {
             layout = wibox.layout.fixed.horizontal,
             {
