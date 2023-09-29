@@ -78,6 +78,7 @@ function SessionManager:loadSession()
     awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
         if __.isEmpty(restore) then
             awful.rules.remove_rule_source("workspaceManagerService")
+            return
         end
 
         local tag_client = __.first(__.remove(restore, function(r) return r.pid == c.pid end))
@@ -89,7 +90,7 @@ function SessionManager:loadSession()
         properties.tag = tag_client.tag
 
         __.push(callbacks, function(cl)
-            tag_client.tag.activated = true
+            tag_client.tag.active = true
             cl:move_to_tag(tag_client.tag)
         end)
     end)
@@ -116,7 +117,7 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
     end
 
     local function tagsAreEqual(tag1, tag2)
-        return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and
+        return tag1.name == tag2.name and tag1.index == tag2.index and tag1.active == tag2.active and
             tag1.hidden == tag2.hidden
     end
 
@@ -129,7 +130,8 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
             layout = getLayoutByName(tag_definition.layout.name)
         })
         tag.selected = false
-        tag.activated = tag_definition.activated
+        tag.activated = true
+        tag.active = tag_definition.activated or tag_definition.active
 
         -- if tag in tag_definition.last_selected_tags, then add it to the workspace's last_selected_tags
         if __.find(definition.last_selected_tags, function(t) return tagsAreEqual(t, tag_definition) end) then
@@ -137,8 +139,8 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
         end
 
         workspace:addTag(tag)
-        if __.every(workspace:getAllTags(), function(t) return t.activated end) then
-            workspace.activated = true
+        if __.every(workspace:getAllTags(), function(t) return t.activated or t.active end) then
+            workspace.active = true
         end
 
         clients_to_restore = gears.table.join(clients_to_restore, __.map(tag_definition.clients, function(client)
