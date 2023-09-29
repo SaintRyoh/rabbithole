@@ -1,7 +1,6 @@
 local __ = require("lodash")
 local awful = require("awful")
 local wibox = require("wibox")
-local get_update_function = require("rabbithole.components.widgets.taglist.update_function")
 local local_taglist_template = require("rabbithole.components.widgets.taglist.template_local")
 local global_taglist_template = require("rabbithole.components.widgets.taglist.template_global")
 local gears = require("gears")
