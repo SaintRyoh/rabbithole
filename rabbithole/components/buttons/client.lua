@@ -1,8 +1,6 @@
--- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
 
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 return setmetatable({}, {
     __constructor = function (settings)
