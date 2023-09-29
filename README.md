@@ -69,7 +69,8 @@ Rabbithole is the _first **meta-window manager**_ because it goes beyond traditi
 
 ## Features
 
-- **Dynamic Display Management**: Disconnect and reconnect screens _on-the-fly_, without interrupting your flow. **Switch workspaces** from your _multi-monitor_ setup to a _single monitor_ setup seamlessly.
+- **Dynamic Display Management**: Disconnect and reconnect screens _on-the-fly_, without interrupting your flow. **Switch workspaces** from your _multi-monitor_ setup to a _single monitor_ setup seamlessly. Click the image link below to see a short YouTube demonstration.
+[![Watch the video demo!](docs/install_images/Rabbithole_multi-monitor.png)](https://youtu.be/pRu7rNrFJXI?si=kSLEeJKNB4FuoH2Y)
     
 - **Aesthetically Pleasing Experience**: A polished experience that feels more like a Desktop Environment (DE) than a Window Manager (WM). We believe **aesthetics matter**, even outside full desktop environments.
     
