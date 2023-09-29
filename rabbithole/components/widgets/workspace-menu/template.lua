@@ -10,7 +10,7 @@ function WorkspaceMenuTemplate.get(controller)
 
     Template.root = wibox.widget {
         widget = wibox.container.background,
-        bg = beautiful.secondary_color,
+        --bg = beautiful.secondary_color,
         bind = "root",
         signals = {
             ["mouse::enter"] = function(widget)
@@ -66,12 +66,12 @@ function WorkspaceMenuTemplate.get(controller)
     }
 
     animation = controller.animation({
-        duration = 0.4,
+        duration = 0.2,
         rapid_set = true,
         pos = 0,
         subscribed = function(pos)
             if type(Template.root.bg) == "string" then
-                Template.root.bg = controller.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, pos)
+                Template.root.bg = controller.color.twoColorTrue3d(beautiful.base_color, beautiful.secondary_color)
             else
                 Template.root.bg = controller.color.twoColorTrue3d(
                     controller.color.blend_colors(beautiful.base_color, beautiful.tertiary_1, pos), 
