@@ -49,7 +49,7 @@ function TaskListController:create_callback(task_template, c, _, _)
             if pos == 0 then
                 background.bg = beautiful.tasklist_bg_normal
             else
-                background.bg = self.color.twoColorTrue3d(self.color.blend_colors(beautiful.base_color,
+                background.bg = self.color.create_widget_bg(self.color.blend_colors(beautiful.base_color,
                 beautiful.tertiary_1, pos), self.color
                 .blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos))
             end
