@@ -4,14 +4,14 @@ local gears = require("gears")
 local Workspace = { }
 Workspace.__index = Workspace
 
-function Workspace:new(name, tags, activated)
+function Workspace:new(name, tags, active)
     self = {}
     setmetatable(self, Workspace)
 
     self.name = name or nil
     self.tags = tags or {}
     self.id = math.random(1,1000000)
-    self.activated = activated or false
+    self.active = active or false
 
     self.last_selected_tags = {}
 
@@ -62,13 +62,13 @@ function Workspace:setStatus(status)
                 table.insert(self.last_selected_tags, tag)
             end
         end)
-        lodash.forEach(self.tags, function(tag) tag.activated = status  end)
+        lodash.forEach(self.tags, function(tag) tag.active = status  end)
     else
-        lodash.forEach(self.tags, function(tag) tag.activated = status  end)
+        lodash.forEach(self.tags, function(tag) tag.active = status  end)
         lodash.forEach(self.last_selected_tags, function(tag) tag.selected=true  end)
         self.last_selected_tags = {}
     end
-    self.activated = status
+    self.active = status
 end
 
 function Workspace:getSelectedTags()
@@ -84,7 +84,7 @@ function Workspace:restoreGlobalBackup()
 end
 
 function Workspace:getStatus()
-    return self.activated
+    return self.active
 end
 
 function Workspace:isEmpty()
@@ -120,6 +120,7 @@ function Workspace:__serialize()
             return {
                 name = client.name,
                 class = client.class,
+                role = client.role,
                 pid = client.pid
             }
         end)
@@ -131,7 +132,7 @@ function Workspace:__serialize()
             layout = {
                 name = tag.layout.name
             },
-            activated = tag.activated,
+            active = tag.active,
             hidden = tag.hidden,
             clients = serializeClients(tag:clients()),
             sharedtagindex = tag.sharedtagindex

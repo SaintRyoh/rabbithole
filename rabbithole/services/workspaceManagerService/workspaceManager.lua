@@ -74,6 +74,7 @@ function workspaceManager:switchTo(workspace)
     -- backup the global workspace's selected tags
     local active_workspace = lodash.first( self:getAllActiveWorkspaces() )
     active_workspace:setGlobalBackup(self.global_workspace:getSelectedTags())
+    -- maybe in between switches I could set the tags to active so they could process their signals
     self:setStatusForAllWorkspaces(false)
     self.global_workspace:unselectAllTags()
     workspace:setStatus(true)
