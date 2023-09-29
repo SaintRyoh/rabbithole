@@ -1,5 +1,6 @@
 local awful = require("awful")
 local wibox = require("wibox")
+local gears = require("gears")
 
 local WorkspaceMenuTemplate = {}
 
@@ -7,6 +8,8 @@ function WorkspaceMenuTemplate.get(controller)
     local beautiful = require("beautiful")
     local Template = {}
     local animation = nil
+    local debounce_timer = gears.timer({ timeout = 0.1 })
+    local pending_action = nil
 
     Template.root = wibox.widget {
         widget = wibox.container.background,
@@ -14,12 +17,39 @@ function WorkspaceMenuTemplate.get(controller)
         bind = "root",
         signals = {
             ["mouse::enter"] = function(widget)
-                animation.target = 1
+                if not debounce_timer.started then
+                    pending_action = "enter"
+                    debounce_timer:start()
+                else
+                    if pending_action == "leave" then
+                        debounce_timer:stop()
+                        pending_action = "enter"
+                        debounce_timer:start()
+                    end
+                end
             end,
             ["mouse::leave"] = function(widget)
-                animation.target = 0
+                if not debounce_timer.started then
+                    pending_action = "leave"
+                    debounce_timer:start()
+                else
+                    if pending_action == "enter" then
+                        debounce_timer:stop()
+                        pending_action = "leave"
+                        debounce_timer:start()
+                    end
+                end
             end
         },
+        debounce_timer:connect_signal("timeout", function()
+            if pending_action == "enter" then
+                animation.target = 1
+            elseif pending_action == "leave" then
+                animation.target = 0
+            end
+            debounce_timer:stop()
+            pending_action = nil
+        end),
         t_buttons = {
             function(widget, bindings)
                 return awful.button({}, 1, function(event)
