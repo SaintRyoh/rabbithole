@@ -4,13 +4,15 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 
 return function (controller)
+    local true3d = controller.color.twoColorTrue3d(beautiful.base_color, beautiful.secondary_color)
     return
     {
-        id     = 'background_role',
+        --id     = 'background_role',
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)
         end,
         widget = wibox.container.background,
+        bg = true3d,
         {
             -- padding. 1px in top to make a more 3d effect
             top = dpi(1),
@@ -29,7 +31,7 @@ return function (controller)
                         shape = function(cr, width, height)
                             gears.shape.rounded_rect(cr, width, height, 8)
                         end,
-                        bg = controller.color:smartGradient(beautiful.base_color, beautiful.secondary_color),
+                        bg = true3d,
                         {
                             widget = wibox.container.margin,
                             left = dpi(2),

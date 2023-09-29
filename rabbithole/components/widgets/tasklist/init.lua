@@ -42,17 +42,16 @@ function TaskListController:create_callback(task_template, c, _, _)
     local background = task_template:get_children_by_id('background_role')[1]
 
     local animation = self.animation({
-        duration = 0.2,
+        duration = 0.25,
         rapid_set = true,
         pos = c == client.focus and 1 or 0,
         subscribed = (function (pos)
             if pos == 0 then
                 background.bg = beautiful.tasklist_bg_normal
             else
-                background.bg = self.color.create_widget_bg(
-                    self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos),
-                    self.color.blend_colors(beautiful.tasklist_bg_normal, beautiful.tertiary_1, pos)
-                )
+                background.bg = self.color.create_widget_bg(self.color.blend_colors(beautiful.base_color,
+                beautiful.tertiary_1, pos), self.color
+                .blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos))
             end
         end)
     })
@@ -64,22 +63,22 @@ function TaskListController:create_callback(task_template, c, _, _)
 
     task_template:connect_signal('mouse::leave', function()
         c:emit_signal('request::activate', 'mouse_leave', {raise = false})
-        gears.timer.start_new(0.1, function()
-            if c ~= client.focus then 
-                animation.target = 0
-            end
-        end)
+        if c ~= client.focus then 
+            animation.target = 0
+        end
         return true
     end)
 
     local client = c -- Create a closure
 
-    task_template:connect_signal('button::press', function()
+    task_template:connect_signal('button::press', function(_, _, _, button)
+        if button == 2 then  -- middle mouse button click means kill clients, so return and do nothing
+            return
+        end
         animation.target = 0
-
+    
         self.client = client
         self.origin_tag = awful.screen.focused().selected_tag
-
         self.dragndrop:drag(self.client, self.origin_tag)
     end)
 

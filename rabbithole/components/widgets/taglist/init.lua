@@ -56,6 +56,7 @@ function TaglistController.new(
                 return workspaceManagerService:getAllGlobalTags()
             end,
             buttons = rabbithole__components__buttons__taglist___global,
+            update_function = get_update_function(s),
             widget_template = global_taglist_template(self)
         }
 
@@ -68,6 +69,7 @@ function TaglistController.new(
             source = function()
                 return workspaceManagerService:getAllActiveTags()
             end,
+            update_function = get_update_function(s),
             widget_template = local_taglist_template(self)
         }
 
