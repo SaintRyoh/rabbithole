@@ -23,7 +23,7 @@ function AnimationService:blink(args)
         amplitude = 1, -- it will go from 0 to 1
         autostart = false -- manually start it
     }
-    
+
     -- Merge default args and given args
     local complete_args = gears.table.crush(default_args, args)
 
