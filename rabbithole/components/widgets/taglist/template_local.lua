@@ -6,7 +6,7 @@ local dpi = beautiful.xresources.apply_dpi
 return function (controller)
     local true3d = controller.color.twoColorTrue3d(beautiful.base_color, beautiful.secondary_color)
     return {
-        id = "background_role",
+        --id = "background_role",
         widget = wibox.container.background,
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 10)

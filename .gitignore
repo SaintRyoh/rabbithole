@@ -16,3 +16,4 @@ rabbithole/services/sessionManager/sessionManagerService.lua~HEAD
 rabbithole/settings.lua
 settings.lua
 PKGBUILD
+*.ignore
