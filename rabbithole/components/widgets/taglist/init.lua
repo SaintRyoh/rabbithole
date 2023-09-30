@@ -49,7 +49,7 @@ function TaglistController.new(
     return function(s)
         self.screen = s
 
-        s.global_taglist = awful.widget.taglist {
+        local global_taglist = awful.widget.taglist {
             screen = s,
             filter = awful.widget.taglist.filter.all,
             source = function()
@@ -60,11 +60,9 @@ function TaglistController.new(
             widget_template = global_taglist_template(self)
         }
 
-        s.local_taglist = awful.widget.taglist {
+        local local_taglist = awful.widget.taglist {
             screen = s,
-            filter = function (tag)
-                return tag.active
-            end,
+            filter = awful.widget.taglist.filter.all,
             buttons = rabbithole__components__buttons__taglist,
             source = function()
                 return workspaceManagerService:getAllActiveTags()
@@ -73,21 +71,17 @@ function TaglistController.new(
             widget_template = local_taglist_template(self)
         }
 
-        awesome.connect_signal("taglist::update", function()
-            s.local_taglist._do_taglist_update()
-        end)
-
         self.taglist_layout = wibox.layout {
             layout = wibox.layout.fixed.horizontal,
             global_icon,
-            s.global_taglist,
+            global_taglist,
             wibox.widget.separator({
                 orientation = 'vertical',
                 forced_width = 4,
                 opacity = 0.5,
                 widget = wibox.widget.separator
             }),
-            s.local_taglist,
+            local_taglist,
             plusButton
         }
 
@@ -132,10 +126,18 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         end
     })
 
+    tag:connect_signal('property::selected', function()
+        if tag.selected then
+            animation.target = 1
+        else
+            animation.target = 0
+        end
+    end)
+
     awful.tooltip({
         objects = {tag_template},
         timer_function = function()
-            return "Tip: Win + middle-click deletes tags & middle-click kills clients"
+            return "Tip: Win + middle-click deletes tags, middle-click kills clients"
         end,
         timeout = 0.5,
         delay_show = 3,
@@ -148,7 +150,6 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     tag_template:connect_signal('mouse::enter', function()
         hover_timer:again()
         animation.target = 1
-        -- dragondrop logic
         self.hovered_tag = tag
         self.dragndrop.hovered_tag = tag
     end)
@@ -167,14 +168,23 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     end)
 
     tag_template:connect_signal('button::press', function()
-        animation.target = 0
+        -- When the tag is pressed, only update if it's not the currently selected tag
+        if not tag.selected then
+            animation.target = 1
+        end
     end)
-
+    
     tag_template:connect_signal('button::release', function()
-        animation.target = 1
-
+        -- After the button is released, update the tags to their correct colors
+        if tag.selected then
+            animation.target = 1
+        else
+            animation.target = 0
+        end
+    
         self.dragndrop:drop(self.hovered_tag)
     end)
+    
 end
 
 -- update index

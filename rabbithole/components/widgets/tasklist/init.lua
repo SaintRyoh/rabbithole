@@ -38,22 +38,23 @@ function TaskListController.new(
 end
 
 function TaskListController:create_callback(task_template, c, _, _)
-    task_template:get_children_by_id('icon_role')[1].image = self.icon:get_icon_by_client(c)
     local background = task_template:get_children_by_id('background_role')[1]
+    task_template:get_children_by_id('icon_role')[1].image = self.icon:get_icon_by_client(c)
 
     local animation = self.animation({
-        duration = 0.25,
-        rapid_set = true,
+        duration = 0.2,  -- Increased the duration slightly for smoother animation
+        rapid_set = false,  -- Setting this to false might make the animation smoother
         pos = c == client.focus and 1 or 0,
-        subscribed = (function (pos)
+        subscribed = function(pos)
             if pos == 0 then
                 background.bg = beautiful.tasklist_bg_normal
             else
-                background.bg = self.color.create_widget_bg(self.color.blend_colors(beautiful.base_color,
-                beautiful.tertiary_1, pos), self.color
-                .blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos))
+                background.bg = self.color.create_widget_bg(
+                    self.color.blend_colors(beautiful.base_color, beautiful.tertiary_1, pos),
+                    self.color.blend_colors(beautiful.secondary_color, beautiful.tertiary_2, pos)
+                )
             end
-        end)
+        end
     })
 
     task_template:connect_signal('mouse::enter', function()
@@ -62,9 +63,13 @@ function TaskListController:create_callback(task_template, c, _, _)
     end)
 
     task_template:connect_signal('mouse::leave', function()
-        c:emit_signal('request::activate', 'mouse_leave', {raise = false})
         if c ~= client.focus then 
             animation.target = 0
+        else
+            background.bg = self.color.create_widget_bg(
+                self.color.blend_colors(beautiful.base_color, beautiful.tertiary_1, 1),
+                self.color.blend_colors(beautiful.secondary_color, beautiful.tertiary_2, 1)
+            )
         end
         return true
     end)
