@@ -16,12 +16,17 @@ WorkspaceManagerService.__index = WorkspaceManagerService
 
 function WorkspaceManagerService.new(
     rabbithole__services__modal,
-    rabbithole__services__workspaceManagerService__session___manager
+    rabbithole__services__workspaceManagerService__session___manager,
+    settings
 )
     local self = setmetatable({}, WorkspaceManagerService)
 
     self.modal = rabbithole__services__modal
     self.sessionManager = rabbithole__services__workspaceManagerService__session___manager
+    self.settings = settings.workspaceManagerService or {
+        enable_autosave = true,
+        autosave_wait_time = 1
+    }
 
     local status, err = pcall(function()
         self.workspaceManagerModel = self.sessionManager:loadSession()
@@ -37,6 +42,13 @@ function WorkspaceManagerService.new(
         self:switchTo(self:getActiveWorkspace())
     end
 
+    self:setupAutoSave({
+        "workspaceManager::workspace_created",
+        "workspaceManager::workspace_deleted",
+        "workspaceManager::workspace_switch",
+        "workspace::name_changed"
+    })
+
     capi.screen.connect_signal("removed", function ()
         self:saveSession()
         capi.awesome.restart()
@@ -46,6 +58,30 @@ function WorkspaceManagerService.new(
     self.subscribers = {}
 
     return self
+end
+
+function WorkspaceManagerService:setupAutoSave(signals)
+    local ready = false
+    local timer = gears.timer {
+        timeout = self.settings.autosave_wait_time,
+        autostart = true,
+        callback = function()
+            self.settings.enable_autosave = true
+        end
+    }
+    __.forEach(signals, function(signal)
+        capi.awesome.connect_signal(signal, function()
+            if self.settings.enable_autosave and ready then
+                -- self:saveSession()
+                naughty.notify({
+                    title = "autosave event",
+                    text = signal,
+                    timeout = 0
+                })
+                ready = false
+            end
+        end)
+    end)
 end
 
 -- save session
@@ -270,7 +306,7 @@ function WorkspaceManagerService:renameWorkspace(workspace)
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
             if not workspace then return end
-            workspace.name = new_name
+            workspace:setName(new_name)
             self:updateSubscribers()
         end
     })

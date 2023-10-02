@@ -25,15 +25,17 @@ function workspaceManager:new()
     return self
 end
 
-function workspaceManager:createWorkspace(name, tags)
-    local new_workspace = workspace:new(name, tags)
+function workspaceManager:createWorkspace(name, tags, emit_signal)
+    local new_workspace = workspace:new(name, tags, emit_signal)
     lodash.push(self.workspaces, new_workspace)
+    awesome.emit_signal("workspaceManager::workspace_created")
     return new_workspace
 end
 
 function workspaceManager:deleteWorkspace(workspace)
     workspace:removeAllTagsInWorkspace()
     lodash.remove(self.workspaces, function(_workspace) return _workspace:equals(workspace)  end)
+    awesome.emit_signal("workspaceManager::workspace_deleted")
 end
 
 function workspaceManager:deleteAllWorkspaces()
@@ -79,7 +81,7 @@ function workspaceManager:switchTo(workspace)
     self:setStatusForAllWorkspaces(false)
     workspace:setStatus(true)
     workspace:restoreGlobalBackup()
-    awesome.emit_signal("workspaceManager::tag_switch")
+    awesome.emit_signal("workspaceManager::workspace_switch")
 end
 
 -- create a __serialize method to allow for serialization

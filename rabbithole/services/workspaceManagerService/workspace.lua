@@ -20,6 +20,7 @@ function Workspace:new(name, tags, active)
     return self
 end
 
+
 function Workspace:addTag(tag)
     lodash.push(self.tags, tag)
 end
@@ -98,6 +99,11 @@ end
 
 function Workspace:equals(otherWorkspace)
     return self.id == otherWorkspace.id
+end
+
+function Workspace:setName(name)
+    self.name = name
+    awesome.emit_signal("workspace::name_changed")
 end
 
 function Workspace:getName(default)
