@@ -173,7 +173,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             animation.target = 1
         end
     end)
-    
+
     tag_template:connect_signal('button::release', function()
         -- After the button is released, update the tags to their correct colors
         if tag.selected then
@@ -181,10 +181,9 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         else
             animation.target = 0
         end
-    
+
         self.dragndrop:drop(self.hovered_tag)
     end)
-    
 end
 
 -- update index
