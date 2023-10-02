@@ -89,10 +89,6 @@ function SessionManager:loadSession()
 
         properties.tag = tag_client.tag
 
-        __.push(callbacks, function(cl)
-            tag_client.tag.active = true
-            cl:move_to_tag(tag_client.tag)
-        end)
     end)
 
     return workspaceManagerModel
@@ -127,10 +123,12 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
             name = tag_definition.name,
             hidden = tag_definition.hidden,
             index = tag_definition.index,
-            layout = getLayoutByName(tag_definition.layout.name)
+            layout = getLayoutByName(tag_definition.layout.name),
+            selected = tag_definition.selected,
+            active = tag_definition.active,
         })
-        tag.selected = false
-        tag.activated = true
+        -- tag.selected = false
+        -- tag.activated = true
         tag.active = tag_definition.activated or tag_definition.active
 
         -- if tag in tag_definition.last_selected_tags, then add it to the workspace's last_selected_tags
