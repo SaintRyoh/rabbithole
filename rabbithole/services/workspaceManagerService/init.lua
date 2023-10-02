@@ -61,12 +61,12 @@ function WorkspaceManagerService.new(
 end
 
 function WorkspaceManagerService:setupAutoSave(signals)
-    local ready = false
+    local ready = true
     local timer = gears.timer {
         timeout = self.settings.autosave_wait_time,
         autostart = true,
         callback = function()
-            self.settings.enable_autosave = true
+            ready = true
         end
     }
     __.forEach(signals, function(signal)
