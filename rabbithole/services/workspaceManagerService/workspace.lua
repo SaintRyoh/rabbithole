@@ -59,6 +59,7 @@ function Workspace:setStatus(status)
     if status == false then
         lodash.forEach(self.tags, function(tag)
             if tag.selected == true then
+                tag.selected = false
                 table.insert(self.last_selected_tags, tag)
             end
         end)

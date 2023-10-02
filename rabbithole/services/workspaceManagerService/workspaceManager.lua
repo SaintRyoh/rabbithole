@@ -74,11 +74,11 @@ function workspaceManager:switchTo(workspace)
     -- backup the global workspace's selected tags
     local active_workspace = lodash.first( self:getAllActiveWorkspaces() )
     active_workspace:setGlobalBackup(self.global_workspace:getSelectedTags())
+    self.global_workspace:unselectAllTags()
     -- maybe in between switches I could set the tags to active so they could process their signals
     self:setStatusForAllWorkspaces(false)
-    self.global_workspace:unselectAllTags()
     workspace:setStatus(true)
-    active_workspace:restoreGlobalBackup()
+    workspace:restoreGlobalBackup()
 end
 
 -- create a __serialize method to allow for serialization
