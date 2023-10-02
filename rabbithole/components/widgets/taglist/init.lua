@@ -73,7 +73,7 @@ function TaglistController.new(
             widget_template = local_taglist_template(self)
         }
 
-        awesome.connect_signal("taglist::update", function()
+        awesome.connect_signal("workspaceManager::tag_switch", function()
             s.local_taglist._do_taglist_update()
         end)
 

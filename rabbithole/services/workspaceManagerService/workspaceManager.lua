@@ -79,6 +79,7 @@ function workspaceManager:switchTo(workspace)
     self:setStatusForAllWorkspaces(false)
     workspace:setStatus(true)
     workspace:restoreGlobalBackup()
+    awesome.emit_signal("workspaceManager::tag_switch")
 end
 
 -- create a __serialize method to allow for serialization

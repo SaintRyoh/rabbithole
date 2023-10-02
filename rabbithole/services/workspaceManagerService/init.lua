@@ -308,7 +308,6 @@ function WorkspaceManagerService:switchTo(workspace)
     self.workspaceManagerModel:switchTo(workspace)
     self:assignWorkspaceTagsToScreens()
     self:updateSubscribers()
-    awesome.emit_signal("taglist::update")
 end
 
 function WorkspaceManagerService:moveTagToWorkspace(tag, workspace)
