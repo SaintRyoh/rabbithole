@@ -32,7 +32,7 @@ function DetectMonitor.setup_screens()
                             naughty.notify({ title = "Automatic Display Configuration", text = "Applied and saved configuration for " .. screen_name })
                         end)
                     end)
-                else  -- Handle the case where max_res could not be determined
+                else  -- default to auto detection if display can't be determined
                     awful.spawn.easy_async_with_shell("autorandr --change", function()
                         naughty.notify({ title = "Automatic Display Configuration", text = "Maximum resolution could not be determined for " .. screen_name .. ". Autodetected settings." })
                     end)
