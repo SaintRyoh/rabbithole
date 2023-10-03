@@ -129,8 +129,20 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     tag:connect_signal('property::selected', function()
         if tag.selected then
             animation.target = 1
+            -- Highlight the tag on its own screen
+            for _, screen in ipairs(tag.screen.outputs) do
+                if screen == self.screen then
+                    tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 1)
+                end
+            end
         else
             animation.target = 0
+            -- Reset the tag color on its own screen
+            for _, screen in ipairs(tag.screen.outputs) do
+                if screen == self.screen then
+                    tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 0)
+                end
+            end
         end
     end)
 
