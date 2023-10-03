@@ -25,15 +25,17 @@ function workspaceManager:new()
     return self
 end
 
-function workspaceManager:createWorkspace(name, tags)
-    local new_workspace = workspace:new(name, tags)
+function workspaceManager:createWorkspace(name, tags, emit_signal)
+    local new_workspace = workspace:new(name, tags, emit_signal)
     lodash.push(self.workspaces, new_workspace)
+    awesome.emit_signal("workspaceManager::workspace_created")
     return new_workspace
 end
 
 function workspaceManager:deleteWorkspace(workspace)
     workspace:removeAllTagsInWorkspace()
     lodash.remove(self.workspaces, function(_workspace) return _workspace:equals(workspace)  end)
+    awesome.emit_signal("workspaceManager::workspace_deleted")
 end
 
 function workspaceManager:deleteAllWorkspaces()
@@ -74,10 +76,12 @@ function workspaceManager:switchTo(workspace)
     -- backup the global workspace's selected tags
     local active_workspace = lodash.first( self:getAllActiveWorkspaces() )
     active_workspace:setGlobalBackup(self.global_workspace:getSelectedTags())
-    self:setStatusForAllWorkspaces(false)
     self.global_workspace:unselectAllTags()
+    -- maybe in between switches I could set the tags to active so they could process their signals
+    self:setStatusForAllWorkspaces(false)
     workspace:setStatus(true)
-    active_workspace:restoreGlobalBackup()
+    workspace:restoreGlobalBackup()
+    awesome.emit_signal("workspaceManager::workspace_switch")
 end
 
 -- create a __serialize method to allow for serialization

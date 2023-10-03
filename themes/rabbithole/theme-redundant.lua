@@ -2,8 +2,6 @@
 it's consistent look and feel.
 ]]
 
-local widget_bg = require("rabbithole.services.color").create_widget_bg
-
    -- Turned this into a function to prevent any circular references.
 local function apply_redundancies(theme)
     -- [[[ Backgrounds and borders
@@ -35,7 +33,7 @@ local function apply_redundancies(theme)
     theme.notification_border_color = theme.base_color
     
     -- [[[ Hotkeys popup variables
-    theme.hotkeys_bg = widget_bg(theme.base_color, theme.secondary_color)
+    theme.hotkeys_bg = theme.bg_neutral
     -- ]]]
     -- [[[ BLING theme variables
     theme.tag_preview_client_border_color = theme.base_color
