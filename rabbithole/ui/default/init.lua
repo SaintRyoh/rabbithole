@@ -30,18 +30,18 @@ function UserInterface.new(
         s.dropdown = dropdown({app=settings.default_programs.terminal, argname="--title %s", extra="--class Dropdown -e tmux", visible=true, height=0.9, screen = s })
 
         -- set dpi of screens
-        --local resolution = s.geometry.width * s.geometry.height
-        --local dpi
---
-        --if resolution > 1920 * 1080 then
-        --    dpi = 144 -- or whatever value you want for high DPI screens
-        --elseif resolution > 1366 * 768 then
-        --    dpi = 141 -- or whatever value you want for medium DPI screens (1080p laptops)
-        --else
-        --    dpi = 110 --or whatever dpi value you want for low DPI screens
-        --end
---
-        --beautiful.xresources.set_dpi(dpi, s)
+        local resolution = s.geometry.width * s.geometry.height
+        local dpi
+
+        if resolution > 1920 * 1080 then
+            dpi = 144 -- or whatever value you want for high DPI screens
+        elseif resolution > 1366 * 768 then
+            dpi = 141 -- or whatever value you want for medium DPI screens (1080p laptops)
+        else
+            dpi = 110 --or whatever dpi value you want for low DPI screens
+        end
+
+        beautiful.xresources.set_dpi(dpi, s)
 
         bling.module.wallpaper.setup {
             screen = s,
