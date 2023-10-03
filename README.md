@@ -1,6 +1,6 @@
 # Rabbithole—The Meta-Window Manager
 ### LOOKING FOR BETA TESTERS
-~**Automated Installer Working for Arch and Ubuntu Linux~ Now available in the AUR - Please Help Us Test On Other Distros**
+**Now available in the AUR** Automated Installer Working for Arch and Ubuntu Linux  - Please Help Us Test On Other Distros
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
 ### Discord Support
