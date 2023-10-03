@@ -73,7 +73,7 @@ function TaglistController.new(
             widget_template = local_taglist_template(self)
         }
 
-        awesome.connect_signal("taglist::update", function()
+        awesome.connect_signal("workspaceManager::workspace_switch", function()
             s.local_taglist._do_taglist_update()
         end)
 
@@ -118,7 +118,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     }
 
     local animation = self.animation({
-        pos = tag.selected and 1 or 0,
+        pos = ( tag.selected and 1 ) or 0,
         duration = 0.25,
         rapid_set = true,
         subscribed = function(pos)
@@ -131,6 +131,14 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             end
         end
     })
+
+    tag:connect_signal('property::selected', function()
+        if tag.selected then
+            animation.target = 1
+        else
+            animation.target = 0
+        end
+    end)
 
     awful.tooltip({
         objects = {tag_template},
@@ -166,11 +174,19 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     end)
 
     tag_template:connect_signal('button::press', function()
-        animation.target = 0
+        -- When the tag is pressed, only update if it's not the currently selected tag
+        if not tag.selected then
+            animation.target = 1
+        end
     end)
 
     tag_template:connect_signal('button::release', function()
-        animation.target = 1
+        -- After the button is released, update the tags to their correct colors
+        if tag.selected then
+            animation.target = 1
+        else
+            animation.target = 0
+        end
 
         self.dragndrop:drop(self.hovered_tag)
     end)
