@@ -37,11 +37,9 @@ function DetectMonitor.setup_screens()
     end)
 end
 
--- Debouncing timer to prevent multiple calls to setup_screens and multiple notifications
 local debounce_timer = nil
 local debounce_time = 2 -- in seconds
 
--- Listen to udev events for monitor changes
 awful.spawn.with_line_callback("stdbuf -oL udevadm monitor --property --subsystem-match=drm", {
     stdout = function(line)
         if line:match("ACTION=change") then
