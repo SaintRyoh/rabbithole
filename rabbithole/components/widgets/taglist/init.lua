@@ -49,7 +49,7 @@ function TaglistController.new(
     return function(s)
         self.screen = s
 
-        local global_taglist = awful.widget.taglist {
+        s.global_taglist = awful.widget.taglist {
             screen = s,
             filter = awful.widget.taglist.filter.all,
             source = function()
@@ -60,9 +60,11 @@ function TaglistController.new(
             widget_template = global_taglist_template(self)
         }
 
-        local local_taglist = awful.widget.taglist {
+        s.local_taglist = awful.widget.taglist {
             screen = s,
-            filter = awful.widget.taglist.filter.all,
+            filter = function (tag)
+                return tag.active
+            end,
             buttons = rabbithole__components__buttons__taglist,
             source = function()
                 return workspaceManagerService:getAllActiveTags()
@@ -71,17 +73,21 @@ function TaglistController.new(
             widget_template = local_taglist_template(self)
         }
 
+        awesome.connect_signal("workspaceManager::workspace_switch", function()
+            s.local_taglist._do_taglist_update()
+        end)
+
         self.taglist_layout = wibox.layout {
             layout = wibox.layout.fixed.horizontal,
             global_icon,
-            global_taglist,
+            s.global_taglist,
             wibox.widget.separator({
                 orientation = 'vertical',
                 forced_width = 4,
                 opacity = 0.5,
                 widget = wibox.widget.separator
             }),
-            local_taglist,
+            s.local_taglist,
             plusButton
         }
 
@@ -112,7 +118,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     }
 
     local animation = self.animation({
-        pos = tag.selected and 1 or 0,
+        pos = ( tag.selected and 1 ) or 0,
         duration = 0.25,
         rapid_set = true,
         subscribed = function(pos)

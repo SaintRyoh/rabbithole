@@ -20,6 +20,7 @@ function Workspace:new(name, tags, active)
     return self
 end
 
+
 function Workspace:addTag(tag)
     lodash.push(self.tags, tag)
 end
@@ -59,6 +60,7 @@ function Workspace:setStatus(status)
     if status == false then
         lodash.forEach(self.tags, function(tag)
             if tag.selected == true then
+                tag.selected = false
                 table.insert(self.last_selected_tags, tag)
             end
         end)
@@ -97,6 +99,11 @@ end
 
 function Workspace:equals(otherWorkspace)
     return self.id == otherWorkspace.id
+end
+
+function Workspace:setName(name)
+    self.name = name
+    awesome.emit_signal("workspace::name_changed")
 end
 
 function Workspace:getName(default)
