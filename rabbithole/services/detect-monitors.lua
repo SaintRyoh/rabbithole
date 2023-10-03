@@ -1,6 +1,6 @@
 --[[ detect-monitors.lua
 This is the magical service that listens to udev events for detecting monitors, then 
-automatically configures them and sstores the configuration on the local machine via autorandr.
+automatically configures them and stores the configuration on the local machine via autorandr.
 
 If LxQt can do it, Lycan can do it.
 ]]
