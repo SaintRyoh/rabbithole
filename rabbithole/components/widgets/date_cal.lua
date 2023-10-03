@@ -2,12 +2,11 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
-local gears = require("gears")
 local screen = awful.screen.focused()
 
 local DateWidget = {}
 
-DateWidget.widget = wibox.widget.textclock('<span font="10">%a %b %d, %Y</span>', 60)
+DateWidget.widget = wibox.widget.textclock('<span font="8">%a %b %d, %Y</span>', 60)
 
 local calendar_widget = awful.widget.calendar_popup.month({
     start_sunday = true,
