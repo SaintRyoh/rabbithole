@@ -17,4 +17,15 @@ mogrify -modulate 100,0 -resize 400% "$SCR_IMG".png # postprocess to prepare for
 
 tesseract -l "$LANG" "$SCR_IMG".png stdout | xsel -bi
 
+# Send D-Bus message to notify the user
+dbus-send --type=method_call --dest=org.freedesktop.Notifications \
+          /org/freedesktop/Notifications \
+          org.freedesktop.Notifications.Notify \
+          string:"ScrOCR" uint32:1 \
+          string:"" \
+          string:"OCR Completed" \
+          string:"Selected area has been converted to text by OCR and dumped to your clipboard." \
+          array:string:"" \
+          dict:string:string:"","" int32:5000
+
 exit
