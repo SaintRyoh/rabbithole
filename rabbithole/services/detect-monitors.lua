@@ -18,20 +18,20 @@ function DetectMonitor.new()
 end
 
 function DetectMonitor.setup_screens()
-    awful.spawn.easy_async_with_shell("xrandr -q | grep ' connected'", function(stdout)
+    awful.spawn.easy_async_with_shell("xrandr -q | awk '/ connected/{print $0; getline; print}'", function(stdout)
         local screens = gears.string.split(stdout, "\n")
-        for _, line in pairs(screens) do
+        for i = 1, #screens, 2 do
+            local line = screens[i]
             local screen_name = line:match("^(.-) connected")
             if screen_name then
-                local max_res = line:match(" (%d+x%d+)")
+                local max_res = screens[i + 1]:match("(%d+x%d+)") 
                 if max_res then
                     awful.spawn.easy_async_with_shell("xrandr --output " .. screen_name .. " --mode " .. max_res, function()
-                        -- save users setup for the future
                         awful.spawn.easy_async_with_shell("autorandr --save " .. screen_name, function()
                             naughty.notify({ title = "Automatic Display Configuration", text = "Applied and saved configuration for " .. screen_name })
                         end)
                     end)
-                else  -- default to auto detection if display can't be determined
+                else  
                     awful.spawn.easy_async_with_shell("autorandr --change", function()
                         naughty.notify({ title = "Automatic Display Configuration", text = "Maximum resolution could not be determined for " .. screen_name .. ". Autodetected settings applied." })
                     end)
@@ -63,4 +63,3 @@ awful.spawn.with_line_callback("stdbuf -oL udevadm monitor --property --subsyste
 })
 
 return DetectMonitor
-
