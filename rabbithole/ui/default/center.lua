@@ -1,5 +1,4 @@
 local wibox = require("wibox")
-local layoutlist_widget = require("rabbithole.components.widgets.layout_list")
 
 return setmetatable({}, {
     __constructor = function(
