@@ -49,6 +49,7 @@ function WorkspaceManagerService.new(
         "workspace::name_changed"
     })
 
+
     capi.screen.connect_signal("removed", function ()
         self:saveSession()
         capi.awesome.restart()
@@ -69,18 +70,28 @@ function WorkspaceManagerService:setupAutoSave(signals)
             ready = true
         end
     }
+
+    local function save(signal)
+        if self.settings.enable_autosave and ready then
+            -- self:saveSession()
+            naughty.notify({
+                title = "autosave event",
+                -- text = signal,
+                timeout = 0
+            })
+            ready = false
+        end
+    end
+
     __.forEach(signals, function(signal)
-        capi.awesome.connect_signal(signal, function()
-            if self.settings.enable_autosave and ready then
-                -- self:saveSession()
-                naughty.notify({
-                    title = "autosave event",
-                    text = signal,
-                    timeout = 0
-                })
-                ready = false
-            end
-        end)
+        capi.awesome.connect_signal(signal, save, signal)
+    end)
+
+    __.forEach({
+        "property::name",
+        "property::selected",
+    }, function (signal)
+        awful.tag.attached_connect_signal(nil, signal, save, signal)
     end)
 end
 
