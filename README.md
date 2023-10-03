@@ -1,8 +1,8 @@
 # Rabbithole—The Meta-Window Manager
 ### LOOKING FOR BETA TESTERS
-~**Automated Installer Working for Arch Linux~ Now available in the AUR - Please Help Us Test On Other Distros**
+~**Automated Installer Working for Arch and Ubuntu Linux~ Now available in the AUR - Please Help Us Test On Other Distros**
 We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
-- Rabbithole has been tested and works on Ubuntu if you install the packages manually! 
+
 ### Discord Support
 Join  our group on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) for **live support** and to talk to the developers! We're happy to help with anything you need, we are looking for feature requests, feedback, or even help with customizing your installation! We also love to talk about philosophy, AI, and the future of computing. Come join us!
 
@@ -21,19 +21,27 @@ i3 users will notice the keybindings are very familiar.
 - Middle click tasks/clients to kill them
 - Ctrl + Left-click to view multiple tags (virtual desktops) on a single screen
 - Win + Right-click on tags to delete, renamme, or move to a different workspace
-### Latest features
-- Drag and drop clients between tags (still work in progress, but it works and is useful)
-- Removed workspace label (we think it's obvious which activity you are working on by the tag—The other menu took up too much room too)
 
-### Latest Features (Based on User Feedback)
-- [x] Install tested & working on Arch, Ubuntu, & Kali (also expected to work on distros based on these) (PopOS!))
+### Latest Updates & Features
+- [x] Install tested & working on Arch, Ubuntu, Void, & Kali (also expected to work on distros based on these))
+- [x] Rabbithole will now remember your client locations upon restart
+- [x] Dropdown quake style terminal
+- [x] Dragging and dropping clients can now move them between tags
+- [x] Dozens of minor UI enhancements, leading to a much more polished and fluid experience
 - [x] Rabbithole is now available in the AUR with `yay -S rabbithole`
 - [x] (In Progress) YouTube tutorial video (install, usage, etc.)
+- [x] Improved dynamic display management. Now you can switch between an aribtrary amount of multi-monitor setups, and Rabbithole automatically detects your previous configuration and appies it.
+- [x] Many bugfixes
 
 ### Upcoming Features
-- [x] Toggleable menubars with options to hide/show on mouse movement
-- [x] Menu bars that can be dragged and snapped to corners of the screen without messing with settings
-- [x] Easier settings management (settings manager app)
+- [x] Automatic seamless session saving (this one's almost done! 24-hours, max)
+- [x] Obsidian integration
+- [x] Toggleable menubars with options to hide/show on mouse movement'
+- [x] A unified appearance to the interface across low and hi-dpi monitors. Bypassing X11's limitaton of one DPI for all screens, and giving every Rabbithole user and identical experience
+- [x] Custom systray
+- [x] Advanced Notification Center
+- [x] (Optional) side-saddle titlebars (we're getting rid of the "Nice" library)
+- [x] Easier settings management via standalone settings manager app
 - [x] More customizable settings.lua (size/location of widget bars)
 - [x] Minor Bugfixes
 - [x] Performance improvements
@@ -122,6 +130,7 @@ picom
 autorandr
 ttf-ubuntu-font-family
 beautyline
+tmux
 ```
 ### DE-Like Experience Packages (Recommended)
 ```
@@ -139,15 +148,25 @@ network-manager-applet
 blueman-git
 flameshot
 linux-wifi-hotspot
+tmux
 ```
 
 ## Tutorial
 Here are instructions on how to get Rabbithole up-and-running.
 **Note:** If you wish to use Rabbithole as a drop-in window manager replacement for a Desktop Environment, please see the [LxQt tutorial](docs/README-lxqt-installation.md) and then proceed to [Install Rabbithole](#3-install-rabbithole)
 
+**Rabbithole can be installed easily from the AUR**
+`yay -S rabbithole`
+
+Then copy your configuration to the appropriate place:
+```bash
+cp /usr/share/rabbithole ~/.config/awesome
+```
+Please let us know if you have any issues with the AUR package.We need to know if it works on others systems.
+
 ### Automated Installer (Recommended)
 
-The automated installer will not only install all of the dependencies, but it will copy all custom Rabbithole configurations (picom, rofi, etc.) to their appropriate locations. If you already have a copy of Rabbithole installed, the installer will not delete your settings.lua. So if you messed up your installation, you should _rm -rf ~/.config/awesome_ before proceeding.
+The automated installer will not only install all of the dependencies, but it will copy all custom Rabbithole configurations (picom, rofi, etc.) to their appropriate locations. If you already have a copy of Rabbithole installed, the installer will not delete your settings.lua. So if you messed up your installation, you should `rm -rf ~/.config/awesome` before proceeding.
 **Note:** Running the automated installer means you can skip the rest of the tutorial. Dive straight into selecting Rabbithole from your login screen and boot it up!
 
 ```shell 
