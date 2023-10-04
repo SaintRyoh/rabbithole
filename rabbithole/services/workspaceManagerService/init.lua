@@ -42,12 +42,7 @@ function WorkspaceManagerService.new(
         self:switchTo(self:getActiveWorkspace())
     end
 
-    self:setupAutoSave({
-        "workspaceManager::workspace_created",
-        "workspaceManager::workspace_deleted",
-        "workspaceManager::workspace_switch",
-        "workspace::name_changed"
-    })
+    self:setupAutoSave()
 
 
     capi.screen.connect_signal("removed", function ()
@@ -61,7 +56,8 @@ function WorkspaceManagerService.new(
     return self
 end
 
-function WorkspaceManagerService:setupAutoSave(signals)
+function WorkspaceManagerService:setupAutoSave()
+
     local ready = true
     local timer = gears.timer {
         timeout = self.settings.autosave_wait_time,
@@ -71,27 +67,44 @@ function WorkspaceManagerService:setupAutoSave(signals)
         end
     }
 
+    -- workspace/workspaceManager signals to auto-save on
     local function save(signal)
         if self.settings.enable_autosave and ready then
             -- self:saveSession()
             naughty.notify({
                 title = "autosave event",
                 -- text = signal,
-                timeout = 0
+                timeout = 5
             })
             ready = false
         end
     end
 
-    __.forEach(signals, function(signal)
+    __.forEach({
+        "workspaceManager::workspace_created",
+        "workspaceManager::workspace_deleted",
+        "workspaceManager::workspace_switch",
+        "workspace::name_changed"
+    }, function(signal)
         capi.awesome.connect_signal(signal, save, signal)
     end)
 
+    -- tag signals to auto-save on
     __.forEach({
         "property::name",
         "property::selected",
     }, function (signal)
         awful.tag.attached_connect_signal(nil, signal, save, signal)
+    end)
+
+    -- now client signals
+    __.forEach({
+        "property::name",
+        "property::class",
+        "property::role",
+        "tagged"
+    }, function (signal)
+        capi.client.connect_signal(signal, save, signal)
     end)
 end
 
