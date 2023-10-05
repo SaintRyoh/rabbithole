@@ -68,29 +68,32 @@ function SessionManager:loadSession()
         error("Error parsing session file")
     end
 
-    local restore = __.map(loadedModel.workspaces, function(workspace_model)
+    local restore = __.flatten(__.map(loadedModel.workspaces, function(workspace_model)
         return self:restoreWorkspace(workspaceManagerModel, workspace_model)
-    end)
+    end))
+    -- Debugger.dbg()
 
     restore = gears.table.join(restore, self:restoreWorkspace(workspaceManagerModel, loadedModel.global_workspace, true))   
 
     -- workspaceManagerModel.clients_to_restore = restore
 
-    -- awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
-    --     if __.isEmpty(restore) then
-    --         awful.rules.remove_rule_source("workspaceManagerService")
-    --         return
-    --     end
+    awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
+        -- Debugger.dbg()
+        if __.isEmpty(restore) then
+            awful.rules.remove_rule_source("workspaceManagerService")
+            return
+        end
 
-    --     local tag_client = __.first(__.remove(restore, function(r) return r.pid == c.pid end))
+        local tag_client = __.first(__.remove(restore, function(r) return r.pid == c.pid end))
 
-    --     if not tag_client or __.isEmpty(tag_client) then
-    --         return
-    --     end
+        if not tag_client or __.isEmpty(tag_client) then
+            return
+        end
 
-    --     properties.tag = tag_client.tag
+        properties.tag = tag_client.tag
+        c.tag = tag_client.tag
 
-    -- end)
+    end)
 
     return workspaceManagerModel
 end
@@ -125,7 +128,7 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
             hidden = tag_definition.hidden,
             index = tag_definition.index,
             layout = getLayoutByName(tag_definition.layout.name),
-            selected = tag_definition.selected,
+            selected = false,
             active = tag_definition.active,
         })
         -- tag.selected = false
@@ -143,18 +146,8 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
         end
 
         clients_to_restore = gears.table.join(clients_to_restore, __.map(tag_definition.clients, function(client)
-            awful.spawn.once(string.lower( client.class ), {
-                -- name = client.name,
-                -- class = client.class,
-                -- role = client.role,
-                tag = tag,
-                restored = true,
-            }, function (c)
-                -- Debugger.dbg()
-                local result =  c.name == client.name and c.class == client.class 
-                naughty.notify({ text = "result: " .. tostring(result) })
-                return result
-            end, tag_definition.name .. client.class .. math.random(1,1000000))
+            client.pid, _ = awful.spawn(client.cmd )
+            -- Debugger.dbg()
 
             return { tag = tag, pid = client.pid }
         end))
