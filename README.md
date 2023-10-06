@@ -9,9 +9,9 @@ Join  our group on [Rabbithole's Discord](https://discord.com/channels/112234804
 
 
 ### **Basic Usage Tutorial:** The Windows key on your keyboard has magical powers.
-i3 users will notice the keybindings are very familiar. Non-i3 users, the controls are as intuitive as possible. If you don't like the controls, let us know, and we can vote on better defaults. We are open to suggestions.
+i3 users will notice the keybindings are very familiar. Non-i3 users, the controls are as intuitive as possible. If you don't like the controls, let us know, and we can vote on better defaults. We are open to suggestions!
 
-- **Hit ```Win + s``` to see Rabbithole's help and keybindings page.**
+- **Hit ```Win + h``` to see Rabbithole's help and keybindings page.**
 - ```Win + d``` will open the program launcher.
 - ```Win + Tab``` will open your window/task switcher.
 - ```Win + f``` will fullscreen your workspace switcher.
