@@ -1,6 +1,11 @@
 # Rabbithole—The Meta-Window Manager
 ### LOOKING FOR BETA TESTERS
-**Package now available in the AUR** `yay -S rabbithole`, then select Rabbithole from your display manager when you log in!
+**Package now available in the AUR** 
+```shell
+yay -S rabbithole
+```
+
+Then select Rabbithole from your display manager next time you log in.
 
 There is also an automated installer `rabid-installer.sh` working for Arch and Ubuntu Linux - Please Help Us Test On Other Distros & systems if you can. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
@@ -8,7 +13,8 @@ There is also an automated installer `rabid-installer.sh` working for Arch and U
 Join  our group on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) for **live support** and to talk to the developers! We're happy to help with anything you need, we are looking for feature requests, feedback, and offer guided-assistance for the installation if you need it. We also love to talk about some pretty meta stuff, so, come join us!
 
 
-### **Basic Usage Tutorial:** The Windows key on your keyboard has magical powers.
+### Rabbithole Basic Usage Tutorial
+**The Windows key on your keyboard has magical powers.**
 i3 users will notice the keybindings are very familiar. Non-i3 users, the controls are as intuitive as possible. If you don't like the controls, let us know, and we can vote on better defaults. We are open to suggestions!
 
 - **Hit ```Win + h``` to see Rabbithole's help and keybindings page.**
