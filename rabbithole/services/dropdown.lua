@@ -9,7 +9,7 @@ local function outCubic(t, b, c, d)
     return c * (t * t * t + 1) + b
 end
 
--- Dropdown application container widget
+
 local Dropdown = {}
 
 function Dropdown:new(config)
@@ -69,7 +69,7 @@ function Dropdown:display()
         })
         return
     end
-    
+
     -- Dropdown rules
     client.floating = true
     client.border_width = self.border
