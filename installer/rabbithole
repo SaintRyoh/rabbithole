@@ -1,2 +1,19 @@
 #!/bin/bash
-exec awesome -c "$HOME/.config/rabbithole/rc.lua"
+
+config_dir="$HOME/.config/awesome"
+rabbithole_config_dir="$config_dir/rabbithole"
+
+if [ -d "$rabbithole_config_dir" ]; then
+    echo "Rabbithole configuration already installed. Starting Awesome WM..."
+else
+    if [ ! -d "$config_dir" ]; then
+        echo "Creating $config_dir directory..."
+        mkdir -p "$config_dir"
+    fi
+    
+    echo "Copying Rabbithole configuration to $config_dir..."
+    cp -r /usr/share/rabbithole/* "$config_dir"
+    echo "Rabbithole configuration has been copied to $config_dir."
+fi
+
+exec /usr/bin/awesome
