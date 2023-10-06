@@ -58,11 +58,11 @@ _Video demonstration when you click on the image below._
 - [Ideal For](#ideal-for)
 - [Installation](#installation)
     - [Prerequisites](#prerequisites)
-    - [Dependencies](#core-packages-only-advanced-users)
-    - [Tutorial](#tutorial)
-    - [Automated Installer](#automated-installer-recommended)
-    - [Manual Installation](#manual-installation)
-- [Post Installation](#post-installation)
+    - [Dependencies](#dependencies)
+    - [Tutorial](docs/README-Installation.md#tutorial)
+    - [Automated Installer](docs/README-Installation.md#automated-installer-recommended)
+    - [Manual Installation](docs/README-Installation.md#manual-installation)
+- [Post Installation](docs/README-Installation.md#post-installation)
 - [Configuring Rabbithole](#configuring-rabbithole)
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
@@ -110,6 +110,8 @@ Rabbithole is ideal for users who:
 ## Installation
 
 **Rabbithole is now available in the AUR** with `yay -S rabbithole`. No extra steps needeed, just select **Rabbithole** from your display manager/login screen.
+
+**Note:** The current supported method to install Rabbithole is as a drop-in window manager replacement for a LxQt, please see the [LxQt tutorial](docs/README-lxqt-installation.md). If you want to install Rabbithole as a standalone window manager (dynamic displays not yet fully supported), then follow the [Manual Installation](#manual-installation) instructions.
 
 If you want to install Rabbithole manually, or with the automated `rabid-installer.sh`, because the AUR package isn't feasible, please follow our [Installation Guide](docs/README-Installation.md)
 

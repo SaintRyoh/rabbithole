@@ -1,6 +1,5 @@
 ## Tutorial
 Here are instructions on how to get Rabbithole up-and-running.
-**Note:** The current supported method to install Rabbithole is as a drop-in window manager replacement for a LxQt, please see the [LxQt tutorial](docs/README-lxqt-installation.md) and then proceed to [Install Rabbithole](#3-install-rabbithole). If you want to install Rabbithole as just a window manager (dynamic displays not yet full supported), then follow the [Manual Installation](#manual-installation) instructions.
 
 **Rabbithole can be installed easily from the AUR**
 `yay -S rabbithole`
