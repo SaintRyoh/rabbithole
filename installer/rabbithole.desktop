@@ -2,5 +2,5 @@
 Encoding=UTF-8
 Name=Rabbithole
 Comment=Rabbithole Meta-Window Manager
-Exec=/usr/bin/awesome
+Exec=/usr/bin/rabbithole
 Type=XSession
