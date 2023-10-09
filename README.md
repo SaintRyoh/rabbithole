@@ -1,11 +1,11 @@
 # Rabbithole—The Meta-Window Manager
-### LOOKING FOR BETA TESTERS
-**Package now available in the AUR** 
+
+## Package now available in the AUR
 ```shell
 yay -S rabbithole
 ```
 
-Then select Rabbithole from your display manager next time you log in.
+Then select **Rabbithole** from your display manager next time you log in.
 
 There is also an automated installer `rabid-installer.sh` working for Arch and Ubuntu Linux - Please Help Us Test On Other Distros & systems if you can. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
 
@@ -14,14 +14,17 @@ Join  our group on [Rabbithole's Discord](https://discord.com/channels/112234804
 
 
 ### Rabbithole Basic Usage Tutorial
-**The Windows key on your keyboard has magical powers.**
-i3 users will notice the keybindings are very familiar. Non-i3 users, the controls are as intuitive as possible. If you don't like the controls, let us know, and we can vote on better defaults. We are open to suggestions!
 
-- **Hit ```Win + h``` to see Rabbithole's help and keybindings page.**
+**The Windows key on your keyboard has magical powers.**
+
+i3 users will notice the keybindings are very familiar. Non-i3 users, the controls are as intuitive as possible. _If you don't like the controls, let us know, and we can vote on better defaults. We are open to suggestions!_
+
+- ```Win + h``` to see Rabbithole's help and keybindings page.
 - ```Win + d``` will open the program launcher.
 - ```Win + Tab``` will open your window/task switcher.
 - ```Win + f``` will fullscreen your workspace switcher.
 - ```Win + q``` will kill the focused app.
+
 #### **Mouse**
 - Left click and hold on client icons in the tasklist to drag and drop clients from one tag to another
 - Right-click tasks to move them between local or global tags and workspaces.
@@ -37,14 +40,14 @@ i3 users will notice the keybindings are very familiar. Non-i3 users, the contro
 - [x] Dozens of minor UI enhancements, leading to a much more polished and fluid experience
 - [x] Rabbithole is now available in the AUR with `yay -S rabbithole`
 - [x] (In Progress) YouTube tutorial video (install, usage, etc.)
-- [x] Improved dynamic display management. Now you can switch between an aribtrary amount of multi-monitor setups, and Rabbithole automatically detects your previous configuration and appies it.
+- [x] Improved dynamic display management. Now you can switch between an aribtrary amount of multi-monitor setups, and Rabbithole automatically detects your previous configuration and applies it.
 - [x] Many bugfixes
 
 ### Upcoming Features
-- [x] Automatic seamless session saving (this one's almost done! 24-hours, max)
+- [x] Automatic, seamless session saving and restoration
 - [x] Obsidian integration
 - [x] Toggleable menubars with options to hide/show on mouse movement'
-- [x] A unified appearance to the interface across low and hi-dpi monitors. Bypassing X11's limitaton of one DPI for all screens, and giving every Rabbithole user and identical experience
+- [x] A unified appearance to the interface across low and hi-dpi monitors. Bypassing X11's limitaton of one DPI for all screens, and giving every Rabbithole user an identical experience
 - [x] Custom systray
 - [x] Advanced Notification Center
 - [x] (Optional) side-saddle titlebars (we're getting rid of the "Nice" library)
@@ -178,7 +181,7 @@ We are looking for contributors to join the team. Right now we have accomplished
 
 What is our vision, you ask?
 
-### The Vision of Rabbithole
+### Rabbithole Manifesto
 
 Rabbithole is more than just software—it's a journey into the future of digital spaces, and we have the roadmap charted out. It's a long one.
 
