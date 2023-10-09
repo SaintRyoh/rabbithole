@@ -1,5 +1,7 @@
 # Rabbithole—The Meta-Window Manager
 
+Rabbithole is a revolutionary window manager built on the robust Awesome WM framework, designed to transform the way you interact with your computer. It features dynamic display management, a polished user interface, intuitive navigation, and personalization options to create a seamless, aesthetically pleasing workspace experience.
+
 ## Package now available in the AUR
 ```shell
 yay -S rabbithole
@@ -134,10 +136,9 @@ Rabbithole is designed for use on Linux operating systems. To use Rabbithole, yo
 
 ## Dependencies
 
-### Core Packages Only (Advanced Users)
-
 These are the dependencies you need if you are going to manually install all of your systray programs and really know what you are doing when it comes to window managers. Only recommended for experienced users who want to build their environment themselves manually. You will still have to go through [post installation](#post-installation) to configure Rabbithole properly.
 
+### Core Packages Only (Advanced Users)
 ```
 lxqt
 awesome
@@ -169,19 +170,19 @@ linux-wifi-hotspot
 tmux
 ```
 
-If you choose to install package-by-package manually, follow the same [post installation steps](docs/README-Installation.md#post-installation) in the automated installation procedure.
+If you choose to install package-by-package manually, read the [post installation steps](docs/README-Installation.md#post-installation)
 
 ## Configuring Rabbithole
 Rabbithole's configuration file is located in ```~/.config/awesome/settings.lua```. When you want to change anything about Rabbithole, this is the place you go. You should never have to modify Rabbithole's source code. As new features are added, they will have their options added to settings.lua.
-Here you can add startup programs and daemons to the list under the appropraite tables. (Tutorial for settings.lua coming soon, as well as a GUI for it.)
+Here you can add startup programs and daemons to the list under the appropraite tables. (Tutorial for settings.lua coming soon, as well as a GUI for it.) We are developing a graphical settings manager for ease of use.
 
-### Contributing
+## Contributing
 
-We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers with the same vision, and complementary programming (with 15 years of pair-programming experience). We are looking for others who sharte our vision (or can be molded)!
+We welcome contributors to join our team if you share our vision for Rabbithole. check out our [contributing guidelines](LINK-TO-CONTRIBUTING.md) and [open issues](https://github.com/USERNAME/REPO/issues) to get started.
 
 What is our vision, you ask?
 
-### Rabbithole Manifesto
+## Rabbithole Manifesto
 
 Rabbithole is more than just software—it's a journey into the future of digital spaces, and we have the roadmap charted out. It's a long one.
 
