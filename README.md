@@ -2,18 +2,21 @@
 
 Rabbithole is a revolutionary window manager built on the robust Awesome WM framework, designed to transform the way you interact with your computer. It features dynamic display management, a polished user interface, intuitive navigation, and personalization options to create a seamless, aesthetically pleasing workspace experience.
 
-## Package now available in the AUR
+## Rabbithole Now Available in the AUR
 ```shell
 yay -S rabbithole
 ```
+If you aren't running an Arch-based distro, use one of the installation methods below.
 
-Then select **Rabbithole** from your display manager next time you log in.
+1) [Automated install](docs/README-Installation.md#automated-installer) that works for Arch, Ubuntu, & Kali (also expected to work on distros based on these).
 
-There is also an automated installer `rabid-installer.sh` working for Arch and Ubuntu Linux - Please Help Us Test On Other Distros & systems if you can. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
+2) [Manual install](docs/README-Installation.md#manual-installation) Rabbithole on any distro that runs LxQt and Awesome WM.
+
+**Please Help Us Test On Other Distros & systems if you can. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!**
 
 ### Discord Support
-Join  our group on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) for **live support** and to talk to the developers! We're happy to help with anything you need, we are looking for feature requests, feedback, and offer guided-assistance for the installation if you need it. We also love to talk about some pretty meta stuff, so, come join us!
 
+Join  our group on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) for **live support** and to talk to the developers! We're happy to help with anything you need, we are looking for feature requests, feedback, and offer guided-assistance for the installation if you need it. We also love to talk about some pretty meta stuff, so, come join us!
 
 ### Rabbithole Basic Usage Tutorial
 
@@ -63,18 +66,15 @@ _Video demonstration when you click on the image below._
 [![Watch the video demo!](docs/install_images/Rabbithole_Screenshot.png)](https://youtu.be/ci8KCli6YFQ)
 
 ## Table of Contents
-- [About](#about)
+- [About](#about-rabbithole)
 - [What is a Meta-Window Manager?](#what-is-a-meta-window-manager)
 - [Features](#features)
 - [Ideal For](#ideal-for)
 - [Installation](#installation)
-    - [Prerequisites](#prerequisites)
-    - [Dependencies](#dependencies)
-    - [Tutorial](docs/README-Installation.md#tutorial)
+    - [Tutorial](docs/README-Installation.md#rabbit-hole-installation-tutorial)
     - [Automated Installer](docs/README-Installation.md#automated-installer-recommended)
     - [Manual Installation](docs/README-Installation.md#manual-installation)
-- [Post Installation](docs/README-Installation.md#post-installation)
-- [Configuring Rabbithole](#configuring-rabbithole)
+    - [Post Installation](docs/README-Installation.md#post-installation)
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
 
@@ -120,60 +120,32 @@ Rabbithole is ideal for users who:
 
 ## Installation
 
-**Rabbithole is now available in the AUR** with `yay -S rabbithole`. No extra steps needeed, just select **Rabbithole** from your display manager/login screen.
+There are different ways to install Rabbithole depending on your needs. The current, full-featured and recommended installtion setup is **Rabbithole as a drop-in window manager replacement for _LxQt_**.
 
-**Note:** The current supported method to install Rabbithole is as a drop-in window manager replacement for a LxQt, please see the [LxQt tutorial](docs/README-lxqt-installation.md). If you want to install Rabbithole as a standalone window manager (dynamic displays not yet fully supported), then follow the [Manual Installation](docs/README-Installation.md#manual-installation) instructions.
+To install Rabbithole as a drop-in window manager replacement for LxQt, follow the instructions below:
+
+- If you are a beginner, we recommend using the AUR package, or the [automated installer](docs/README-Installation.md#automated-installer-recommended).
+- If you are an experienced user, you can [install Rabbithole manually](docs/README-Installation.md#manual-installation).
+- Then, follow the [LxQt Tutorial](docs/README-lxqt-installation.md) to being running Rabbithole.
+
+### Rabbithole AUR Installation
+
+```shell
+yay -S rabbithole
+```
+
+No extra steps needeed, just select **Rabbithole** from your display manager/login screen.
+
+### Full-Featured Installation
+
+**The current supported and full-featured way of running Rabbithole is as a drop-in window manager replacement for a LxQt, please see the [LxQt tutorial](docs/README-lxqt-installation.md).**
+
+If you want to install Rabbithole as a standalone window manager (dynamic display management is buggy in pure Lua), then follow the [Manual Installation](docs/README-Installation.md#manual-installation) instructions.
 
 If you want to install Rabbithole manually, or with the automated `rabid-installer.sh`, because the AUR package isn't feasible, please follow our [Installation Guide](docs/README-Installation.md)
 
-### Prerequisites
-
-Rabbithole is designed for use on Linux operating systems. To use Rabbithole, you should:
-
-- Have a working Linux installation. Rabbithole has been [tested](#looking-for-beta-testers) and is known to work on: Arch, Garuda, Ubuntu, Kali.
-- Have **git** installed. If you don't have git installed, you can install it with your distribution's package manager. For example, on Ubuntu, you can install git with the following command: ```sudo apt install git```
-- Have an AUR package helper installed, if you are on an Arch system (unless you use the rabid-installer)
-
-## Dependencies
-
-These are the dependencies you need if you are going to manually install all of your systray programs and really know what you are doing when it comes to window managers. Only recommended for experienced users who want to build their environment themselves manually. You will still have to go through [post installation](#post-installation) to configure Rabbithole properly.
-
-### Core Packages Only (Advanced Users)
-```
-lxqt
-awesome
-rofi
-rofi-themes-collection-git
-picom
-autorandr
-ttf-ubuntu-font-family
-beautyline
-tmux
-```
-### DE-Like Experience Packages (Recommended)
-```
-lxqt
-awesome
-rofi
-rofi-themes-collection-git
-picom
-autorandr
-ttf-ubuntu-font-family
-beautyline
-volumeicon
-lxqt-policykit
-lxqt-powermanagement
-network-manager-applet
-blueman-git
-flameshot
-linux-wifi-hotspot
-tmux
-```
-
-If you choose to install package-by-package manually, read the [post installation steps](docs/README-Installation.md#post-installation)
-
 ## Configuring Rabbithole
-Rabbithole's configuration file is located in ```~/.config/awesome/settings.lua```. When you want to change anything about Rabbithole, this is the place you go. You should never have to modify Rabbithole's source code. As new features are added, they will have their options added to settings.lua.
+Rabbithole's configuration file is located in `~/.config/awesome/settings.lua`. When you want to change anything about Rabbithole, this is the place you go. You should never have to modify Rabbithole's source code. As new features are added, they will have their options added to settings.lua.
 Here you can add startup programs and daemons to the list under the appropraite tables. (Tutorial for settings.lua coming soon, as well as a GUI for it.) We are developing a graphical settings manager for ease of use.
 
 ## Contributing
