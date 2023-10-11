@@ -1,5 +1,6 @@
 local lodash = require("lodash")
 local gears = require("gears")
+local awful = require("awful")
 
 local Workspace = { }
 Workspace.__index = Workspace
@@ -124,11 +125,14 @@ end
 function Workspace:__serialize()
     local function serializeClients(clients)
         return lodash.map(clients, function(client)
+            local cmd = io.popen("ps --no-header --pid " .. client.pid .. " -o cmd")
+            local command = string.gsub( cmd ~= nil and cmd:read("*a") or "", "^%s*(.-)%s*$", "%1" )
             return {
                 name = client.name,
                 class = client.class,
                 role = client.role,
-                pid = client.pid
+                pid = client.pid,
+                cmd = command,
             }
         end)
     end

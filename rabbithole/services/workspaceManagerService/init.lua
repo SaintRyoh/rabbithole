@@ -42,12 +42,8 @@ function WorkspaceManagerService.new(
         self:switchTo(self:getActiveWorkspace())
     end
 
-    self:setupAutoSave({
-        "workspaceManager::workspace_created",
-        "workspaceManager::workspace_deleted",
-        "workspaceManager::workspace_switch",
-        "workspace::name_changed"
-    })
+    self:setupAutoSave()
+
 
     capi.screen.connect_signal("removed", function ()
         self:saveSession()
@@ -60,7 +56,10 @@ function WorkspaceManagerService.new(
     return self
 end
 
-function WorkspaceManagerService:setupAutoSave(signals)
+function WorkspaceManagerService:setupAutoSave()
+
+    -- this timer solution is not good. it should be a signal
+    -- we can cache the signal so we don't write to disk too often
     local ready = true
     local timer = gears.timer {
         timeout = self.settings.autosave_wait_time,
@@ -69,18 +68,46 @@ function WorkspaceManagerService:setupAutoSave(signals)
             ready = true
         end
     }
-    __.forEach(signals, function(signal)
-        capi.awesome.connect_signal(signal, function()
-            if self.settings.enable_autosave and ready then
-                -- self:saveSession()
-                naughty.notify({
-                    title = "autosave event",
-                    text = signal,
-                    timeout = 0
-                })
-                ready = false
-            end
-        end)
+
+    -- workspace/workspaceManager signals to auto-save on
+    local function save(signal)
+        if self.settings.enable_autosave and ready then
+            -- self:saveSession()
+            naughty.notify({
+                title = "autosave event",
+                -- text = signal,
+                timeout = 5
+            })
+            ready = false
+        end
+    end
+
+    __.forEach({
+        -- "workspaceManager::workspace_created",
+        -- "workspaceManager::workspace_deleted",
+        -- "workspaceManager::workspace_switch",
+        "workspace::name_changed"
+    }, function(signal)
+        capi.awesome.connect_signal(signal, save, signal)
+    end)
+
+    -- tag signals to auto-save on
+    __.forEach({
+        "property::name",
+        "property::selected",
+        "property::active",
+    }, function (signal)
+        awful.tag.attached_connect_signal(nil, signal, save, signal)
+    end)
+
+    -- now client signals
+    __.forEach({
+        "property::name",
+        "property::class",
+        "property::role",
+        "tagged"
+    }, function (signal)
+        capi.client.connect_signal(signal, save, signal)
     end)
 end
 
@@ -313,10 +340,18 @@ function WorkspaceManagerService:renameWorkspace(workspace)
 end
 
 function WorkspaceManagerService:addWorkspace(name)
-    local workspace = self.workspaceManagerModel:createWorkspace(name or
-        tostring(#self.workspaceManagerModel:getAllWorkspaces() + 1))
-    self:switchTo(workspace)
-    return workspace
+    if not name or #name == 0 then 
+        self.modal:prompt( {
+            prompt       = "New activity name: ",
+            exe_callback = function(new_name)
+                if not new_name or #new_name == 0 then 
+                    new_name = tostring(#self.workspaceManagerModel:getAllWorkspaces() + 1)
+                end
+                local workspace = self.workspaceManagerModel:createWorkspace(new_name)
+                self:switchTo(workspace)
+            end
+        })
+    end
 end
 
 -- asigns tags to screens

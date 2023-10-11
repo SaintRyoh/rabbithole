@@ -1,5 +1,6 @@
 local gears = require("gears")
 local awful = require("awful")
+local naughty = require("naughty")
 
 local __ = require("lodash")
 local workspaceManager = require("rabbithole.services.workspaceManagerService.workspaceManager")
@@ -67,15 +68,17 @@ function SessionManager:loadSession()
         error("Error parsing session file")
     end
 
-    local restore = __.map(loadedModel.workspaces, function(workspace_model)
+    local restore = __.flatten(__.map(loadedModel.workspaces, function(workspace_model)
         return self:restoreWorkspace(workspaceManagerModel, workspace_model)
-    end)
+    end))
+    -- Debugger.dbg()
 
     restore = gears.table.join(restore, self:restoreWorkspace(workspaceManagerModel, loadedModel.global_workspace, true))   
 
     -- workspaceManagerModel.clients_to_restore = restore
 
     awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
+        -- Debugger.dbg()
         if __.isEmpty(restore) then
             awful.rules.remove_rule_source("workspaceManagerService")
             return
@@ -88,6 +91,7 @@ function SessionManager:loadSession()
         end
 
         properties.tag = tag_client.tag
+        c.tag = tag_client.tag
 
     end)
 
@@ -124,7 +128,7 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
             hidden = tag_definition.hidden,
             index = tag_definition.index,
             layout = getLayoutByName(tag_definition.layout.name),
-            selected = tag_definition.selected,
+            selected = false,
             active = tag_definition.active,
         })
         -- tag.selected = false
@@ -142,6 +146,9 @@ function SessionManager:restoreWorkspace(workspaceManagerModel, definition, glob
         end
 
         clients_to_restore = gears.table.join(clients_to_restore, __.map(tag_definition.clients, function(client)
+            client.pid, _ = awful.spawn(client.cmd )
+            -- Debugger.dbg()
+
             return { tag = tag, pid = client.pid }
         end))
     end)
