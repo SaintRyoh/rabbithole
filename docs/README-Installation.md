@@ -1,5 +1,26 @@
 # Rabbithole Installation Tutorial
-Here are instructions on how to get Rabbithole up-and-running.
+Here are instructions on how to get Rabbithole up-and-running. Only pick on of the installation methods below.
+
+## Table of Contents
+- [Cut & Dry Installation (Recommended for Every System)](#cut--dry-installation-recommended-for-every-system)
+- [Arch Linux AUR Installation](#arch-linux-aur-installation)
+- [Automated Installer (Recommended for Novice Users)](#automated-installer-recommended-for-novice-users)
+  - [Steps](#steps)
+- [Manual Installation (Advanced Users)](#manual-installation-advanced-users)
+
+## Cut & Dry Installation (Recommended for Every System)
+Make sure you have `lxqt`, `git`, and `awesome` from your package manager. Then do the following in a terminal:
+
+```shell
+git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
+```
+
+Copy or symlink Rabbithole's configuration to the `~/.config/awesome` directory:
+
+```bash
+cp -R rabbithole/* ~/.config/awesome
+```
+Then head follow the instructions to use Rabbithole on LxQt [here](README-lxqt-installation.md).
 
 ## Arch Linux AUR Installation
 ```shell
@@ -54,7 +75,6 @@ rofi-themes-collection-git
 picom
 autorandr
 ttf-ubuntu-font-family
-beautyline
 tmux
 ```
 ### DE-Like Experience Packages
@@ -66,12 +86,9 @@ rofi-themes-collection-git
 picom
 autorandr
 ttf-ubuntu-font-family
-beautyline
 volumeicon
-lxqt-policykit
-lxqt-powermanagement
 network-manager-applet
-blueman-git
+blueman
 flameshot
 linux-wifi-hotspot
 tmux

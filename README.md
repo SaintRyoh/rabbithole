@@ -2,15 +2,29 @@
 
 Rabbithole is a revolutionary window manager built on the robust Awesome WM framework, designed to transform the way you interact with your computer. It features dynamic display management, a polished user interface, intuitive navigation, and personalization options to create a seamless, aesthetically pleasing workspace experience.
 
+There are a few ways to install Rabbithole. work your way down, and pick only one.
+
+## Installation (Recommended for Every System)
+Make sure you have `lxqt`, `git`, and `awesome` installed. Then do the following in a terminal:
+
+```shell
+git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
+```
+
+Copy or symlink Rabbithole's configuration to the `~/.config/awesome` directory:
+
+```bash
+cp -R rabbithole/* ~/.config/awesome
+```
+Then head follow the instructions to use Rabbithole on LxQt [here](README-lxqt-installation.md).
+
 ## Rabbithole Now Available in the AUR
 ```shell
-yay -S rabbithole
+yay -S rabbithole && cp -R /usr/share/rabbithole ~/.config/awesome
 ```
-If you aren't running an Arch-based distro, use one of the installation methods below.
+**Rabbithole is in the AUR**
 
-1) [Automated install](docs/README-Installation.md#automated-installer) that works for Arch, Ubuntu, & Kali (also expected to work on distros based on these).
-
-2) [Manual install](docs/README-Installation.md#manual-installation) Rabbithole on any distro that runs LxQt and Awesome WM.
+Other installation methods can be found in our [Installation Guide](docs/README-Installation.md), including the [automated installer](docs/README-Installation.md#automated-installer-recommended-for-novice-users), and [manual installation](docs/README-Installation.md#manual-installation-advanced-users).
 
 **Please Help Us Test On Other Distros & systems if you can. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!**
 
