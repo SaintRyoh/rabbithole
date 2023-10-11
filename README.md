@@ -1,20 +1,49 @@
 # Rabbithole—The Meta-Window Manager
-### LOOKING FOR BETA TESTERS
-**Now available in the AUR** Automated Installer Working for Arch and Ubuntu Linux  - Please Help Us Test On Other Distros
-We need people to test the installation procedure and give us feedback before we start major promotion. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!
+
+Rabbithole is a revolutionary window manager built on the robust Awesome WM framework, designed to transform the way you interact with your computer. It features dynamic display management, a polished user interface, intuitive navigation, and personalization options to create a seamless, aesthetically pleasing workspace experience.
+
+There are a few ways to install Rabbithole. work your way down, and pick only one.
+
+## Installation (Recommended for Every System)
+Make sure you have `lxqt`, `git`, and `awesome` installed. Then do the following in a terminal:
+
+```shell
+git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
+```
+
+Copy or symlink Rabbithole's configuration to the `~/.config/awesome` directory:
+
+```bash
+cp -R rabbithole/* ~/.config/awesome
+```
+Then head follow the instructions to use Rabbithole on LxQt [here](README-lxqt-installation.md).
+
+## Rabbithole Now Available in the AUR
+```shell
+yay -S rabbithole && cp -R /usr/share/rabbithole ~/.config/awesome
+```
+**Rabbithole is in the AUR**
+
+Other installation methods can be found in our [Installation Guide](docs/README-Installation.md), including the [automated installer](docs/README-Installation.md#automated-installer-recommended-for-novice-users), and [manual installation](docs/README-Installation.md#manual-installation-advanced-users).
+
+**Please Help Us Test On Other Distros & systems if you can. Earn your spot as a [contributor](docs/CONTRIBUTORS.md) to Rabbithole!**
 
 ### Discord Support
-Join  our group on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) for **live support** and to talk to the developers! We're happy to help with anything you need, we are looking for feature requests, feedback, or even help with customizing your installation! We also love to talk about philosophy, AI, and the future of computing. Come join us!
 
+Join  our group on [Rabbithole's Discord](https://discord.com/channels/1122348043950366823/1122348044382392432) for **live support** and to talk to the developers! We're happy to help with anything you need, we are looking for feature requests, feedback, and offer guided-assistance for the installation if you need it. We also love to talk about some pretty meta stuff, so, come join us!
 
-### **Basic Usage Tutorial:** The Windows key on your keyboard has magical powers.
-i3 users will notice the keybindings are very familiar.
+### Rabbithole Basic Usage Tutorial
 
-- **Hit ```Win + s``` to see Rabbithole's help and keybindings page.**
+**The Windows key on your keyboard has magical powers.**
+
+i3 users will notice the keybindings are very familiar. Non-i3 users, the controls are as intuitive as possible. _If you don't like the controls, let us know, and we can vote on better defaults. We are open to suggestions!_
+
+- ```Win + h``` to see Rabbithole's help and keybindings page.
 - ```Win + d``` will open the program launcher.
 - ```Win + Tab``` will open your window/task switcher.
 - ```Win + f``` will fullscreen your workspace switcher.
 - ```Win + q``` will kill the focused app.
+
 #### **Mouse**
 - Left click and hold on client icons in the tasklist to drag and drop clients from one tag to another
 - Right-click tasks to move them between local or global tags and workspaces.
@@ -30,14 +59,14 @@ i3 users will notice the keybindings are very familiar.
 - [x] Dozens of minor UI enhancements, leading to a much more polished and fluid experience
 - [x] Rabbithole is now available in the AUR with `yay -S rabbithole`
 - [x] (In Progress) YouTube tutorial video (install, usage, etc.)
-- [x] Improved dynamic display management. Now you can switch between an aribtrary amount of multi-monitor setups, and Rabbithole automatically detects your previous configuration and appies it.
+- [x] Improved dynamic display management. Now you can switch between an aribtrary amount of multi-monitor setups, and Rabbithole automatically detects your previous configuration and applies it.
 - [x] Many bugfixes
 
 ### Upcoming Features
-- [x] Automatic seamless session saving (this one's almost done! 24-hours, max)
+- [x] Automatic, seamless session saving and restoration
 - [x] Obsidian integration
 - [x] Toggleable menubars with options to hide/show on mouse movement'
-- [x] A unified appearance to the interface across low and hi-dpi monitors. Bypassing X11's limitaton of one DPI for all screens, and giving every Rabbithole user and identical experience
+- [x] A unified appearance to the interface across low and hi-dpi monitors. Bypassing X11's limitaton of one DPI for all screens, and giving every Rabbithole user an identical experience
 - [x] Custom systray
 - [x] Advanced Notification Center
 - [x] (Optional) side-saddle titlebars (we're getting rid of the "Nice" library)
@@ -51,23 +80,20 @@ _Video demonstration when you click on the image below._
 [![Watch the video demo!](docs/install_images/Rabbithole_Screenshot.png)](https://youtu.be/ci8KCli6YFQ)
 
 ## Table of Contents
-- [About](#about)
+- [About](#about-rabbithole)
 - [What is a Meta-Window Manager?](#what-is-a-meta-window-manager)
 - [Features](#features)
 - [Ideal For](#ideal-for)
 - [Installation](#installation)
-    - [Prerequisites](#prerequisites)
-    - [Dependencies](#core-packages-only-advanced-users)
-    - [Tutorial](#tutorial)
-    - [Automated Installer](#automated-installer-recommended)
-    - [Manual Installation](#manual-installation)
-- [Post Installation](#post-installation)
-- [Configuring Rabbithole](#configuring-rabbithole)
+    - [Tutorial](docs/README-Installation.md#rabbit-hole-installation-tutorial)
+    - [Automated Installer](docs/README-Installation.md#automated-installer-recommended)
+    - [Manual Installation](docs/README-Installation.md#manual-installation)
+    - [Post Installation](docs/README-Installation.md#post-installation)
 - [Contributing](#contributing)
 - [The Vision of Rabbithole (Planned Features)](#the-vision-of-rabbithole-planned-features)
 
 ## About Rabbithole
-A _revolutionary_ window manager that takes productivity to a _**whole new dimension**_ (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of window management. It breathes life into your workspace and transforms the way you interact with your computer.
+A _revolutionary_ kind of window manager that takes productivity to a _**whole new dimension**_ (quite literally). Rabbithole is not just another window manager—it is a dynamic, fluid, and interactive environment that challenges conventional paradigms of what a WM is for. It breathes life into your workspace and transforms the way you interact with your computer. It can also act as a full drop-in replacement for the window manager of your favorite Desktop Environment (DE) and reap all of the combined benefits.
 
 Built on the robust **Awesome WM framework**, Rabbithole embraces the philosophy of dynamic workspaces. It allows you to nest virtual workspaces and add or remove displays on-the-fly. With Rabbithole, you don't adjust to your workspace, your workspace adjusts to _you_.
 
@@ -108,147 +134,41 @@ Rabbithole is ideal for users who:
 
 ## Installation
 
-**Rabbithole is now available in the AUR** with `yay -S rabbithole`
+There are different ways to install Rabbithole depending on your needs. The current, full-featured and recommended installtion setup is **Rabbithole as a drop-in window manager replacement for _LxQt_**.
 
-### Prerequisites
+To install Rabbithole as a drop-in window manager replacement for LxQt, follow the instructions below:
 
-Rabbithole is designed for use on Linux operating systems. To use Rabbithole, you should:
+- If you are a beginner, we recommend using the AUR package, or the [automated installer](docs/README-Installation.md#automated-installer-recommended).
+- If you are an experienced user, you can [install Rabbithole manually](docs/README-Installation.md#manual-installation).
+- Then, follow the [LxQt Tutorial](docs/README-lxqt-installation.md) to being running Rabbithole.
 
-- Have a working Linux installation. Rabbithole has been [tested](#looking-for-beta-testers) and is known to work on: Arch, Garuda, Ubuntu, Kali.
-- Be comfortable using the command line, as some aspects of the installation process may require it.
-- Have **git** installed to clone the Rabbithole repository. If you don't have git installed, you can install it with your distribution's package manager. For example, on Ubuntu, you can install git with the following command: ```sudo apt install git```
-- For the DE-Like experience, yay or another AUR tool should be installed on Arch based distros for the easiest installation.
+### Rabbithole AUR Installation
 
-### Core Packages Only (Advanced Users)
-
-These are the dependencies you need if you are going to manually install all of your systray programs and really know what you are doing when it comes to window managers. Only recommended for experienced users who want to build their environment themselves. You will still have to go through [post installation](#post-installation) to configure Rabbithole properly.
-```
-awesome
-rofi
-rofi-themes-collection-git
-picom
-autorandr
-ttf-ubuntu-font-family
-beautyline
-tmux
-```
-### DE-Like Experience Packages (Recommended)
-```
-awesome
-rofi
-rofi-themes-collection-git
-picom
-autorandr
-ttf-ubuntu-font-family
-beautyline
-volumeicon
-lxqt-policykit
-lxqt-powermanagement
-network-manager-applet
-blueman-git
-flameshot
-linux-wifi-hotspot
-tmux
-```
-
-## Tutorial
-Here are instructions on how to get Rabbithole up-and-running.
-**Note:** If you wish to use Rabbithole as a drop-in window manager replacement for a Desktop Environment, please see the [LxQt tutorial](docs/README-lxqt-installation.md) and then proceed to [Install Rabbithole](#3-install-rabbithole)
-
-**Rabbithole can be installed easily from the AUR**
-`yay -S rabbithole`
-
-Then copy your configuration to the appropriate place:
-```bash
-cp /usr/share/rabbithole ~/.config/awesome
-```
-Please let us know if you have any issues with the AUR package.We need to know if it works on others systems.
-
-### Automated Installer (Recommended)
-
-The automated installer will not only install all of the dependencies, but it will copy all custom Rabbithole configurations (picom, rofi, etc.) to their appropriate locations. If you already have a copy of Rabbithole installed, the installer will not delete your settings.lua. So if you messed up your installation, you should `rm -rf ~/.config/awesome` before proceeding.
-**Note:** Running the automated installer means you can skip the rest of the tutorial. Dive straight into selecting Rabbithole from your login screen and boot it up!
-
-```shell 
-git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
-chmod +x rabid-installer.sh
-./rabid-installer.sh
-```
-Then select Rabbithole from your display manager (login screen)!
-![Rabbithole](docs/install_images/1-select-rabbithole.jpeg)
-**Note:** We need beta testers for systems other than Arch-based so we can make sure the installer works. Please contact us!
-
-### Manual Installation
-If you don't want to use the installer script and prefer doing things by hand, a full DE-like install for Arch will be shown below (yay must be installed).
-#### 1) Clone Repo & Initialize Submodules
-```shell 
-git clone https://github.com/SaintRyoh/rabbithole && cd rabbithole && git submodule update --init
-```
-#### 2) Install Dependencies
-```
-yay -S awesome rofi rofi-themes-collection-git picom autorandr ttf-ubuntu-font-family volumeicon beautyline lxqt-policykit lxqt-powermanagement network-manager-applet blueman-git flameshot linux-wifi-hotspot
-```
-Installing Rabbithole for other distros works as well, or you can use our [automated-installer](#automated-installer) and let us know if it works or not, so we can get it running on all major distros. The installer supports; Debian, Arch, Void, & Gentoo (as well as distros based on the aforementioned ones).
-
-#### 3) Install Rabbitole
-
-Simply copy or symlink the config to your Awesome WM configuration directory after initializing the submodules:
 ```shell
-cp -R rabbithole/* ~/.config/awesome
+yay -S rabbithole
 ```
-Or make a symlink
-```
-ln -s rabbithole ~/.config/awesome
-```
-### Post Installation
-After Rabbithole is now installed, we sill must configure everything.
-#### 4) Configuration
-Next, you will need to copy the configuration for picom and Rabbithole's settings to their appropriate places.
-```picom
-cp rabbithole/installer/picom.conf ~/.config/picom.conf
-```
-Then copy settings.lua for **core**:
-```
-cp rabbithole/installer/settings-core.lua ~/.config/awesome/settings.lua
-```
-Or the full **DE-like** installation:
-```
-cp rabbithole/installer/settings-full.lua ~/.config/awesome/settings.lua
-```
-Manually edit the settings.lua if you desire to use other software.
 
-Rofi themes collection and Ubuntu Font Family installation remain the same across distributions:
+No extra steps needeed, just select **Rabbithole** from your display manager/login screen.
 
-#### 5) Clone the Rofi themes collection:
-```bash
-mkdir -p "$HOME/.local/share/rofi/themes"
-git clone https://github.com/newmanls/rofi-themes-collection.git "$HOME/.local/share/rofi/themes"
-```
-#### 6) Install the Ubuntu Font Family Manually (not necessary on Arch or Ubuntu):
-```bash
-sudo mkdir -p "/usr/share/fonts/ubuntu-font-family"
-sudo wget -O "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-0.83.zip
-sudo unzip "/usr/share/fonts/ubuntu-font-family/Ubuntu.zip" -d "/usr/share/fonts/ubuntu-font-family
-```
-#### Install BeautyLine Icon Pack
-```
-git clone https://github.com/Tekh-ops/Garuda-Linux-Icons.git "/usr/share/icons/BeautyLine"
-```
-#### 7) Update icon cache:
-```
-gtk-update-icon-cache -f -t /usr/share/icons/BeautyLine
-```
-Repeat the same [post installation steps](#post-installation) in the automated installation procedure.
+### Full-Featured Installation
+
+**The current supported and full-featured way of running Rabbithole is as a drop-in window manager replacement for a LxQt, please see the [LxQt tutorial](docs/README-lxqt-installation.md).**
+
+If you want to install Rabbithole as a standalone window manager (dynamic display management is buggy in pure Lua), then follow the [Manual Installation](docs/README-Installation.md#manual-installation) instructions.
+
+If you want to install Rabbithole manually, or with the automated `rabid-installer.sh`, because the AUR package isn't feasible, please follow our [Installation Guide](docs/README-Installation.md)
+
 ## Configuring Rabbithole
-Rabbithole's configuration file is located in ```~/.config/awesome/settings.lua```. When you want to change anything about Rabbithole, this is the place you go. You should never have to modify Rabbithole's source code. As new features are added, they will have their options added to settings.lua.
-Here you can add startup programs and daemons to the list under the appropraite tables. (Tutorials coming soon)
-### Contributing
+Rabbithole's configuration file is located in `~/.config/awesome/settings.lua`. When you want to change anything about Rabbithole, this is the place you go. You should never have to modify Rabbithole's source code. As new features are added, they will have their options added to settings.lua.
+Here you can add startup programs and daemons to the list under the appropraite tables. (Tutorial for settings.lua coming soon, as well as a GUI for it.) We are developing a graphical settings manager for ease of use.
 
-We are looking for contributors to join the team. Right now we have accomplished a lot between two extremely tight-knit engineers, with the same vision, and complimentary programming (with 15 years of pair-programming experience). We are looking for others who fit (or can be molded)!
+## Contributing
+
+We welcome contributors to join our team if you share our vision for Rabbithole. check out our [contributing guidelines](LINK-TO-CONTRIBUTING.md) and [open issues](https://github.com/USERNAME/REPO/issues) to get started.
 
 What is our vision, you ask?
 
-### The Vision of Rabbithole (Planned Features)
+## Rabbithole Manifesto
 
 Rabbithole is more than just software—it's a journey into the future of digital spaces, and we have the roadmap charted out. It's a long one.
 
@@ -256,9 +176,9 @@ With our current version to 1.x, we have crafted a promising open beta and v1 as
 
 As we finish up the remainder of unfinished features for v1 (and the bugs that undoubtedly come with it), we plan to immediately progress to version 2.x. We have already identified a host of enhancements and features we want to incorporate. We love Awesome WM, but its incompatibility with Wayland and the bugs laden within picom have motivated us to push the boundaries, because we have pushed AWM near its limitations. Even though X isn't disappearing anytime soon, we are setting our sights towards the future of Virtual Reality (VR) and Augmented Reality (AR) interfaces. We have a few options in front of us. But this will likely require programming an entirely new framework from the ground up, or continuing where others have left off. We are open to ideas.
 
-Our grand vision is to morph Rabbithole into an AI-powered virtual interface that offers full compatibility with all of your devices. Be it your mobile, PC, or VR/AR headsets, we aim to provide a seamless, unified, and immersive experience across all platforms.
+Our grand vision is to morph Rabbithole into an AI-powered virtual interface that offers full compatibility with all of your devices. Be it your mobile, PC, or VR/AR headsets, we aim to provide a seamless, unified, and immersive experience across all platforms. We are already feeling concrete about the next framework to build Rabbithole v2.x with.
 
-#### About the "Building A Second Brain" and "Getting Things Done" concepts that fit into Rabbithole's philosophy:
+#### About Rabbithole's Philosophy of Being a Second-Brain Interface
 
 _"Building a Second Brain"_ and _"Getting Things Done"_ (GTD) are two significant productivity philosophies that Rabbithole integrates at its core.
 
