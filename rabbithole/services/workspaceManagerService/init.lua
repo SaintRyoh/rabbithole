@@ -73,11 +73,11 @@ function WorkspaceManagerService:setupAutoSave(signals)
         capi.awesome.connect_signal(signal, function()
             if self.settings.enable_autosave and ready then
                 -- self:saveSession()
-                naughty.notify({
-                    title = "autosave event",
-                    text = signal,
-                    timeout = 0
-                })
+                -- naughty.notify({
+                --     title = "autosave event",
+                --     text = signal,
+                --     timeout = 0
+                -- })
                 ready = false
             end
         end)
