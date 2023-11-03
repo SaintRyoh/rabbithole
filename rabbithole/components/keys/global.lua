@@ -16,8 +16,8 @@ local _M = {} -- TO RYOH: Idk why this is here, if its not needed anymore, remov
 return setmetatable({}, {
     __constructor = function(workspaceManagerService, settings, rabbithole__components__menus__main)
         -- Resource Configuration
-        local modkey = settings.core_settings.modkey or "Mod4"
-        local altkey = settings.core_settings.altkey or "Mod1"
+        local modkey = settings.keys.modkey or "Mod4"
+        local altkey = settings.keys.altkey or "Mod1"
         local mainmenu = rabbithole__components__menus__main
         local terminal = settings.default_programs.terminal
         local launcher = settings.default_programs.launcher_cmd

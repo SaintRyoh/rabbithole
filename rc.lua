@@ -1,6 +1,8 @@
 require("paths")
 require("error-handling")
 
+local gears = require("gears")
+
 -- if AWM_DEBUG set in environment then require debug
 Debugger = nil
 if os.getenv("AWM_DEBUG") == '1' then
@@ -45,7 +47,11 @@ RC = {
         end
         --
         -- Values
-        config.bindings.values.settings = require("settings")
+        if gears.filesystem.file_readable(gears.filesystem.get_configuration_dir() .. "/settings.lua") then
+            config.bindings.values.settings = require("settings")
+        else
+            config.bindings.values.settings = require("settings-lxqt")
+        end
 
 
 
