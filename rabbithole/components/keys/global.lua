@@ -23,6 +23,9 @@ return setmetatable({}, {
         local launcher = settings.default_programs.launcher_cmd
         local window_switcher = settings.default_programs.window_switcher_cmd
         local globalkeys = gears.table.join(
+
+            --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            -- Hotkeys Help
             awful.key({ modkey, }, "h", hotkeys_popup.show_help,
                 { description = "Show help", group = "awesome" }),
 
@@ -47,21 +50,17 @@ return setmetatable({}, {
                 { description = "view next", group = "tag" }),
             awful.key({ modkey, }, "Escape", awful.tag.history.restore,
                 { description = "go back", group = "tag" }),
+
+            --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            -- client focus
             awful.key({ modkey, }, "j",
-                function()
-                    awful.client.focus.byidx(1)
-                end,
-                { description = "focus next by index", group = "client" }
-            ),
+                function() awful.client.focus.byidx(1) end,
+                { description = "focus next by index", group = "client" }),
             awful.key({ modkey, }, "k",
-                function()
-                    awful.client.focus.byidx(-1)
-                end,
-                { description = "focus previous by index", group = "client" }
-            ),
+                function() awful.client.focus.byidx(-1) end,
+                { description = "focus previous by index", group = "client" }),
             awful.key({ modkey, }, "w", function() mainmenu:show() end,
                 { description = "show main menu", group = "awesome" }),
-
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Layout - Client index manipulation & screen focus
@@ -125,17 +124,10 @@ return setmetatable({}, {
                 { description = "restore minimized", group = "client" }),
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-            -- Prompt
-            awful.key({ modkey }, "r", function() os.execute("lxqt-runner") end,
-                { description = "run lxqt-runner", group = "launcher" }),
-            awful.key({ modkey }, "d",
-                function()
-                    os.execute(launcher)
-                end,
-                {
-                    description = "run rofi",
-                    group       = "launcher"
-                }),
+            -- Applications
+            awful.key({ modkey }, "r",
+                function() os.execute(launcher) end,
+                { description = "run rofi", group = "Applications" }),
             -- press mod4 to open rofi window switcher
             awful.key({ modkey }, "Tab",
                 function()
@@ -181,24 +173,25 @@ return setmetatable({}, {
                 function() awful.client.moveresize(20, 0, 0, 0) end),
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-            -- Menubar
-            awful.key({ modkey }, "p", function() menubar.show() end,
-                { description = "show the menubar", group = "launcher" }),
+            -- Special Keys
 
-            -- Screen brightness up & down with xbacklight
+            --  Brightness Keys
             awful.key({ }, "XF86MonBrightnessUp",
-                function() awful.util.spawn("xbacklight -inc 10", false) end,
+                function() awful.spawn(settings.default_programs.brightness_up, false) end,
                 { description = "increase brightness", group = "hotkeys" }),
             awful.key({}, "XF86MonBrightnessDown",
-                function() awful.util.spawn("xbacklight -dec 10", false) end,
+                function() awful.spawn(settings.default_programs.brightness_down, false) end,
                 { description = "decrease brightness", group = "hotkeys" }),
+
+            --  Screenshot Tool
+            awful.key({ }, "Print", function() awful.spawn(settings.default_programs.screenshot_tool) end,
+                { description = "Convert OCR image to text and copy to clipboard", group = "hotkeys" }),
+
             -- Keybinding to toggle titlebar visibility
             awful.key({ modkey }, "t", function() awful.titlebar.toggle(client.focus) end,
-                { description = "toggle titlebar", group = "client" }),
-            -- ScrOCR Keybinding
-            awful.key({ modkey }, "s", function() os.execute("$HOME/.config/awesome/scripts/scrocr.sh &") end,
-                { description = "Convert OCR image to text and copy to clipboard", group = "Productivity tools" })
+                { description = "toggle titlebar", group = "client" })
         )
+
         local function getWorkspaceAndTag(index)
             local workspace = workspaceManagerService:getActiveWorkspace()
             local tags = workspace:getAllTags()
