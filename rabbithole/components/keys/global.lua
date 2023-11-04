@@ -177,19 +177,25 @@ return setmetatable({}, {
 
             --  Brightness Keys
             awful.key({ }, "XF86MonBrightnessUp",
-                function() awful.spawn(settings.default_programs.brightness_up, false) end,
+                function() awful.spawn(settings.default_programs.brightness_up) end,
                 { description = "increase brightness", group = "hotkeys" }),
             awful.key({}, "XF86MonBrightnessDown",
-                function() awful.spawn(settings.default_programs.brightness_down, false) end,
+                function() awful.spawn(settings.default_programs.brightness_down) end,
                 { description = "decrease brightness", group = "hotkeys" }),
 
             --  Volume Keys
             awful.key({ }, "XF86AudioRaiseVolume",
-                function() awful.spawn(settings.default_programs.volume_up, false) end,
+                function() awful.spawn(settings.default_programs.volume_up) end,
                 { description = "increase volume", group = "hotkeys" }),
             awful.key({}, "XF86AudioLowerVolume",
-                function() awful.spawn(settings.default_programs.volume_down, false) end,
+                function() awful.spawn(settings.default_programs.volume_down) end,
                 { description = "decrease volume", group = "hotkeys" }),
+            awful.key({}, "XF86AudioMute",
+                function() awful.spawn(settings.default_programs.volume_mute_toggle) end,
+                { description = "volume toggle", group = "hotkeys" }),
+            awful.key({}, "XF86AudioMicMute",
+                function() awful.spawn(settings.default_programs.mic_mute_toggle) end,
+                { description = "mic toggle", group = "hotkeys" }),
 
             --  Screenshot Tool
             awful.key({ }, "Print", function() awful.spawn(settings.default_programs.screenshot_tool) end,
