@@ -184,7 +184,7 @@ return setmetatable({}, {
                 { description = "decrease brightness", group = "hotkeys" }),
             awful.key({}, "XF86Display",
                 function() awful.spawn(settings.default_programs.screen_config) end,
-                { description = "decrease brightness", group = "hotkeys" }),
+                { description = "Open Screen Configuration", group = "hotkeys" }),
 
             --  Volume Keys
             awful.key({ }, "XF86AudioRaiseVolume",
@@ -202,7 +202,7 @@ return setmetatable({}, {
 
             --  Screenshot Tool
             awful.key({ }, "Print", function() awful.spawn(settings.default_programs.screenshot_tool) end,
-                { description = "Convert OCR image to text and copy to clipboard", group = "hotkeys" }),
+                { description = "Screenshot Tool", group = "hotkeys" }),
 
             --  Wifi antenna Toggle comment out if nm-applet is used
             -- awful.key({ }, "XF86WLAN", function() awful.with_shell(settings.default_programs.wifi_radio_toggle) end,
