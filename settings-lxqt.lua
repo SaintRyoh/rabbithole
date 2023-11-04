@@ -58,8 +58,18 @@ return {
         lock_screen = "lxqt-leave",
         volume_up = "pactl set-sink-volume @DEFAULT_SINK@ +5%",
         volume_down = "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+        volume_mute_toggle = "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        mic_mute_toggle = "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
         brightness_up = "brightnessctl set +10%",
         brightness_down = "brightnessctl set 10%-",
+        screen_config = "lxqt-config-monitor",
+        wifi_radio_toggle = [[
+            if [ $(nmcli radio wifi) = 'enabled' ]; then
+                nmcli radio wifi off
+            else
+                nmcli radio wifi on
+            fi
+        ]]
     },
     keys = {
         modkey = "Mod4",
