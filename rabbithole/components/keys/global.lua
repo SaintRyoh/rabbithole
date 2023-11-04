@@ -183,6 +183,14 @@ return setmetatable({}, {
                 function() awful.spawn(settings.default_programs.brightness_down, false) end,
                 { description = "decrease brightness", group = "hotkeys" }),
 
+            --  Volume Keys
+            awful.key({ }, "XF86AudioRaiseVolume",
+                function() awful.spawn(settings.default_programs.volume_up, false) end,
+                { description = "increase volume", group = "hotkeys" }),
+            awful.key({}, "XF86AudioLowerVolume",
+                function() awful.spawn(settings.default_programs.volume_down, false) end,
+                { description = "decrease volume", group = "hotkeys" }),
+
             --  Screenshot Tool
             awful.key({ }, "Print", function() awful.spawn(settings.default_programs.screenshot_tool) end,
                 { description = "Convert OCR image to text and copy to clipboard", group = "hotkeys" }),
