@@ -49,7 +49,7 @@ function TaglistController.new(
     return function(s)
         self.screen = s
 
-        local global_taglist = awful.widget.taglist {
+        s.global_taglist = awful.widget.taglist {
             screen = s,
             filter = awful.widget.taglist.filter.all,
             source = function()
@@ -60,9 +60,11 @@ function TaglistController.new(
             widget_template = global_taglist_template(self)
         }
 
-        local local_taglist = awful.widget.taglist {
+        s.local_taglist = awful.widget.taglist {
             screen = s,
-            filter = awful.widget.taglist.filter.all,
+            filter = function (tag)
+                return tag.active
+            end,
             buttons = rabbithole__components__buttons__taglist,
             source = function()
                 return workspaceManagerService:getAllActiveTags()
@@ -71,17 +73,21 @@ function TaglistController.new(
             widget_template = local_taglist_template(self)
         }
 
+        awesome.connect_signal("workspaceManager::workspace_switch", function()
+            s.local_taglist._do_taglist_update()
+        end)
+
         self.taglist_layout = wibox.layout {
             layout = wibox.layout.fixed.horizontal,
             global_icon,
-            global_taglist,
+            s.global_taglist,
             wibox.widget.separator({
                 orientation = 'vertical',
                 forced_width = 4,
                 opacity = 0.5,
                 widget = wibox.widget.separator
             }),
-            local_taglist,
+            s.local_taglist,
             plusButton
         }
 
@@ -112,7 +118,7 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     }
 
     local animation = self.animation({
-        pos = tag.selected and 1 or 0,
+        pos = ( tag.selected and 1 ) or 0,
         duration = 0.25,
         rapid_set = true,
         subscribed = function(pos)
@@ -125,6 +131,26 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
             end
         end
     })
+
+    tag:connect_signal('property::selected', function()
+        if tag.selected then
+            animation.target = 1
+            -- Highlight the tag on its own screen
+            for _, screen in ipairs(tag.screen.outputs) do
+                if screen == self.screen then
+                    tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 1)
+                end
+            end
+        else
+            animation.target = 0
+            -- Reset the tag color on its own screen
+            for _, screen in ipairs(tag.screen.outputs) do
+                if screen == self.screen then
+                    tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 0)
+                end
+            end
+        end
+    end)
 
     awful.tooltip({
         objects = {tag_template},
@@ -160,11 +186,19 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
     end)
 
     tag_template:connect_signal('button::press', function()
-        animation.target = 0
+        -- When the tag is pressed, only update if it's not the currently selected tag
+        if not tag.selected then
+            animation.target = 1
+        end
     end)
 
     tag_template:connect_signal('button::release', function()
-        animation.target = 1
+        -- After the button is released, update the tags to their correct colors
+        if tag.selected then
+            animation.target = 1
+        else
+            animation.target = 0
+        end
 
         self.dragndrop:drop(self.hovered_tag)
     end)

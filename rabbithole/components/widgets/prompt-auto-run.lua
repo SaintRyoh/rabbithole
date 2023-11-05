@@ -1,0 +1,1 @@
+-- I made this because I was tired of manually calling :run() on the prompt

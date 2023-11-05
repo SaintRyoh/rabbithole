@@ -36,7 +36,7 @@ return {
         neutral = colors["Blue Grey"]["900"],
         -- ]]]
         -- [[[ Fonts
-        font = "Ubuntu 8",
+        font = "Ubuntu 7",
         fg_normal = colors["Black"],
         fg_focus = colors["Black"],
         fg_urgent = colors["Black"],

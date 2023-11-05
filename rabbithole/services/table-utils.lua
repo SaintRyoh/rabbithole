@@ -1,5 +1,6 @@
 -- concatenates an arbitrary number of tables into the first table
 -- this might have been something in lodash, but I couldnt find it
+-- you can use gears.table, safe to delete this file
 
 local table_utils = {}
 

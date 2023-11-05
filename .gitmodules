@@ -19,3 +19,6 @@
 [submodule "sub/bling"]
 	path = sub/bling
 	url = https://github.com/SaintRyoh/bling
+[submodule "sub/awesome-buttons"]
+	path = sub/awesome-buttons
+	url = https://github.com/SaintRyoh/awesome-buttons

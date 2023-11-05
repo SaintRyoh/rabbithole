@@ -1,13 +1,11 @@
--- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
 
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 return setmetatable({}, {
     __constructor = function (settings)
 
-    local modkey = settings.core_settings.modkey
+    local modkey = settings.keys.modkey
     local clientbuttons = gears.table.join(
             awful.button({ }, 1, function (c)
                 c:emit_signal("request::activate", "mouse_click", {raise = true})

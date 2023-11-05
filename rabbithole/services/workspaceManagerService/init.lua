@@ -1,10 +1,9 @@
 local gears = require("gears")
 local naughty = require("naughty")
 local awful = require("awful")
+
 local sharedtags = require("sub.awesome-sharedtags")
 local __ = require("lodash")
-local workspaceManager = require("rabbithole.services.workspaceManagerService.workspaceManager")
-local serpent = require("serpent")
 
 local capi = {
     screen = screen,
@@ -15,60 +14,45 @@ local capi = {
 local WorkspaceManagerService = {}
 WorkspaceManagerService.__index = WorkspaceManagerService
 
-function WorkspaceManagerService.new(rabbithole__services__modal)
-    local self = {}
-    setmetatable(self, WorkspaceManagerService)
+function WorkspaceManagerService.new(
+    rabbithole__services__modal,
+    rabbithole__services__workspaceManagerService__session___manager,
+    settings
+)
+    local self = setmetatable({}, WorkspaceManagerService)
 
-    self.workspaceManagerModel = workspaceManager:new()
     self.modal = rabbithole__services__modal
+    self.sessionManager = rabbithole__services__workspaceManagerService__session___manager
+    self.settings = settings.workspaceManagerService or {
+        enable_autosave = true,
+        autosave_wait_time = 1
+    }
 
-    self.restore = {}
-
-    capi.screen.connect_signal("removed", function (s)
-        self:screenDisconnectUpdate(s)
+    local status, err = pcall(function()
+        self.workspaceManagerModel = self.sessionManager:loadSession()
     end)
 
-    -- load sesison
-    self.path = gears.filesystem.get_configuration_dir() .. "/rabbithole/session.dat"
-
-    if gears.filesystem.file_readable(self.path) then
-        local status, err = pcall(function()
-            self:loadSession()
-        end)
-
-        if not status then
-            naughty.notify({
-                title = "Error loading session",
-                text = err,
-                timeout = 0
-            })
-            self:newSession()
-            self.session_restored = false
-        else
-            self.session_restored = true
-        end
-    else
-        -- If session.dat does not exist, create a new session
-        self:newSession()
-        self.session_restored = false
+    if not status then
         naughty.notify({
-            title = "Welcome to Rabbithole.",
-            text = "This is your first time using Rabbithole.\nA new session has been created for you.\nMake sure to save your session from the \nworkspace menu (top-left) before exiting \nto preserve your tags and workspaces.",
-            timeout = 0,
-            position = "top_right",
-            shape = gears.shape.rounded_rect,
+            title = "Error loading session",
+            text = err,
+            timeout = 0
         })
-        self:saveSession()
+        self.workspaceManagerModel = self.sessionManager:newSession()
+        self:switchTo(self:getActiveWorkspace())
     end
 
-    -- make a timer to periodically save the session
-    self.saveSessionTimer = gears.timer({
-        timeout = 5,
-        autostart = false,
-        callback = function()
-            self:saveSession()
-        end
+    self:setupAutoSave({
+        "workspaceManager::workspace_created",
+        "workspaceManager::workspace_deleted",
+        "workspaceManager::workspace_switch",
+        "workspace::name_changed"
     })
+
+    capi.screen.connect_signal("removed", function ()
+        self:saveSession()
+        capi.awesome.restart()
+    end)
 
     -- observer
     self.subscribers = {}
@@ -76,135 +60,47 @@ function WorkspaceManagerService.new(rabbithole__services__modal)
     return self
 end
 
--- rename session.lua to session.lua.bak
-function WorkspaceManagerService:backupSessionFile(file_path)
-    if gears.filesystem.file_readable(file_path) then
-        os.remove(file_path .. ".bak")
-        os.rename(file_path, file_path .. ".bak")
-    end
+function WorkspaceManagerService:setupAutoSave(signals)
+    local ready = true
+    local timer = gears.timer {
+        timeout = self.settings.autosave_wait_time,
+        autostart = true,
+        callback = function()
+            ready = true
+        end
+    }
+    __.forEach(signals, function(signal)
+        capi.awesome.connect_signal(signal, function()
+            if self.settings.enable_autosave and ready then
+                -- self:saveSession()
+                -- naughty.notify({
+                --     title = "autosave event",
+                --     text = signal,
+                --     timeout = 0
+                -- })
+                ready = false
+            end
+        end)
+    end)
 end
 
-function WorkspaceManagerService:newSession()
-    self.workspaceManagerModel:deleteAllWorkspaces()
-    local workspace = self.workspaceManagerModel:createWorkspace("New Workspace")
-    workspace:setStatus(true)
-    self:switchTo(workspace)
-end
-
+-- save session
+-- won't need after I have auto-saving
 function WorkspaceManagerService:saveSession()
-    local file, err = io.open(self.path, "w+")
-    if not file then
+    -- use pcall 
+    local status, err = pcall(function()
+        self.sessionManager:saveSession(self.workspaceManagerModel)
+    end)
+    if not status then
         naughty.notify({
             title = "Error saving session",
             text = err,
             timeout = 0
         })
-        return
-    end
-    file:write(serpent.dump(self.workspaceManagerModel))
-    file:close()
-    -- notify save was successful
-    naughty.notify({ title = "Session saved.", timeout = 3 })
-end
-
--- method to load session
-function WorkspaceManagerService:loadSession()
-    local file, err = io.open(self.path, "r+")
-    if not file then
-        naughty.notify({
-            title = "Error loading session",
-            text = err,
-            timeout = 0
-        })
-        error(err)
-    end
-
-    local session = file:read("*all")
-    file:close()
-    local _, loadedModel = serpent.load(session, { safe = false })
-    if not _ then
-        naughty.notify({
-            title = "Error loading session",
-            text = "Error parsing session file",
-            timeout = 0
-        })
-        error("Error parsing session file")
-    end
-
-
-    __.forEach(loadedModel.workspaces, function(workspace_model)
-        return self:restoreWorkspace(workspace_model)
-    end)
-
-    self:restoreWorkspace(loadedModel.global_workspace, true)
-
-    awful.rules.add_rule_source("workspaceManagerService", function(c, properties, callbacks)
-        if __.isEmpty(self.restore) then
-            awful.rules.remove_rule_source("workspaceManagerService")
-        end
-
-        local tag_client = __.first(__.remove(self.restore, function(r) return r.pid == c.pid end))
-
-        if not tag_client or __.isEmpty(tag_client) then
-            return
-        end
-
-        properties.tag = tag_client.tag
-
-        __.push(callbacks, function(cl)
-            tag_client.tag.activated = true
-            cl:move_to_tag(tag_client.tag)
-        end)
-    end)
-end
-
--- create workspace by definition
-function WorkspaceManagerService:restoreWorkspace(definition, global)
-    global = global or false
-
-    local workspace = nil
-    if global then
-        workspace = self:getGlobalWorkspace()
     else
-        workspace = self.workspaceManagerModel:createWorkspace(definition.name)
+        -- notify save was successful
+        naughty.notify({ title = "Session saved.", timeout = 3 })
     end
-
-    local function getLayoutByName(name)
-        return __.find(awful.layout.layouts, function(layout)
-            return layout.name == name
-        end)
-    end
-
-    local function tagsAreEqual(tag1, tag2)
-        return tag1.name == tag2.name and tag1.index == tag2.index and tag1.activated == tag2.activated and
-            tag1.hidden == tag2.hidden
-    end
-
-
-    __.forEach(definition.tags, function(tag_definition, index)
-        local tag = self:createTag(index, {
-            name = tag_definition.name,
-            hidden = tag_definition.hidden,
-            index = tag_definition.index,
-            layout = getLayoutByName(tag_definition.layout.name)
-        })
-        tag.selected = false
-        tag.activated = tag_definition.activated
-
-        -- if tag in tag_definition.last_selected_tags, then add it to the workspace's last_selected_tags
-        if __.find(definition.last_selected_tags, function(t) return tagsAreEqual(t, tag_definition) end) then
-            workspace:addLastSelectedTag(tag)
-        end
-
-        workspace:addTag(tag)
-        if __.every(workspace:getAllTags(), function(t) return t.activated end) then
-            workspace.activated = true
-        end
-
-        self.restore = gears.table.join(self.restore, __.map(tag_definition.clients, function(client)
-            return { tag = tag, pid = client.pid }
-        end))
-    end)
 end
 
 function WorkspaceManagerService:subscribeController(widget)
@@ -241,26 +137,22 @@ end
 function WorkspaceManagerService:addTagToWorkspace(workspace)
     local workspace = workspace or __.last(self.workspaceManagerModel:getAllActiveWorkspaces())
     -- open modal prompt to get tag name
-    self.modal.prompt({
+    self.modal:prompt({
         prompt = "New Tag Name: ",
         exe_callback = function(name)
             if not name or #name == 0 then return end
             local index = #self:getAllTags() + #self:getGlobalWorkspace():getAllTags() + 1
-            local tag = self:createTag(index, { name = name, layout = awful.layout.layouts[2] })
+            local tag = sharedtags.add(index, { name = name, layout = awful.layout.layouts[2] })
             workspace:addTag(tag)
             sharedtags.viewonly(tag, awful.screen.focused())
             self:refresh()
         end
-    }):show()
-end
-
-function WorkspaceManagerService:createTag(index, tag_def)
-    return sharedtags.add(index, tag_def)
+    })
 end
 
 -- Rename current tag
 function WorkspaceManagerService:renameTag(tag)
-    self.modal.prompt({
+    self.modal:prompt({
         prompt       = "Rename tag: ",
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
@@ -270,7 +162,7 @@ function WorkspaceManagerService:renameTag(tag)
                 self:refresh()
             end
         end
-    }):show()
+    })
 end
 
 ---- Move current tag
@@ -287,6 +179,15 @@ function WorkspaceManagerService:moveTag(pos)
     end
 end
 
+function WorkspaceManagerService:deleteTagFromWorkspaceWithConfirm(workspace, tag)
+    self.modal:confirm({
+        title = "Delete Tag",
+        message = "Are you sure you want to delete tag: " .. tag.name .. "?",
+        yes_callback = function()
+            self:deleteTagFromWorkspace(workspace, tag)
+        end
+    })
+end
 -- Delete current tag
 -- Any rule set on the tag shall be broken
 function WorkspaceManagerService:deleteTagFromWorkspace(workspace, tag)
@@ -365,6 +266,13 @@ end
 -- }}}
 
 function WorkspaceManagerService:removeWorkspace(workspace)
+    if workspace:getStatus() and not workspace:isEmpty() then
+        naughty.notify({
+            title="Switch to another workspace before removing it",
+            timeout=5
+        })
+        return
+    end
     -- First Delete all the tags and their clients in the workspace
     __.forEach(workspace:getAllTags(),
         function(tag)
@@ -374,6 +282,34 @@ function WorkspaceManagerService:removeWorkspace(workspace)
     -- Then Delete workspace
     self.workspaceManagerModel:deleteWorkspace(workspace)
     self:updateSubscribers()
+
+    naughty.notify({
+        title="Workspace " .. workspace.name .. " was removed.",
+        timeout=5
+    })
+end
+
+function WorkspaceManagerService:removeWorkspaceWithConfirm(workspace)
+    self.modal:confirm({
+        title = "Delete Workspace",
+        message = "Are you sure you want to delete workspace: " .. workspace.name .. "?",
+        yes_callback = function()
+            self:removeWorkspace(workspace)
+        end
+    })
+end
+
+
+function WorkspaceManagerService:renameWorkspace(workspace)
+    self.modal:prompt( {
+        prompt       = "New activity name: ",
+        exe_callback = function(new_name)
+            if not new_name or #new_name == 0 then return end
+            if not workspace then return end
+            workspace:setName(new_name)
+            self:updateSubscribers()
+        end
+    })
 end
 
 function WorkspaceManagerService:addWorkspace(name)
@@ -483,7 +419,7 @@ end
 
 
 function WorkspaceManagerService:refresh()
-    self:switchTo(__.first(self:getAllActiveWorkspaces()))
+    self:switchTo(self:getActiveWorkspace())
 end
 
 function WorkspaceManagerService:getWorkspaceByTag(tag)
@@ -518,15 +454,6 @@ end
 
 function WorkspaceManagerService:getAllGlobalTags()
     return self:getGlobalWorkspace():getAllTags()
-end
-
-function WorkspaceManagerService:setStatusForAllWorkspaces(status)
-    self.workspaceManagerModel:setStatusForAllWorkspaces(status)
-end
-
-function WorkspaceManagerService:screenDisconnectUpdate(s)
-    self:saveSession()
-    awesome.restart()
 end
 
 return WorkspaceManagerService
