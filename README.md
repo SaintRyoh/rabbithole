@@ -1,3 +1,5 @@
+** Regession Warning ** Apologies, code is not currently stable. More quality control will be soon introduced into master branch. if you happen to run the code, and it doesn't work, please try again in a few weeks. For more up to date development information please join the discord below.
+
 # Rabbithole - A Window Management Solution for Laptops with a Changing Number of Displays
 
 Rabbithole is a window manager built on top of the robust Awesome WM (AWM) framework. It's primary purpose is keep your windows organized on your laptop whenever you connect or disconnect an external display.  If you've ever disconnected a display from your laptop and had to reorganize your workspace again before resuming work, then this solution will be for you.  
@@ -10,21 +12,19 @@ For more information about rabbithole please see the [wiki]( https://github.com/
 ![](docs/install_images/Rabbithole_multi-monitor.png)
 
 ### Video Demonstrations
-* [ Dynamic Display Management demo ]()
+* [ Dynamic Display Management demo ](https://www.youtube.com/watch?v=pRu7rNrFJXI)
 * [ User Interface Walkthrough ](https://www.youtube.com/watch?v=ci8KCli6YFQ)
 
 ## Features
 - **Dynamic Display Management**: Disconnect and reconnect screens _on-the-fly_, without interrupting your flow. **Switch workspaces** from your _multi-monitor_ setup to a _single monitor_ setup seamlessly. Click the image link below to see a short YouTube demonstration.
     
+- **Streamlined Navigation**: Choose between fully **keyboard-driven** or **mouse-driven** navigation. Switching between applications, workspaces, and displays is a breeze with our **intuitive** controls.
+
 - **Aesthetically Pleasing Experience**: A polished experience that feels more like a Desktop Environment (DE) than a Window Manager (WM). We believe **aesthetics matter**, even outside full desktop environments.
     
-- **Streamlined Navigation**: Choose between fully **keyboard-driven** or **mouse-driven** navigation. Switching between applications, workspaces, and displays is a breeze with our **intuitive** controls.
-    
-- **Personalization**: With Rabbithole's own **Tesseract Theme Engine**, add a _primary color_, select a _color theory_, and generate your unique and beautiful themes, adhering to **Material Design 3** standards and color theory rules.
+- **Personalization**: A neat and centralized settings file that controls everything from theme, to keybindings, to default programs.
     
 - **Workspaces**: Different workspaces or _"Activities"_ for different projects. Think of this as a second dimension on top of "tags", or virtual desktops. Separate your workspaces, projects, and flows into different virtual spaces while maintaining global access to applications you need across all workspaces—Email, Discord, Signal, always accessible.
-    
-- **Centralized Settings**: A neat and centralized settings file that controls everything from theme, to keybindings, to default programs.
     
 - **Quick Program Launch**: Pre-configured **rofi** lets you launch programs or switch windows/workspaces at lightning speed with its fuzzy search algorithm.
 
@@ -36,7 +36,7 @@ For more information about rabbithole please see the [wiki]( https://github.com/
 * Standalone AUR (advanced/experimental)
 
 ## Usage
-**The Windows key on your keyboard has magical powers.**
+** Several keybindings start with Windows (mod4 key) **
 
 i3 users will notice the keybindings are very familiar. Non-i3 users, the controls are as intuitive as possible. _If you don't like the controls, let us know, and we can vote on better defaults. We are open to suggestions!_
 
@@ -46,7 +46,7 @@ i3 users will notice the keybindings are very familiar. Non-i3 users, the contro
 - ```Win + f``` will fullscreen your workspace switcher.
 - ```Win + q``` will kill the focused app.
 
-#### **Mouse**
+### **Mouse**
 - Left click and hold on client icons in the tasklist to drag and drop clients from one tag to another
 - Right-click tasks to move them between local or global tags and workspaces.
 - Middle click tasks/clients to kill them
