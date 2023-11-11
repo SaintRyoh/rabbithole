@@ -19,9 +19,9 @@ return setmetatable({}, {
         local modkey = settings.keys.modkey or "Mod4"
         local altkey = settings.keys.altkey or "Mod1"
         local mainmenu = rabbithole__components__menus__main
-        local terminal = settings.default_programs.terminal
-        local launcher = settings.default_programs.launcher_cmd
-        local window_switcher = settings.default_programs.window_switcher_cmd
+        local terminal = settings.drivers.terminal
+        local launcher = settings.drivers.launcher_cmd
+        local window_switcher = settings.drivers.window_switcher_cmd
         local globalkeys = gears.table.join(
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -106,10 +106,10 @@ return setmetatable({}, {
             --    { description = "increase the number of columns", group = "layout" }),
             --awful.key({ modkey, "Control" }, "l", function() awful.tag.incncol(-1, nil, true) end,
             --    { description = "decrease the number of columns", group = "layout" }),
-            --awful.key({ modkey, }, "space", function() awful.layout.inc(1) end,
-            --    { description = "select next", group = "layout" }),
-            --awful.key({ modkey, "Shift" }, "space", function() awful.layout.inc(-1) end,
-            --    { description = "select previous", group = "layout" }),
+            awful.key({ modkey, }, "space", function() awful.layout.inc(1) end,
+               { description = "select next", group = "layout" }),
+            awful.key({ modkey, "Shift" }, "space", function() awful.layout.inc(-1) end,
+               { description = "select previous", group = "layout" }),
 
             awful.key({ modkey, "Control" }, "n",
                 function()
@@ -126,7 +126,7 @@ return setmetatable({}, {
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Applications
             awful.key({ modkey }, "r",
-                function() os.execute(launcher) end,
+                function() awful.spawn(launcher) end,
                 { description = "run rofi", group = "Applications" }),
             -- press mod4 to open rofi window switcher
             awful.key({ modkey }, "Tab",
@@ -177,35 +177,35 @@ return setmetatable({}, {
 
             --  Brightness Keys
             awful.key({ }, "XF86MonBrightnessUp",
-                function() awful.spawn(settings.default_programs.brightness_up) end,
+                function() awful.spawn(settings.drivers.brightness_up) end,
                 { description = "increase brightness", group = "hotkeys" }),
             awful.key({}, "XF86MonBrightnessDown",
-                function() awful.spawn(settings.default_programs.brightness_down) end,
+                function() awful.spawn(settings.drivers.brightness_down) end,
                 { description = "decrease brightness", group = "hotkeys" }),
             awful.key({}, "XF86Display",
-                function() awful.spawn(settings.default_programs.screen_config) end,
+                function() awful.spawn(settings.drivers.screen_config) end,
                 { description = "Open Screen Configuration", group = "hotkeys" }),
 
             --  Volume Keys
             awful.key({ }, "XF86AudioRaiseVolume",
-                function() awful.spawn(settings.default_programs.volume_up) end,
+                function() awful.spawn(settings.drivers.volume_up) end,
                 { description = "increase volume", group = "hotkeys" }),
             awful.key({}, "XF86AudioLowerVolume",
-                function() awful.spawn(settings.default_programs.volume_down) end,
+                function() awful.spawn(settings.drivers.volume_down) end,
                 { description = "decrease volume", group = "hotkeys" }),
             awful.key({}, "XF86AudioMute",
-                function() awful.spawn(settings.default_programs.volume_mute_toggle) end,
+                function() awful.spawn(settings.drivers.volume_mute_toggle) end,
                 { description = "volume toggle", group = "hotkeys" }),
             awful.key({}, "XF86AudioMicMute",
-                function() awful.spawn(settings.default_programs.mic_mute_toggle) end,
+                function() awful.spawn(settings.drivers.mic_mute_toggle) end,
                 { description = "mic toggle", group = "hotkeys" }),
 
             --  Screenshot Tool
-            awful.key({ }, "Print", function() awful.spawn(settings.default_programs.screenshot_tool) end,
+            awful.key({ }, "Print", function() awful.spawn(settings.drivers.screenshot_tool) end,
                 { description = "Screenshot Tool", group = "hotkeys" }),
 
             --  Wifi antenna Toggle comment out if nm-applet is used
-            -- awful.key({ }, "XF86WLAN", function() awful.with_shell(settings.default_programs.wifi_radio_toggle) end,
+            -- awful.key({ }, "XF86WLAN", function() awful.with_shell(settings.drivers.wifi_radio_toggle) end,
             --     { description = "Convert OCR image to text and copy to clipboard", group = "hotkeys" }),
 
             -- Keybinding to toggle titlebar visibility
