@@ -6,8 +6,6 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
 
 
-local _M = {} -- TO RYOH: Idk why this is here, if its not needed anymore, remove it.
-
 -- documentation
 -- https://awesomewm.org/wiki/Global_Keybindings
 

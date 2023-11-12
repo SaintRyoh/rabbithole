@@ -48,7 +48,7 @@ return {
         --warning = colors["Yellow"]["500"],
         --danger = colors["Red"]["500"],
     },
-    default_programs = {
+    drivers = {
         terminal = os.getenv("TERMINAL") or "qterminal",
         browser = os.getenv("BROWSER") or "google-chrome-stable",
         editor = "featherpad",
