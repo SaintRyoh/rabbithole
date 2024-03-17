@@ -7,7 +7,6 @@ local __ = require("lodash")
 
 local capi = {
     screen = screen,
-    client = client,
     awesome = awesome
 }
 
