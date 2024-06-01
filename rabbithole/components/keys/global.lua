@@ -123,9 +123,12 @@ return setmetatable({}, {
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Applications
+            awful.key({ modkey }, "d",
+                function() awful.spawn(launcher) end,
+                { description = "run rofi", group = "launcher" }),
             awful.key({ modkey }, "r",
                 function() awful.spawn(launcher) end,
-                { description = "run rofi", group = "Applications" }),
+                { description = "run lxqt-runner", group = "launcher" }),
             -- press mod4 to open rofi window switcher
             awful.key({ modkey }, "Tab",
                 function()
