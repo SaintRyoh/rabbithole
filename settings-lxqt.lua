@@ -27,7 +27,7 @@ return {
         -- ]]]
         theme_name = "rabbithole",      -- TODO: used later for logic in saving themes
         theme_template = "/themes/rabbithole/theme.lua",
-        wallpaper = config_dir .. "/themes/rabbithole/wallpapers/rabbithole_logo.png",
+        wallpaper = config_dir .. "/themes/rabbithole/wallpapers/cozy-room.jpg",
         -- [[[ Theme colors--These are the most important settings.
         base_color = colors["Blue"]["400"], -- If you're generating a theme, you only need to pass a base_color
         secondary_color = colors["Periwinkle"]["500"],
@@ -54,15 +54,14 @@ return {
         editor = "featherpad",
         file_manager = "pcmanfm-qt",
         screenshot_tool = "lximage-qt --screenshot",
-        launcher_cmd = "rofi -show drun -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
-        window_switcher_cmd = "rofi -show window -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
+        launcher_cmd = "lxqt-runner",
         lock_screen = "lxqt-leave",
         volume_up = "pactl set-sink-volume @DEFAULT_SINK@ +5%",
         volume_down = "pactl set-sink-volume @DEFAULT_SINK@ -5%",
         volume_mute_toggle = "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         mic_mute_toggle = "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
-        brightness_up = "brightnessctl set +1%",
-        brightness_down = "brightnessctl set 1%-",
+        brightness_up = "brightnessctl set +10%",
+        brightness_down = "brightnessctl set 10%-",
         screen_config = "lxqt-config-monitor",
         wifi_radio_toggle = [[
             if [ $(nmcli radio wifi) = 'enabled' ]; then
