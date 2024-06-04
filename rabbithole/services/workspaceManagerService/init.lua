@@ -123,7 +123,7 @@ function WorkspaceManagerService:setupTags()
     local tag = sharedtags.add(#last_workspace:getAllTags() + 1, {
         name = last_workspace:getName(#self.workspaceManagerModel:getAllWorkspaces()) ..
             "." .. #last_workspace:getAllTags() + 1,
-        layout = awful.layout.layouts[2]
+        layout = __.first(awful.layout.layouts)
     })
 
     last_workspace:addTag(tag)
@@ -141,7 +141,7 @@ function WorkspaceManagerService:addTagToWorkspace(workspace)
         exe_callback = function(name)
             if not name or #name == 0 then return end
             local index = #self:getAllTags() + #self:getGlobalWorkspace():getAllTags() + 1
-            local tag = sharedtags.add(index, { name = name, layout = awful.layout.layouts[2] })
+            local tag = sharedtags.add(index, { name = name, layout = __.first(awful.layout.layouts) })
             workspace:addTag(tag)
             sharedtags.viewonly(tag, awful.screen.focused())
             self:refresh()
