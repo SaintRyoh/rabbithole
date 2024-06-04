@@ -2,20 +2,20 @@
 awesome-lib
 diagrams/.$Untitled Diagram.drawio.bkp
 diagrams/.$Untitled Diagram.drawio.dtmp
-
-rabbithole/session.lua
-rabbithole/session.lua.bak
-
-rabbithole/session.dat
-rabbithole/session.dat.bak
-
-rabbithole/unused_modules/
-
-rabbithole/services/sessionManager/sessionManagerService.lua~HEAD
-
-rabbithole/settings.lua
-settings.lua
+# Unused/incomplete modules
+rabbithole/unused_modules
+# AUR
 PKGBUILD
+# Ignore self and vscode dotfiles
 *.ignore
 .vscode/
 .github/
+# USER FILES
+# Ignore user's session files
+rabbithole/session.lua
+rabbithole/session.lua.bak
+rabbithole/session.dat
+rabbithole/session.dat.bak
+# Ignore users settings files
+settings.lua
+settings-lxqt.lua
