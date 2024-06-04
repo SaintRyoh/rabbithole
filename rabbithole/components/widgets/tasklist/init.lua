@@ -1,7 +1,5 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
-local gears = require("gears")
-local view = require("rabbithole.components.widgets.tasklist.view")
 
 local TaskListController = {}
 TaskListController.__index = TaskListController
@@ -27,6 +25,8 @@ function TaskListController.new(
     return function (screen, tag)
         self.screen = screen
         self.tag = tag
+
+        local view = require("rabbithole.components.widgets.tasklist.view")
         local status, ret = pcall(view, self)
         if status then
             return ret
