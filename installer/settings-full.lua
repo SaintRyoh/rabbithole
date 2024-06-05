@@ -17,7 +17,7 @@ return {
     polychromatic, monochromatic, analogous, complementary, split_complementary, triadic,
     tetradic, clash, five_tone, six_tone, neutral, and custom.
 
-    Default settinngs mimic the default theme.lua. Generated with tesseract.
+    Default settings mimic the default theme.lua. Generated with tesseract.
     ]]
     theme = {
         -- [[[ Tesseract theme generation settings
@@ -25,7 +25,7 @@ return {
         generate_theme = false,         -- this will generate a theme using the tesseractThemeEngine when true
         color_scheme = "monochromatic", -- this is the color theory used to generate the theme
         -- ]]]
-        theme_name = "rabbithole",      -- TODO: used loater for logic in saving themes
+        theme_name = "rabbithole",      -- TODO: used later for logic in saving themes
         theme_template = "/themes/rabbithole/theme.lua",
         wallpaper = config_dir .. "/themes/rabbithole/wallpapers/rabbithole_logo.png",
         -- [[[ Theme colors--These are the most important settings.
@@ -48,38 +48,54 @@ return {
         --warning = colors["Yellow"]["500"],
         --danger = colors["Red"]["500"],
     },
-    default_programs = {
-        -- Rabbithole's recommened programs. These are used in the keybindings.
-        terminal = "qterminal" or "xterm",
-        browser = "firefox" or "chrome" or "chromium",
-        editor = os.getenv("EDITOR") or "nvim",
+    drivers = {
+        -- Applications
+        terminal = "qterminal" or os.getenv("TERM"),
+        browser = "firefox" or os.getenv("BROWSER"),
+        editor = "code-insiders" or os.getenv("EDITOR"),
         editor_cmd = "qterminal -e nvim",
-        file_manager = "nemo" or "pcmanfm-qt" or "thunar",
+        file_manager = "pcmanfm-qt" or "thunar",
         music_player = "spotify" or "mpd",
-        video_player = "mpv" or "smplayer",
-        screenshot_tool = "flameshot" or "scrot",
+        video_player = "mpv",
+        screenshot_tool = "flameshot full" or "scrot -s",
         launcher_cmd = "rofi -show drun -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
         window_switcher_cmd = "rofi -show window -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
-        --lock_screen = "i3lock-fancy",
+        lock_screen = "lxqt-leave",
         power_menu = "rofi-power-menu",
-        volume_control = "pavucontrol" or "volumeicon",
-        brightness_control = "brightnessctl"
+        -- System hardware control
+        volume_up = "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+        volume_down = "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+        volume_mute_toggle = "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        mic_mute_toggle = "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        brightness_down = "brightnessctl set 20-",
+        brightness_up = "brightnessctl set +2%", -- set brightnessctl's steps (in percent). I prefer fine-grained control
+        wifi_radio_toggle = [[
+            if [ $(nmcli radio wifi) = 'enabled' ]; then
+                nmcli radio wifi off
+            else
+                nmcli radio wifi on
+            fi
+        ]]
     },
-    core_settings = {
+    ui_opt = {
+        titlebars = false,
+        tag_labels = false
+    },
+    keys = {
         modkey = "Mod4",
         altkey = "Mod1",
         icon_theme = "BeautyLine"
     },
     daemons = {
-        "picom",
+        --"picom",
         "lxqt-powermanager",
         "lxqt-policykit-agent",
-        "autorandr -c --default default"
+        --"autorandr -c --default default"
     },
     autostart_apps = {
         "nm-applet",
-        "blueman-applet",
+        --"blueman-applet",
         "flameshot",
-        "volumeicon"
+        --"volumeicon"
     },
 }
