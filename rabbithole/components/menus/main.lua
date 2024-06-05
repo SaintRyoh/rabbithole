@@ -17,7 +17,7 @@ return setmetatable({}, {
             { "Restart WM", awesome.restart },
             -- launch insteace of settingsManager
             --{ "Settings Manager", function() settings_manager:show() end },
-            { "Quit Rabbithole", function() awesome.quit() end },
+            { "Quit Rabbithole", awesome.quit },
             { "Reboot", "reboot" },
             { "Shutdown", "shutdown now" }
         }
