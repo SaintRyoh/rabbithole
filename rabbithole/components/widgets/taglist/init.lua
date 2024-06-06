@@ -136,17 +136,21 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         if tag.selected then
             animation.target = 1
             -- Highlight the tag on its own screen
-            for _, screen in ipairs(tag.screen.outputs) do
-                if screen == self.screen then
-                    tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 1)
+            if tag.screen then
+                for _, screen in ipairs(tag.screen.outputs) do
+                    if screen == self.screen then
+                        tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 1)
+                    end
                 end
             end
         else
             animation.target = 0
             -- Reset the tag color on its own screen
-            for _, screen in ipairs(tag.screen.outputs) do
-                if screen == self.screen then
-                    tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 0)
+            if tag.screen then
+                for _, screen in ipairs(tag.screen.outputs) do
+                    if screen == self.screen then
+                        tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 0)
+                    end
                 end
             end
         end
@@ -185,22 +189,10 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         self.hovered_tag = nil  -- clear the hovered tag so the mouse doesnt act weird
     end)
 
-    tag_template:connect_signal('button::press', function()
-        -- When the tag is pressed, only update if it's not the currently selected tag
-        if not tag.selected then
-            animation.target = 1
-        end
-    end)
-
-    tag_template:connect_signal('button::release', function()
-        -- After the button is released, update the tags to their correct colors
-        if tag.selected then
-            animation.target = 1
-        else
-            animation.target = 0
-        end
-
-        self.dragndrop:drop(self.hovered_tag)
+    tag:connect_signal('tag::deleted', function()
+        -- Handle cleanup if necessary
+        hover_timer:stop()
+        animation.target = 0
     end)
 end
 
