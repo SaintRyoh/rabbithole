@@ -32,7 +32,7 @@ return setmetatable({}, {
                     end
 
                 end),
-                awful.button({ settings.core_settings.modkey }, 3, function(t)
+                awful.button({ settings.keys.modkey }, 3, function(t)
                     taglistmenu:updateMenu(t)
                     taglistmenu.taglist_menu:toggle()
                 --    if client.focus then
@@ -42,7 +42,7 @@ return setmetatable({}, {
                 awful.button({ "Control" }, 1, function(t)
                     sharedtags.viewtoggle(t, t.screen)
                 end ),
-                awful.button({ settings.core_settings.modkey }, 2, function(t)
+                awful.button({ settings.keys.modkey }, 2, function(t)
                     workspaceManagerService:deleteTagFromWorkspaceWithConfirm(nil, t)
                 end ),
                 awful.button({ }, 4, function(t) workspaceManagerService:viewNextTag() end),

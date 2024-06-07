@@ -17,3 +17,5 @@ rabbithole/settings.lua
 settings.lua
 PKGBUILD
 *.ignore
+.vscode/
+.github/

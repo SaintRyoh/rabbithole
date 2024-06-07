@@ -3,6 +3,7 @@ local naughty = require("naughty")
 local nice = require("sub.nice")
 local dpi = require("beautiful.xresources").apply_dpi
 local config_dir = require("gears.filesystem").get_configuration_dir()
+local awful = require("awful")
 
 return setmetatable({}, {
     __constructor = function (
@@ -57,7 +58,7 @@ return setmetatable({}, {
         else
             naughty.notify({title = "Error", text = "Failed to initialize theme. Reverting back to default."})
         end
-
+        awful.spawn.with_shell("xsetroot -cursor_name left_ptr")
         return beautiful.get()
     end,
 })

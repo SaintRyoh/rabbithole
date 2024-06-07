@@ -15,7 +15,7 @@ local config_dir = require("gears.filesystem").get_configuration_dir()
 return {
     --[[ For color_scheme, you can use any of the color schemes listed here:
     polychromatic, monochromatic, analogous, complementary, split_complementary, triadic,
-    tetradic, clash, five_tone, six_tone, neutral, and custom.
+    tetradic, TODO: clash, five_tone, six_tone, neutral, and custom.
 
     Default settinngs mimic the default theme.lua. Generated with tesseract.
     ]]
@@ -25,9 +25,9 @@ return {
         generate_theme = false,         -- this will generate a theme using the tesseractThemeEngine when true
         color_scheme = "monochromatic", -- this is the color theory used to generate the theme
         -- ]]]
-        theme_name = "rabbithole",      -- TODO: used loater for logic in saving themes
+        theme_name = "rabbithole",      -- TODO: used later for logic in saving themes
         theme_template = "/themes/rabbithole/theme.lua",
-        wallpaper = config_dir .. "/themes/rabbithole/wallpapers/rabbithole_logo.png",
+        wallpaper = config_dir .. "/themes/rabbithole/wallpapers/cozy-room.jpg",
         -- [[[ Theme colors--These are the most important settings.
         base_color = colors["Blue"]["400"], -- If you're generating a theme, you only need to pass a base_color
         secondary_color = colors["Periwinkle"]["500"],
@@ -36,7 +36,7 @@ return {
         neutral = colors["Blue Grey"]["900"],
         -- ]]]
         -- [[[ Fonts
-        font = "Ubuntu 7",
+        font = "Ubuntu 8",
         fg_normal = colors["Black"],
         fg_focus = colors["Black"],
         fg_urgent = colors["Black"],
@@ -48,38 +48,31 @@ return {
         --warning = colors["Yellow"]["500"],
         --danger = colors["Red"]["500"],
     },
-    default_programs = {
-        -- Rabbithole's recommened programs. These are used in the keybindings.
-        terminal = "qterminal" or "xterm",
-        browser = "firefox" or "chrome" or "chromium",
-        editor = os.getenv("EDITOR") or "nvim",
-        editor_cmd = "qterminal -e nvim",
-        file_manager = "nemo" or "pcmanfm-qt" or "thunar",
-        music_player = "spotify" or "mpd",
-        video_player = "mpv" or "smplayer",
-        screenshot_tool = "flameshot" or "scrot",
-        launcher_cmd = "rofi -show drun -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
-        window_switcher_cmd = "rofi -show window -font \"Ubuntu 13\" -icon-theme \"BeautyLine\" -show-icons",
-        --lock_screen = "i3lock-fancy",
-        power_menu = "rofi-power-menu",
-        volume_control = "pavucontrol" or "volumeicon",
-        brightness_control = "brightnessctl"
+    drivers = {
+        terminal = os.getenv("TERMINAL") or "qterminal",
+        browser = os.getenv("BROWSER") or "google-chrome-stable",
+        editor = "featherpad",
+        file_manager = "pcmanfm-qt",
+        screenshot_tool = "lximage-qt --screenshot",
+        launcher_cmd = "lxqt-runner",
+        lock_screen = "lxqt-leave",
+        volume_up = "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+        volume_down = "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+        volume_mute_toggle = "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        mic_mute_toggle = "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        brightness_up = "brightnessctl set +10%",
+        brightness_down = "brightnessctl set 10%-",
+        screen_config = "lxqt-config-monitor",
+        wifi_radio_toggle = [[
+            if [ $(nmcli radio wifi) = 'enabled' ]; then
+                nmcli radio wifi off
+            else
+                nmcli radio wifi on
+            fi
+        ]]
     },
-    core_settings = {
+    keys = {
         modkey = "Mod4",
         altkey = "Mod1",
-        icon_theme = "BeautyLine"
-    },
-    daemons = {
-        "picom",
-        "lxqt-powermanager",
-        "lxqt-policykit-agent",
-        "autorandr -c --default default"
-    },
-    autostart_apps = {
-        "nm-applet",
-        "blueman-applet",
-        "flameshot",
-        "volumeicon"
     },
 }

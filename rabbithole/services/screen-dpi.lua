@@ -1,10 +1,10 @@
 local awful = require("awful")
 
-local DpiCalculator = { }
+local DpiCalculator = {}
 DpiCalculator.__index = DpiCalculator
 
 function DpiCalculator.new()
-    local self = setmetatable({ }, DpiCalculator)
+    local self = setmetatable({}, DpiCalculator)
 
     return self
 end
@@ -33,16 +33,16 @@ function DpiCalculator:parse_xrandr_output(output)
     return screens
 end
 
-function DpiCalculator:get_screen_dpi()
-    local screen_dpi = {}
+function DpiCalculator:get_screen_dpi(callback)
     awful.spawn.easy_async("xrandr", function(stdout)
         local screens = self:parse_xrandr_output(stdout)
+        local screen_dpi = {}
         for screen_name, dimensions in pairs(screens) do
             local dpi = self:calculate_dpi(dimensions.width_pixels, dimensions.height_pixels, dimensions.width_mm, dimensions.height_mm)
             screen_dpi[screen_name] = dpi
         end
+        callback(screen_dpi)
     end)
-    return screen_dpi
 end
 
 return DpiCalculator
