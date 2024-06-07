@@ -7,7 +7,8 @@ local __ = require("lodash")
 
 local capi = {
     screen = screen,
-    awesome = awesome
+    awesome = awesome,
+    client = client
 }
 
 local WorkspaceManagerService = {}
