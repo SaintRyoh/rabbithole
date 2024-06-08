@@ -19,3 +19,5 @@ rabbithole/session.dat.bak
 # Ignore users settings files
 settings.lua
 settings-lxqt.lua
+# Ignore user-scripts
+user-scripts/*.sh
