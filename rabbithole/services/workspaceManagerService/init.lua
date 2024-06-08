@@ -71,15 +71,16 @@ function WorkspaceManagerService:setupAutoSave()
 
     -- workspace/workspaceManager signals to auto-save on
     local function save(signal)
-        if self.settings.enable_autosave and ready then
-            -- self:saveSession()
-            naughty.notify({
-                title = "autosave event",
-                -- text = signal,
-                timeout = 5
-            })
-            ready = false
-        end
+        return
+        --if self.settings.enable_autosave and ready then
+        --    -- self:saveSession()
+        --    naughty.notify({
+        --        title = "autosave event",
+        --        -- text = signal,
+        --        timeout = 5
+        --    })
+        --    ready = false
+        --end
     end
 
     __.forEach({
