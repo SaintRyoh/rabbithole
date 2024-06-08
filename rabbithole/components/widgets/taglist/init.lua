@@ -166,7 +166,6 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         mode = 'outside',
         preferred_positions = {'bottom'},
         preferred_alignments = {'middle'}
-
     })
 
     tag_template:connect_signal('mouse::enter', function()
@@ -187,6 +186,24 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         end
 
         self.hovered_tag = nil  -- clear the hovered tag so the mouse doesnt act weird
+    end)
+
+    tag_template:connect_signal('button::press', function()
+        -- When the tag is pressed, only update if it's not the currently selected tag
+        if not tag.selected then
+            animation.target = 1
+        end
+    end)
+
+    tag_template:connect_signal('button::release', function()
+        -- After the button is released, update the tags to their correct colors
+        if tag.selected then
+            animation.target = 1
+        else
+            animation.target = 0
+        end
+
+        self.dragndrop:drop(self.hovered_tag)
     end)
 
     tag:connect_signal('tag::deleted', function()
