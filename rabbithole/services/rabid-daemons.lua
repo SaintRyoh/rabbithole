@@ -39,7 +39,7 @@ end
 
 function RabidDaemons:runUserScripts(scripts_dir)
     -- Runs all .sh and .lua scripts in user-scripts directory.
-    local scripts = scripts_dir or gears.filesystem.get_configuration_dir() .. "user-scripts"
+    local scripts = scripts_dir or gears.filesystem.get_configuration_dir() .. "scripts/user-scripts"
     __.forEach(lfs.dir(scripts), function(script)
         if script ~= "." and script ~= ".." then
             local script_file = scripts .. "/" .. script
