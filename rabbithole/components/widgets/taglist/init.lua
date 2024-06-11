@@ -6,7 +6,6 @@ local local_taglist_template = require("rabbithole.components.widgets.taglist.te
 local global_taglist_template = require("rabbithole.components.widgets.taglist.template_global")
 local gears = require("gears")
 local beautiful = require("beautiful")
-local math = require("math")
 
 -- workspace menu controller
 local TaglistController = {}
