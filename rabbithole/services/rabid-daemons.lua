@@ -11,7 +11,6 @@ else and that they are started only ONCE.
 local awful = require("awful")
 local __ = require("lodash")
 local gears = require("gears")
-local lfs = require("lfs")
 
 local RabidDaemons = { }
 RabidDaemons.__index = RabidDaemons
@@ -38,15 +37,23 @@ function RabidDaemons:runOnce(cmd)
 end
 
 function RabidDaemons:runUserScripts(scripts_dir)
-    -- Runs all .sh and .lua scripts in user-scripts directory.
     local scripts = scripts_dir or gears.filesystem.get_configuration_dir() .. "scripts/user-scripts"
-    __.forEach(lfs.dir(scripts), function(script)
-        if script ~= "." and script ~= ".." then
-            local script_file = scripts .. "/" .. script
-            if lfs.attributes(script_file, "mode") == "file" then
-                if script_file:match("%.sh$") or script_file:match("%.lua$") then
-                    self:run_once(script_file)
-                end
+
+    local function get_directory_items(path)
+        local items = {}
+        for file in io.popen('ls "'..path..'"'):lines() do
+            table.insert(items, file)
+        end
+        return items
+    end
+
+    local files = get_directory_items(scripts)
+
+    __.forEach(files, function(file)
+        local script_file = table.concat({scripts, "/", file})
+        if gears.filesystem.file_readable(script_file) then
+            if script_file:match("%.sh$") or script_file:match("%.lua$") then
+                self:runOnce(script_file)
             end
         end
     end)
