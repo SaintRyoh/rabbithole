@@ -6,7 +6,6 @@ local local_taglist_template = require("rabbithole.components.widgets.taglist.te
 local global_taglist_template = require("rabbithole.components.widgets.taglist.template_global")
 local gears = require("gears")
 local beautiful = require("beautiful")
-local math = require("math")
 
 -- workspace menu controller
 local TaglistController = {}
@@ -136,17 +135,21 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         if tag.selected then
             animation.target = 1
             -- Highlight the tag on its own screen
-            for _, screen in ipairs(tag.screen.outputs) do
-                if screen == self.screen then
-                    tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 1)
+            if tag.screen then
+                for _, screen in ipairs(tag.screen.outputs) do
+                    if screen == self.screen then
+                        tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 1)
+                    end
                 end
             end
         else
             animation.target = 0
             -- Reset the tag color on its own screen
-            for _, screen in ipairs(tag.screen.outputs) do
-                if screen == self.screen then
-                    tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 0)
+            if tag.screen then
+                for _, screen in ipairs(tag.screen.outputs) do
+                    if screen == self.screen then
+                        tag_template.bg = self.colors.blend_colors(beautiful.bg_normal, beautiful.bg_focus, 0)
+                    end
                 end
             end
         end
@@ -162,7 +165,6 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         mode = 'outside',
         preferred_positions = {'bottom'},
         preferred_alignments = {'middle'}
-
     })
 
     tag_template:connect_signal('mouse::enter', function()
@@ -201,6 +203,12 @@ function TaglistController:create_tag_callback(tag_template, tag, index, objects
         end
 
         self.dragndrop:drop(self.hovered_tag)
+    end)
+
+    tag:connect_signal('tag::deleted', function()
+        -- Handle cleanup if necessary
+        hover_timer:stop()
+        animation.target = 0
     end)
 end
 

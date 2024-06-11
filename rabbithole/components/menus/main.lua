@@ -1,27 +1,23 @@
--- Standard awesome library
-local awful = require("awful")
+local screen = require("awful.screen")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
--- Theme handling library
-local rabbit_icon = require("beautiful").rabbit_icon
 local freedesktop = require("sub.freedesktop")
-
 
 return setmetatable({}, {
     __constructor = function (settings, rabbithole__services__modal)
         local M = {}  -- menu
         --local editor = settings.editor or "nano"
-        local terminal = settings.terminal or "xfce4-terminal"
+        local terminal = settings.terminal
         --local editor_cmd = settings.editor_cmd or terminal .. " -e " .. editor
         --local settings_manager = rabbithole__services__settingsManager.new()
 
         M.rabbithole = {
-            { "Shortcuts...", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+            { "Shortcuts...", function() hotkeys_popup.show_help(nil, screen.focused()) end },
             { "Launch term", terminal },
-            { "Logout", function() awesome.quit() end },
+            { "Logout", awesome.quit },
             { "Restart WM", awesome.restart },
             -- launch insteace of settingsManager
             --{ "Settings Manager", function() settings_manager:show() end },
-            { "Quit Rabbithole", function() awesome.quit() end },
+            { "Quit Rabbithole", awesome.quit },
             { "Reboot", "reboot" },
             { "Shutdown", "shutdown now" }
         }
@@ -34,14 +30,15 @@ return setmetatable({}, {
         --}
 
         M.network_main = {
+            { "Bluetooth Devices", "blueman-manager" },
             { "WiFI Hotspot", "wihotspot-gui" }
         }
 
         -- Main Menu
         local menu_items = {
-            { "Rabbithole", M.rabbithole, rabbit_icon},
+            { "Rabbithole", M.rabbithole, require("beautiful").rabbit_icon },
             { "Launch terminal", terminal },
-            { "WiFi", M.network_main },
+            { "Wireless", M.network_main },
         }
 
         return freedesktop.menu.build({

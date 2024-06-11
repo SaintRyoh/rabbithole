@@ -46,7 +46,7 @@ function WorkspaceMenuTemplate.get(controller)
                     local isVisible = bindings.menu.wibox.visible
                     if isVisible then
                         bindings.menu:hide()
-                        bindings.root.bg = beautiful.bg_normal
+                        --bindings.root.bg = beautiful.bg_normal -- seems to have no effect on anything
                         bindings.rotator.direction = "north"
                     else
                         bindings.menu:show({

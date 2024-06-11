@@ -18,7 +18,8 @@ return setmetatable({}, {
         local altkey = settings.keys.altkey or "Mod1"
         local mainmenu = rabbithole__components__menus__main
         local terminal = settings.drivers.terminal
-        local launcher = settings.drivers.launcher_cmd
+        local launcher_cmd = settings.drivers.launcher_cmd
+        local drun_cmd = settings.drivers.drun_cmd
         local window_switcher = settings.drivers.window_switcher_cmd
         local globalkeys = gears.table.join(
 
@@ -123,9 +124,12 @@ return setmetatable({}, {
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Applications
+            awful.key({ modkey }, "d",
+                function() awful.spawn(drun_cmd) end,
+                { description = "Run rofi", group = "launcher" }),
             awful.key({ modkey }, "r",
-                function() awful.spawn(launcher) end,
-                { description = "run rofi", group = "Applications" }),
+                function() awful.spawn(launcher_cmd) end,
+                { description = "Run program launcher", group = "launcher" }),
             -- press mod4 to open rofi window switcher
             awful.key({ modkey }, "Tab",
                 function()
@@ -145,7 +149,11 @@ return setmetatable({}, {
                 { description = "lua execute prompt", group = "awesome" }),
 
             -- quake style dropdown terminal bound to mod4 + \
-            awful.key({ modkey }, "\\", function () awful.screen.focused().dropdown:toggle() end, {description = "dropdown application", group = "launcher"}),
+            awful.key({ modkey }, "\\",
+                function ()
+                    awful.screen.focused().dropdown:toggle()
+                end,
+                {description = "dropdown application", group = "dropdown terminal"}),
 
             --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             -- Resize

@@ -55,6 +55,7 @@ return {
         file_manager = "pcmanfm-qt",
         screenshot_tool = "lximage-qt --screenshot",
         launcher_cmd = "lxqt-runner",
+        drun_cmd = nil,
         lock_screen = "lxqt-leave",
         volume_up = "pactl set-sink-volume @DEFAULT_SINK@ +5%",
         volume_down = "pactl set-sink-volume @DEFAULT_SINK@ -5%",
