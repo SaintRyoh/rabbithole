@@ -20,4 +20,4 @@ rabbithole/session.dat.bak
 settings.lua
 settings-lxqt.lua
 # Ignore user-scripts
-user-scripts/*.sh
+scripts/user-scripts/*.*
