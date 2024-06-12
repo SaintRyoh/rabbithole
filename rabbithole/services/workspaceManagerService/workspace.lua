@@ -5,21 +5,20 @@ local Workspace = { }
 Workspace.__index = Workspace
 
 function Workspace:new(name, tags, active)
-    self = {}
+    self = { }
     setmetatable(self, Workspace)
 
     self.name = name or nil
-    self.tags = tags or {}
+    self.tags = tags or { }
     self.id = math.random(1, 1000000)
     self.active = active or false
 
-    self.last_selected_tags = {}
+    self.last_selected_tags = { }
 
-    self.global_selected_backup = {}
+    self.global_selected_backup = { }
 
     return self
 end
-
 
 function Workspace:addTag(tag)
     __.push(self.tags, tag)
@@ -37,7 +36,6 @@ function Workspace:removeAllTagsInWorkspace()
     self.tags = {}
 end
 
--- has tag
 function Workspace:hasTag(tag)
     return __.find(self.tags, function(_tag) return _tag == tag end) ~= nil
 end
@@ -119,6 +117,15 @@ end
 
 function Workspace:addLastSelectedTag(tag)
     __.push(self.last_selected_tags, tag)
+end
+
+function Workspace:getAllClients()
+    local all_clients = {}
+    __.forEach(self.tags, function(tag)
+        local clients = tag:clients()
+        all_clients = gears.table.join(all_clients, clients)
+    end)
+    return all_clients
 end
 
 function Workspace:__serialize()
