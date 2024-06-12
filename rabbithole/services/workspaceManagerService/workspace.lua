@@ -1,6 +1,5 @@
 local __ = require("lodash")
 local gears = require("gears")
-local awful = require("awful")
 
 local Workspace = { }
 Workspace.__index = Workspace
