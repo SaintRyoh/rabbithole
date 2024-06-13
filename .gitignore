@@ -21,3 +21,5 @@ settings.lua
 settings-lxqt.lua
 # Ignore user-scripts
 scripts/user-scripts/*.*
+
+*.code-workspace
