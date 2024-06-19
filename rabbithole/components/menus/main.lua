@@ -4,13 +4,10 @@ local freedesktop = require("sub.freedesktop")
 
 return setmetatable({}, {
     __constructor = function (settings, rabbithole__services__modal)
-        local M = {}  -- menu
-        --local editor = settings.editor or "nano"
-        local terminal = settings.terminal
-        --local editor_cmd = settings.editor_cmd or terminal .. " -e " .. editor
-        --local settings_manager = rabbithole__services__settingsManager.new()
+        local MainMenu = { }
+        local terminal = settings.drivers.terminal
 
-        M.rabbithole = {
+        MainMenu.rabbithole = {
             { "Shortcuts...", function() hotkeys_popup.show_help(nil, screen.focused()) end },
             { "Launch term", terminal },
             { "Logout", awesome.quit },
@@ -21,26 +18,31 @@ return setmetatable({}, {
             { "Reboot", "reboot" },
             { "Shutdown", "shutdown now" }
         }
+        
+        --M.Favorites = {
+            -- example of a favorite apps list
+            -- usage: { "MenuText", "launch-command"}
 
-        --M.favorite = {
-        --    -- example of a favorite apps list
-        --    -- usage: { "MenuText", "launch-command"}
---
-        --    { "firefox", "firefox", awful.util.getdir("config") .. "/firefox.png" }
+            --{ "firefox", "firefox", awful.util.getdir("config") .. "/firefox.png" }
+
         --}
 
-        M.network_main = {
+        MainMenu.network_main = {
             { "Bluetooth Devices", "blueman-manager" },
             { "WiFI Hotspot", "wihotspot-gui" }
         }
 
-        -- Main Menu
         local menu_items = {
-            { "Rabbithole", M.rabbithole, require("beautiful").rabbit_icon },
+            { "Rabbithole", MainMenu.rabbithole, require("beautiful").rabbit_icon },
             { "Launch terminal", terminal },
-            { "Wireless", M.network_main },
+            { "Wireless", MainMenu.network_main },
         }
-
+        
+        -- Add the custom menu only if it's not nil
+        if settings.custom_menu ~= nil then
+            table.insert(menu_items, { "Custom", MainMenu.custom })
+        end
+        
         return freedesktop.menu.build({
             before = menu_items,
             sub_menu = 'Applications',
