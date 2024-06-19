@@ -23,3 +23,5 @@ settings-lxqt.lua
 scripts/user-scripts/*.*
 
 *.code-workspace
+
+rabbithole/sessions/

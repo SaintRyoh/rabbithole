@@ -122,8 +122,7 @@ function WorkspaceMenuController:remove_workspace(workspace)
 end
 
 function WorkspaceMenuController:add_workspace()
-    local new_workspace = self.model:addWorkspace()
-    self:rename_workspace(new_workspace)
+    self.model:addWorkspace()
     self:updateMenu()
 end
 

@@ -1,28 +1,27 @@
-local lodash = require("lodash")
+local __ = require("lodash")
 local gears = require("gears")
 
 local Workspace = { }
 Workspace.__index = Workspace
 
 function Workspace:new(name, tags, active)
-    self = {}
+    self = { }
     setmetatable(self, Workspace)
 
     self.name = name or nil
-    self.tags = tags or {}
-    self.id = math.random(1,1000000)
+    self.tags = tags or { }
+    self.id = math.random(1, 1000000)
     self.active = active or false
 
-    self.last_selected_tags = {}
+    self.last_selected_tags = { }
 
-    self.global_selected_backup = {}
+    self.global_selected_backup = { }
 
     return self
 end
 
-
 function Workspace:addTag(tag)
-    lodash.push(self.tags, tag)
+    __.push(self.tags, tag)
 end
 
 function Workspace:addTags(tags)
@@ -30,20 +29,19 @@ function Workspace:addTags(tags)
 end
 
 function Workspace:removeTag(_tag)
-    lodash.remove(self.tags, function(tag) return tag == _tag end)
+    __.remove(self.tags, function(tag) return tag == _tag end)
 end
 
 function Workspace:removeAllTagsInWorkspace()
     self.tags = {}
 end
 
--- has tag
 function Workspace:hasTag(tag)
-    return lodash.find(self.tags, function(_tag) return _tag == tag end) ~= nil
+    return __.find(self.tags, function(_tag) return _tag == tag end) ~= nil
 end
 
 function Workspace:unselectAllTags()
-    lodash.forEach(self.tags, function (tag)
+    __.forEach(self.tags, function (tag)
         tag.selected = false
     end)
 end
@@ -58,23 +56,23 @@ end
 
 function Workspace:setStatus(status)
     if status == false then
-        lodash.forEach(self.tags, function(tag)
+        __.forEach(self.tags, function(tag)
             if tag.selected == true then
                 tag.selected = false
                 table.insert(self.last_selected_tags, tag)
             end
         end)
-        lodash.forEach(self.tags, function(tag) tag.active = status  end)
+        __.forEach(self.tags, function(tag) tag.active = status  end)
     else
-        lodash.forEach(self.tags, function(tag) tag.active = status  end)
-        lodash.forEach(self.last_selected_tags, function(tag) tag.selected=true  end)
+        __.forEach(self.tags, function(tag) tag.active = status  end)
+        __.forEach(self.last_selected_tags, function(tag) tag.selected=true  end)
         self.last_selected_tags = {}
     end
     self.active = status
 end
 
 function Workspace:getSelectedTags()
-    return lodash.filter(self.tags, function(tag) return tag.selected end)
+    return __.filter(self.tags, function(tag) return tag.selected end)
 end
 
 function Workspace:setGlobalBackup(global_tags)
@@ -82,7 +80,7 @@ function Workspace:setGlobalBackup(global_tags)
 end
 
 function Workspace:restoreGlobalBackup()
-    lodash.forEach(self.global_selected_backup, function(tag) tag.selected = true end)
+    __.forEach(self.global_selected_backup, function(tag) tag.selected = true end)
 end
 
 function Workspace:getStatus()
@@ -90,7 +88,7 @@ function Workspace:getStatus()
 end
 
 function Workspace:isEmpty()
-    return lodash.isEmpty(self.tags)
+    return __.isEmpty(self.tags)
 end
 
 function Workspace:toggleStatus()
@@ -111,29 +109,41 @@ function Workspace:getName(default)
         return self.name
     elseif #self.tags > 0 then
         -- split the tag name on the first dot using gsub, return the first part of the split
-        return string.gsub(lodash.first(self.tags).name, "%..*", "")
+        return string.gsub(__.first(self.tags).name, "%..*", "")
     else 
         return default or nil
     end
 end
 
 function Workspace:addLastSelectedTag(tag)
-    lodash.push(self.last_selected_tags, tag)
+    __.push(self.last_selected_tags, tag)
+end
+
+function Workspace:getAllClients()
+    local all_clients = {}
+    __.forEach(self.tags, function(tag)
+        local clients = tag:clients()
+        all_clients = gears.table.join(all_clients, clients)
+    end)
+    return all_clients
 end
 
 function Workspace:__serialize()
     local function serializeClients(clients)
-        return lodash.map(clients, function(client)
+        return __.map(clients, function(client)
+            local cmd = io.popen("ps --no-header --pid " .. client.pid .. " -o cmd")
+            local command = string.gsub( cmd ~= nil and cmd:read("*a") or "", "^%s*(.-)%s*$", "%1" )
             return {
                 name = client.name,
                 class = client.class,
                 role = client.role,
-                pid = client.pid
+                pid = client.pid,
+                cmd = command,
             }
         end)
     end
     local function serializeTags(tags)
-        return lodash.map(tags, function(tag) return {
+        return __.map(tags, function(tag) return {
             name = tag.name,
             selected = tag.selected,
             layout = {
