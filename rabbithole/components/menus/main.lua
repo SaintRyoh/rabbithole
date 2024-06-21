@@ -38,9 +38,9 @@ return setmetatable({}, {
             { "Wireless", MainMenu.network_main },
         }
         
-        -- Add the custom menu only if it's not nil
-        if settings.custom_menu ~= nil then
-            table.insert(menu_items, { "Custom", MainMenu.custom })
+        local custom_menu = settings.custom_menu
+        if custom_menu then
+            table.insert(menu_items, { "Custom", settings.custom_menu })
         end
         
         return freedesktop.menu.build({
