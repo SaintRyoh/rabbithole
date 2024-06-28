@@ -10,11 +10,11 @@ return setmetatable({}, {
         MainMenu.rabbithole = {
             { "Shortcuts...", function() hotkeys_popup.show_help(nil, screen.focused()) end },
             { "Launch term", terminal },
-            { "Logout", awesome.quit },
+            { "Logout", function() awesome.quit() end },
             { "Restart WM", awesome.restart },
             -- launch insteace of settingsManager
             --{ "Settings Manager", function() settings_manager:show() end },
-            { "Quit Rabbithole", awesome.quit },
+            { "Quit Rabbithole", function() awesome.quit() end },
             { "Reboot", "reboot" },
             { "Shutdown", "shutdown now" }
         }
