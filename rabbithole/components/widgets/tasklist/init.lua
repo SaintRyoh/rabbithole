@@ -83,9 +83,9 @@ function TaskListController:create_callback(task_template, c, _, _)
 
         animation.target = 0
         -- dragondrop logic
-        self.client = client
-        self.origin_tag = awful.screen.focused().selected_tag
-        self.dragndrop:drag(self.client, self.origin_tag)
+        local client = client
+        local origin_tag = awful.screen.focused().selected_tag
+        self.dragndrop:drag(client, origin_tag)
     end)
 
     task_template:connect_signal('button::release', function()
