@@ -10,14 +10,15 @@ Rules.__index = Rules
 
 function Rules.new(
     rabbithole__components__keys__client,
-    rabbithole__components__buttons__client
+    rabbithole__components__buttons__client,
+    settings
 )
     return {
         -- All clients will match this rule.
         {
             rule = {},
             properties = {
-                titlebars_enabled = true,
+                titlebars_enabled = settings.ui_opt.titlebars or true,
                 focus = awful.client.focus.filter,
                 raise = false,
                 keys = rabbithole__components__keys__client,
