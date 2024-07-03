@@ -33,9 +33,9 @@ function Rules.new(
             },
             properties = {
                 titlebars_enabled = true,
-                skip_taskbar = true,
+                skip_taskbar = false,
                 floating = true,
-                ontop = true
+                ontop = false
             }
         }, 
         -- Launchers
