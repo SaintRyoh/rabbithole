@@ -238,7 +238,7 @@ return setmetatable({}, {
                     end,
                     { description = "view tag #" .. i, group = "tag" }
                 ),
-                awful.key({ modkey, "Control" }, tostring(i), 
+                awful.key({ modkey, altkey }, tostring(i), 
                     function()
                         local _, tag = getWorkspaceAndTag(i)
                         if tag then
@@ -248,11 +248,11 @@ return setmetatable({}, {
                     { description = "toggle tag #" .. i, group = "tag" }
                 ),
                 -- switch to global tag by index
-                awful.key({ modkey, altkey }, tostring(i),
+                awful.key({ modkey }, "Control", tostring(i),
                     function()
-                        local global_tag = awful.screen.focused().tags[i]
+                        local global_tag = workspaceManagerService:getAllGlobalTags()[i]
                         if global_tag then
-                            sharedtags.viewtoggle(global_tag, awful.screen.focused())
+                            sharedtags.viewonly(global_tag, awful.screen.focused())
                         else
                             naughty.notify({ title = "No global tag #" .. i, preset = naughty.config.presets.critical })
                         end
