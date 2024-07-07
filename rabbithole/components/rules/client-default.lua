@@ -36,7 +36,8 @@ function Rules.new(
                 titlebars_enabled = true,
                 skip_taskbar = true,
                 floating = true,
-                ontop = true
+                ontop = true,
+                focus = true
             }
         }, 
         -- Launchers
