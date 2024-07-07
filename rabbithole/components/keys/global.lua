@@ -248,7 +248,7 @@ return setmetatable({}, {
                     { description = "toggle tag #" .. i, group = "tag" }
                 ),
                 -- switch to global tag by index
-                awful.key({ modkey }, "Control", tostring(i),
+                awful.key({ modkey, "Control" }, tostring(i),
                     function()
                         local global_tag = workspaceManagerService:getAllGlobalTags()[i]
                         if global_tag then
